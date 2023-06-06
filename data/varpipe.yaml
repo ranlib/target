@@ -1,0 +1,9 @@
+R1: "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz"
+R2: "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz"
+REF: "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.fasta"
+SAMPL: "ERR552797"
+outdir: "ERR552797"
+genome: "NC_000962.3"
+config: "/home/dieterbest/Analysis/varpipe4/configuration/snp_docker.config"
+threads: 1
+
