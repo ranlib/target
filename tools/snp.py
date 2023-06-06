@@ -178,8 +178,9 @@ class snp:
             self.__ifVerbose("   Running SamFormatConverter.")
             command = f"gatk SamFormatConverter -INPUT {self.__alnSam} -VALIDATION_STRINGENCY LENIENT -OUTPUT {gatk_bam_file}"
             self.__CallCommand("SamFormatConverter", command.split())
-            command = f"rm {self.__alnSam}"
-            self.__CallCommand("rm sam file", command.split())
+            #command = f"rm {self.__alnSam}"
+            #self.__CallCommand("rm sam file", command.split())
+            os.remove(self.__alnSam)
         else:
             self.__CallCommand("cp", ["cp", self.__alnSam, gatk_bam_file])
 
