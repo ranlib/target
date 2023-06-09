@@ -9,7 +9,6 @@ import subprocess
 import configparser
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser(prog="Varpipeline", conflict_handler="resolve", description="Varpipeline - Call SNPs and InDels")
     group1 = parser.add_argument_group("Input", "")
     group1.add_argument("-q", "--fastq", required=True, type=str, help="Input FASTQ file")
@@ -52,7 +51,7 @@ if __name__ == "__main__":
     if not os.path.isfile(args.fastq):
         error += 1
         print("Please check if input '%s' exists, then try again." % args.fastq)
-        
+
     # Check paired end, and verify exists
     if args.fastq2:
         if not os.path.isfile(args.fastq2):
@@ -72,15 +71,22 @@ if __name__ == "__main__":
     if not os.path.isfile(args.configuration):
         error += 1
         print("Please check if reference '%s' exists, then try again." % args.configuration)
-        
+
     # read in configuraton
     config = configparser.ConfigParser()
     config.read(args.configuration)
+    # check configuration
     for sect in config.sections():
-        print('Section:', sect)
-        for k,v in config.items(sect):
-            print(' {} = {}'.format(k,v))
+        print("Section:", sect)
+        for k, v in config.items(sect):
+            print(f" {k} = {v}")
         print()
+
+    for k, v in config.items("scripts"):
+        print(f" {k} = {v}")
+        if not os.path.exists(v):
+            print(f"<E> input file {v} does not exist. Exiting.")
+            sys.exit(2)
 
     # Choose an aligner
     aligners = 0
