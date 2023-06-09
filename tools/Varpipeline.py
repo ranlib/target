@@ -45,18 +45,16 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    error = 0
-    """ Validate input arguements. """
     # Verify input FASTQ file exists
     if not os.path.isfile(args.fastq):
-        error += 1
         print("Please check if input '%s' exists, then try again." % args.fastq)
-
+        sys.exit(2)
+        
     # Check paired end, and verify exists
     if args.fastq2:
         if not os.path.isfile(args.fastq2):
-            error += 1
             print("Please check that '%s' exists, then try again." % args.fastq2)
+            sys.exit(2)
         else:
             paired = True
     else:
@@ -64,14 +62,14 @@ if __name__ == "__main__":
 
     # Verify reference file exists
     if not os.path.isfile(args.reference):
-        error += 1
         print("Please check if reference '%s' exists, then try again." % args.reference)
-
+        sys.exit(2)
+        
     # Verify configuration file exists
     if not os.path.isfile(args.configuration):
-        error += 1
         print("Please check if reference '%s' exists, then try again." % args.configuration)
-
+        sys.exit(2)
+        
     # read in configuraton
     config = configparser.ConfigParser()
     config.read(args.configuration)
@@ -96,13 +94,6 @@ if __name__ == "__main__":
     if not aligners:
         args.bwa = True
 
-    # Check for errors if so, print usage
-    if error:
-        print("")
-        print("Use --help for more information.")
-        parser.print_usage()
-        sys.exit(2)
-
     # Choose a Caller
     if args.all:
         args.gatk = True
@@ -115,10 +106,6 @@ if __name__ == "__main__":
             callers += 1
         if not callers:
             args.gatk = True
-
-    # If no outdir, use the given name as the outdir
-    if not args.outdir:
-        args.outdir = args.name
 
     if args.verbose:
         print(" ".join(sys.argv))
