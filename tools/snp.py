@@ -12,21 +12,29 @@ class snp:
     """get variants"""
 
     def __init__(self, input, outdir, reference, reference_name, name, paired, input2, verbose, threads, cfg, argString):
-        i = datetime.now()
         self.name = name  # sample name
-        self.flog = "Output_" + i.strftime("%m_%d_%Y")
-        self.qlog = os.path.join(self.flog, "QC")
-        self.fOut = os.path.join(self.flog, outdir)
+
+        #i = datetime.now()
+        #self.flog = "Output_" + i.strftime("%m_%d_%Y")
+        #self.qlog = os.path.join(self.flog, "QC")
+        #self.fOut = os.path.join(self.flog, outdir)
+
+        self.qlog = os.path.join(outdir, "QC")
+        self.fOut = outdir
+        
         self.input = input
         self.outdir = os.path.join(self.fOut, "tmp")
         self.tmp = os.path.join(self.outdir, "tmp")
         self.trimmomatic = os.path.join(self.fOut, "trimmomatic")
+
         self.paired = paired
         self.input2 = input2
         self.verbose = verbose
         self.reference = reference
         self.reference_name = reference_name
+
         self.__lineage = os.path.join(self.fOut, self.name + ".lineage_report.txt")
+
         self.__finalVCF = ""
         self.__fullVCF = ""
         self.__annotation = ""
@@ -40,12 +48,12 @@ class snp:
 
         # Create the output directory, and start the log file.
         self.__logged = False
-        if not os.path.isfile(self.flog):
-            self.__CallCommand("mkdir", ["mkdir", self.flog])
+        #if not os.path.isfile(self.flog):
+        #    self.__CallCommand("mkdir", ["mkdir", self.flog])
         if not os.path.isfile(self.qlog):
-            self.__CallCommand("mkdir", ["mkdir", self.qlog])
+            self.__CallCommand("mkdir", ["mkdir", "-p", self.qlog])
 
-        self.__CallCommand("mkdir", ["mkdir", self.fOut])
+        self.__CallCommand("mkdir", ["mkdir", "-p", self.fOut])
         self.__CallCommand("mkdir", ["mkdir", "-p", self.tmp])
         self.__CallCommand("mkdir", ["mkdir", "-p", self.trimmomatic])
         self.__log = os.path.join(self.fOut, self.name + ".log")
