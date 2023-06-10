@@ -48,10 +48,17 @@ if [ "$MODE" = "docker" ] ; then
 fi
 
 #
-# run WDL script varpipe
+# run WDL script via miniwdl
 #
 if [ "$MODE" = "wdl" ] ; then
     miniwdl run varpipe.wdl -i varpipe.yaml
+fi
+
+#
+# run WDL script via cromwell
+#
+if [ "$MODE" = "cromwell" ] ; then
+    java -jar $HOME/Software/cromwell-85.jar run varpipe.wdl -i varpipe.json
 fi
 
 exit 0
