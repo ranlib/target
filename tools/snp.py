@@ -87,7 +87,6 @@ class snp:
         self.__bedlist_two = cfg["scripts"]["bedlist_two"]
         self.__bedstruct = cfg["scripts"]["bedstruct"]
 
-        self.__threads = cfg["other"]["threads"]
 
     def __CallCommand(self, program, command):
         """Allows execution of a simple command."""
