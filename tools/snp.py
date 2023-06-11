@@ -2,66 +2,62 @@
 """
 determine variants
 """
-import subprocess
 import os
+import subprocess
+import csv
 from datetime import datetime
-import yaml
 
-
-class snp:
+class Snp:
     """get variants"""
 
-    def __init__(self, input, outdir, reference, reference_name, name, paired, input2, verbose, threads, cfg, argString):
+    def __init__(self, read1, outdir, reference, reference_name, name, paired, read2, verbose, threads, cfg, argString):
         self.name = name  # sample name
 
-        #i = datetime.now()
-        #self.flog = "Output_" + i.strftime("%m_%d_%Y")
-        #self.qlog = os.path.join(self.flog, "QC")
-        #self.fOut = os.path.join(self.flog, outdir)
-
-        self.qlog = os.path.join(outdir, "QC")
         self.fOut = outdir
-        
-        self.input = input
-        self.outdir = os.path.join(self.fOut, "tmp")
-        self.tmp = os.path.join(self.outdir, "tmp")
-        self.trimmomatic = os.path.join(self.fOut, "trimmomatic")
-
+        self.read1 = read1
+        self.read2 = read2
         self.paired = paired
-        self.input2 = input2
+
         self.verbose = verbose
         self.reference = reference
         self.reference_name = reference_name
 
-        self.__lineage = os.path.join(self.fOut, self.name + ".lineage_report.txt")
-
-        self.__finalVCF = ""
-        self.__fullVCF = ""
-        self.__annotation = ""
-        self.__full_annotation = ""
-        self.__inter_annotation = ""
-        self.__final_annotation = ""
-        self.__mixed = ""
-        self._low = ""
-        self.__exception = ""
-        self.__threads = threads
-
         # Create the output directory, and start the log file.
         self.__logged = False
-        #if not os.path.isfile(self.flog):
-        #    self.__CallCommand("mkdir", ["mkdir", self.flog])
-        if not os.path.isfile(self.qlog):
-            self.__CallCommand("mkdir", ["mkdir", "-p", self.qlog])
-
         self.__CallCommand("mkdir", ["mkdir", "-p", self.fOut])
-        self.__CallCommand("mkdir", ["mkdir", "-p", self.tmp])
+
+        self.tmp = os.path.join(self.fOut, "tmp") # for SortSam
+        self.qlog = os.path.join(self.fOut, "QC")
+        self.__CallCommand("mkdir", ["mkdir", "-p", self.qlog])
+
+        self.trimmomatic = os.path.join(self.fOut, "trimmomatic")
         self.__CallCommand("mkdir", ["mkdir", "-p", self.trimmomatic])
-        self.__log = os.path.join(self.fOut, self.name + ".log")
+
+        self.bwaOut = os.path.join(self.fOut, "bwa")
+        self.__CallCommand("mkdir", ["mkdir", "-p", self.bwaOut])
+
+        self.GATKdir = os.path.join(self.fOut, "GATK")
+        self.__CallCommand("mkdir", ["mkdir", "-p", self.GATKdir])
+
+        self.samDir = os.path.join(self.fOut, "SamTools")
+        self.__CallCommand("mkdir", ["mkdir", "-p", self.samDir])
+
+        self.__lineage = os.path.join(self.fOut, self.name + ".lineage_report.txt")
+        self.__finalVCF = os.path.join(self.GATKdir, self.name + "_filter.vcf")
+        self.__fullVCF = os.path.join(self.GATKdir, self.name + "_full_filter.vcf")
+        self.__annotation = os.path.join(self.fOut, self.name + "_DR_loci_raw_annotation.vcf")
+        self.__full_annotation = os.path.join(self.fOut, self.name + "_full_raw_annotation.vcf")
+        self.__full_final_annotation = os.path.join(self.fOut, self.name + "_full_Final_annotation.txt")
+              
         self.__qlog = os.path.join(self.qlog, "QC.log")
+        self.__log = os.path.join(self.fOut, self.name + ".log")
         self.__logFH = open(self.__log, "w")
-        self.__logFH2 = open(self.__qlog, "a")
         self.__logFH.write(argString + "\n\n")
         self.__logged = True
+
+        self.__exception = ""
+        self.__threads = threads
+        self.__ranBWA = False
 
         # Configuration
         self.__parser = cfg["scripts"]["parser"]
@@ -87,6 +83,11 @@ class snp:
         self.__bedlist_two = cfg["scripts"]["bedlist_two"]
         self.__bedstruct = cfg["scripts"]["bedstruct"]
 
+        # load cuts
+        # Note: keys have to be in header of stats.txt file!
+        # need to tie together in the future
+        self.cuts = { k:float(v) for k, v in cfg.items("cuts") }
+              
 
     def __CallCommand(self, program, command):
         """Allows execution of a simple command."""
@@ -114,34 +115,35 @@ class snp:
     def runTrimmomatic(self):
         """QC Trimmomatic"""
         self.__ifVerbose("Performing trimmomatic trimming.")
-        trimlog = self.trimmomatic + "/trimLog.txt"
+        trimlog = os.path.join(self.trimmomatic, "trimLog.txt")
         if self.paired:
             paired1 = os.path.join(self.trimmomatic, self.name + "_paired_1.fastq.gz")
             paired2 = os.path.join(self.trimmomatic, self.name + "_paired_2.fastq.gz")
             unpaired1 = os.path.join(self.trimmomatic, self.name + "_unpaired_1.fastq.gz")
             unpaired2 = os.path.join(self.trimmomatic, self.name + "_unpaired_2.fastq.gz")
-            command = f"trimmomatic PE -threads {self.__threads} -trimlog {trimlog} {self.input} {self.input2} {paired1} {unpaired1} {paired2} {unpaired2} LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:40"
+            command = f"trimmomatic PE -threads {self.__threads} -trimlog {trimlog} {self.read1} {self.read2} {paired1} {unpaired1} {paired2} {unpaired2} LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:40"
             self.__CallCommand("trimmomatic", command.split())
             # self.__CallCommand("rm", ["rm", self.trimmomatic + "/" + self.name + "_unpaired_1.fastq.gz", self.trimmomatic + "/" + self.name + "_unpaired_2.fastq.gz"])
-            self.input = paired1
-            self.input2 = paired2
+            self.read1 = paired1
+            self.read2 = paired2
         else:
             trimmed = os.path.join(self.trimmomatic, self.name + "_paired.fastq.gz")
-            command = f"trimmomatic SE -threads {self.__threads} -trimlog {trimlog} {self.input} {trimmed} LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:40"
+            command = f"trimmomatic SE -threads {self.__threads} -trimlog {trimlog} {self.read1} {trimmed} LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:40"
             self.__CallCommand("trimmomatic", command.split())
-            self.input = trimmed
+            self.read1 = trimmed
 
     def runBWA(self, bwa):
         """Align reads against the reference using bwa."""
         self.__ranBWA = True
         self.__ifVerbose("Running BWA.")
         self.__logFH.write("########## Running BWA. ##########\n")
-        bwaOut = os.path.join(self.outdir, "bwa")
-        self.__CallCommand("mkdir", ["mkdir", "-p", bwaOut])
+        #bwaOut = os.path.join(self.outdir, "bwa")
+        #bwaOut = os.path.join(self.fOut, "bwa")
+        #self.__CallCommand("mkdir", ["mkdir", "-p", bwaOut])
         self.__ifVerbose("   Building BWA index.")
-        self.__bwaIndex(bwaOut + "/index")
-        self.__alnSam = bwaOut + "/bwa.sam"
-        self.__bwaLongReads(bwaOut)
+        self.__bwaIndex(self.bwaOut + "/index")
+        self.__alnSam = self.bwaOut + "/bwa.sam"
+        self.__bwaLongReads(self.bwaOut)
         self.__ifVerbose("   Process Alignments")
         self.__processAlignment()
 
@@ -161,26 +163,21 @@ class snp:
         read_group = "@RG\\tID:" + self.name + "\\tSM:" + self.name + "\\tPL:ILLUMINA"
         if self.paired:
             self.__ifVerbose("   Running BWA mem on paired end reads.")
-            command = f"bwa mem -t {str(self.__threads)} -K 10000000 -c 100 -M -T 50 -R {read_group} -o {self.__alnSam} {self.reference} {self.input} {self.input2}"
+            command = f"bwa mem -t {str(self.__threads)} -K 10000000 -c 100 -M -T 50 -R {read_group} -o {self.__alnSam} {self.reference} {self.read1} {self.read2}"
             self.__CallCommand("bwa mem", command.split())
         else:
             self.__ifVerbose("   Running BWA mem on single end reads.")
-            command = f"bwa mem -t {str(self.__threads)} -K 10000000 -c 100 -M -T 50 -R {read_group} -o {self.__alnSam} {self.reference} {self.input}"
+            command = f"bwa mem -t {str(self.__threads)} -K 10000000 -c 100 -M -T 50 -R {read_group} -o {self.__alnSam} {self.reference} {self.read1}"
             self.__CallCommand("bwa mem", command.split())
 
     def __processAlignment(self):
         """Filter alignment using GATK and Picard-Tools"""
         self.__ifVerbose("Filtering alignment with GATK and Picard-Tools.")
         self.__logFH.write("########## Filtering alignment with GATK and Picard-Tools. ##########\n")
-        GATKdir = os.path.join(self.outdir, "GATK")
-        self.__CallCommand("mkdir", ["mkdir", "-p", GATKdir])
-        
-        samDir = os.path.join(self.outdir, "SamTools")
-        self.__CallCommand("mkdir", ["mkdir", "-p", samDir])
 
-        gatk_bam_file = os.path.join(GATKdir, "GATK.bam")
-        
-        """ Convert SAM to BAM"""
+        gatk_bam_file = os.path.join(self.GATKdir, "GATK.bam")
+
+        # Convert SAM to BAM
         if self.__ranBWA:
             self.__ifVerbose("   Running SamFormatConverter.")
             command = f"gatk SamFormatConverter -INPUT {self.__alnSam} -VALIDATION_STRINGENCY LENIENT -OUTPUT {gatk_bam_file}"
@@ -191,94 +188,112 @@ class snp:
         else:
             self.__CallCommand("cp", ["cp", self.__alnSam, gatk_bam_file])
 
-        """ Run mapping Report and Mark duplicates using Picard-Tools"""
+        # Run mapping Report and Mark duplicates using Picard-Tools
         self.__ifVerbose("   Running SortSam.")
-        self.__CallCommand("SortSam", ["gatk", "SortSam", "-INPUT", GATKdir + "/GATK.bam", "-SORT_ORDER", "coordinate", "-OUTPUT", GATKdir + "/GATK_s.bam", "-VALIDATION_STRINGENCY", "LENIENT", "-TMP_DIR", self.tmp])
+        self.__CallCommand("SortSam", ["gatk", "SortSam", "-INPUT", self.GATKdir + "/GATK.bam", "-SORT_ORDER", "coordinate", "-OUTPUT", self.GATKdir + "/GATK_s.bam", "-VALIDATION_STRINGENCY", "LENIENT", "-TMP_DIR", self.tmp])
         self.__ifVerbose("   Running MarkDuplicates.")
-        self.__CallCommand("MarkDuplicates", ["gatk", "MarkDuplicates", "-INPUT", GATKdir + "/GATK_s.bam", "-OUTPUT", GATKdir + "/GATK_sdr.bam", "-METRICS_FILE", GATKdir + "/MarkDupes.metrics", "-ASSUME_SORTED", "true", "-REMOVE_DUPLICATES", "false", "-VALIDATION_STRINGENCY", "LENIENT"])
+        self.__CallCommand("MarkDuplicates", ["gatk", "MarkDuplicates", "-INPUT", self.GATKdir + "/GATK_s.bam", "-OUTPUT", self.GATKdir + "/GATK_sdr.bam", "-METRICS_FILE", self.GATKdir + "/MarkDupes.metrics", "-ASSUME_SORTED", "true", "-REMOVE_DUPLICATES", "false", "-VALIDATION_STRINGENCY", "LENIENT"])
         self.__ifVerbose("   Running BuildBamIndex.")
-        self.__CallCommand("BuildBamIndex", ["gatk", "BuildBamIndex", "-INPUT", GATKdir + "/GATK_sdr.bam", "-VALIDATION_STRINGENCY", "LENIENT"])
-        self.__CallCommand("samtools view", ["samtools", "view", "-c", "-o", samDir + "/unmapped.txt", GATKdir + "/GATK_sdr.bam"])
+        self.__CallCommand("BuildBamIndex", ["gatk", "BuildBamIndex", "-INPUT", self.GATKdir + "/GATK_sdr.bam", "-VALIDATION_STRINGENCY", "LENIENT"])
+        self.__CallCommand("samtools view", ["samtools", "view", "-c", "-o", self.samDir + "/unmapped.txt", self.GATKdir + "/GATK_sdr.bam"])
 
         """ Filter out unmapped reads """
         self.__finalBam = os.path.join(self.fOut, self.name + "_sdrcsm.bam")
         self.__ifVerbose("   Running samtools view.")
-        self.__CallCommand("samtools view", ["samtools", "view", "-bhF", "4", "-o", self.__finalBam, GATKdir + "/GATK_sdr.bam"])
+        self.__CallCommand("samtools view", ["samtools", "view", "-bhF", "4", "-o", self.__finalBam, self.GATKdir + "/GATK_sdr.bam"])
         self.__ifVerbose("   Running BuildBamIndex.")
         self.__CallCommand("BuildBamIndex", ["gatk", "BuildBamIndex", "-INPUT", self.__finalBam, "-VALIDATION_STRINGENCY", "LENIENT"])
         self.__ifVerbose("   Running samtools view")
-        self.__CallCommand("rm", ["rm", "-r", self.tmp])
-        self.__CallCommand("samtools view", ["samtools", "view", "-c", "-o", samDir + "/mapped.txt", self.__finalBam])
+        #self.__CallCommand("rm", ["rm", "-r", self.tmp])
+        self.__CallCommand("samtools view", ["samtools", "view", "-c", "-o", self.samDir + "/mapped.txt", self.__finalBam])
 
     def runCoverage(self):
         """Run genome Coverage Statistics"""
 
         self.__ifVerbose("Running target Coverage Statistics")
-        samDir = self.outdir + "/SamTools"
-        i = datetime.now()
+        #samDir = self.outdir + "/SamTools"
+        #samDir = os.path.join(self.fOut, "SamTools")
 
-        self.__CallCommand("samtools depth", ["samtools", "depth", "-o", samDir + "/coverage.txt", "-a", self.__finalBam])
-        self.__CallCommand(["bedtools coverage", samDir + "/bed_amp_coverage.txt"], ["bedtools", "coverage", "-b", self.__finalBam, "-a", self.__bedlist_amp])
-        self.__CallCommand(["sort", samDir + "/bed_amp_sorted_coverage.txt"], ["sort", "-nk", "6", samDir + "/bed_amp_coverage.txt"])
-        self.__CallCommand(["bedtools coverage", samDir + "/bed_1_coverage.txt"], ["bedtools", "coverage", "-b", self.__finalBam, "-a", self.__bedlist_one])
-        self.__CallCommand(["bedtools coverage", samDir + "/bed_2_coverage.txt"], ["bedtools", "coverage", "-b", self.__finalBam, "-a", self.__bedlist_two])
-        self.__CallCommand(["sort", samDir + "/bed_1_sorted_coverage.txt"], ["sort", "-nk", "6", samDir + "/bed_1_coverage.txt"])
-        self.__CallCommand(["sort", samDir + "/bed_2_sorted_coverage.txt"], ["sort", "-nk", "6", samDir + "/bed_2_coverage.txt"])
-        self.__CallCommand(["target region coverage estimator", samDir + "/target_region_coverage_amp.txt"], [self.__target_estimator, self.__bedlist_amp, samDir + "/coverage.txt", self.name])
-        self.__CallCommand(["sort", self.fOut + "/" + self.name + "_target_region_coverage.txt"], ["sort", "-nk", "3", samDir + "/target_region_coverage_amp.txt"])
-        self.__CallCommand(["genome stats estimator", samDir + "/" + self.name + "_genome_stats.txt"], [self.__genome_stats_estimator, samDir + "/coverage.txt", self.name])
-        self.__CallCommand(["genome coverage estimator", samDir + "/genome_region_coverage_1.txt"], [self.__genome_coverage_estimator, samDir + "/bed_1_sorted_coverage.txt", samDir + "/coverage.txt", self.name])
-        self.__CallCommand(["genome coverage estimator", samDir + "/genome_region_coverage_2.txt"], [self.__genome_coverage_estimator, samDir + "/bed_2_sorted_coverage.txt", samDir + "/coverage.txt", self.name])
-        self.__CallCommand(["cat", samDir + "/genome_region_coverage.txt"], ["cat", samDir + "/genome_region_coverage_1.txt", samDir + "/genome_region_coverage_2.txt"])
-        self.__CallCommand(["sort", self.fOut + "/" + self.name + "_genome_region_coverage.txt"], ["sort", "-nk", "3", samDir + "/genome_region_coverage.txt"])
+        self.__CallCommand("samtools depth", ["samtools", "depth", "-o", self.samDir + "/coverage.txt", "-a", self.__finalBam])
+        self.__CallCommand(["bedtools coverage", self.samDir + "/bed_amp_coverage.txt"], ["bedtools", "coverage", "-b", self.__finalBam, "-a", self.__bedlist_amp])
+        self.__CallCommand(["sort", self.samDir + "/bed_amp_sorted_coverage.txt"], ["sort", "-nk", "6", self.samDir + "/bed_amp_coverage.txt"])
+        self.__CallCommand(["bedtools coverage", self.samDir + "/bed_1_coverage.txt"], ["bedtools", "coverage", "-b", self.__finalBam, "-a", self.__bedlist_one])
+        self.__CallCommand(["bedtools coverage", self.samDir + "/bed_2_coverage.txt"], ["bedtools", "coverage", "-b", self.__finalBam, "-a", self.__bedlist_two])
+        self.__CallCommand(["sort", self.samDir + "/bed_1_sorted_coverage.txt"], ["sort", "-nk", "6", self.samDir + "/bed_1_coverage.txt"])
+        self.__CallCommand(["sort", self.samDir + "/bed_2_sorted_coverage.txt"], ["sort", "-nk", "6", self.samDir + "/bed_2_coverage.txt"])
+        self.__CallCommand(["target region coverage estimator", self.samDir + "/target_region_coverage_amp.txt"], [self.__target_estimator, self.__bedlist_amp, self.samDir + "/coverage.txt", self.name])
+
+        self.__CallCommand(["sort", self.fOut + "/" + self.name + "_target_region_coverage.txt"], ["sort", "-nk", "3", self.samDir + "/target_region_coverage_amp.txt"])
+        self.__CallCommand(["genome stats estimator", self.samDir + "/" + self.name + "_genome_stats.txt"], [self.__genome_stats_estimator, self.samDir + "/coverage.txt", self.name])
+
+        self.__CallCommand(["genome coverage estimator", self.samDir + "/genome_region_coverage_1.txt"], [self.__genome_coverage_estimator, self.samDir + "/bed_1_sorted_coverage.txt", self.samDir + "/coverage.txt", self.name])
+        self.__CallCommand(["genome coverage estimator", self.samDir + "/genome_region_coverage_2.txt"], [self.__genome_coverage_estimator, self.samDir + "/bed_2_sorted_coverage.txt", self.samDir + "/coverage.txt", self.name])
+        self.__CallCommand(["cat", self.samDir + "/genome_region_coverage.txt"], ["cat", self.samDir + "/genome_region_coverage_1.txt", self.samDir + "/genome_region_coverage_2.txt"])
+        self.__CallCommand(["sort", self.fOut + "/" + self.name + "_genome_region_coverage.txt"], ["sort", "-nk", "3", self.samDir + "/genome_region_coverage.txt"])
         self.__CallCommand("sed", ["sed", "-i", "1d", self.fOut + "/" + self.name + "_genome_region_coverage.txt"])
-        self.__CallCommand(["structural variant detector", self.fOut + "/" + self.name + "_structural_variants.txt"], [self.__structparser, self.__bedstruct, self.fOut + "/" + self.name + "_genome_region_coverage.txt", samDir + "/coverage.txt", self.name])
-        self.__CallCommand(["stats estimator", self.fOut + "/" + self.name + "_stats.txt"], [self.__stats_estimator, samDir + "/unmapped.txt", samDir + "/mapped.txt", self.fOut + "/" + self.name + "_target_region_coverage.txt", self.name, samDir + "/" + self.name + "_genome_stats.txt"])
-        statsOut = self.fOut + "/" + self.name + "_stats.txt"
-        fh20 = open(statsOut, "r")
-        for lines in fh20:
-            if lines.startswith("Sample ID"):
-                continue
-            fields = lines.rstrip("\r\n").split("\t")
-            if float(fields[2]) < 90.0 or float(fields[3]) < 30 or float(fields[4]) < 90.0:
-                self.__logFH2.write(i.strftime("%Y/%m/%d %H:%M:%S") + "\t" + "Sample:" + "\t" + self.name + "\t" + "failed QC checks\n")
-                # self.__CallCommand('rm', ['rm', '-r', self.outdir])
-                # self.__CallCommand('rm', ['rm',  self.__finalBam])
-                # self.__CallCommand('rm', ['rm', '-r', self.trimmomatic])
-                # self.__CallCommand('rm', ['rm', '-r', self.clockwork])
-                # self.__CallCommand('mv', ['mv', self.fOut, self.qlog])
-                # sys.exit(1)
+        self.__CallCommand(["structural variant detector", self.fOut + "/" + self.name + "_structural_variants.txt"], [self.__structparser, self.__bedstruct, self.fOut + "/" + self.name + "_genome_region_coverage.txt", self.samDir + "/coverage.txt", self.name])
+
+        statsOut = os.path.join(self.fOut, self.name + "_stats.txt")
+        targetCoverage = os.path.join(self.fOut, self.name + "_target_region_coverage.txt")
+        genomeStats = os.path.join(self.samDir, self.name + "_genome_stats.txt")
+        command = f"{self.__stats_estimator} {self.samDir + '/unmapped.txt'} {self.samDir + '/mapped.txt'} {targetCoverage} {self.name} {genomeStats}"
+        self.__CallCommand(["stats estimator", statsOut], command.split())
+
+        #
+        # write QC log file
+        #
+        failure_reason = { x : False for x in list(self.cuts.keys()) }
+        header = ["sample_name", "date", "time", "qc_status"]
+        header.extend(list(self.cuts.keys()))
+        with open(self.__qlog, "w") as qc_log: 
+            writer = csv.DictWriter(qc_log, header)
+            writer.writeheader()
+            with open(statsOut, "r") as stats_file:
+                reader = csv.DictReader(stats_file, delimiter="\t")
+                for row in reader:
+                    for item in self.cuts.keys():
+                        failure_reason[item] = float(row[item]) < self.cuts[item]
+
+                    message = []
+                    message.append(row["sample_name"])
+                    message.append(datetime.now().strftime("%Y/%m/%d"))
+                    message.append(datetime.now().strftime("%H:%M:%S"))
+                    if any(list(failure_reason.keys())):
+                        message.append("failed")
+                    else:
+                        message.append("passed")
+
+                    message.extend([ str(x) for x in failure_reason.values() ] )
+                    writer.writerow(dict(zip(header, message)))
+                
 
     def runGATK(self):
         """Variant Callers"""
         if os.path.isfile(self.__finalBam):
             self.__ifVerbose("Calling SNPs/InDels with GATK.")
             self.__logFH.write("########## Calling SNPs/InDels with Mutect2. ##########\n")
-            GATKdir = os.path.join(self.outdir, "GATK")
-            samDir = os.path.join(self.outdir, "SamTools")
+            #GATKdir = os.path.join(self.outdir, "GATK")
+            #samDir = os.path.join(self.outdir, "SamTools")
 
-            """ Set final VCF file. """
-            if not self.__finalVCF:
-                self.__finalVCF = os.path.join(GATKdir, self.name + "_filter.vcf")
+            #GATKdir = os.path.join(self.fOut, "GATK")
+            #samDir = os.path.join(self.fOut, "SamTools")
 
-            if not self.__fullVCF:
-                self.__fullVCF = os.path.join(GATKdir, self.name + "_full_filter.vcf")
 
-            """ Call SNPs/InDels with Mutect2 """
+            # Call SNPs/InDels with Mutect2
             self.__ifVerbose("   Running Mutect2.")
-            self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", GATKdir + "/mutect.vcf", "--max-mnp-distance", "2", "-L", self.__included])
+            self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/mutect.vcf", "--max-mnp-distance", "2", "-L", self.__included])
 
-            self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", GATKdir + "/full_mutect.vcf", "--max-mnp-distance", "2"])
+            self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/full_mutect.vcf", "--max-mnp-distance", "2"])
 
-            self.__CallCommand("LeftAlignAndTrimVariants", ["gatk", "LeftAlignAndTrimVariants", "-R", self.reference, "-V", GATKdir + "/mutect.vcf", "-O", GATKdir + "/gatk_mutect.vcf", "--split-multi-allelics"])
-            self.__CallCommand("mv", ["mv", GATKdir + "/gatk_mutect.vcf", GATKdir + "/mutect.vcf"])
+            self.__CallCommand("LeftAlignAndTrimVariants", ["gatk", "LeftAlignAndTrimVariants", "-R", self.reference, "-V", self.GATKdir + "/mutect.vcf", "-O", self.GATKdir + "/gatk_mutect.vcf", "--split-multi-allelics"])
+            self.__CallCommand("mv", ["mv", self.GATKdir + "/gatk_mutect.vcf", self.GATKdir + "/mutect.vcf"])
 
-            self.__CallCommand("LeftAlignAndTrimVariants", ["gatk", "LeftAlignAndTrimVariants", "-R", self.reference, "-V", GATKdir + "/full_mutect.vcf", "-O", GATKdir + "/full_gatk_mutect.vcf", "--split-multi-allelics"])
-            self.__CallCommand("mv", ["mv", GATKdir + "/full_gatk_mutect.vcf", GATKdir + "/full_mutect.vcf"])
+            self.__CallCommand("LeftAlignAndTrimVariants", ["gatk", "LeftAlignAndTrimVariants", "-R", self.reference, "-V", self.GATKdir + "/full_mutect.vcf", "-O", self.GATKdir + "/full_gatk_mutect.vcf", "--split-multi-allelics"])
+            self.__CallCommand("mv", ["mv", self.GATKdir + "/full_gatk_mutect.vcf", self.GATKdir + "/full_mutect.vcf"])
 
-            self.__CallCommand("FilterMutectCalls", ["gatk", "FilterMutectCalls", "-R", self.reference, "-V", GATKdir + "/mutect.vcf", "--min-reads-per-strand", "1", "--min-median-read-position", "10", "--min-allele-fraction", "0.01", "--microbial-mode", "true", "-O", self.__finalVCF])
+            self.__CallCommand("FilterMutectCalls", ["gatk", "FilterMutectCalls", "-R", self.reference, "-V", self.GATKdir + "/mutect.vcf", "--min-reads-per-strand", "1", "--min-median-read-position", "10", "--min-allele-fraction", "0.01", "--microbial-mode", "true", "-O", self.__finalVCF])
 
-            self.__CallCommand("FilterMutectCalls", ["gatk", "FilterMutectCalls", "-R", self.reference, "-V", GATKdir + "/full_mutect.vcf", "--min-reads-per-strand", "1", "--min-median-read-position", "10", "--min-allele-fraction", "0.01", "--microbial-mode", "true", "-O", self.__fullVCF])
+            self.__CallCommand("FilterMutectCalls", ["gatk", "FilterMutectCalls", "-R", self.reference, "-V", self.GATKdir + "/full_mutect.vcf", "--min-reads-per-strand", "1", "--min-median-read-position", "10", "--min-allele-fraction", "0.01", "--microbial-mode", "true", "-O", self.__fullVCF])
 
         else:
             print("<E> no bam file found")
@@ -287,7 +302,6 @@ class snp:
         """Annotate the final VCF file"""
         if self.__finalVCF:
             self.__ifVerbose("Annotating final VCF.")
-            self.__annotation = os.path.join(self.fOut, self.name + "_DR_loci_raw_annotation.vcf")
             self.__CallCommand(["SnpEff", self.__annotation], ["snpEff", "-nodownload", "-noLog", "-noStats", "-c", self.__snpeff_database, self.reference_name, self.__finalVCF])
 
             self.__ifVerbose("Parsing final Annotation.")
@@ -298,7 +312,6 @@ class snp:
 
         if self.__fullVCF:
             self.__ifVerbose("Annotating full VCF.")
-            self.__full_annotation = os.path.join(self.fOut, self.name + "_full_raw_annotation.vcf")
             self.__CallCommand(["SnpEff", self.__full_annotation], ["snpEff", "-nodownload", "-noLog", "-noStats", "-c", self.__snpeff_database, self.reference_name, self.__fullVCF])
 
             self.__ifVerbose("Parsing full Annotation.")
@@ -306,14 +319,11 @@ class snp:
             self.__CallCommand(["parse annotation", self.fOut + "/" + self.name + "_full_Final_annotation.txt"], [self.__parser, self.__full_annotation, self.mutationloci, self.name])
         else:
             self.__ifVerbose("Use SamTools, GATK, or Freebayes to annotate the final VCF.")
-        # cwd = os.getcwd()
-        # self.__CallCommand('rm', ['rm',  cwd + "/snpEff_genes.txt"])
-        # self.__CallCommand('rm', ['rm',  cwd + "/snpEff_summary.html"])
+
 
     def runLineage(self):
         """Run lineage Analysis"""
         self.__ifVerbose("Running Lineage Analysis")
-        self.__full_final_annotation = os.path.join(self.fOut, self.name + "_full_Final_annotation.txt")
         self.__CallCommand(["lineage parsing", self.fOut + "/" + self.name + "_Lineage.txt"], [self.__lineage_parser, self.__lineages, self.__full_final_annotation, self.__lineage, self.name])
 
     def runPrint(self):
@@ -325,29 +335,38 @@ class snp:
 
     def cleanUp(self):
         """Clean up the temporary files, and move them to a proper folder."""
-        i = datetime.now()
-        cwd = os.getcwd()
-        self.__CallCommand("rm", ["rm", "-r", self.outdir])
+        #cwd = os.getcwd()
+        #self.__CallCommand("rm", ["rm", "-r", self.outdir])
+        #self.__CallCommand("rm", ["rm", self.fOut + "/" + self.name + "_sdrcsm.bai"])
+        #self.__CallCommand("rm", ["rm", self.__finalBam])
+        #self.__CallCommand("rm", ["rm", "-r", self.trimmomatic])
+
+        if os.path.isfile(self.__log):
+            self.__logFH.close()
+            self.__logged = False
+
+        with open(self.__log, "r") as logfile:
+            for line in logfile:
+                lines = line.rstrip("\r\n")
+                if "Exception" in lines:
+                    self.__exception = "positive"
+
+        # if self.__exception == "positive":
+        #     self.__qlogFH.write(datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "\t" + "Input:" + "\t" + self.name + "\t" + "Exception in analysis\n")
+        #     self.__CallCommand("mv", ["mv", self.fOut, self.qlog])
+
+        # if os.path.isfile(self.fOut + "/" + self.name + "_stats.txt"):
+        #     if os.path.getsize(self.fOut + "/" + self.name + "_stats.txt") < 1:
+        #         self.__qlogFH.write(datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "\t" + "Input:" + "\t" + self.name + "\t" + "Exception in analysis\n")
+        #         self.__CallCommand("mv", ["mv", self.fOut, self.qlog])
+
+    def removeFiles(self):
+        """Clean up the temporary files, and move them to a proper folder."""
+        #cwd = os.getcwd()
+        #self.__CallCommand("rm", ["rm", "-r", self.outdir])
         self.__CallCommand("rm", ["rm", self.fOut + "/" + self.name + "_sdrcsm.bai"])
         self.__CallCommand("rm", ["rm", self.__finalBam])
         self.__CallCommand("rm", ["rm", "-r", self.trimmomatic])
-        if os.path.isfile(self.fOut + "/" + self.name + ".log"):
-            self.__logFH.close()
-            self.__logged = False
-        fh4 = open(self.__log, "r")
-        for line in fh4:
-            lines = line.rstrip("\r\n")
-            if "Exception" in lines:
-                self.__exception = "positive"
-        fh4.close()
-        if self.__exception == "positive":
-            self.__logFH2.write(i.strftime("%Y/%m/%d %H:%M:%S") + "\t" + "Input:" + "\t" + self.name + "\t" + "Exception in analysis\n")
-            self.__CallCommand("mv", ["mv", self.fOut, self.qlog])
-
-        if os.path.isfile(self.fOut + "/" + self.name + "_stats.txt"):
-            if os.path.getsize(self.fOut + "/" + self.name + "_stats.txt") < 1:
-                self.__logFH2.write(i.strftime("%Y/%m/%d %H:%M:%S") + "\t" + "Input:" + "\t" + self.name + "\t" + "Exception in analysis\n")
-                self.__CallCommand("mv", ["mv", self.fOut, self.qlog])
 
     def __ifVerbose(self, msg):
         """If verbose print a given message"""
