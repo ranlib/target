@@ -111,5 +111,9 @@ if [ "$MODE" = "QC" ] ; then
     # 	 --PROGRAM CollectQualityYieldMetrics
 fi
 
+if [ "$MODE" = "fastqc" ] ; then
+    docker run --rm -v $PWD:/mnt -w /mnt staphb/fastqc fastqc ERR552797_30percent_1.fq.gz ERR552797_30percent_2.fq.gz --outdir fastqc_dir --extract -t 4 
+fi
+
 exit 0
 
