@@ -1,12 +1,12 @@
 #!/usr/bin/env python
+"""
+Varpipeline
+"""
 import sys
 import os
-import re
-import snp
 import argparse
-import gzip
-import subprocess
 import configparser
+import snp
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(prog="Varpipeline", conflict_handler="resolve", description="Varpipeline - Call SNPs and InDels")
@@ -47,13 +47,13 @@ if __name__ == "__main__":
 
     # Verify input FASTQ file exists
     if not os.path.isfile(args.fastq):
-        print("Please check if input '%s' exists, then try again." % args.fastq)
+        print(f"Please check if input {args.fastq} exists, then try again.")
         sys.exit(2)
-        
+
     # Check paired end, and verify exists
     if args.fastq2:
         if not os.path.isfile(args.fastq2):
-            print("Please check that '%s' exists, then try again." % args.fastq2)
+            print(f"Please check that {args.fastq2} exists, then try again.")
             sys.exit(2)
         else:
             paired = True
@@ -62,14 +62,14 @@ if __name__ == "__main__":
 
     # Verify reference file exists
     if not os.path.isfile(args.reference):
-        print("Please check if reference '%s' exists, then try again." % args.reference)
+        print(f"Please check if reference {args.reference} exists, then try again.")
         sys.exit(2)
-        
+
     # Verify configuration file exists
     if not os.path.isfile(args.configuration):
-        print("Please check if reference '%s' exists, then try again." % args.configuration)
+        print(f"Please check if reference {args.configuration} exists, then try again.")
         sys.exit(2)
-        
+
     # read in configuraton
     config = configparser.ConfigParser()
     config.read(args.configuration)
@@ -112,7 +112,7 @@ if __name__ == "__main__":
         print("")
 
     # all is well let's get started!
-    s = snp.snp(args.fastq, args.outdir, args.reference, args.genome, args.name, paired, args.fastq2, args.verbose, args.threads, config, " ".join(sys.argv))
+    s = snp.Snp(args.fastq, args.outdir, args.reference, args.genome, args.name, paired, args.fastq2, args.verbose, args.threads, config, " ".join(sys.argv))
 
     # run Trimmomatic timmer
     s.runTrimmomatic()
@@ -140,5 +140,6 @@ if __name__ == "__main__":
     s.runPrint()
 
     # By default clean up intermediate files
+    s.cleanUp()
     if not args.keepfiles:
-        s.cleanUp()
+        s.removeFiles()
