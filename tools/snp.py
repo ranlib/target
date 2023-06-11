@@ -115,7 +115,8 @@ class Snp:
     def runTrimmomatic(self):
         """QC Trimmomatic"""
         self.__ifVerbose("Performing trimmomatic trimming.")
-        trimlog = os.path.join(self.trimmomatic, "trimLog.txt")
+        #trimlog = os.path.join(self.trimmomatic, "trimLog.txt")
+        trimlog = os.path.join(self.fOut, "trimLog.txt")
         if self.paired:
             paired1 = os.path.join(self.trimmomatic, self.name + "_paired_1.fastq.gz")
             paired2 = os.path.join(self.trimmomatic, self.name + "_paired_2.fastq.gz")
@@ -192,7 +193,7 @@ class Snp:
         self.__ifVerbose("   Running SortSam.")
         self.__CallCommand("SortSam", ["gatk", "SortSam", "-INPUT", self.GATKdir + "/GATK.bam", "-SORT_ORDER", "coordinate", "-OUTPUT", self.GATKdir + "/GATK_s.bam", "-VALIDATION_STRINGENCY", "LENIENT", "-TMP_DIR", self.tmp])
         self.__ifVerbose("   Running MarkDuplicates.")
-        self.__CallCommand("MarkDuplicates", ["gatk", "MarkDuplicates", "-INPUT", self.GATKdir + "/GATK_s.bam", "-OUTPUT", self.GATKdir + "/GATK_sdr.bam", "-METRICS_FILE", self.GATKdir + "/MarkDupes.metrics", "-ASSUME_SORTED", "true", "-REMOVE_DUPLICATES", "false", "-VALIDATION_STRINGENCY", "LENIENT"])
+        self.__CallCommand("MarkDuplicates", ["gatk", "MarkDuplicates", "-INPUT", self.GATKdir + "/GATK_s.bam", "-OUTPUT", self.GATKdir + "/GATK_sdr.bam", "-METRICS_FILE", self.fOut + "/MarkDupes.metrics", "-ASSUME_SORTED", "true", "-REMOVE_DUPLICATES", "false", "-VALIDATION_STRINGENCY", "LENIENT"])
         self.__ifVerbose("   Running BuildBamIndex.")
         self.__CallCommand("BuildBamIndex", ["gatk", "BuildBamIndex", "-INPUT", self.GATKdir + "/GATK_sdr.bam", "-VALIDATION_STRINGENCY", "LENIENT"])
         self.__CallCommand("samtools view", ["samtools", "view", "-c", "-o", self.samDir + "/unmapped.txt", self.GATKdir + "/GATK_sdr.bam"])
@@ -362,11 +363,10 @@ class Snp:
 
     def removeFiles(self):
         """Clean up the temporary files, and move them to a proper folder."""
-        #cwd = os.getcwd()
-        #self.__CallCommand("rm", ["rm", "-r", self.outdir])
-        self.__CallCommand("rm", ["rm", self.fOut + "/" + self.name + "_sdrcsm.bai"])
-        self.__CallCommand("rm", ["rm", self.__finalBam])
         self.__CallCommand("rm", ["rm", "-r", self.trimmomatic])
+        self.__CallCommand("rm", ["rm", "-r", self.bwaOut])
+        self.__CallCommand("rm", ["rm", "-r", self.samDir])
+        self.__CallCommand("rm", ["rm", "-r", self.GATKdir])
 
     def __ifVerbose(self, msg):
         """If verbose print a given message"""
