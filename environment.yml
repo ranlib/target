@@ -6,48 +6,91 @@ channels:
 dependencies:
   - _libgcc_mutex=0.1=conda_forge
   - _openmp_mutex=4.5=2_gnu
-  - astroid=2.15.5=py310hff52083_0
-  - black=23.3.0=py310hff52083_1
+  - appdirs=1.4.4=pyh9f0ad1d_0
+  - astroid=2.12.14=py310hff52083_0
+  - black=21.5b2=pyhd8ed1ab_0
+  - brotli=1.0.9=h166bdaf_8
+  - brotli-bin=1.0.9=h166bdaf_8
   - bzip2=1.0.8=h7f98852_4
   - ca-certificates=2023.5.7=hbcca054_0
   - certifi=2023.5.7=pyhd8ed1ab_0
-  - click=8.1.3=unix_pyhd8ed1ab_2
+  - cffi=1.15.1=py310h255011f_3
+  - charset-normalizer=3.1.0=pyhd8ed1ab_0
+  - click=7.1.2=pyh9f0ad1d_0
   - colorama=0.4.6=pyhd8ed1ab_0
+  - databind.core=1.4.0=pyhd8ed1ab_0
+  - databind.json=1.4.0=pyhd8ed1ab_0
+  - dataclasses=0.8=pyhc8e2a94_3
+  - deprecated=1.2.14=pyh1a96a4e_0
   - dill=0.3.6=pyhd8ed1ab_1
+  - docspec=1.2.0=pyhd8ed1ab_0
+  - docspec-python=1.2.0=pyhd8ed1ab_0
+  - docstring_parser=0.15=pyhd8ed1ab_0
+  - fastqsplitter=1.2.0=py310h4b81fae_5
   - fpdf=1.7.2=pyhd8ed1ab_0
+  - idna=3.4=pyhd8ed1ab_0
+  - isa-l=2.30.0=ha770c72_4
   - isort=5.12.0=pyhd8ed1ab_1
   - lazy-object-proxy=1.9.0=py310h1fa729e_0
   - ld_impl_linux-64=2.40=h41732ed_0
+  - libbrotlicommon=1.0.9=h166bdaf_8
+  - libbrotlidec=1.0.9=h166bdaf_8
+  - libbrotlienc=1.0.9=h166bdaf_8
   - libffi=3.4.2=h7f98852_5
   - libgcc-ng=12.2.0=h65d4601_19
   - libgomp=12.2.0=h65d4601_19
   - libnsl=2.0.0=h7f98852_0
+  - libstdcxx-ng=13.1.0=hfd8a6a1_0
   - libuuid=2.38.1=h0b41bf4_0
   - libzlib=1.2.11=h166bdaf_1014
+  - lz4-c=1.9.4=hcb278e6_0
   - mccabe=0.7.0=pyhd8ed1ab_0
   - mypy_extensions=1.0.0=pyha770c72_0
   - ncurses=6.3=h27087fc_1
-  - openssl=3.1.0=hd590300_3
+  - nr.fs=1.6.3=pyhd8ed1ab_0
+  - nr.optional=0.2.0=pyhd8ed1ab_0
+  - nr.parsing.date=1.0.3=pyhd8ed1ab_0
+  - nr.preconditions=0.0.4=pyhd8ed1ab_0
+  - nr.pylang.utils=0.1.3=pyhd8ed1ab_0
+  - nr.stream=0.2.3=pyhd8ed1ab_0
+  - nr.utils.re=0.3.1=pyhd8ed1ab_0
+  - openssl=3.1.1=hd590300_1
   - packaging=23.1=pyhd8ed1ab_0
   - pathspec=0.11.1=pyhd8ed1ab_0
+  - pbzip2=1.1.13=0
+  - pigz=2.6=h27826a3_0
   - pip=23.1.2=pyhd8ed1ab_0
-  - platformdirs=3.5.1=pyhd8ed1ab_0
-  - pylint=2.17.4=pyhd8ed1ab_0
+  - platformdirs=2.6.0=pyhd8ed1ab_0
+  - pycparser=2.21=pyhd8ed1ab_0
+  - pydoc-markdown=4.5.0=pyhd8ed1ab_0
+  - pylint=2.15.10=pyhd8ed1ab_0
+  - pysocks=1.7.1=pyha2e5f31_6
   - python=3.10.4=h2660328_0_cpython
+  - python-isal=1.1.0=py310h2372a71_2
   - python_abi=3.10=3_cp310
-  - pyyaml=6.0=py310h5764c6d_5
+  - pyyaml=5.4.1=py310h5764c6d_4
   - readline=8.2=h8228510_1
+  - regex=2023.5.5=py310h2372a71_0
+  - requests=2.31.0=pyhd8ed1ab_0
   - setuptools=67.7.2=pyhd8ed1ab_0
+  - six=1.16.0=pyh6c4a22f_0
   - sqlite=3.38.5=h4ff8645_0
   - tk=8.6.12=h27826a3_0
+  - toml=0.10.2=pyhd8ed1ab_0
   - tomli=2.0.1=pyhd8ed1ab_0
   - tomlkit=0.11.8=pyha770c72_0
-  - typing-extensions=4.6.1=hd8ed1ab_0
-  - typing_extensions=4.6.1=pyha770c72_0
+  - typed-ast=1.5.4=py310h5764c6d_1
+  - typing-extensions=3.10.0.2=hd8ed1ab_0
+  - typing_extensions=3.10.0.2=pyha770c72_0
   - tzdata=2023c=h71feb2d_0
+  - urllib3=2.0.2=pyhd8ed1ab_0
+  - watchdog=3.0.0=py310hff52083_0
   - wheel=0.40.0=pyhd8ed1ab_0
   - wrapt=1.15.0=py310h1fa729e_0
+  - xopen=1.7.0=py310hff52083_2
   - xz=5.2.6=h166bdaf_0
   - yaml=0.2.5=h7f98852_2
   - zlib=1.2.11=h166bdaf_1014
+  - zstandard=0.19.0=py310hdeb6495_1
+  - zstd=1.5.2=h8a70e8d_1
 prefix: /home/dieterbest/anaconda3/envs/varpipe3
