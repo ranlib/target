@@ -1,5 +1,7 @@
 version 1.0
 
+import "./task_RunCollectMultipleMetrics.wdl" as RunCollectMultipleMetrics
+
 task task_varpipe {
   input {
     File read1
@@ -11,9 +13,11 @@ task task_varpipe {
     String genome = "NC_000962.3"
     Int threads = 1
   }
+  
   command {
     Varpipeline.py -q ${read1} -q2 ${read2} -r ${reference} -g ${genome} -n ${samplename} -t ${threads} -o ${outdir} -v -a -k -c ${config}
   }
+  
   output {
     File DR_loci_annotation = "~{outdir}/~{samplename}_DR_loci_annotation.txt"
     File DR_loci_Final_annotation = "~{outdir}/~{samplename}_DR_loci_Final_annotation.txt"
@@ -53,7 +57,9 @@ workflow wf_varpipe {
     String outdir
     String genome = "NC_000962"
     Int threads = 1
+    String outputBasename = "multiple_metrics"
   }
+  
   call task_varpipe {
     input:
     read1 = read1,
@@ -65,6 +71,14 @@ workflow wf_varpipe {
     genome = genome,
     threads = threads
   }
+
+  call RunCollectMultipleMetrics.RunCollectMultipleMetrics {
+    input:
+    inputBam = task_varpipe.bam,
+    reference = reference,
+    outputBasename = outputBasename
+  }
+
   output {
     File? DR_loci_annotation  = task_varpipe.DR_loci_annotation 
     File? DR_loci_Final_annotation  = task_varpipe.DR_loci_Final_annotation 
@@ -86,5 +100,6 @@ workflow wf_varpipe {
     File? trim_log = task_varpipe.trim_log
     File? mark_duplicates_metrics = task_varpipe.mark_duplicates_metrics
     File? qc_log = task_varpipe.qc_log
+    Array[File]? collectMetricsOutput = RunCollectMultipleMetrics.collectMetricsOutput
   }
 }
