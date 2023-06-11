@@ -77,7 +77,39 @@ fi
 #
 # generate sample json file for inputs
 #java -jar ~/Software/womtool-85.jar inputs wf_concatenate_fastq.wdl
+# check wdl syntax
+#java -jar ~/Software/womtool-85.jar validate wf_concatenate_fastq.wdl
+#miniwdl check wf_concatenate_fastq.wdl --suppress CommandShellCheck
+# convert json --> yaml
+#python -c 'import sys, yaml, json; print(yaml.dump(json.loads(sys.stdin.read())))' < wf_concatenate_fastq.json
+# run concatentation
 #miniwdl run wf_concatenate_fastq.wdl -i wf_concatenate_fastq.json
+
+#
+# run Multiple QC
+#
+if [ "$MODE" = "QC" ] ; then
+    # make json file from yaml file
+    #python -c 'import sys, yaml, json; from yaml import Loader; print(json.dumps(yaml.load(sys.stdin.read(), Loader=Loader),indent=4))' < wf_collect_multiple_metrics.yaml > wf_collect_multiple_metrics.json
+    miniwdl run wf_collect_multiple_metrics.wdl --verbose -i wf_collect_multiple_metrics.yaml
+
+    # inputBam="/home/dieterbest/Analysis/varpipe4/data/ERR552797_conda_before/ERR552797_sdrcsm.bam"
+    # reference="/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.fasta"
+    # outputBasename="multiple_metrics"
+    
+    # gatk CollectMultipleMetrics \
+    # 	 -I ${inputBam} \
+    # 	 -R ${reference} \
+    # 	 -O ${outputBasename} \
+    # 	 --PROGRAM CollectAlignmentSummaryMetrics \
+    # 	 --PROGRAM CollectInsertSizeMetrics \
+    # 	 --PROGRAM QualityScoreDistribution \
+    # 	 --PROGRAM MeanQualityByCycle \
+    # 	 --PROGRAM CollectBaseDistributionByCycle \
+    # 	 --PROGRAM CollectGcBiasMetrics \
+    # 	 --PROGRAM CollectSequencingArtifactMetrics \
+    # 	 --PROGRAM CollectQualityYieldMetrics
+fi
 
 exit 0
 
