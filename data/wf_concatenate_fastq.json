@@ -1,0 +1,6 @@
+{
+    "ConcatenateFastQPairs.forwardFastqFiles": ["1_1.fq.gz", "2_1.fq.gz", "3_1.fq.gz" ],
+    "ConcatenateFastQPairs.reverseFastqFiles": ["1_2.fq.gz", "2_2.fq.gz", "3_2.fq.gz" ],
+    "ConcatenateFastQPairs.outputForward": "1.fq.gz",
+    "ConcatenateFastQPairs.outputReverse": "2.fq.gz"
+}

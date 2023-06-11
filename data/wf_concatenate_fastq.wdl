@@ -1,9 +1,11 @@
+version 1.0
+
 workflow ConcatenateFastQPairs {
   input {
     Array[File] forwardFastqFiles
     Array[File] reverseFastqFiles
-    File outputForward
-    File outputReverse
+    String outputForward
+    String outputReverse
   }
 
   call concatenateFastQ {
@@ -19,8 +21,8 @@ task concatenateFastQ {
   input {
     Array[File] forwardFastqFiles
     Array[File] reverseFastqFiles
-    File outputForward
-    File outputReverse
+    String outputForward
+    String outputReverse
   }
 
   command {

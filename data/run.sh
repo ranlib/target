@@ -66,5 +66,18 @@ fi
 #
 #miniwdl run wf_collect_wgs_metrics.wdl --verbose -i wf_collect_wgs_metrics.yaml
 
+#
+# split fastq files
+#
+#fastqsplitter -i ERR552797_30percent_1.fq.gz -o 1_1.fq.gz -o 2_1.fq.gz -o 3_1.fq.gz
+#fastqsplitter -i ERR552797_30percent_2.fq.gz -o 1_2.fq.gz -o 2_2.fq.gz -o 3_2.fq.gz
+
+#
+# concatenate fastq files
+#
+# generate sample json file for inputs
+#java -jar ~/Software/womtool-85.jar inputs wf_concatenate_fastq.wdl
+#miniwdl run wf_concatenate_fastq.wdl -i wf_concatenate_fastq.json
+
 exit 0
 
