@@ -14,9 +14,9 @@ class PDF(FPDF):
         k = []
         for z in f_reader:
             x = '\t'.join(z) 
-            if len(z) > 0 and 'Sample Summary' not in x and 'Date' not in x:
+            if len(z) > 0 and 'Sample Summary' not in x and 'date' not in x:
                k.append(z)
-            if 'Date' in x:
+            if 'date' in x:
                k.append(z)
                break
         self.set_font('Arial', '', 9)
@@ -52,7 +52,7 @@ f2_reader = csv.reader(f2, delimiter='\t')
 p = []
 for x in f2_reader:
     y = '\t'.join(x)
-    if 'Sample' in y or 'SAMPLE ID' in y or  'Drop' in y or 'Pipeline' in y or 'Date' in y:
+    if 'sample_name' in y or 'sample_id' in y or  'coverage_drop' in y or 'pipeline_version' in y or 'date' in y:
        continue
     if 'Variant' in y:
        break
