@@ -1,0 +1,8 @@
+{
+  "RunCollectWgsMetricsWorkflow.reference": "File",
+  "RunCollectWgsMetricsWorkflow.inputBam": "File",
+  "RunCollectWgsMetricsWorkflow.minMappingQuality": "Int? (optional)",
+  "RunCollectWgsMetricsWorkflow.minBaseQuality": "Int? (optional)",
+  "RunCollectWgsMetricsWorkflow.outputFile": "String"
+}
+
