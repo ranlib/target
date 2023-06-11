@@ -20,7 +20,7 @@ REF="../references/NC_000962.3/NC_000962.3.fasta"
 CONFIG="../configuration/snp.config"
 
 if [ "$MODE" = "conda" ] ; then
-    ../tools/Varpipeline.py -q $R1 -q2 $R2 -r $REF -g $NAME -n $SAMPL -o $SAMPL -a -v -t 8 -k -c $CONFIG
+    ../tools/Varpipeline.py -q $R1 -q2 $R2 -r $REF -g $NAME -n $SAMPL -o $SAMPL -a -v -t 4 -k -c $CONFIG
 fi
 
 #
@@ -60,6 +60,11 @@ fi
 if [ "$MODE" = "cromwell" ] ; then
     java -jar $HOME/Software/cromwell-85.jar run varpipe.wdl -i varpipe.json
 fi
+
+#
+# run WGS QC
+#
+#miniwdl run wf_collect_wgs_metrics.wdl --verbose -i wf_collect_wgs_metrics.yaml
 
 exit 0
 
