@@ -32,6 +32,9 @@ task task_varpipe {
     File structural_variants = "~{outdir}/~{samplename}_structural_variants.txt"
     File summary = "~{outdir}/~{samplename}_summary.txt"
     File target_region_coverage = "~{outdir}/~{samplename}_target_region_coverage.txt"
+    File trim_log = "~{outdir}/trimLog.txt"
+    File mark_duplicates_metrics = "~{outdir}/MarkDupes.metrics"
+    File qc_log = "~{outdir}/QC/QC.log"
   }
   runtime {
     docker: "dbest/varpipe4:latest"
@@ -79,6 +82,9 @@ workflow wf_varpipe {
     File? stats  = task_varpipe.stats 
     File? structural_variants  = task_varpipe.structural_variants 
     File? summary  = task_varpipe.summary 
-    File? target_region_coverage  = task_varpipe.target_region_coverage 
+    File? target_region_coverage  = task_varpipe.target_region_coverage
+    File? trim_log = task_varpipe.trim_log
+    File? mark_duplicates_metrics = task_varpipe.mark_duplicates_metrics
+    File? qc_log = task_varpipe.qc_log
   }
 }
