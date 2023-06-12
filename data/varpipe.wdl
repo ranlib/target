@@ -1,6 +1,7 @@
 version 1.0
 
 import "./task_RunCollectMultipleMetrics.wdl" as RunCollectMultipleMetrics
+import "./task_fastqc.wdl" as fastqc
 
 task task_varpipe {
   input {
@@ -42,7 +43,7 @@ task task_varpipe {
   }
   runtime {
     docker: "dbest/varpipe4:latest"
-    cpu: 4
+    cpu: threads
     memory: "10 GB"
   }
 }
@@ -57,9 +58,17 @@ workflow wf_varpipe {
     String outdir
     String genome = "NC_000962"
     Int threads = 1
+    # input for bam QC
     String outputBasename = "multiple_metrics"
   }
   
+  call fastqc.task_fastqc {
+    input:
+    forwardReads = read1,
+    reverseReads = read2,
+    threads = threads
+  }
+
   call task_varpipe {
     input:
     read1 = read1,
@@ -100,6 +109,16 @@ workflow wf_varpipe {
     File? trim_log = task_varpipe.trim_log
     File? mark_duplicates_metrics = task_varpipe.mark_duplicates_metrics
     File? qc_log = task_varpipe.qc_log
+    # output from bam QC
     Array[File]? collectMetricsOutput = RunCollectMultipleMetrics.collectMetricsOutput
+    # output from fastqc
+    File forwardHtml = task_fastqc.forwardHtml
+    File reverseHtml = task_fastqc.reverseHtml
+    File forwardZip = task_fastqc.forwardZip
+    File reverseZip = task_fastqc.reverseZip
+    File? forwardSummary = task_fastqc.forwardSummary
+    File? reverseSummary = task_fastqc.reverseSummary
+    File? forwardData = task_fastqc.forwardData
+    File? reverseData = task_fastqc.reverseData
   }
 }
