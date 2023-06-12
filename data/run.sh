@@ -10,8 +10,7 @@ MODE=$1
 #
 # run varpipe
 #
-#FASTQ=$HOME/Analysis/wgs_pipeline/data/
-FASTQ=$PWD
+FASTQ=$HOME/Analysis/varpipe4/data
 R1=$FASTQ/ERR552797_30percent_1.fq.gz
 R2=$FASTQ/ERR552797_30percent_2.fq.gz
 SAMPL=ERR552797
