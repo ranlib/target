@@ -11,7 +11,7 @@ task task_varpipe {
     File config
     String samplename
     String outdir
-    String genome = "NC_000962.3"
+    String genome
     Int threads = 1
   }
   
@@ -56,7 +56,7 @@ workflow wf_varpipe {
     File config
     String samplename
     String outdir
-    String genome = "NC_000962"
+    String genome
     Int threads = 1
     # input for bam QC
     String outputBasename = "multiple_metrics"
