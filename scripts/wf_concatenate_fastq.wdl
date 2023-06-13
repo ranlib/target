@@ -34,4 +34,8 @@ task concatenateFastQ {
     File concatenatedForwardFastq = "${outputForward}"
     File concatenatedReverseFastq = "${outputReverse}"
   }
+
+  runtime {
+    docker: "ubuntu:22.04"
+  }
 }
