@@ -83,6 +83,7 @@ fi
 #python -c 'import sys, yaml, json; print(yaml.dump(json.loads(sys.stdin.read())))' < wf_concatenate_fastq.json
 # run concatentation
 #miniwdl run wf_concatenate_fastq.wdl -i wf_concatenate_fastq.json
+#java -jar ~/Software/cromwell-85.jar run wf_concatenate_fastq.wdl -i wf_concatenate_fastq.json
 
 #
 # run Multiple QC
