@@ -2,6 +2,7 @@ version 1.0
 
 import "./task_RunCollectMultipleMetrics.wdl" as RunCollectMultipleMetrics
 import "./task_fastqc.wdl" as fastqc
+import "./task_bbduk.wdl" as bbduk
 
 task task_varpipe {
   input {
@@ -12,11 +13,14 @@ task task_varpipe {
     String samplename
     String outdir
     String genome
+    Boolean keep = true
     Int threads = 1
+    String memory = "10 GB"
+    String docker = "dbest/varpipe4:latest"
   }
   
   command {
-    Varpipeline.py -q ${read1} -q2 ${read2} -r ${reference} -g ${genome} -n ${samplename} -t ${threads} -o ${outdir} -v -a -k -c ${config}
+    Varpipeline.py -q ~{read1} -q2 ~{read2} -r ~{reference} -g ~{genome} -n ~{samplename} -t ~{threads} -o ~{outdir} -v -a ~{true="-k" false="" keep} -c ~{config}
   }
   
   output {
@@ -42,9 +46,9 @@ task task_varpipe {
     File qc_log = "~{outdir}/QC/QC.log"
   }
   runtime {
-    docker: "dbest/varpipe4:latest"
+    docker: "~{docker}"
+    memory: "~{memory}"
     cpu: threads
-    memory: "10 GB"
   }
 }
 
@@ -69,10 +73,17 @@ workflow wf_varpipe {
     threads = threads
   }
 
+  call bbduk.bbduk {
+    input:
+    read1_trimmed = read1,
+    read2_trimmed = read2,
+    samplename = samplename
+  }
+
   call task_varpipe {
     input:
-    read1 = read1,
-    read2 = read2,
+    read1 = bbduk.read1_clean,
+    read2 = bbduk.read2_clean,
     reference = reference,
     samplename = samplename,
     config = config,
@@ -112,13 +123,17 @@ workflow wf_varpipe {
     # output from bam QC
     Array[File]? collectMetricsOutput = RunCollectMultipleMetrics.collectMetricsOutput
     # output from fastqc
-    File forwardHtml = task_fastqc.forwardHtml
-    File reverseHtml = task_fastqc.reverseHtml
-    File forwardZip = task_fastqc.forwardZip
-    File reverseZip = task_fastqc.reverseZip
+    File? forwardHtml = task_fastqc.forwardHtml
+    File? reverseHtml = task_fastqc.reverseHtml
+    File? forwardZip = task_fastqc.forwardZip
+    File? reverseZip = task_fastqc.reverseZip
     File? forwardSummary = task_fastqc.forwardSummary
     File? reverseSummary = task_fastqc.reverseSummary
     File? forwardData = task_fastqc.forwardData
     File? reverseData = task_fastqc.reverseData
+    # output from bbduk
+    File? adapter_stats =  bbduk.adapter_stats
+    File? phiX_stats = bbduk.phiX_stats
+
   }
 }
