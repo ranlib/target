@@ -15,11 +15,12 @@ task task_varpipe {
     String genome
     Boolean keep = true
     Int threads = 1
-    String memory = "10 GB"
+    String memory = "32 GB"
     String docker = "dbest/varpipe4:latest"
   }
   
   command {
+    date | tee DATE
     Varpipeline.py -q ~{read1} -q2 ~{read2} -r ~{reference} -g ~{genome} -n ~{samplename} -t ~{threads} -o ~{outdir} -v -a ~{true="-k" false="" keep} -c ~{config}
   }
   
@@ -44,7 +45,9 @@ task task_varpipe {
     File trim_log = "~{outdir}/trimLog.txt"
     File mark_duplicates_metrics = "~{outdir}/MarkDupes.metrics"
     File qc_log = "~{outdir}/QC/QC.log"
+    String pipeline_date = read_string("DATE")
   }
+  
   runtime {
     docker: "~{docker}"
     memory: "~{memory}"
@@ -64,6 +67,7 @@ workflow wf_varpipe {
     Int threads = 1
     # input for bam QC
     String outputBasename = "multiple_metrics"
+    Int minNumberReads = 100000
   }
   
   call fastqc.task_fastqc {
@@ -73,30 +77,35 @@ workflow wf_varpipe {
     threads = threads
   }
 
-  call bbduk.bbduk {
-    input:
-    read1_trimmed = read1,
-    read2_trimmed = read2,
-    samplename = samplename
-  }
-
-  call task_varpipe {
-    input:
-    read1 = bbduk.read1_clean,
-    read2 = bbduk.read2_clean,
-    reference = reference,
-    samplename = samplename,
-    config = config,
-    outdir = outdir,
-    genome = genome,
-    threads = threads
-  }
-
-  call RunCollectMultipleMetrics.RunCollectMultipleMetrics {
-    input:
-    inputBam = task_varpipe.bam,
-    reference = reference,
-    outputBasename = outputBasename
+  Boolean filter1 = task_fastqc.numberForwardReads == task_fastqc.numberReverseReads
+  Boolean filter2 = task_fastqc.numberForwardReads > minNumberReads
+  Boolean filter = filter1 && filter2
+  if ( filter ) {
+    call bbduk.bbduk {
+      input:
+      read1_trimmed = read1,
+      read2_trimmed = read2,
+      samplename = samplename
+    }
+    
+    call task_varpipe {
+      input:
+      read1 = bbduk.read1_clean,
+      read2 = bbduk.read2_clean,
+      reference = reference,
+      samplename = samplename,
+      config = config,
+      outdir = outdir,
+      genome = genome,
+      threads = threads
+    }
+    
+    call RunCollectMultipleMetrics.RunCollectMultipleMetrics {
+      input:
+      inputBam = task_varpipe.bam,
+      reference = reference,
+      outputBasename = outputBasename
+    }
   }
 
   output {
@@ -120,6 +129,7 @@ workflow wf_varpipe {
     File? trim_log = task_varpipe.trim_log
     File? mark_duplicates_metrics = task_varpipe.mark_duplicates_metrics
     File? qc_log = task_varpipe.qc_log
+    String? pipeline_date = task_varpipe.pipeline_date
     # output from bam QC
     Array[File]? collectMetricsOutput = RunCollectMultipleMetrics.collectMetricsOutput
     # output from fastqc
@@ -134,6 +144,5 @@ workflow wf_varpipe {
     # output from bbduk
     File? adapter_stats =  bbduk.adapter_stats
     File? phiX_stats = bbduk.phiX_stats
-
   }
 }
