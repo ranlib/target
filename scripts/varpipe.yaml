@@ -1,9 +1,0 @@
-read1: "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz"
-read2: "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz"
-reference: "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.fasta"
-samplename: "ERR552797"
-outdir: "ERR552797"
-genome: "NC_000962.3"
-config: "/home/dieterbest/Analysis/varpipe4/configuration/snp_docker.config"
-threads: 4
-
