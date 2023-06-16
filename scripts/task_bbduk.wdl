@@ -7,11 +7,10 @@ task bbduk {
     String      samplename
     String      docker="staphb/bbtools:38.76"
     Int?        cpus = 4
-    String?     memory = "8 GB"
+    String?     memory = "250 GB"
   }
   
   command <<<
-    # date and version control
     date | tee DATE
     
     repair.sh in1=~{read1_trimmed} in2=~{read2_trimmed} out1=~{samplename}.paired_1.fastq.gz out2=~{samplename}.paired_2.fastq.gz
