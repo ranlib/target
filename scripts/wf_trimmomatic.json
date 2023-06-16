@@ -1,0 +1,12 @@
+{
+    "wf_trimmomatic.task_trimmomatic.trimmomatic_minlen": 15,
+    "wf_trimmomatic.task_trimmomatic.trimmomatic_window_size": 4,
+    "wf_trimmomatic.task_trimmomatic.memory": "32 GB",
+    "wf_trimmomatic.task_trimmomatic.cpus": 4,
+    "wf_trimmomatic.task_trimmomatic.trimmomatic_quality_trim_score": 30,
+    "wf_trimmomatic.task_trimmomatic.docker": "staphb/trimmomatic:0.39",
+    "wf_trimmomatic.samplenames": ["ERR552797"],
+    "wf_trimmomatic.read1_files": ["/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz"],
+    "wf_trimmomatic.read2_files": ["/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz"]
+}
+
