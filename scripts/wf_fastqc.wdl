@@ -21,9 +21,11 @@ workflow wf_fastqc {
     File reverseHtml = task_fastqc.reverseHtml
     File forwardZip = task_fastqc.forwardZip
     File reverseZip = task_fastqc.reverseZip
-    File? forwardSummary = task_fastqc.forwardSummary
-    File? reverseSummary = task_fastqc.reverseSummary
-    File? forwardData = task_fastqc.forwardData
-    File? reverseData = task_fastqc.reverseData
+    File forwardSummary = task_fastqc.forwardSummary
+    File reverseSummary = task_fastqc.reverseSummary
+    File forwardData = task_fastqc.forwardData
+    File reverseData = task_fastqc.reverseData
+    Int numberForwardReads = task_fastqc.numberForwardReads
+    Int numberReverseReads = task_fastqc.numberForwardReads
   }
 }

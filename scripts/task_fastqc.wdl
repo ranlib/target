@@ -10,9 +10,13 @@ task task_fastqc {
 
   String forwardName = sub(basename(forwardReads),".f.*q.*$","")
   String reverseName = sub(basename(reverseReads),".f.*q.*$","")
+  File tempForwardData = forwardName + "_fastqc/fastqc_data.txt"
+  File tempReverseData = reverseName + "_fastqc/fastqc_data.txt"
   
   command {
     fastqc ~{forwardReads} ~{reverseReads} --outdir "." --extract -t ~{threads}
+    grep 'Total Sequences' "~{tempForwardData}" | cut -f 2 1> NUMBER_FORWARD_SEQUENCES
+    grep 'Total Sequences' "~{tempReverseData}" | cut -f 2 1> NUMBER_REVERSE_SEQUENCES
   }
 
   output {
@@ -24,6 +28,8 @@ task task_fastqc {
     File reverseData = reverseName + "_fastqc/fastqc_data.txt"
     File forwardSummary = forwardName + "_fastqc/summary.txt"
     File reverseSummary = reverseName + "_fastqc/summary.txt"
+    Int numberForwardReads = read_int("NUMBER_FORWARD_SEQUENCES")
+    Int numberReverseReads = read_int("NUMBER_REVERSE_SEQUENCES")
   }
   
   runtime {
