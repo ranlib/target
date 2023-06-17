@@ -48,6 +48,7 @@ class Snp:
         self.__annotation = os.path.join(self.fOut, self.name + "_DR_loci_raw_annotation.vcf")
         self.__full_annotation = os.path.join(self.fOut, self.name + "_full_raw_annotation.vcf")
         self.__full_final_annotation = os.path.join(self.fOut, self.name + "_full_Final_annotation.txt")
+        self.__finalBam = os.path.join(self.fOut, self.name + "_sdrcsm.bam")
               
         self.__qlog = os.path.join(self.qlog, "QC.log")
         self.__log = os.path.join(self.fOut, self.name + ".log")
@@ -176,30 +177,31 @@ class Snp:
         self.__ifVerbose("Filtering alignment with GATK and Picard-Tools.")
         self.__logFH.write("########## Filtering alignment with GATK and Picard-Tools. ##########\n")
 
-        gatk_bam_file = os.path.join(self.GATKdir, "GATK.bam")
+        bam_file = os.path.join(self.GATKdir, self.name + ".bam")
+        bam_file_sorted = os.path.join(self.GATKdir, self.name + "_s.bam")
 
         # Convert SAM to BAM
         if self.__ranBWA:
             self.__ifVerbose("   Running SamFormatConverter.")
-            command = f"gatk SamFormatConverter -INPUT {self.__alnSam} -VALIDATION_STRINGENCY LENIENT -OUTPUT {gatk_bam_file}"
+            command = f"gatk SamFormatConverter -INPUT {self.__alnSam} -VALIDATION_STRINGENCY LENIENT -OUTPUT {bam_file}"
             self.__CallCommand("SamFormatConverter", command.split())
             #command = f"rm {self.__alnSam}"
             #self.__CallCommand("rm sam file", command.split())
             os.remove(self.__alnSam)
         else:
-            self.__CallCommand("cp", ["cp", self.__alnSam, gatk_bam_file])
+            self.__CallCommand("cp", ["cp", self.__alnSam, bam_file])
 
         # Run mapping Report and Mark duplicates using Picard-Tools
         self.__ifVerbose("   Running SortSam.")
-        self.__CallCommand("SortSam", ["gatk", "SortSam", "-INPUT", self.GATKdir + "/GATK.bam", "-SORT_ORDER", "coordinate", "-OUTPUT", self.GATKdir + "/GATK_s.bam", "-VALIDATION_STRINGENCY", "LENIENT", "-TMP_DIR", self.tmp])
+        self.__CallCommand("SortSam", ["gatk", "SortSam", "-INPUT", bam_file, "-SORT_ORDER", "coordinate", "-OUTPUT", bam_file_sorted, "-VALIDATION_STRINGENCY", "LENIENT", "-TMP_DIR", self.tmp])
         self.__ifVerbose("   Running MarkDuplicates.")
-        self.__CallCommand("MarkDuplicates", ["gatk", "MarkDuplicates", "-INPUT", self.GATKdir + "/GATK_s.bam", "-OUTPUT", self.GATKdir + "/GATK_sdr.bam", "-METRICS_FILE", self.fOut + "/MarkDupes.metrics", "-ASSUME_SORTED", "true", "-REMOVE_DUPLICATES", "false", "-VALIDATION_STRINGENCY", "LENIENT"])
+        self.__CallCommand("MarkDuplicates", ["gatk", "MarkDuplicates", "-INPUT", bam_file_sorted, "-OUTPUT", self.GATKdir + "/GATK_sdr.bam", "-METRICS_FILE", self.fOut + "/MarkDupes.metrics", "-ASSUME_SORTED", "true", "-REMOVE_DUPLICATES", "false", "-VALIDATION_STRINGENCY", "LENIENT"])
+
         self.__ifVerbose("   Running BuildBamIndex.")
         self.__CallCommand("BuildBamIndex", ["gatk", "BuildBamIndex", "-INPUT", self.GATKdir + "/GATK_sdr.bam", "-VALIDATION_STRINGENCY", "LENIENT"])
         self.__CallCommand("samtools view", ["samtools", "view", "-c", "-o", self.samDir + "/unmapped.txt", self.GATKdir + "/GATK_sdr.bam"])
 
         """ Filter out unmapped reads """
-        self.__finalBam = os.path.join(self.fOut, self.name + "_sdrcsm.bam")
         self.__ifVerbose("   Running samtools view.")
         self.__CallCommand("samtools view", ["samtools", "view", "-bhF", "4", "-o", self.__finalBam, self.GATKdir + "/GATK_sdr.bam"])
         self.__ifVerbose("   Running BuildBamIndex.")
