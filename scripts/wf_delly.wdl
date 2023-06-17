@@ -1,6 +1,6 @@
 version 1.0
 
-import "./task_delly.wdl" as task_delly
+import "./task_delly.wdl" as delly
 
 workflow wf_delly {
   input {
@@ -11,7 +11,7 @@ workflow wf_delly {
   }
 
   scatter ( idx in range(length(bamFiles)) ) {
-    call task_delly.task_delly {
+    call delly.task_delly {
       input:
       bamFile = bamFiles[idx],
       bamIndex = bamIndices[idx],
