@@ -8,14 +8,18 @@
     "wf_varpipe.outdir": "ERR552797",
     "wf_varpipe.samplename": "ERR552797",
     "wf_varpipe.minNumberReads": 100000,
+    "wf_varpipe.run_bamQC": true,
     "wf_varpipe.outputBasename": "multiple_metrics",
     "wf_varpipe.task_varpipe.keep": true,
     "wf_varpipe.task_varpipe.memory": "32 GB",
     "wf_varpipe.task_varpipe.docker": "dbest/varpipe4:latest",
     "wf_varpipe.task_fastqc.docker": "staphb/fastqc:0.12.1",
-    "wf_varpipe.bbduk.memory": "250 GB",
-    "wf_varpipe.bbduk.cpus": 4,
-    "wf_varpipe.bbduk.docker": "staphb/bbtools:38.76"
+    "wf_varpipe.run_decontamination": true,
+    "wf_varpipe.task_bbduk.memory": "250 GB",
+    "wf_varpipe.task_bbduk.cpus": 4,
+    "wf_varpipe.task_bbduk.docker": "staphb/bbtools:38.76",
+    "wf_varpipe.run_delly": true,
+    "wf_varpipe.svType": "DEL"
 }
 
 
