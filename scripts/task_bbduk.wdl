@@ -1,6 +1,6 @@
 version 1.0
 
-task bbduk {
+task task_bbduk {
   input {
     File        read1_trimmed
     File        read2_trimmed
