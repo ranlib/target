@@ -10,8 +10,8 @@ task task_fastqc {
 
   String forwardName = sub(basename(forwardReads),".f.*q.*$","")
   String reverseName = sub(basename(reverseReads),".f.*q.*$","")
-  File tempForwardData = forwardName + "_fastqc/fastqc_data.txt"
-  File tempReverseData = reverseName + "_fastqc/fastqc_data.txt"
+  String tempForwardData = forwardName + "_fastqc/fastqc_data.txt"
+  String tempReverseData = reverseName + "_fastqc/fastqc_data.txt"
   
   command {
     fastqc ~{forwardReads} ~{reverseReads} --outdir "." --extract -t ~{threads}
