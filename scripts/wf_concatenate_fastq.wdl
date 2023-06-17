@@ -1,41 +1,25 @@
 version 1.0
 
-workflow ConcatenateFastQPairs {
+import "./task_concatenate_fastq.wdl" as task_concatenate_fastq
+
+workflow wf_concatenate_fastq {
   input {
-    Array[File] forwardFastqFiles
-    Array[File] reverseFastqFiles
+    Array[File]+ forwardFastqFiles
+    Array[File]+ reverseFastqFiles
     String outputForward
     String outputReverse
   }
 
-  call concatenateFastQ {
+  call task_concatenate_fastq.task_concatenate_fastq {
     input:
       forwardFastqFiles = forwardFastqFiles,
       reverseFastqFiles = reverseFastqFiles,
       outputForward = outputForward,
       outputReverse = outputReverse
   }
-}
-
-task concatenateFastQ {
-  input {
-    Array[File] forwardFastqFiles
-    Array[File] reverseFastqFiles
-    String outputForward
-    String outputReverse
-  }
-
-  command {
-    cat ${sep=' ' forwardFastqFiles} > ${outputForward}
-    cat ${sep=' ' reverseFastqFiles} > ${outputReverse}
-  }
 
   output {
-    File concatenatedForwardFastq = "${outputForward}"
-    File concatenatedReverseFastq = "${outputReverse}"
-  }
-
-  runtime {
-    docker: "ubuntu:22.04"
+    File concatenatedForwardFastq = task_concatenate_fastq.concatenatedForwardFastq
+    File concatenatedReverseFastq = task_concatenate_fastq.concatenatedReverseFastq
   }
 }
