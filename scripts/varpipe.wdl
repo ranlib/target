@@ -3,6 +3,7 @@ version 1.0
 import "./task_RunCollectMultipleMetrics.wdl" as RunCollectMultipleMetrics
 import "./task_fastqc.wdl" as fastqc
 import "./task_bbduk.wdl" as bbduk
+import "./task_delly.wdl" as delly
 
 task task_varpipe {
   input {
@@ -66,8 +67,16 @@ workflow wf_varpipe {
     String genome
     Int threads = 1
     # input for bam QC
+    Boolean run_bamQC = true
     String outputBasename = "multiple_metrics"
+    # fastqc
     Int minNumberReads = 100000
+    ## bbduk
+    Boolean run_decontamination = true
+    # delly
+    Boolean run_delly = true
+    String svType = "DEL"
+    File? noneFile
   }
   
   call fastqc.task_fastqc {
@@ -81,17 +90,19 @@ workflow wf_varpipe {
   Boolean filter2 = task_fastqc.numberForwardReads > minNumberReads
   Boolean filter = filter1 && filter2
   if ( filter ) {
-    call bbduk.bbduk {
-      input:
-      read1_trimmed = read1,
-      read2_trimmed = read2,
-      samplename = samplename
+    if ( run_decontamination ) {
+      call bbduk.task_bbduk {
+	input:
+	read1_trimmed = read1,
+	read2_trimmed = read2,
+	samplename = samplename
+      }
     }
     
     call task_varpipe {
       input:
-      read1 = bbduk.read1_clean,
-      read2 = bbduk.read2_clean,
+      read1 = select_first([task_bbduk.read1_clean, read1]),
+      read2 = select_first([task_bbduk.read2_clean, read1]),
       reference = reference,
       samplename = samplename,
       config = config,
@@ -99,16 +110,29 @@ workflow wf_varpipe {
       genome = genome,
       threads = threads
     }
+
+    if ( run_delly ) {
+      call delly.task_delly {
+	input:
+	bamFile = task_varpipe.bam,
+	bamIndex = task_varpipe.bai,
+	referenceFasta = reference,
+	svType = svType
+      }
+    }
     
-    call RunCollectMultipleMetrics.RunCollectMultipleMetrics {
-      input:
-      inputBam = task_varpipe.bam,
-      reference = reference,
-      outputBasename = outputBasename
+    if ( run_bamQC ) { 
+      call RunCollectMultipleMetrics.RunCollectMultipleMetrics {
+	input:
+	inputBam = task_varpipe.bam,
+	reference = reference,
+	outputBasename = outputBasename
+      }
     }
   }
 
   output {
+    # output from varpipe
     File? DR_loci_annotation  = task_varpipe.DR_loci_annotation 
     File? DR_loci_Final_annotation  = task_varpipe.DR_loci_Final_annotation 
     File? DR_loci_raw_annotation  = task_varpipe.DR_loci_raw_annotation 
@@ -142,7 +166,9 @@ workflow wf_varpipe {
     File? forwardData = task_fastqc.forwardData
     File? reverseData = task_fastqc.reverseData
     # output from bbduk
-    File? adapter_stats =  bbduk.adapter_stats
-    File? phiX_stats = bbduk.phiX_stats
+    File? adapter_stats = select_first([task_bbduk.adapter_stats, noneFile])
+    File? phiX_stats = select_first([task_bbduk.phiX_stats, noneFile])
+    # output from delly
+    File? dellyVcf = select_first([task_delly.vcfFile, noneFile])
   }
 }
