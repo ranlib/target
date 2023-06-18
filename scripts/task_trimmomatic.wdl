@@ -9,7 +9,7 @@ task task_trimmomatic {
     Int trimmomatic_minlen = 15
     Int trimmomatic_window_size = 4
     Int trimmomatic_quality_trim_score = 30
-    Int cpus = 4
+    Int cpu = 4
     String memory = "8 GB"
   }
 
@@ -17,7 +17,7 @@ task task_trimmomatic {
     date | tee DATE
     trimmomatic -version > VERSION
     trimmomatic PE \
-    -threads ~{cpus} \
+    -threads ~{cpu} \
     ~{read1} ~{read2} \
     -baseout ~{samplename}.fastq.gz \
     -trimlog ~{samplename}.trim.log \
@@ -38,7 +38,7 @@ task task_trimmomatic {
   runtime {
     docker: "~{docker}"
     memory: "~{memory}"
-    cpu: cpus
+    cpu: cpu
     disks: "local-disk 100 SSD"
     preemptible: 0
   }
