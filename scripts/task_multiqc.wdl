@@ -2,15 +2,17 @@ version 1.0
 
 task task_multiqc {
   input {
-    Array[File]? inputFiles
+    Array[File] inputFiles
     String outputPrefix
   }
 
   command {
     for file in ~{sep=' ' inputFiles}; do
-        if [ -e $file ] ; then
-           cp $file .
-        fi
+    if [ -e $file ] ; then
+    cp $file .
+    else
+    echo "<W> multiqc: $file does not exist!"
+    fi
     done
     multiqc --force --no-data-dir -n ~{outputPrefix}.multiqc .
   }

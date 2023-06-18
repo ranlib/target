@@ -4,7 +4,7 @@ import "./task_multiqc.wdl" as multiQC
 
 workflow wf_multiqc {
   input {
-    Array[File]+ inputFiles
+    Array[File] inputFiles
     String outputPrefix
   }
 
