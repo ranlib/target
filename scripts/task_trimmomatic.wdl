@@ -6,9 +6,9 @@ task task_trimmomatic {
     File read2
     String samplename
     String docker="staphb/trimmomatic:0.39"
-    Int trimmomatic_minlen = 15
+    Int trimmomatic_minlen = 40
     Int trimmomatic_window_size = 4
-    Int trimmomatic_quality_trim_score = 30
+    Int trimmomatic_quality_trim_score = 15
     Int cpu = 4
     String memory = "8 GB"
   }
@@ -22,6 +22,7 @@ task task_trimmomatic {
     -baseout ~{samplename}.fastq.gz \
     -trimlog ~{samplename}.trim.log \
     -summary ~{samplename}.trim.stats.txt \
+    LEADING:3 TRAILING:3 \
     SLIDINGWINDOW:~{trimmomatic_window_size}:~{trimmomatic_quality_trim_score} \
     MINLEN:~{trimmomatic_minlen} 
   >>>
