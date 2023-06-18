@@ -1,6 +1,6 @@
 version 1.0
 
-import "./task_RunCollectMultipleMetrics.wdl" as RunCollectMultipleMetrics
+import "./task_RunCollectMultipleMetrics.wdl" as bamQC
 import "./task_fastqc.wdl" as fastqc
 import "./task_bbduk.wdl" as bbduk
 import "./task_delly.wdl" as delly
@@ -121,8 +121,8 @@ workflow wf_varpipe {
       }
     }
     
-    if ( run_bamQC ) { 
-      call RunCollectMultipleMetrics.RunCollectMultipleMetrics {
+    if ( run_bamQC ) {
+      call bamQC.RunCollectMultipleMetrics {
 	input:
 	inputBam = task_varpipe.bam,
 	reference = reference,
