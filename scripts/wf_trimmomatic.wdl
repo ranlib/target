@@ -4,9 +4,9 @@ import "./task_trimmomatic.wdl" as trimmomatic
 
 workflow wf_trimmomatic {
   input {
-    Array[File] read1_files
-    Array[File] read2_files
-    Array[String] samplenames
+    Array[File]+ read1_files
+    Array[File]+ read2_files
+    Array[String]+ samplenames
   }
 
   scatter ( indx in range(length(read1_files)) ) {
