@@ -38,6 +38,7 @@ if __name__ == "__main__":
     group6.add_argument("-v", "--verbose", action="store_true", help="Produce status updates of the run")
     group6.add_argument("-h", "--help", action="help", help="Show this help message and exit")
     group6.add_argument("-V", "--version", action="version", version="%(prog)s_wgs v1.0.2", help="Show program's version number and exit")
+    group6.add_argument("--no_trim", action="store_true", help="Don't trim files using trimmomatic")
 
     if len(sys.argv) == 1:
         parser.print_usage()
@@ -115,7 +116,8 @@ if __name__ == "__main__":
     s = snp.Snp(args.fastq, args.outdir, args.reference, args.genome, args.name, paired, args.fastq2, args.verbose, args.threads, config, " ".join(sys.argv))
 
     # run Trimmomatic timmer
-    s.runTrimmomatic()
+    if not args.no_trim:
+        s.runTrimmomatic()
 
     # Run the aligner
     s.runBWA(args.bwa)

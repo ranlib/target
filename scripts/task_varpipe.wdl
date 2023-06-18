@@ -10,6 +10,7 @@ task task_varpipe {
     String outdir
     String genome
     Boolean keep = true
+    Boolean no_trim = true
     Int threads = 1
     String memory = "32 GB"
     String docker = "dbest/varpipe4:latest"
@@ -17,7 +18,17 @@ task task_varpipe {
   
   command {
     date | tee DATE
-    Varpipeline.py -q ~{read1} -q2 ~{read2} -r ~{reference} -g ~{genome} -n ~{samplename} -t ~{threads} -o ~{outdir} -v -a ~{true="-k" false="" keep} -c ~{config}
+    Varpipeline.py -q ~{read1} -q2 ~{read2} \
+    -r ~{reference} \
+    -g ~{genome} \
+    -n ~{samplename} \
+    -t ~{threads} \
+    -o ~{outdir} \
+    -v \
+    -a \
+    ~{true="-k" false="" keep} \
+    ~{true="--no_trim" false="" no_trim} \
+    -c ~{config}
   }
   
   output {

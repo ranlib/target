@@ -37,6 +37,7 @@ workflow wf_varpipe {
     String svType
     File? noneFile
     # trimmomatic
+    Boolean no_trim
     Int trimmomatic_minlen
     Int trimmomatic_window_size
     Int trimmomatic_quality_trim_score
@@ -101,6 +102,7 @@ workflow wf_varpipe {
       genome = genome,
       threads = threads,
       keep = keep,
+      no_trim = no_trim,
       docker = varpipe_docker,
       memory = varpipe_memory
     }
