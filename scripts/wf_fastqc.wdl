@@ -1,6 +1,6 @@
 version 1.0
 
-import "./task_fastqc.wdl" as task_fastqc
+import "./task_fastqc.wdl" as fastqc
 
 workflow wf_fastqc {
   input {
@@ -9,7 +9,7 @@ workflow wf_fastqc {
     Int threads = 1
   }
 
-  call task_fastqc.task_fastqc {
+  call fastqc.task_fastqc {
     input:
     forwardReads = forwardReads,
     reverseReads = reverseReads,
