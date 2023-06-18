@@ -1,6 +1,6 @@
 version 1.0
 
-import "./task_concatenate_fastq.wdl" as task_concatenate_fastq
+import "./task_concatenate_fastq.wdl" as concatenate_fastq
 
 workflow wf_concatenate_fastq {
   input {
@@ -10,7 +10,7 @@ workflow wf_concatenate_fastq {
     String outputReverse
   }
 
-  call task_concatenate_fastq.task_concatenate_fastq {
+  call concatenate_fastq.task_concatenate_fastq {
     input:
       forwardFastqFiles = forwardFastqFiles,
       reverseFastqFiles = reverseFastqFiles,
