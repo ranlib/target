@@ -2,12 +2,12 @@ version 1.0
 
 task task_bbduk {
   input {
-    File        read1_trimmed
-    File        read2_trimmed
-    String      samplename
-    String      docker="staphb/bbtools:38.76"
-    Int?        cpus = 4
-    String?     memory = "250 GB"
+    File read1_trimmed
+    File read2_trimmed
+    String samplename
+    String docker="staphb/bbtools:38.76"
+    Int cpu = 4
+    String memory = "250 GB"
   }
   
   command <<<
@@ -22,19 +22,17 @@ task task_bbduk {
   >>>
 
   output {
-    File       read1_clean = "${samplename}_1.clean.fastq.gz"
-    File       read2_clean = "${samplename}_2.clean.fastq.gz"
-    File       adapter_stats = "${samplename}.adapters.stats.txt"
-    File       phiX_stats = "${samplename}.phix.stats.txt"
-    String     bbduk_docker   = docker
-    String     pipeline_date = read_string("DATE")
+    File read1_clean = "${samplename}_1.clean.fastq.gz"
+    File read2_clean = "${samplename}_2.clean.fastq.gz"
+    File adapter_stats = "${samplename}.adapters.stats.txt"
+    File phiX_stats = "${samplename}.phix.stats.txt"
+    String bbduk_docker   = docker
+    String pipeline_date = read_string("DATE")
   }
 
   runtime {
-      docker:       "~{docker}"
-      memory:       "~{memory}"
-      cpu:          cpus
-      disks:        "local-disk 100 SSD"
-      preemptible:  0
+      docker: "~{docker}"
+      memory: "~{memory}"
+      cpu: cpu
   }
 }
