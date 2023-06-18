@@ -1,0 +1,23 @@
+{
+    "wf_tbprofiler.mapper": "bwa",
+    "wf_tbprofiler.caller": "bcftools",
+    "wf_tbprofiler.threads": 1,
+    "wf_tbprofiler.tbprofiler_docker_image": "staphb/tbprofiler:4.4.2",
+    "wf_tbprofiler.min_af": 0.01,
+    "wf_tbprofiler.min_af_pred": 0.01,
+    "wf_tbprofiler.min_depth": 5,
+    "wf_tbprofiler.cov_frac_threshold": 1,
+    "wf_tbprofiler.minNumberReads": 100000,
+    "wf_tbprofiler.trimmomatic_minlen": 15,
+    "wf_tbprofiler.trimmomatic_window_size": 4,
+    "wf_tbprofiler.trimmomatic_quality_trim_score": 30,
+    "wf_tbprofiler.run_decontamination": true,
+    "wf_tbprofiler.no_trim": true,
+    "wf_tbprofiler.run_bamQC": true,
+    "wf_tbprofiler.outputBasename": "multiple_metrics",
+    "wf_tbprofiler.samplename": "ERR552797",
+    "wf_tbprofiler.read1": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
+    "wf_tbprofiler.read2": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz",
+    "wf_tbprofiler.reference": "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.fasta"
+}
+
