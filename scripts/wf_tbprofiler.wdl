@@ -6,11 +6,13 @@ import "./task_fastqc.wdl" as fastqc
 import "./task_bbduk.wdl" as bbduk
 import "./task_trimmomatic.wdl" as trimmomatic
 import "./task_RunCollectMultipleMetrics.wdl" as bamQC
+import "./task_multiqc.wdl" as multiQC
 
 workflow wf_tbprofiler {
   input {
     File read1
     File read2
+    File reference
     String samplename
     String tbprofiler_docker_image
     String mapper
@@ -27,8 +29,8 @@ workflow wf_tbprofiler {
     Boolean no_trim
     Boolean run_decontamination
     Boolean run_bamQC
-    File reference
     String outputBasename
+    Array[File]? noneArray
   }
 
   call fastqc.task_fastqc {
@@ -42,6 +44,7 @@ workflow wf_tbprofiler {
   Boolean filter2 = task_fastqc.numberForwardReads > minNumberReads
   Boolean filter = filter1 && filter2
   if ( filter ) {
+
     call trimmomatic.task_trimmomatic {
       input:
       read1 = read1,
@@ -69,7 +72,7 @@ workflow wf_tbprofiler {
       read2 = select_first([task_bbduk.read2_clean, task_trimmomatic.read1_trimmed]),
       samplename = samplename,
       cpu = threads,
-      tbprofiler_docker_image =  tbprofiler_docker_image,
+      tbprofiler_docker_image = tbprofiler_docker_image,
       mapper = mapper,
       caller = caller,
       min_depth = min_depth,
@@ -92,6 +95,19 @@ workflow wf_tbprofiler {
 	outputBasename = outputBasename
       }
     }
+
+    Array[File] allReports = flatten([
+    select_all([task_trimmomatic.trim_log, task_fastqc.forwardData, task_fastqc.reverseData, task_bbduk.adapter_stats, task_bbduk.phiX_stats]),
+    flatten(select_all([RunCollectMultipleMetrics.collectMetricsOutput,[]]))
+    ])
+    if ( length(allReports) > 0 ) {
+      call multiQC.task_multiqc {
+	input:
+	inputFiles = allReports,
+	outputPrefix = samplename
+      }
+    }
+    
   }
   # end filter
   
@@ -117,6 +133,7 @@ workflow wf_tbprofiler {
     File? reverseData = task_fastqc.reverseData
     # output from bam QC
     Array[File]? collectMetricsOutput = RunCollectMultipleMetrics.collectMetricsOutput
-
+    # multiqc
+    File? multiqc_report = task_multiqc.report
   }
 }
