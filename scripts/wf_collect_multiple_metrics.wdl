@@ -1,6 +1,6 @@
 version 1.0
 
-import "./task_RunCollectMultipleMetrics.wdl" as RunCollectMultipleMetrics
+import "./task_RunCollectMultipleMetrics.wdl" as bamQC
 
 workflow RunCollectMultipleMetricsWorkflow {
   input {
@@ -9,7 +9,7 @@ workflow RunCollectMultipleMetricsWorkflow {
     String outputBasename
   }
 
-  call RunCollectMultipleMetrics.RunCollectMultipleMetrics {
+  call bamQC.RunCollectMultipleMetrics {
     input:
       inputBam = inputBam,
       reference = reference,
