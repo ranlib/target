@@ -1,6 +1,6 @@
 version 1.0
 
-import "./task_RunCollectMultipleMetrics.wdl" as bamQC
+import "./task_collect_multiple_metrics.wdl" as bamQC
 
 workflow RunCollectMultipleMetricsWorkflow {
   input {

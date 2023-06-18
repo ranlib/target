@@ -4,7 +4,7 @@ import "./task_varpipe.wdl" as varpipe
 import "./task_fastqc.wdl" as fastqc
 import "./task_trimmomatic.wdl" as trimmomatic
 import "./task_bbduk.wdl" as bbduk
-import "./task_RunCollectMultipleMetrics.wdl" as bamQC
+import "./task_collect_multiple_metrics.wdl" as bamQC
 import "./task_delly.wdl" as delly
 import "./task_multiqc.wdl" as multiQC
 import "./task_concatenate_fastq.wdl" as concatenate_fastq

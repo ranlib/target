@@ -5,7 +5,7 @@ import "./task_bcf2vcf.wdl" as bcf2vcf
 import "./task_fastqc.wdl" as fastqc
 import "./task_bbduk.wdl" as bbduk
 import "./task_trimmomatic.wdl" as trimmomatic
-import "./task_RunCollectMultipleMetrics.wdl" as bamQC
+import "./task_collect_multiple_metrics.wdl" as bamQC
 import "./task_multiqc.wdl" as multiQC
 import "./task_concatenate_fastq.wdl" as concatenate_fastq
 
