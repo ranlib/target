@@ -9,7 +9,7 @@ workflow wf_bbduk {
     String samplename
   }
 
-  call bbduk.bbduk {
+  call bbduk.task_bbduk {
     input:
     read1_trimmed = forwardReads,
     read2_trimmed = reverseReads,
@@ -17,11 +17,11 @@ workflow wf_bbduk {
   }
 
   output {
-    File       read1_clean = bbduk.read1_clean
-    File       read2_clean = bbduk.read1_clean
-    File       adapter_stats = bbduk.adapter_stats
-    File       phiX_stats = bbduk.phiX_stats
-    String     bbduk_docker  = bbduk.bbduk_docker
-    String     pipeline_date = bbduk.pipeline_date
+    File read1_clean = task_bbduk.read1_clean
+    File read2_clean = task_bbduk.read1_clean
+    File adapter_stats = task_bbduk.adapter_stats
+    File phiX_stats = task_bbduk.phiX_stats
+    String bbduk_docker  = task_bbduk.bbduk_docker
+    String pipeline_date = task_bbduk.pipeline_date
   }
 }
