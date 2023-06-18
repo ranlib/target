@@ -6,6 +6,7 @@ import "./task_bbduk.wdl" as bbduk
 import "./task_RunCollectMultipleMetrics.wdl" as bamQC
 import "./task_delly.wdl" as delly
 import "./task_multiqc.wdl" as multiQC
+import "./task_concatenate_fastq.wdl" as concatenate_fastq
 
 task task_varpipe {
   input {
@@ -60,8 +61,8 @@ task task_varpipe {
 
 workflow wf_varpipe {
   input {
-    File read1
-    File read2
+    Array[File]+ read1
+    Array[File]+ read2
     File reference
     File config
     String samplename
@@ -90,11 +91,22 @@ workflow wf_varpipe {
     Int trimmomatic_window_size
     Int trimmomatic_quality_trim_score
   }
-  
+
+  String outputForward = "${samplename}_1.fq.gz"
+  String outputReverse = "${samplename}_2.fq.gz"
+
+  call concatenate_fastq.task_concatenate_fastq {
+    input:
+      forwardFastqFiles = read1,
+      reverseFastqFiles = read2,
+      outputForward = outputForward,
+      outputReverse = outputReverse
+  }
+
   call fastqc.task_fastqc {
     input:
-    forwardReads = read1,
-    reverseReads = read2,
+    forwardReads = task_concatenate_fastq.concatenatedForwardFastq,
+    reverseReads = task_concatenate_fastq.concatenatedReverseFastq,
     threads = threads,
     docker = fastqc_docker
   }
@@ -106,8 +118,8 @@ workflow wf_varpipe {
     
     call trimmomatic.task_trimmomatic {
       input:
-      read1 = read1,
-      read2 = read2,
+      read1 = task_concatenate_fastq.concatenatedForwardFastq,
+      read2 = task_concatenate_fastq.concatenatedReverseFastq,
       samplename = samplename,
       cpu = threads,
       trimmomatic_minlen = trimmomatic_minlen,
@@ -130,8 +142,8 @@ workflow wf_varpipe {
     
     call task_varpipe {
       input:
-      read1 = select_first([task_bbduk.read1_clean, read1]),
-      read2 = select_first([task_bbduk.read2_clean, read1]),
+      read1 = select_first([task_bbduk.read1_clean, task_trimmomatic.read1_trimmed]),
+      read2 = select_first([task_bbduk.read2_clean, task_trimmomatic.read2_trimmed]),
       reference = reference,
       samplename = samplename,
       config = config,
@@ -201,19 +213,19 @@ workflow wf_varpipe {
     # output from bam QC
     Array[File]? collectMetricsOutput = RunCollectMultipleMetrics.collectMetricsOutput
     # output from fastqc
-    File? forwardHtml = task_fastqc.forwardHtml
-    File? reverseHtml = task_fastqc.reverseHtml
-    File? forwardZip = task_fastqc.forwardZip
-    File? reverseZip = task_fastqc.reverseZip
-    File? forwardSummary = task_fastqc.forwardSummary
-    File? reverseSummary = task_fastqc.reverseSummary
-    File? forwardData = task_fastqc.forwardData
-    File? reverseData = task_fastqc.reverseData
+    File forwardHtml = task_fastqc.forwardHtml
+    File reverseHtml = task_fastqc.reverseHtml
+    File forwardZip = task_fastqc.forwardZip
+    File reverseZip = task_fastqc.reverseZip
+    File forwardSummary = task_fastqc.forwardSummary
+    File reverseSummary = task_fastqc.reverseSummary
+    File forwardData = task_fastqc.forwardData
+    File reverseData = task_fastqc.reverseData
     # output from bbduk
-    File? adapter_stats = select_first([task_bbduk.adapter_stats, noneFile])
-    File? phiX_stats = select_first([task_bbduk.phiX_stats, noneFile])
+    File adapter_stats = select_first([task_bbduk.adapter_stats, noneFile])
+    File phiX_stats = select_first([task_bbduk.phiX_stats, noneFile])
     # output from delly
-    File? dellyVcf = select_first([task_delly.vcfFile, noneFile])
+    File dellyVcf = select_first([task_delly.vcfFile, noneFile])
     # multiqc
     File? multiqc_report = task_multiqc.report
   }
