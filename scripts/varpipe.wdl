@@ -1,9 +1,11 @@
 version 1.0
 
-import "./task_RunCollectMultipleMetrics.wdl" as bamQC
 import "./task_fastqc.wdl" as fastqc
+import "./task_trimmomatic.wdl" as trimmomatic
 import "./task_bbduk.wdl" as bbduk
+import "./task_RunCollectMultipleMetrics.wdl" as bamQC
 import "./task_delly.wdl" as delly
+import "./task_multiqc.wdl" as multiQC
 
 task task_varpipe {
   input {
@@ -65,37 +67,64 @@ workflow wf_varpipe {
     String samplename
     String outdir
     String genome
-    Int threads = 1
+    String varpipe_docker
+    String varpipe_memory
+    Boolean keep
+    Int threads
     # input for bam QC
-    Boolean run_bamQC = true
-    String outputBasename = "multiple_metrics"
+    Boolean run_bamQC
+    String outputBasename
     # fastqc
-    Int minNumberReads = 100000
-    ## bbduk
-    Boolean run_decontamination = true
+    String fastqc_docker
+    Int minNumberReads
+    # bbduk
+    Boolean run_decontamination
+    String bbduk_memory
+    String bbduk_docker
     # delly
-    Boolean run_delly = true
-    String svType = "DEL"
+    Boolean run_delly
+    String svType
     File? noneFile
+    # trimmomatic
+    Int trimmomatic_minlen
+    Int trimmomatic_window_size
+    Int trimmomatic_quality_trim_score
   }
   
   call fastqc.task_fastqc {
     input:
     forwardReads = read1,
     reverseReads = read2,
-    threads = threads
+    threads = threads,
+    docker = fastqc_docker
   }
 
   Boolean filter1 = task_fastqc.numberForwardReads == task_fastqc.numberReverseReads
   Boolean filter2 = task_fastqc.numberForwardReads > minNumberReads
   Boolean filter = filter1 && filter2
   if ( filter ) {
+    
+    call trimmomatic.task_trimmomatic {
+      input:
+      read1 = read1,
+      read2 = read2,
+      samplename = samplename,
+      cpu = threads,
+      trimmomatic_minlen = trimmomatic_minlen,
+      trimmomatic_window_size = trimmomatic_window_size,
+      trimmomatic_quality_trim_score = trimmomatic_quality_trim_score
+    }
+
+
     if ( run_decontamination ) {
       call bbduk.task_bbduk {
 	input:
-	read1_trimmed = read1,
-	read2_trimmed = read2,
-	samplename = samplename
+	read1_trimmed = task_trimmomatic.read1_trimmed,
+	read2_trimmed = task_trimmomatic.read2_trimmed,
+	samplename = samplename,
+	cpu = threads,
+	docker = bbduk_docker,
+	memory = bbduk_memory
       }
     }
     
@@ -108,7 +137,10 @@ workflow wf_varpipe {
       config = config,
       outdir = outdir,
       genome = genome,
-      threads = threads
+      threads = threads,
+      keep = keep,
+      docker = varpipe_docker,
+      memory = varpipe_memory
     }
 
     if ( run_delly ) {
@@ -127,6 +159,18 @@ workflow wf_varpipe {
 	inputBam = task_varpipe.bam,
 	reference = reference,
 	outputBasename = outputBasename
+      }
+    }
+
+    Array[File] allReports = flatten([
+    select_all([task_trimmomatic.trim_log, task_fastqc.forwardData, task_fastqc.reverseData, task_bbduk.adapter_stats, task_bbduk.phiX_stats]),
+    flatten(select_all([RunCollectMultipleMetrics.collectMetricsOutput,[]]))
+    ])
+    if ( length(allReports) > 0 ) {
+      call multiQC.task_multiqc {
+	input:
+	inputFiles = allReports,
+	outputPrefix = samplename
       }
     }
   }
@@ -170,5 +214,7 @@ workflow wf_varpipe {
     File? phiX_stats = select_first([task_bbduk.phiX_stats, noneFile])
     # output from delly
     File? dellyVcf = select_first([task_delly.vcfFile, noneFile])
+    # multiqc
+    File? multiqc_report = task_multiqc.report
   }
 }
