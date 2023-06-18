@@ -5,9 +5,9 @@ task task_bbduk {
     File read1_trimmed
     File read2_trimmed
     String samplename
-    String docker="staphb/bbtools:38.76"
-    Int cpu = 4
+    String docker = "staphb/bbtools:38.76"
     String memory = "250 GB"
+    Int cpu = 4
   }
   
   command <<<
