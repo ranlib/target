@@ -16,8 +16,8 @@
     "wf_tbprofiler.run_bamQC": true,
     "wf_tbprofiler.outputBasename": "multiple_metrics",
     "wf_tbprofiler.samplename": "ERR552797",
-    "wf_tbprofiler.read1": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
-    "wf_tbprofiler.read2": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz",
+    "wf_tbprofiler.read1": ["/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz"],
+    "wf_tbprofiler.read2": ["/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz"],
     "wf_tbprofiler.reference": "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.fasta"
 }
 

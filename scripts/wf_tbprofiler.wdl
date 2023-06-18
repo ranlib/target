@@ -7,11 +7,12 @@ import "./task_bbduk.wdl" as bbduk
 import "./task_trimmomatic.wdl" as trimmomatic
 import "./task_RunCollectMultipleMetrics.wdl" as bamQC
 import "./task_multiqc.wdl" as multiQC
+import "./task_concatenate_fastq.wdl" as concatenate_fastq
 
 workflow wf_tbprofiler {
   input {
-    File read1
-    File read2
+    Array[File]+ read1
+    Array[File]+ read2
     File reference
     String samplename
     String tbprofiler_docker_image
@@ -30,13 +31,23 @@ workflow wf_tbprofiler {
     Boolean run_decontamination
     Boolean run_bamQC
     String outputBasename
-    Array[File]? noneArray
+  }
+
+  String outputForward = "${samplename}_1.fq.gz"
+  String outputReverse = "${samplename}_2.fq.gz"
+
+  call concatenate_fastq.task_concatenate_fastq {
+    input:
+      forwardFastqFiles = read1,
+      reverseFastqFiles = read2,
+      outputForward = outputForward,
+      outputReverse = outputReverse
   }
 
   call fastqc.task_fastqc {
     input:
-    forwardReads = read1,
-    reverseReads = read2,
+    forwardReads = task_concatenate_fastq.concatenatedForwardFastq,
+    reverseReads = task_concatenate_fastq.concatenatedReverseFastq,
     threads = threads
   }
 
@@ -47,8 +58,8 @@ workflow wf_tbprofiler {
 
     call trimmomatic.task_trimmomatic {
       input:
-      read1 = read1,
-      read2 = read2,
+      read1 = task_concatenate_fastq.concatenatedForwardFastq,
+      read2 = task_concatenate_fastq.concatenatedReverseFastq,
       samplename = samplename,
       cpu = threads,
       trimmomatic_minlen = trimmomatic_minlen,
@@ -123,14 +134,14 @@ workflow wf_tbprofiler {
     File? phiX_stats = task_bbduk.phiX_stats
     File? adapter_stats = task_bbduk.adapter_stats
     # output from fastqc
-    File? forwardHtml = task_fastqc.forwardHtml
-    File? reverseHtml = task_fastqc.reverseHtml
-    File? forwardZip = task_fastqc.forwardZip
-    File? reverseZip = task_fastqc.reverseZip
-    File? forwardSummary = task_fastqc.forwardSummary
-    File? reverseSummary = task_fastqc.reverseSummary
-    File? forwardData = task_fastqc.forwardData
-    File? reverseData = task_fastqc.reverseData
+    File forwardHtml = task_fastqc.forwardHtml
+    File reverseHtml = task_fastqc.reverseHtml
+    File forwardZip = task_fastqc.forwardZip
+    File reverseZip = task_fastqc.reverseZip
+    File forwardSummary = task_fastqc.forwardSummary
+    File reverseSummary = task_fastqc.reverseSummary
+    File forwardData = task_fastqc.forwardData
+    File reverseData = task_fastqc.reverseData
     # output from bam QC
     Array[File]? collectMetricsOutput = RunCollectMultipleMetrics.collectMetricsOutput
     # multiqc
