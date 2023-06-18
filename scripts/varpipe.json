@@ -1,6 +1,6 @@
 {
-    "wf_varpipe.read1": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
-    "wf_varpipe.read2": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz",
+    "wf_varpipe.read1": ["/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz"],
+    "wf_varpipe.read2": ["/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz"],
     "wf_varpipe.reference": "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.fasta",
     "wf_varpipe.config": "/home/dieterbest/Analysis/varpipe4/configuration/snp_docker.config",
     "wf_varpipe.genome": "NC_000962.3",
