@@ -10,16 +10,24 @@ MODE=$1
 #
 # run varpipe
 #
+SAMPL=ERR552797
+
 FASTQ=$HOME/Analysis/varpipe4/data
 R1=$FASTQ/ERR552797_30percent_1.fq.gz
 R2=$FASTQ/ERR552797_30percent_2.fq.gz
-SAMPL=ERR552797
 NAME="NC_000962.3"
 REF="../references/NC_000962.3/NC_000962.3.fasta"
 CONFIG="../configuration/snp.config"
 
 if [ "$MODE" = "conda" ] ; then
-    ../tools/Varpipeline.py -q $R1 -q2 $R2 -r $REF -g $NAME -n $SAMPL -o $SAMPL -a -v -t 4 -k -c $CONFIG
+    ../tools/Varpipeline.py --fastq $R1 --fastq2 $R2 \
+			    --reference $REF \
+			    --genome $NAME \
+			    --name $SAMPL \
+			    --outdir $SAMPL \
+			    --config $CONFIG \
+			    --annotation \
+			    --verbose --threads 4 --keepfiles --no_trim
 fi
 
 #
@@ -42,7 +50,15 @@ DATA=$HOME/Analysis/varpipe4/data
 WRK=/mnt/data
 
 if [ "$MODE" = "docker" ] ; then
-    docker run --rm -v $FASTQ:$FSQ -v $REFERENCE:$REF -v $CONFIG:$CFG -v $DATA:$WRK -w $WRK dbest/varpipe4:latest Varpipeline.py -q $R1 -q2 $R2 -r $FASTA -g $NAME -n $SAMPL -o $SAMPL -v -a -t 8 -k -c $CONF
+    docker run --rm -u 1000:1000 -v $FASTQ:$FSQ -v $REFERENCE:$REF -v $CONFIG:$CFG -v $DATA:$WRK -w $WRK dbest/varpipe4:latest Varpipeline.py \
+	   --fastq $R1 --fastq2 $R2 \
+	   --reference $FASTA \
+	   --genome $NAME \
+	   --name $SAMPL \
+	   --outdir $SAMPL \
+	   --config $CONF \
+	   --verbose --annotation --threads 4 --keepfiles --no_trim
+    
     #docker run --rm -v $FASTQ:$FSQ -v $REFERENCE:$REF -v $CONFIG:$CFG -v $DATA:$WRK -w $WRK -it dbest/varpipe4:latest
 fi
 
