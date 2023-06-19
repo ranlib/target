@@ -11,6 +11,7 @@ task task_varpipe {
     String genome
     Boolean keep = true
     Boolean no_trim = true
+    Boolean verbose = true
     Int threads = 1
     String memory = "32 GB"
     String docker = "dbest/varpipe4:latest"
@@ -18,17 +19,17 @@ task task_varpipe {
   
   command {
     date | tee DATE
-    Varpipeline.py -q ~{read1} -q2 ~{read2} \
-    -r ~{reference} \
-    -g ~{genome} \
-    -n ~{samplename} \
-    -t ~{threads} \
-    -o ~{outdir} \
-    -v \
-    -a \
-    ~{true="-k" false="" keep} \
-    ~{true="--no_trim" false="" no_trim} \
-    -c ~{config}
+    Varpipeline.py --fastq ~{read1} --fastq2 ~{read2} \
+    --reference ~{reference} \
+    --genome ~{genome} \
+    --name ~{samplename} \
+    --threads ~{threads} \
+    --outdir ~{outdir} \
+    --configuration ~{config} \
+    --annotation \
+    ~{true="--verbose" false="" verbose} \
+    ~{true="--keepfiles" false="" keep} \
+    ~{true="--no_trim" false="" no_trim}
   }
   
   output {
@@ -43,13 +44,16 @@ task task_varpipe {
     File lineage_report = "~{outdir}/~{samplename}.lineage_report.txt"
     File Lineage = "~{outdir}/~{samplename}_Lineage.txt"
     File log = "~{outdir}/~{samplename}.log"
-    File bai = "~{outdir}/~{samplename}_sdrcsm.bai"
-    File bam = "~{outdir}/~{samplename}_sdrcsm.bam"
+    #File bai = "~{outdir}/~{samplename}_sdrcsm.bai"
+    #File bam = "~{outdir}/~{samplename}_sdrcsm.bam"
+    File bai = "~{outdir}/~{samplename}_s.bai"
+    File bam = "~{outdir}/~{samplename}_s.bam"
     File stats = "~{outdir}/~{samplename}_stats.txt"
     File structural_variants = "~{outdir}/~{samplename}_structural_variants.txt"
     File summary = "~{outdir}/~{samplename}_summary.txt"
     File target_region_coverage = "~{outdir}/~{samplename}_target_region_coverage.txt"
-    File trim_log = "~{outdir}/trimLog.txt"
+    File? trim_log = "~{outdir}/trimLog.txt"
+    File snpEff_summary = "~{outdir}/~{samplename}_snpEff_summary.csv"
     File mark_duplicates_metrics = "~{outdir}/MarkDupes.metrics"
     File qc_log = "~{outdir}/QC/QC.log"
     String pipeline_date = read_string("DATE")
