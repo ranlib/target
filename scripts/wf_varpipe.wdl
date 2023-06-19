@@ -21,6 +21,7 @@ workflow wf_varpipe {
     String varpipe_docker
     String varpipe_memory
     Boolean keep
+    Boolean verbose
     Int threads
     # input for bam QC
     Boolean run_bamQC
@@ -103,6 +104,7 @@ workflow wf_varpipe {
       threads = threads,
       keep = keep,
       no_trim = no_trim,
+      verbose = verbose,
       docker = varpipe_docker,
       memory = varpipe_memory
     }
@@ -127,7 +129,7 @@ workflow wf_varpipe {
     }
 
     Array[File] allReports = flatten([
-    select_all([task_trimmomatic.trim_log, task_fastqc.forwardData, task_fastqc.reverseData, task_bbduk.adapter_stats, task_bbduk.phiX_stats]),
+    select_all([task_trimmomatic.trim_err, task_fastqc.forwardData, task_fastqc.reverseData, task_bbduk.adapter_stats, task_bbduk.phiX_stats, task_varpipe.snpEff_summary]),
     flatten(select_all([RunCollectMultipleMetrics.collectMetricsOutput,[]]))
     ])
     if ( length(allReports) > 0 ) {
@@ -158,8 +160,11 @@ workflow wf_varpipe {
     File? structural_variants  = task_varpipe.structural_variants 
     File? summary  = task_varpipe.summary 
     File? target_region_coverage  = task_varpipe.target_region_coverage
-    File? trim_log = task_varpipe.trim_log
+    #File? trim_log = task_trimmomatic.trim_log
+    File? trim_err = task_trimmomatic.trim_err
+    File? trim_stats = task_trimmomatic.trim_stats
     File? mark_duplicates_metrics = task_varpipe.mark_duplicates_metrics
+    File? snpEff_summary = task_varpipe.snpEff_summary
     File? qc_log = task_varpipe.qc_log
     String? pipeline_date = task_varpipe.pipeline_date
     # output from bam QC
