@@ -49,7 +49,9 @@ class Snp:
         self.__full_annotation = os.path.join(self.fOut, self.name + "_full_raw_annotation.vcf")
         self.__full_final_annotation = os.path.join(self.fOut, self.name + "_full_Final_annotation.txt")
         self.__finalBam = os.path.join(self.fOut, self.name + "_sdrcsm.bam")
-              
+
+        self.__snpeff_stats = os.path.join(self.fOut, self.name + "_snpEff_summary.csv")
+
         self.__qlog = os.path.join(self.qlog, "QC.log")
         self.__log = os.path.join(self.fOut, self.name + ".log")
         self.__logFH = open(self.__log, "w")
@@ -178,7 +180,8 @@ class Snp:
         self.__logFH.write("########## Filtering alignment with GATK and Picard-Tools. ##########\n")
 
         bam_file = os.path.join(self.GATKdir, self.name + ".bam")
-        bam_file_sorted = os.path.join(self.GATKdir, self.name + "_s.bam")
+        #bam_file_sorted = os.path.join(self.GATKdir, self.name + "_s.bam")
+        bam_file_sorted = os.path.join(self.fOut, self.name + "_s.bam")
 
         # Convert SAM to BAM
         if self.__ranBWA:
@@ -193,9 +196,14 @@ class Snp:
 
         # Run mapping Report and Mark duplicates using Picard-Tools
         self.__ifVerbose("   Running SortSam.")
-        self.__CallCommand("SortSam", ["gatk", "SortSam", "-INPUT", bam_file, "-SORT_ORDER", "coordinate", "-OUTPUT", bam_file_sorted, "-VALIDATION_STRINGENCY", "LENIENT", "-TMP_DIR", self.tmp])
+        command = f"gatk SortSam -INPUT {bam_file} -SORT_ORDER coordinate -OUTPUT {bam_file_sorted} -VALIDATION_STRINGENCY LENIENT -CREATE_INDEX true"
+        self.__CallCommand("SortSam", command.split())
+        
         self.__ifVerbose("   Running MarkDuplicates.")
-        self.__CallCommand("MarkDuplicates", ["gatk", "MarkDuplicates", "-INPUT", bam_file_sorted, "-OUTPUT", self.GATKdir + "/GATK_sdr.bam", "-METRICS_FILE", self.fOut + "/MarkDupes.metrics", "-ASSUME_SORTED", "true", "-REMOVE_DUPLICATES", "false", "-VALIDATION_STRINGENCY", "LENIENT"])
+        bam_deduplicated = self.GATKdir + '/GATK_sdr.bam'
+        deduplication_metrics = self.fOut + '/MarkDupes.metrics'
+        command = f"gatk MarkDuplicates -INPUT {bam_file_sorted} -OUTPUT {bam_deduplicated} -METRICS_FILE {deduplication_metrics} -ASSUME_SORTED true -REMOVE_DUPLICATES false -VALIDATION_STRINGENCY LENIENT"
+        self.__CallCommand("MarkDuplicates", command.split())
 
         self.__ifVerbose("   Running BuildBamIndex.")
         self.__CallCommand("BuildBamIndex", ["gatk", "BuildBamIndex", "-INPUT", self.GATKdir + "/GATK_sdr.bam", "-VALIDATION_STRINGENCY", "LENIENT"])
@@ -305,7 +313,9 @@ class Snp:
         """Annotate the final VCF file"""
         if self.__finalVCF:
             self.__ifVerbose("Annotating final VCF.")
-            self.__CallCommand(["SnpEff", self.__annotation], ["snpEff", "-nodownload", "-noLog", "-noStats", "-c", self.__snpeff_database, self.reference_name, self.__finalVCF])
+            #self.__CallCommand(["SnpEff", self.__annotation], ["snpEff", "-nodownload", "-noLog", "-noStats", "-c", self.__snpeff_database, self.reference_name, self.__finalVCF])
+            command = f"snpEff -nodownload -noLog -csvStats {self.__snpeff_stats} -config {self.__snpeff_database} {self.reference_name} {self.__finalVCF}"
+            self.__CallCommand(["SnpEff", self.__annotation], command.split())
 
             self.__ifVerbose("Parsing final Annotation.")
             # translate vcf -> tsv file
@@ -315,7 +325,9 @@ class Snp:
 
         if self.__fullVCF:
             self.__ifVerbose("Annotating full VCF.")
-            self.__CallCommand(["SnpEff", self.__full_annotation], ["snpEff", "-nodownload", "-noLog", "-noStats", "-c", self.__snpeff_database, self.reference_name, self.__fullVCF])
+            #self.__CallCommand(["SnpEff", self.__full_annotation], ["snpEff", "-nodownload", "-noLog", "-noStats", "-c", self.__snpeff_database, self.reference_name, self.__fullVCF])
+            command = f"snpEff -nodownload -noLog -csvStats {self.__snpeff_stats} -config {self.__snpeff_database} {self.reference_name} {self.__fullVCF}"
+            self.__CallCommand(["SnpEff", self.__full_annotation], command.split())
 
             self.__ifVerbose("Parsing full Annotation.")
             self.__CallCommand(["create annotation", self.fOut + "/" + self.name + "_full_annotation.txt"], [self.__creater, self.__full_annotation, self.name])
