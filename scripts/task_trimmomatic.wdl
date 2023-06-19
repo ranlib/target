@@ -15,7 +15,9 @@ task task_trimmomatic {
 
   command <<<
     date | tee DATE
+
     trimmomatic -version > VERSION
+
     trimmomatic PE \
     -threads ~{cpu} \
     ~{read1} ~{read2} \
@@ -24,14 +26,17 @@ task task_trimmomatic {
     -summary ~{samplename}.trim.stats.txt \
     LEADING:3 TRAILING:3 \
     SLIDINGWINDOW:~{trimmomatic_window_size}:~{trimmomatic_quality_trim_score} \
-    MINLEN:~{trimmomatic_minlen} 
+    MINLEN:~{trimmomatic_minlen} 2> ~{samplename}.trim.err
+
+    gzip ~{samplename}.trim.log
   >>>
 
   output {
     File read1_trimmed = "${samplename}_1P.fastq.gz"
     File read2_trimmed = "${samplename}_2P.fastq.gz"
     File trim_stats = "${samplename}.trim.stats.txt"
-    File trim_log = "${samplename}.trim.log"
+    File trim_log = "${samplename}.trim.log.gz"
+    File trim_err = "${samplename}.trim.err"
     String version = read_string("VERSION")
     String pipeline_date = read_string("DATE")
   }

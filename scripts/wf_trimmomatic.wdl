@@ -23,6 +23,7 @@ workflow wf_trimmomatic {
     Array[File] read2_trimmed_files = task_trimmomatic.read2_trimmed
     Array[File] stats_files = task_trimmomatic.trim_stats
     Array[File] log_files = task_trimmomatic.trim_log
+    Array[File] err_files = task_trimmomatic.trim_err
     Array[String] versions = task_trimmomatic.version
     Array[String] pipeline_dates = task_trimmomatic.pipeline_date
   }
