@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 """
 determine variants
 """
@@ -21,7 +21,8 @@ class Snp:
         self.verbose = verbose
         self.reference = reference
         self.reference_name = reference_name
-
+        self.reference_dict = ""
+        
         # Create the output directory, and start the log file.
         self.__logged = False
         self.__CallCommand("mkdir", ["mkdir", "-p", self.fOut])
@@ -136,34 +137,33 @@ class Snp:
             self.__CallCommand("trimmomatic", command.split())
             self.read1 = trimmed
 
-    def runBWA(self, bwa):
+    def runBWA(self):
         """Align reads against the reference using bwa."""
         self.__ranBWA = True
         self.__ifVerbose("Running BWA.")
         self.__logFH.write("########## Running BWA. ##########\n")
-        #bwaOut = os.path.join(self.outdir, "bwa")
-        #bwaOut = os.path.join(self.fOut, "bwa")
-        #self.__CallCommand("mkdir", ["mkdir", "-p", bwaOut])
         self.__ifVerbose("   Building BWA index.")
-        self.__bwaIndex(self.bwaOut + "/index")
-        self.__alnSam = self.bwaOut + "/bwa.sam"
-        self.__bwaLongReads(self.bwaOut)
+        self.__bwaIndex()
+        self.__bwaLongReads()
         self.__ifVerbose("   Process Alignments")
         self.__processAlignment()
 
-    def __bwaIndex(self, out):
+    def __bwaIndex(self):
         """Make an index of the given reference genome."""
-        self.__CallCommand("mkdir", ["mkdir", "-p", out])
-        self.__CallCommand("cp", ["cp", self.reference, out + "/ref.fa"])
-        self.reference = out + "/ref.fa"
+        self.__CallCommand("mkdir", ["mkdir", "-p", self.bwaOut + "/index"])
+        self.__CallCommand("cp", ["cp", self.reference, self.bwaOut +  "/index/ref.fa"])
+        self.reference = self.bwaOut + "/index/ref.fa"
         self.__CallCommand("bwa index", ["bwa", "index", self.reference])
-        if os.path.exists(out + "/ref.dict"):
-            os.remove(out + "/ref.dict")
-        self.__CallCommand("CreateSequenceDictionary", ["gatk", "CreateSequenceDictionary", "-R", self.reference, "-O", out + "/ref.dict"])
+        self.reference_dict = self.bwaOut + "/index/ref.dict"
+        if os.path.exists(self.reference_dict):
+            os.remove(self.reference_dict)
+        command = f"gatk CreateSequenceDictionary -R {self.reference} -O {self.reference_dict}"
+        self.__CallCommand("CreateSequenceDictionary", command.split())
         self.__CallCommand("samtools faidx", ["samtools", "faidx", self.reference])
 
-    def __bwaLongReads(self, out):
+    def __bwaLongReads(self):
         """Make use of bwa mem"""
+        self.__alnSam = self.bwaOut + "/bwa.sam"
         read_group = "@RG\\tID:" + self.name + "\\tSM:" + self.name + "\\tPL:ILLUMINA"
         if self.paired:
             self.__ifVerbose("   Running BWA mem on paired end reads.")
@@ -283,23 +283,6 @@ class Snp:
         if os.path.isfile(self.__finalBam):
             self.__ifVerbose("Calling SNPs/InDels with GATK.")
             self.__logFH.write("########## Calling SNPs/InDels with Mutect2. ##########\n")
-            #GATKdir = os.path.join(self.outdir, "GATK")
-            #samDir = os.path.join(self.outdir, "SamTools")
-
-            #GATKdir = os.path.join(self.fOut, "GATK")
-            #samDir = os.path.join(self.fOut, "SamTools")
-
-
-            # Call SNPs/InDels with Mutect2
-            #self.__ifVerbose("   Running Mutect2.")
-
-            # gatk mutect for target regions
-            # could get rid of this, just run on entire genomes, then intersect vcf with bedfile
-            #mutect_vcf_final = os.join.path(self.GATKdir, 'mutect.vcf')
-            #mutect_vcf_final_aligned = os.join.path(self.GATKdir, 'gatk_mutect.vcf')
-            #mutect2_final = f"gatk Mutect2 -R {self.reference} -I {self.__finalBam} -O {mutect_vcf_final} --max-mnp-distance 2 -L {self.__included}"
-            #align_variants_final = f"gatk LeftAlignAndTrimVariants -R {self.reference} -V {mutect_vcf_final} -O {mutect_vcf_final_aligned} --split-multi-allelics"
-            #filter_final = f"gatk FilterMutectCalls -R {self.reference} -V {mutect_vcf_final_aligned} --min-reads-per-strand 1 --min-median-read-position 10 --min-allele-fraction 0.01 --microbial-mode true -O {self.__finalVCF}"
 
             # gatk mutect for entire genome
             #mutect_vcf_full = os.join.path(self.GATKdir, 'full_mutect.vcf')
@@ -307,8 +290,21 @@ class Snp:
             #mutect2_full = f"gatk Mutect2 -R {self.reference} -I {self.__finalBam} -O {mutect_vcf_full} --max-mnp-distance 2"
             #align_variants_full = f"gatk LeftAlignAndTrimVariants -R {self.reference} -V {mutect_vcf_full} -O {mutext_vcf_full_aligned} --split-multi-allelics"
             #filter_full = f"gatk FilterMutectCalls -R {self.reference} -V {mutect_vcf_full_aligned} --min-reads-per-strand 1 --min-median-read-position 10 --min-allele-fraction 0.01 --microbial-mode true -O {self.__fullVCF}"
+
+            # gatk mutect for target regions
+            # could get rid of this, just run on entire genomes, then intersect vcf with bedfile
+            target_intervals =  os.path.join(self.GATKdir, 'target.intervals')
+            command=f"gatk BedToIntervalList -I {self.__bedlist_amp} -O {target_intervals} -SD {self.reference_dict}"
+            self.__CallCommand("BedToIntervalsList", command.split())
             
-            self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/mutect.vcf", "--max-mnp-distance", "2", "-L", self.__included])
+            #mutect_vcf_final = os.join.path(self.GATKdir, 'mutect.vcf')
+            #mutect_vcf_final_aligned = os.join.path(self.GATKdir, 'gatk_mutect.vcf')
+            #mutect2_final = f"gatk Mutect2 -R {self.reference} -I {self.__finalBam} -O {mutect_vcf_final} --max-mnp-distance 2 -L {self.__included}"
+            #align_variants_final = f"gatk LeftAlignAndTrimVariants -R {self.reference} -V {mutect_vcf_final} -O {mutect_vcf_final_aligned} --split-multi-allelics"
+            #filter_final = f"gatk FilterMutectCalls -R {self.reference} -V {mutect_vcf_final_aligned} --min-reads-per-strand 1 --min-median-read-position 10 --min-allele-fraction 0.01 --microbial-mode true -O {self.__finalVCF}"
+            
+            #self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/mutect.vcf", "--max-mnp-distance", "2", "-L", self.__included])
+            self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/mutect.vcf", "--max-mnp-distance", "2", "-L", target_intervals])
 
             self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/full_mutect.vcf", "--max-mnp-distance", "2"])
 
