@@ -23,14 +23,6 @@ if __name__ == "__main__":
     group2.add_argument("-o", "--outdir", required=True, type=str, help="Output directory")
     group2.add_argument("-k", "--keepfiles", action="store_true", help="Keep intermediate files")
 
-    group3 = parser.add_argument_group("Aligners", "Select a specific aligner.")
-    group3.add_argument("--bwa", action="store_true", help="Align Illumina reads using bwa. (Default)")
-
-    group4 = parser.add_argument_group("Callers", "Choose program(s) to call SNPs/InDels with")
-    group4.add_argument("--all", action="store_true", help="Run all SNP / InDel calling programs")
-    group4.add_argument("--gatk", action="store_true", help="Run GATK SNP / InDel calling. (Default)")
-    group4.add_argument("--samtools", action="store_true", help="Run SamTools SNP / InDel calling")
-
     group5 = parser.add_argument_group("Annotation", "Use snpEff to annotate VCF file")
     group5.add_argument("-a", "--annotation", action="store_true", help="Run snpEff functional annotation")
 
@@ -87,27 +79,6 @@ if __name__ == "__main__":
             print(f"<E> input file {v} does not exist. Exiting.")
             sys.exit(2)
 
-    # Choose an aligner
-    aligners = 0
-    if args.bwa:
-        aligners += 1
-
-    if not aligners:
-        args.bwa = True
-
-    # Choose a Caller
-    if args.all:
-        args.gatk = True
-        args.samtools = True
-    else:
-        callers = 0
-        if args.gatk:
-            callers += 1
-        if args.samtools:
-            callers += 1
-        if not callers:
-            args.gatk = True
-
     if args.verbose:
         print(" ".join(sys.argv))
         print("")
@@ -120,18 +91,14 @@ if __name__ == "__main__":
         s.runTrimmomatic()
 
     # Run the aligner
-    s.runBWA(args.bwa)
+    s.runBWA()
 
     # Perform Coverage statistics Analysis
     s.runCoverage()
 
     # If asked, run SNP callers
-    if args.gatk:
-        s.runGATK()
-
-    # class snp.Snp does not have a method runSamtools
-    #if args.samtools:
-    #    s.runSamTools()
+    #if args.gatk:
+    s.runGATK()
 
     # Annotate Final VCF
     s.annotateVCF()
