@@ -291,7 +291,23 @@ class Snp:
 
 
             # Call SNPs/InDels with Mutect2
-            self.__ifVerbose("   Running Mutect2.")
+            #self.__ifVerbose("   Running Mutect2.")
+
+            # gatk mutect for target regions
+            # could get rid of this, just run on entire genomes, then intersect vcf with bedfile
+            #mutect_vcf_final = os.join.path(self.GATKdir, 'mutect.vcf')
+            #mutect_vcf_final_aligned = os.join.path(self.GATKdir, 'gatk_mutect.vcf')
+            #mutect2_final = f"gatk Mutect2 -R {self.reference} -I {self.__finalBam} -O {mutect_vcf_final} --max-mnp-distance 2 -L {self.__included}"
+            #align_variants_final = f"gatk LeftAlignAndTrimVariants -R {self.reference} -V {mutect_vcf_final} -O {mutect_vcf_final_aligned} --split-multi-allelics"
+            #filter_final = f"gatk FilterMutectCalls -R {self.reference} -V {mutect_vcf_final_aligned} --min-reads-per-strand 1 --min-median-read-position 10 --min-allele-fraction 0.01 --microbial-mode true -O {self.__finalVCF}"
+
+            # gatk mutect for entire genome
+            #mutect_vcf_full = os.join.path(self.GATKdir, 'full_mutect.vcf')
+            #mutect_vcf_full_aligned = os.join.path(self.GATKdir, "full_gatk_mutect.vcf")
+            #mutect2_full = f"gatk Mutect2 -R {self.reference} -I {self.__finalBam} -O {mutect_vcf_full} --max-mnp-distance 2"
+            #align_variants_full = f"gatk LeftAlignAndTrimVariants -R {self.reference} -V {mutect_vcf_full} -O {mutext_vcf_full_aligned} --split-multi-allelics"
+            #filter_full = f"gatk FilterMutectCalls -R {self.reference} -V {mutect_vcf_full_aligned} --min-reads-per-strand 1 --min-median-read-position 10 --min-allele-fraction 0.01 --microbial-mode true -O {self.__fullVCF}"
+            
             self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/mutect.vcf", "--max-mnp-distance", "2", "-L", self.__included])
 
             self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/full_mutect.vcf", "--max-mnp-distance", "2"])
@@ -310,7 +326,10 @@ class Snp:
             print("<E> no bam file found")
 
     def annotateVCF(self):
-        """Annotate the final VCF file"""
+        """
+        Annotate the final VCF file
+        Here too: just run on full vcfl file, then intersect with target bed file 
+        """
         if self.__finalVCF:
             self.__ifVerbose("Annotating final VCF.")
             #self.__CallCommand(["SnpEff", self.__annotation], ["snpEff", "-nodownload", "-noLog", "-noStats", "-c", self.__snpeff_database, self.reference_name, self.__finalVCF])
@@ -376,7 +395,13 @@ class Snp:
         #         self.__CallCommand("mv", ["mv", self.fOut, self.qlog])
 
     def removeFiles(self):
-        """Clean up the temporary files, and move them to a proper folder."""
+        """
+        Clean up the temporary files
+        """
+        # shutil.rmtree(self.trimmomatic)
+        # shutil.rmtree(self.bwaOut)
+        # shutil.rmtree(self.samDir)
+        # shutil.rmtree(self.GATKdir)
         self.__CallCommand("rm", ["rm", "-r", self.trimmomatic])
         self.__CallCommand("rm", ["rm", "-r", self.bwaOut])
         self.__CallCommand("rm", ["rm", "-r", self.samDir])
