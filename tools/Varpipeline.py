@@ -129,8 +129,9 @@ if __name__ == "__main__":
     if args.gatk:
         s.runGATK()
 
-    if args.samtools:
-        s.runSamTools()
+    # class snp.Snp does not have a method runSamtools
+    #if args.samtools:
+    #    s.runSamTools()
 
     # Annotate Final VCF
     s.annotateVCF()
