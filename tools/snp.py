@@ -293,29 +293,26 @@ class Snp:
 
             # gatk mutect for target regions
             # could get rid of this, just run on entire genomes, then intersect vcf with bedfile
-            target_intervals =  os.path.join(self.GATKdir, 'target.intervals')
-            command=f"gatk BedToIntervalList -I {self.__bedlist_amp} -O {target_intervals} -SD {self.reference_dict}"
-            self.__CallCommand("BedToIntervalsList", command.split())
+            #target_intervals =  os.path.join(self.GATKdir, 'target.intervals')
+            #command=f"gatk BedToIntervalList -I {self.__bedlist_amp} -O {target_intervals} -SD {self.reference_dict}"
+            #self.__CallCommand("BedToIntervalsList", command.split())
             
             #mutect_vcf_final = os.join.path(self.GATKdir, 'mutect.vcf')
             #mutect_vcf_final_aligned = os.join.path(self.GATKdir, 'gatk_mutect.vcf')
             #mutect2_final = f"gatk Mutect2 -R {self.reference} -I {self.__finalBam} -O {mutect_vcf_final} --max-mnp-distance 2 -L {self.__included}"
             #align_variants_final = f"gatk LeftAlignAndTrimVariants -R {self.reference} -V {mutect_vcf_final} -O {mutect_vcf_final_aligned} --split-multi-allelics"
             #filter_final = f"gatk FilterMutectCalls -R {self.reference} -V {mutect_vcf_final_aligned} --min-reads-per-strand 1 --min-median-read-position 10 --min-allele-fraction 0.01 --microbial-mode true -O {self.__finalVCF}"
-            
-            #self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/mutect.vcf", "--max-mnp-distance", "2", "-L", self.__included])
-            self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/mutect.vcf", "--max-mnp-distance", "2", "-L", target_intervals])
-
-            self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/full_mutect.vcf", "--max-mnp-distance", "2"])
-
+            # GATK for target regions
+            self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/mutect.vcf", "--max-mnp-distance", "2", "-L", self.__included])
+            #self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/mutect.vcf", "--max-mnp-distance", "2", "-L", target_intervals])
             self.__CallCommand("LeftAlignAndTrimVariants", ["gatk", "LeftAlignAndTrimVariants", "-R", self.reference, "-V", self.GATKdir + "/mutect.vcf", "-O", self.GATKdir + "/gatk_mutect.vcf", "--split-multi-allelics"])
             self.__CallCommand("mv", ["mv", self.GATKdir + "/gatk_mutect.vcf", self.GATKdir + "/mutect.vcf"])
-
-            self.__CallCommand("LeftAlignAndTrimVariants", ["gatk", "LeftAlignAndTrimVariants", "-R", self.reference, "-V", self.GATKdir + "/full_mutect.vcf", "-O", self.GATKdir + "/full_gatk_mutect.vcf", "--split-multi-allelics"])
-            self.__CallCommand("mv", ["mv", self.GATKdir + "/full_gatk_mutect.vcf", self.GATKdir + "/full_mutect.vcf"])
-
             self.__CallCommand("FilterMutectCalls", ["gatk", "FilterMutectCalls", "-R", self.reference, "-V", self.GATKdir + "/mutect.vcf", "--min-reads-per-strand", "1", "--min-median-read-position", "10", "--min-allele-fraction", "0.01", "--microbial-mode", "true", "-O", self.__finalVCF])
 
+            # GATK for entire genome
+            self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/full_mutect.vcf", "--max-mnp-distance", "2"])
+            self.__CallCommand("LeftAlignAndTrimVariants", ["gatk", "LeftAlignAndTrimVariants", "-R", self.reference, "-V", self.GATKdir + "/full_mutect.vcf", "-O", self.GATKdir + "/full_gatk_mutect.vcf", "--split-multi-allelics"])
+            self.__CallCommand("mv", ["mv", self.GATKdir + "/full_gatk_mutect.vcf", self.GATKdir + "/full_mutect.vcf"])
             self.__CallCommand("FilterMutectCalls", ["gatk", "FilterMutectCalls", "-R", self.reference, "-V", self.GATKdir + "/full_mutect.vcf", "--min-reads-per-strand", "1", "--min-median-read-position", "10", "--min-allele-fraction", "0.01", "--microbial-mode", "true", "-O", self.__fullVCF])
 
         else:
@@ -357,11 +354,29 @@ class Snp:
         self.__CallCommand(["lineage parsing", self.fOut + "/" + self.name + "_Lineage.txt"], [self.__lineage_parser, self.__lineages, self.__full_final_annotation, self.__lineage, self.name])
 
     def runPrint(self):
-        """Print analysis report"""
+        """
+        Create and print analysis report
+        run interpretation
+        """
         self.__ifVerbose("Printing report")
-        self.__CallCommand(["create summary report", self.fOut + "/" + self.name + "_summary.txt"], [self.__create_report, self.fOut + "/" + self.name + "_stats.txt", self.fOut + "/" + self.name + "_target_region_coverage.txt", self.fOut + "/" + self.name + "_DR_loci_Final_annotation.txt"])
-        self.__CallCommand(["run interpretation report", self.fOut + "/" + self.name + "_interpretation.txt"], [self.__interpreter, self.__reported, self.fOut + "/" + self.name + "_summary.txt", self.fOut + "/" + self.name + "_structural_variants.txt", self.fOut + "/" + self.name + "_DR_loci_annotation.txt", self.fOut + "/" + self.name + "_target_region_coverage.txt", self.name])
-        self.__CallCommand("print pdf report", [self.__print_report, self.fOut + "/" + self.name + "_summary.txt", self.fOut + "/" + self.name + "_report.pdf"])
+
+        stats_file = os.path.join(self.fOut, self.name + "_stats.txt")
+        target_region_coverage = os.path.join(self.fOut, self.name + "_target_region_coverage.txt")
+        DR_loci_Final_annotation = os.path.join(self.fOut + "/" + self.name + "_DR_loci_Final_annotation.txt")
+
+        summary = os.path.join(self.fOut, self.name + "_summary.txt")
+        run_summary = f"{self.__create_report} {stats_file} {target_region_coverage} {DR_loci_Final_annotation}"
+        self.__CallCommand(["create summary report", summary], run_summary.split())
+        
+        SVs = os.path.join(self.fOut, self.name + "_structural_variants.txt")
+        DR_loci_annotation = os.path.join(self.fOut, self.name + "_DR_loci_annotation.txt")
+        target_region_coverage = os.path.join(self.fOut, self.name + "_target_region_coverage.txt")
+
+        interpretation = os.path.join(self.fOut, self.name + "_interpretation.txt")
+        run_interpretation = f"{self.__interpreter} {self.__reported} {summary} {SVs} {DR_loci_annotation} {target_region_coverage} {self.name}"
+        self.__CallCommand(["run interpretation report", interpretation], run_interpretation.split() ) 
+
+        self.__CallCommand("print pdf report", [self.__print_report, summary, self.fOut + "/" + self.name + "_report.pdf"])
 
     def cleanUp(self):
         """Clean up the temporary files, and move them to a proper folder."""
