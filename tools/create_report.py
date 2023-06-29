@@ -1,13 +1,19 @@
 #! /usr/bin/env python
-
 import sys
 
-""" The scripts accepts the stats, target coverage and final annotation file """
-""" It parses and merge those to the summary output file """
+""" 
+parse and merge reports to the summary output file 
 
-input1 = sys.argv[1]
-input2 = sys.argv[2]
-input3 = sys.argv[3]
+Input:
+stats, 
+target coverage
+final annotation file
+
+"""
+
+input1 = sys.argv[1] # stats file
+input2 = sys.argv[2] # target region covergage
+input3 = sys.argv[3] # DR loci Final annotation
 matrix = []
 flag = ""
 
