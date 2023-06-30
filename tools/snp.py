@@ -10,7 +10,7 @@ from datetime import datetime
 class Snp:
     """get variants"""
 
-    def __init__(self, read1, outdir, reference, reference_name, name, paired, read2, verbose, threads, cfg, argString):
+    def __init__(self, read1, outdir, reference, reference_name, name, paired, read2, verbose, threads, whole_genome, cfg, argString):
         self.name = name  # sample name
 
         self.fOut = outdir
@@ -18,6 +18,7 @@ class Snp:
         self.read2 = read2
         self.paired = paired
 
+        self.whole_genome = whole_genome
         self.verbose = verbose
         self.reference = reference
         self.reference_name = reference_name
@@ -51,7 +52,11 @@ class Snp:
         self.__full_final_annotation = os.path.join(self.fOut, self.name + "_full_Final_annotation.txt")
         self.__finalBam = os.path.join(self.fOut, self.name + "_sdrcsm.bam")
 
-        self.__snpeff_stats = os.path.join(self.fOut, self.name + "_snpEff_summary.csv")
+        self.__snpeff_stats_targets = os.path.join(self.fOut, self.name + "_snpEff_summary_targets.csv")
+        self.__snpeff_html_targets = os.path.join(self.fOut, self.name + "_snpEff_summary_targets.html")
+
+        self.__snpeff_stats_full = os.path.join(self.fOut, self.name + "_snpEff_summary_full.csv")
+        self.__snpeff_html_full = os.path.join(self.fOut, self.name + "_snpEff_summary_full.html")
 
         self.__qlog = os.path.join(self.qlog, "QC.log")
         self.__log = os.path.join(self.fOut, self.name + ".log")
@@ -121,6 +126,7 @@ class Snp:
         self.__ifVerbose("Performing trimmomatic trimming.")
         #trimlog = os.path.join(self.trimmomatic, "trimLog.txt")
         trimlog = os.path.join(self.fOut, "trimLog.txt")
+        trimerr = os.path.join(self.fOut, "trimErr.txt")
         if self.paired:
             paired1 = os.path.join(self.trimmomatic, self.name + "_paired_1.fastq.gz")
             paired2 = os.path.join(self.trimmomatic, self.name + "_paired_2.fastq.gz")
@@ -302,6 +308,7 @@ class Snp:
             #mutect2_final = f"gatk Mutect2 -R {self.reference} -I {self.__finalBam} -O {mutect_vcf_final} --max-mnp-distance 2 -L {self.__included}"
             #align_variants_final = f"gatk LeftAlignAndTrimVariants -R {self.reference} -V {mutect_vcf_final} -O {mutect_vcf_final_aligned} --split-multi-allelics"
             #filter_final = f"gatk FilterMutectCalls -R {self.reference} -V {mutect_vcf_final_aligned} --min-reads-per-strand 1 --min-median-read-position 10 --min-allele-fraction 0.01 --microbial-mode true -O {self.__finalVCF}"
+            
             # GATK for target regions
             self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/mutect.vcf", "--max-mnp-distance", "2", "-L", self.__included])
             #self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/mutect.vcf", "--max-mnp-distance", "2", "-L", target_intervals])
@@ -309,11 +316,12 @@ class Snp:
             self.__CallCommand("mv", ["mv", self.GATKdir + "/gatk_mutect.vcf", self.GATKdir + "/mutect.vcf"])
             self.__CallCommand("FilterMutectCalls", ["gatk", "FilterMutectCalls", "-R", self.reference, "-V", self.GATKdir + "/mutect.vcf", "--min-reads-per-strand", "1", "--min-median-read-position", "10", "--min-allele-fraction", "0.01", "--microbial-mode", "true", "-O", self.__finalVCF])
 
-            # GATK for entire genome
-            self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/full_mutect.vcf", "--max-mnp-distance", "2"])
-            self.__CallCommand("LeftAlignAndTrimVariants", ["gatk", "LeftAlignAndTrimVariants", "-R", self.reference, "-V", self.GATKdir + "/full_mutect.vcf", "-O", self.GATKdir + "/full_gatk_mutect.vcf", "--split-multi-allelics"])
-            self.__CallCommand("mv", ["mv", self.GATKdir + "/full_gatk_mutect.vcf", self.GATKdir + "/full_mutect.vcf"])
-            self.__CallCommand("FilterMutectCalls", ["gatk", "FilterMutectCalls", "-R", self.reference, "-V", self.GATKdir + "/full_mutect.vcf", "--min-reads-per-strand", "1", "--min-median-read-position", "10", "--min-allele-fraction", "0.01", "--microbial-mode", "true", "-O", self.__fullVCF])
+            if self.whole_genome:
+                # GATK for entire genome
+                self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/full_mutect.vcf", "--max-mnp-distance", "2"])
+                self.__CallCommand("LeftAlignAndTrimVariants", ["gatk", "LeftAlignAndTrimVariants", "-R", self.reference, "-V", self.GATKdir + "/full_mutect.vcf", "-O", self.GATKdir + "/full_gatk_mutect.vcf", "--split-multi-allelics"])
+                self.__CallCommand("mv", ["mv", self.GATKdir + "/full_gatk_mutect.vcf", self.GATKdir + "/full_mutect.vcf"])
+                self.__CallCommand("FilterMutectCalls", ["gatk", "FilterMutectCalls", "-R", self.reference, "-V", self.GATKdir + "/full_mutect.vcf", "--min-reads-per-strand", "1", "--min-median-read-position", "10", "--min-allele-fraction", "0.01", "--microbial-mode", "true", "-O", self.__fullVCF])
 
         else:
             print("<E> no bam file found")
@@ -323,29 +331,28 @@ class Snp:
         Annotate the final VCF file
         Here too: just run on full vcfl file, then intersect with target bed file 
         """
-        if self.__finalVCF:
-            self.__ifVerbose("Annotating final VCF.")
-            #self.__CallCommand(["SnpEff", self.__annotation], ["snpEff", "-nodownload", "-noLog", "-noStats", "-c", self.__snpeff_database, self.reference_name, self.__finalVCF])
-            command = f"snpEff -nodownload -noLog -csvStats {self.__snpeff_stats} -config {self.__snpeff_database} {self.reference_name} {self.__finalVCF}"
-            self.__CallCommand(["SnpEff", self.__annotation], command.split())
+        #if self.__finalVCF:
+        self.__ifVerbose("Annotating final VCF.")
+        command = f"snpEff -nodownload -noLog -csvStats {self.__snpeff_stats_targets} -stats {self.__snpeff_html_targets} -config {self.__snpeff_database} {self.reference_name} {self.__finalVCF}"
+        self.__CallCommand(["SnpEff", self.__annotation], command.split())
+    
+        self.__ifVerbose("Parsing final Annotation.")
+        # translate vcf -> tsv file
+        self.__CallCommand(["create annotation", self.fOut + "/" + self.name + "_DR_loci_annotation.txt"], [self.__creater, self.__annotation, self.name])
+        # vcf -> tsv + some manipulation
+        self.__CallCommand(["parse annotation", self.fOut + "/" + self.name + "_DR_loci_Final_annotation.txt"], [self.__parser, self.__annotation, self.mutationloci, self.name])
 
-            self.__ifVerbose("Parsing final Annotation.")
-            # translate vcf -> tsv file
-            self.__CallCommand(["create annotation", self.fOut + "/" + self.name + "_DR_loci_annotation.txt"], [self.__creater, self.__annotation, self.name])
-            # vcf -> tsv + some manipulation
-            self.__CallCommand(["parse annotation", self.fOut + "/" + self.name + "_DR_loci_Final_annotation.txt"], [self.__parser, self.__annotation, self.mutationloci, self.name])
-
-        if self.__fullVCF:
+        #if self.__fullVCF:
+        if self.whole_genome:
             self.__ifVerbose("Annotating full VCF.")
-            #self.__CallCommand(["SnpEff", self.__full_annotation], ["snpEff", "-nodownload", "-noLog", "-noStats", "-c", self.__snpeff_database, self.reference_name, self.__fullVCF])
-            command = f"snpEff -nodownload -noLog -csvStats {self.__snpeff_stats} -config {self.__snpeff_database} {self.reference_name} {self.__fullVCF}"
+            command = f"snpEff -nodownload -noLog -csvStats {self.__snpeff_stats_full} -stats {self.__snpeff_html_full} -config {self.__snpeff_database} {self.reference_name} {self.__fullVCF}"
             self.__CallCommand(["SnpEff", self.__full_annotation], command.split())
 
             self.__ifVerbose("Parsing full Annotation.")
             self.__CallCommand(["create annotation", self.fOut + "/" + self.name + "_full_annotation.txt"], [self.__creater, self.__full_annotation, self.name])
             self.__CallCommand(["parse annotation", self.fOut + "/" + self.name + "_full_Final_annotation.txt"], [self.__parser, self.__full_annotation, self.mutationloci, self.name])
-        else:
-            self.__ifVerbose("Use SamTools, GATK, or Freebayes to annotate the final VCF.")
+        #else:
+        #    self.__ifVerbose("Use SamTools, GATK, or Freebayes to annotate the final VCF.")
 
 
     def runLineage(self):
