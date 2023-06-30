@@ -22,6 +22,7 @@ if __name__ == "__main__":
     group2 = parser.add_argument_group("Output", "")
     group2.add_argument("-o", "--outdir", required=True, type=str, help="Output directory")
     group2.add_argument("-k", "--keepfiles", action="store_true", help="Keep intermediate files")
+    group2.add_argument("-f", "--whole_genome", action="store_true", help="In addition to targets run on entire genome")
 
     group5 = parser.add_argument_group("Annotation", "Use snpEff to annotate VCF file")
     group5.add_argument("-a", "--annotation", action="store_true", help="Run snpEff functional annotation")
@@ -84,7 +85,7 @@ if __name__ == "__main__":
         print("")
 
     # all is well let's get started!
-    s = snp.Snp(args.fastq, args.outdir, args.reference, args.genome, args.name, paired, args.fastq2, args.verbose, args.threads, config, " ".join(sys.argv))
+    s = snp.Snp(args.fastq, args.outdir, args.reference, args.genome, args.name, paired, args.fastq2, args.verbose, args.threads, args.whole_genome, config, " ".join(sys.argv))
 
     # run Trimmomatic timmer
     if not args.no_trim:
