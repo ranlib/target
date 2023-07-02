@@ -96,8 +96,14 @@ class Snp:
         # Note: keys have to be in header of stats.txt file!
         # need to tie together in the future
         self.cuts = { k:float(v) for k, v in cfg.items("cuts") }
-              
 
+        # parameters for GATK
+        #--min-reads-per-strand 1 --min-median-read-position 10 --min-allele-fraction 0.01
+        self.gatk = { k:float(v) for k, v in cfg.items("gatk") }
+        for key in ['min-reads-per-strand', 'min-median-read-position' ]:
+            self.gatk[key] = int(self.gatk[key])
+
+            
     def __CallCommand(self, program, command):
         """Allows execution of a simple command."""
         out = ""
@@ -286,16 +292,11 @@ class Snp:
 
     def runGATK(self):
         """Variant Callers"""
-        if os.path.isfile(self.__finalBam):
+        if not os.path.isfile(self.__finalBam):
+            print("<E> no bam file found")
+        else:
             self.__ifVerbose("Calling SNPs/InDels with GATK.")
             self.__logFH.write("########## Calling SNPs/InDels with Mutect2. ##########\n")
-
-            # gatk mutect for entire genome
-            #mutect_vcf_full = os.join.path(self.GATKdir, 'full_mutect.vcf')
-            #mutect_vcf_full_aligned = os.join.path(self.GATKdir, "full_gatk_mutect.vcf")
-            #mutect2_full = f"gatk Mutect2 -R {self.reference} -I {self.__finalBam} -O {mutect_vcf_full} --max-mnp-distance 2"
-            #align_variants_full = f"gatk LeftAlignAndTrimVariants -R {self.reference} -V {mutect_vcf_full} -O {mutext_vcf_full_aligned} --split-multi-allelics"
-            #filter_full = f"gatk FilterMutectCalls -R {self.reference} -V {mutect_vcf_full_aligned} --min-reads-per-strand 1 --min-median-read-position 10 --min-allele-fraction 0.01 --microbial-mode true -O {self.__fullVCF}"
 
             # gatk mutect for target regions
             # could get rid of this, just run on entire genomes, then intersect vcf with bedfile
@@ -303,28 +304,43 @@ class Snp:
             #command=f"gatk BedToIntervalList -I {self.__bedlist_amp} -O {target_intervals} -SD {self.reference_dict}"
             #self.__CallCommand("BedToIntervalsList", command.split())
             
-            #mutect_vcf_final = os.join.path(self.GATKdir, 'mutect.vcf')
-            #mutect_vcf_final_aligned = os.join.path(self.GATKdir, 'gatk_mutect.vcf')
-            #mutect2_final = f"gatk Mutect2 -R {self.reference} -I {self.__finalBam} -O {mutect_vcf_final} --max-mnp-distance 2 -L {self.__included}"
-            #align_variants_final = f"gatk LeftAlignAndTrimVariants -R {self.reference} -V {mutect_vcf_final} -O {mutect_vcf_final_aligned} --split-multi-allelics"
-            #filter_final = f"gatk FilterMutectCalls -R {self.reference} -V {mutect_vcf_final_aligned} --min-reads-per-strand 1 --min-median-read-position 10 --min-allele-fraction 0.01 --microbial-mode true -O {self.__finalVCF}"
-            
-            # GATK for target regions
-            self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/mutect.vcf", "--max-mnp-distance", "2", "-L", self.__included])
-            #self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/mutect.vcf", "--max-mnp-distance", "2", "-L", target_intervals])
-            self.__CallCommand("LeftAlignAndTrimVariants", ["gatk", "LeftAlignAndTrimVariants", "-R", self.reference, "-V", self.GATKdir + "/mutect.vcf", "-O", self.GATKdir + "/gatk_mutect.vcf", "--split-multi-allelics"])
-            self.__CallCommand("mv", ["mv", self.GATKdir + "/gatk_mutect.vcf", self.GATKdir + "/mutect.vcf"])
-            self.__CallCommand("FilterMutectCalls", ["gatk", "FilterMutectCalls", "-R", self.reference, "-V", self.GATKdir + "/mutect.vcf", "--min-reads-per-strand", "1", "--min-median-read-position", "10", "--min-allele-fraction", "0.01", "--microbial-mode", "true", "-O", self.__finalVCF])
-
+            mutect_vcf_final = os.path.join(self.GATKdir, 'final_mutect.vcf')
+            mutect_vcf_stats_final = mutect_vcf_final + '.stats'
+            mutect_vcf_aligned_final = os.path.join(self.GATKdir, 'final_aligned_mutect.vcf')
+            mutect2_final = f"gatk Mutect2 -R {self.reference} -I {self.__finalBam} -O {mutect_vcf_final} --max-mnp-distance 2 -L {self.__included}"
+            align_variants_final = f"gatk LeftAlignAndTrimVariants -R {self.reference} -V {mutect_vcf_final} -O {mutect_vcf_aligned_final} --split-multi-allelics"
+            # Mutect2 produces a [output vcf].stats file which is Required input for FilterMutectCalls as of GATK 4.1.1
+            filter_final = f"gatk FilterMutectCalls -R {self.reference} -V {mutect_vcf_aligned_final} --min-reads-per-strand {self.gatk['min-reads-per-strand']} --min-median-read-position {self.gatk['min-median-read-position']} --min-allele-fraction {self.gatk['min-allele-fraction']} --microbial-mode true --stats {mutect_vcf_stats_final} -O {self.__finalVCF}"
+            self.__CallCommand("Mutect2", mutect2_final.split())
+            self.__CallCommand("LeftAlignAndTrimVariants", align_variants_final.split())
+            self.__CallCommand("FilterMutectCalls", filter_final.split())
+                
             if self.whole_genome:
-                # GATK for entire genome
-                self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/full_mutect.vcf", "--max-mnp-distance", "2"])
-                self.__CallCommand("LeftAlignAndTrimVariants", ["gatk", "LeftAlignAndTrimVariants", "-R", self.reference, "-V", self.GATKdir + "/full_mutect.vcf", "-O", self.GATKdir + "/full_gatk_mutect.vcf", "--split-multi-allelics"])
-                self.__CallCommand("mv", ["mv", self.GATKdir + "/full_gatk_mutect.vcf", self.GATKdir + "/full_mutect.vcf"])
-                self.__CallCommand("FilterMutectCalls", ["gatk", "FilterMutectCalls", "-R", self.reference, "-V", self.GATKdir + "/full_mutect.vcf", "--min-reads-per-strand", "1", "--min-median-read-position", "10", "--min-allele-fraction", "0.01", "--microbial-mode", "true", "-O", self.__fullVCF])
+                # gatk mutect for entire genome
+                mutect_vcf_full = os.path.join(self.GATKdir, 'full_mutect.vcf')
+                mutect_vcf_stats_full = mutect_vcf_full + '.stats'
+                mutect_vcf_aligned_full = os.path.join(self.GATKdir, "full_aligned_mutect.vcf")
+                mutect2_full = f"gatk Mutect2 -R {self.reference} -I {self.__finalBam} -O {mutect_vcf_full} --max-mnp-distance 2"
+                align_variants_full = f"gatk LeftAlignAndTrimVariants -R {self.reference} -V {mutect_vcf_full} -O {mutect_vcf_aligned_full} --split-multi-allelics"
+                filter_full = f"gatk FilterMutectCalls -R {self.reference} -V {mutect_vcf_aligned_full} --min-reads-per-strand {self.gatk['min-reads-per-strand']} --min-median-read-position {self.gatk['min-median-read-position']} --min-allele-fraction {self.gatk['min-allele-fraction']} --microbial-mode true --stats {mutect_vcf_stats_full} -O {self.__fullVCF}"
+                self.__CallCommand("Mutect2", mutect2_full.split())
+                self.__CallCommand("LeftAlignAndTrimVariants", align_variants_full.split())
+                self.__CallCommand("FilterMutectCalls", filter_full.split())
 
-        else:
-            print("<E> no bam file found")
+            # # GATK for target regions
+            # self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/mutect.vcf", "--max-mnp-distance", "2", "-L", self.__included])
+            # #self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/mutect.vcf", "--max-mnp-distance", "2", "-L", target_intervals])
+            # self.__CallCommand("LeftAlignAndTrimVariants", ["gatk", "LeftAlignAndTrimVariants", "-R", self.reference, "-V", self.GATKdir + "/mutect.vcf", "-O", self.GATKdir + "/gatk_mutect.vcf", "--split-multi-allelics"])
+            # self.__CallCommand("mv", ["mv", self.GATKdir + "/gatk_mutect.vcf", self.GATKdir + "/mutect.vcf"])
+            # self.__CallCommand("FilterMutectCalls", ["gatk", "FilterMutectCalls", "-R", self.reference, "-V", self.GATKdir + "/mutect.vcf", "--min-reads-per-strand", "1", "--min-median-read-position", "10", "--min-allele-fraction", "0.01", "--microbial-mode", "true", "-O", self.__finalVCF])
+
+            # if self.whole_genome:
+            #     # GATK for entire genome
+            #     self.__CallCommand("Mutect2", ["gatk", "Mutect2", "-R", self.reference, "-I", self.__finalBam, "-O", self.GATKdir + "/full_mutect.vcf", "--max-mnp-distance", "2"])
+            #     self.__CallCommand("LeftAlignAndTrimVariants", ["gatk", "LeftAlignAndTrimVariants", "-R", self.reference, "-V", self.GATKdir + "/full_mutect.vcf", "-O", self.GATKdir + "/full_gatk_mutect.vcf", "--split-multi-allelics"])
+            #     self.__CallCommand("mv", ["mv", self.GATKdir + "/full_gatk_mutect.vcf", self.GATKdir + "/full_mutect.vcf"])
+            #     self.__CallCommand("FilterMutectCalls", ["gatk", "FilterMutectCalls", "-R", self.reference, "-V", self.GATKdir + "/full_mutect.vcf", "--min-reads-per-strand", "1", "--min-median-read-position", "10", "--min-allele-fraction", "0.01", "--microbial-mode", "true", "-O", self.__fullVCF])
+
 
     def annotateVCF(self):
         """
