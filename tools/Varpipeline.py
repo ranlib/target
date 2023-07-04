@@ -98,16 +98,16 @@ if __name__ == "__main__":
     s.runCoverage()
 
     # If asked, run SNP callers
-    #if args.gatk:
     s.runGATK()
 
     # Annotate Final VCF
     s.annotateVCF()
 
     # Perform Lineage Analysis
-    s.runLineage()
+    if args.whole_genome:
+        s.runLineage()
 
-    # Print final reports
+    # Generate and print final reports
     s.runPrint()
 
     # By default clean up intermediate files
