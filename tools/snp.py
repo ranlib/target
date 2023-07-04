@@ -383,6 +383,7 @@ class Snp:
         """
         self.__ifVerbose("Printing report")
 
+        # create summary report
         stats_file = os.path.join(self.fOut, self.name + "_stats.txt")
         target_region_coverage = os.path.join(self.fOut, self.name + "_target_region_coverage.txt")
         DR_loci_Final_annotation = os.path.join(self.fOut + "/" + self.name + "_DR_loci_Final_annotation.txt")
@@ -390,7 +391,8 @@ class Snp:
         summary = os.path.join(self.fOut, self.name + "_summary.txt")
         run_summary = f"{self.__create_report} {stats_file} {target_region_coverage} {DR_loci_Final_annotation}"
         self.__CallCommand(["create summary report", summary], run_summary.split())
-        
+
+        # run interpretation
         SVs = os.path.join(self.fOut, self.name + "_structural_variants.txt")
         DR_loci_annotation = os.path.join(self.fOut, self.name + "_DR_loci_annotation.txt")
         target_region_coverage = os.path.join(self.fOut, self.name + "_target_region_coverage.txt")
@@ -399,6 +401,7 @@ class Snp:
         run_interpretation = f"{self.__interpreter} {self.__reported} {summary} {SVs} {DR_loci_annotation} {target_region_coverage} {self.name}"
         self.__CallCommand(["run interpretation report", interpretation], run_interpretation.split() ) 
 
+        # create pdf of report
         self.__CallCommand("print pdf report", [self.__print_report, summary, self.fOut + "/" + self.name + "_report.pdf"])
 
     def cleanUp(self):
