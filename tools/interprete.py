@@ -2,12 +2,12 @@
 
 import sys
 
-input1 = sys.argv[1]
-input2 = sys.argv[2]
-input3 = sys.argv[3]
-input4 = sys.argv[4]
-input5 = sys.argv[5]
-input6 = sys.argv[6]
+input1 = sys.argv[1] # reported
+input2 = sys.argv[2] # summary 
+input3 = sys.argv[3] # SVs
+input4 = sys.argv[4] # DR_loci_annotation
+input5 = sys.argv[5] # target region coverage
+input6 = sys.argv[6] # samplename
 
 variants = []
 interpretation = []
@@ -25,6 +25,7 @@ interplist = []
 (inh_varstring, rif_varstring, pza_varstring, fq_varstring, emb_varstring) = ("", "", "", "", "")
 (inh_interpstring, rif_interpstring, pza_interpstring, fq_interpstring, emb_interpstring) = ("", "", "", "", "")
 
+# loop over reported
 fh1 = open(input1, "r")
 for lines in fh1:
     lined = lines.rstrip("\r\n").split("\t")
@@ -33,8 +34,10 @@ for lines in fh1:
 
 fh1.close()
 
+
 print("Sample ID" + "\t" + "Drug" + "\t" + "Variant" + "\t" + "Interpretation")
 
+# loop over summary
 fh2 = open(input2, "r")
 for lines in fh2:
     lined = lines.rstrip("\r\n").split("\t")
@@ -57,12 +60,14 @@ for lines in fh2:
 
 fh2.close()
 
+# open summary report to add interpretation results
 fh6 = open(input2, "a")
 
 print("\n", file=fh6)
 print("Interpretations Summary:", file=fh6)
 print("Drug" + "\t" + "Variant" + "\t" + "Interpretation", file=fh6)
 
+# loop over SVs
 fh3 = open(input3, "r")
 for lines in fh3:
     lined = lines.rstrip("\r\n").split("\t")
@@ -92,6 +97,7 @@ for lines in fh3:
 
 fh3.close()
 
+# loop over DR_loci_annotation
 fh4 = open(input4, "r")
 for lines in fh4:
     lined = lines.rstrip("\r\n").split("\t")
@@ -126,6 +132,7 @@ for lines in fh4:
                     arraylist.append(dicdrugs[subannot[3]] + "\t" + interprete2 + "\t" + dicdrugs[subannot[3]] + "-" + diclofs3[subannot[1]])
 fh4.close()
 
+# loop over target coverage
 fh5 = open(input5, "r")
 for lines in fh5:
     lined = lines.rstrip("\r\n").split("\t")
@@ -136,6 +143,7 @@ for lines in fh5:
 
 fh5.close()
 
+#
 for strings in arraylist:
     recs = strings.split("\t")
     interplist.append(recs[2])
