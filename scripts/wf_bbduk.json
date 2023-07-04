@@ -1,8 +1,8 @@
 {
     "wf_bbduk.reverseReads": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
     "wf_bbduk.forwardReads": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz",
-    "wf_bbduk.bbduk.cpus": 4,
-    "wf_bbduk.bbduk.memory": "8 GB",
     "wf_bbduk.samplename": "ERR552797",
-    "wf_bbduk.bbduk.docker": "staphb/bbtools:38.76"
+    "wf_bbduk.cpu": 4,
+    "wf_bbduk.memory": "2GB",
+    "wf_bbduk.docker": "staphb/bbtools:39.01"
 }

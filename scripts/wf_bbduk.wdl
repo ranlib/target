@@ -7,13 +7,19 @@ workflow wf_bbduk {
     File forwardReads
     File reverseReads
     String samplename
+    String memory
+    String docker
+    Int cpu
   }
 
   call bbduk.task_bbduk {
     input:
     read1_trimmed = forwardReads,
     read2_trimmed = reverseReads,
-    samplename = samplename
+    samplename = samplename,
+    docker = docker,
+    memory = memory,
+    cpu = cpu
   }
 
   output {
