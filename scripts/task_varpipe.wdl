@@ -11,6 +11,7 @@ task task_varpipe {
     String genome
     Boolean keep = true
     Boolean no_trim = true
+    Boolean whole_genome = true
     Boolean verbose = true
     Int threads = 1
     String memory = "32 GB"
@@ -29,6 +30,7 @@ task task_varpipe {
     --annotation \
     ~{true="--verbose" false="" verbose} \
     ~{true="--keepfiles" false="" keep} \
+    ~{true="--whole_genome" false="" whole_genome} \
     ~{true="--no_trim" false="" no_trim}
   }
   
@@ -53,7 +55,8 @@ task task_varpipe {
     File summary = "~{outdir}/~{samplename}_summary.txt"
     File target_region_coverage = "~{outdir}/~{samplename}_target_region_coverage.txt"
     File? trim_log = "~{outdir}/trimLog.txt"
-    File snpEff_summary = "~{outdir}/~{samplename}_snpEff_summary.csv"
+    File snpEff_summary_targets = "~{outdir}/~{samplename}_snpEff_summary_targets.csv"
+    File? snpEff_summary_full = "~{outdir}/~{samplename}_snpEff_summary_full.csv"
     File mark_duplicates_metrics = "~{outdir}/MarkDupes.metrics"
     File qc_log = "~{outdir}/QC/QC.log"
     String pipeline_date = read_string("DATE")

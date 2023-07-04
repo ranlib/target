@@ -21,6 +21,7 @@ workflow wf_varpipe {
     String varpipe_docker
     String varpipe_memory
     Boolean keep
+    Boolean whole_genome
     Boolean verbose
     Int threads
     # input for bam QC
@@ -104,6 +105,7 @@ workflow wf_varpipe {
       threads = threads,
       keep = keep,
       no_trim = no_trim,
+      whole_genome = whole_genome,
       verbose = verbose,
       docker = varpipe_docker,
       memory = varpipe_memory
@@ -129,7 +131,7 @@ workflow wf_varpipe {
     }
 
     Array[File] allReports = flatten([
-    select_all([task_trimmomatic.trim_err, task_fastqc.forwardData, task_fastqc.reverseData, task_bbduk.adapter_stats, task_bbduk.phiX_stats, task_varpipe.snpEff_summary]),
+    select_all([task_trimmomatic.trim_err, task_fastqc.forwardData, task_fastqc.reverseData, task_bbduk.adapter_stats, task_bbduk.phiX_stats, task_varpipe.snpEff_summary_full, task_varpipe.snpEff_summary_targets ]),
     flatten(select_all([RunCollectMultipleMetrics.collectMetricsOutput,[]]))
     ])
     if ( length(allReports) > 0 ) {
@@ -164,7 +166,8 @@ workflow wf_varpipe {
     File? trim_err = task_trimmomatic.trim_err
     File? trim_stats = task_trimmomatic.trim_stats
     File? mark_duplicates_metrics = task_varpipe.mark_duplicates_metrics
-    File? snpEff_summary = task_varpipe.snpEff_summary
+    File? snpEff_summary_targets = task_varpipe.snpEff_summary_targets
+    File? snpEff_summary_full = task_varpipe.snpEff_summary_full
     File? qc_log = task_varpipe.qc_log
     String? pipeline_date = task_varpipe.pipeline_date
     # output from bam QC
