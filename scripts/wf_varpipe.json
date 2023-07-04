@@ -10,7 +10,8 @@
     "wf_varpipe.verbose": true,
     "wf_varpipe.no_trim": true,
     "wf_varpipe.keep": true,
-    "wf_varpipe.varpipe_memory": "32 GB",
+    "wf_varpipe.whole_genome": true,
+    "wf_varpipe.varpipe_memory": "32GB",
     "wf_varpipe.varpipe_docker": "dbest/varpipe4:latest",
     "wf_varpipe.minNumberReads": 100000,
     "wf_varpipe.trimmomatic_minlen": 40,
@@ -20,8 +21,8 @@
     "wf_varpipe.outputBasename": "multiple_metrics",
     "wf_varpipe.fastqc_docker": "staphb/fastqc:0.12.1",
     "wf_varpipe.run_decontamination": true,
-    "wf_varpipe.bbduk_memory": "250 GB",
-    "wf_varpipe.bbduk_docker": "staphb/bbtools:38.76",
+    "wf_varpipe.bbduk_memory": "2GB",
+    "wf_varpipe.bbduk_docker": "staphb/bbtools:39.01",
     "wf_varpipe.run_delly": true,
     "wf_varpipe.svType": "DEL"
 }
