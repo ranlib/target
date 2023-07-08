@@ -1,0 +1,13 @@
+{
+    "wf_insilicoseq.genomes": "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.fasta",
+    "wf_insilicoseq.mode": "kde",
+    "wf_insilicoseq.model": "NovaSeq",
+    "wf_insilicoseq.debug": false,
+    "wf_insilicoseq.quiet": false,
+    "wf_insilicoseq.gc_bias": true,
+    "wf_insilicoseq.seed": 12345,
+    "wf_insilicoseq.cpus": 2,
+    "wf_insilicoseq.n_reads": "1k",
+    "wf_insilicoseq.output_basename": "NC000962.3"
+}
+
