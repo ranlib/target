@@ -116,6 +116,7 @@ workflow fastq_simulation {
   }
 
   output {
-    Array[File] generated_reads = task_insilicoseq.output_files
+    Array[File]? simulated_output = task_mutation_simulator.output_files
+    Array[File]? generated_reads = task_insilicoseq.output_files
   }
 }
