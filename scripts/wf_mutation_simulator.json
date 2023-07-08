@@ -21,7 +21,7 @@
     "wf_mutation_simulator.mnpBlock": 1,
     "wf_mutation_simulator.mnpMaxLength": 4,
     "wf_mutation_simulator.mnpMinLength": 2,
-    "wf_mutation_simulator.output_prefix": "NC_000932",
+    "wf_mutation_simulator.output_prefix": "NC_000932.3",
     "wf_mutation_simulator.sample": "Unknown",
     "wf_mutation_simulator.snp": 0,
     "wf_mutation_simulator.snpBlock": 1,
