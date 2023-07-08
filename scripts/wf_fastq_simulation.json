@@ -21,7 +21,7 @@
     "fastq_simulation.mnpBlock": 1,
     "fastq_simulation.mnpMaxLength": 4,
     "fastq_simulation.mnpMinLength": 2,
-    "fastq_simulation.output_prefix": "NC_000932",
+    "fastq_simulation.output_prefix": "NC_000932.3",
     "fastq_simulation.sample": "Unknown",
     "fastq_simulation.snp": 0,
     "fastq_simulation.snpBlock": 1,
