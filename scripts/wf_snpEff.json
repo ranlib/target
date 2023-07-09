@@ -1,0 +1,17 @@
+{
+    "wf_snpEff.vcf": "/home/dieterbest/Analysis/varpipe4/tests/ERR552797/ERR552797_full_raw_annotation.vcf",
+    "wf_snpEff.genome": "NC_000962.3",
+    "wf_snpEff.dataDir": "/home/dieterbest/Analysis/varpipe4/tests/snpEff.zip",
+    "wf_snpEff.config": "/home/dieterbest/Analysis/varpipe4/tests/snpEff.config",
+    "wf_snpEff.dockerImage": "quay.io/biocontainers/snpeff:5.1d--hdfd78af_0",
+    "wf_snpEff.noIntergenic": false,
+    "wf_snpEff.noDownstream": false,
+    "wf_snpEff.upDownStreamLen": 400,
+    "wf_snpEff.hgvs": true,
+    "wf_snpEff.lof": true,
+    "wf_snpEff.javaXmx": "8G",
+    "wf_snpEff.memory": "9G",
+    "wf_snpEff.timeMinutes": 60,
+    "wf_snpEff.outputPath": "./snpeff.vcf"
+}
+
