@@ -6,6 +6,7 @@ workflow bwa_mem {
     File r1fastq
     File r2fastq
     File ref_fasta
+    Int threads
   }
   
   call align {
@@ -13,7 +14,8 @@ workflow bwa_mem {
     sample_name = sample_name,
     r1fastq = r1fastq,
     r2fastq = r2fastq,
-    ref_fasta = ref_fasta
+    ref_fasta = ref_fasta,
+    threads = threads
   }
   
   call sortSam {
@@ -39,7 +41,6 @@ task align {
   }
   
   command <<<
-    set -exu
     bwa index ~{ref_fasta}
     read_group="@RG\\tID:~{sample_name}\\tSM:~{sample_name}\\tPL:ILLUMINA"
     bwa mem -M -t ~{threads} -R ${read_group} -o ~{sample_name}.sam ~{ref_fasta} ~{r1fastq} ~{r2fastq} 
