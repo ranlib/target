@@ -1,47 +1,33 @@
 version 1.0
 
-task FilterMutectCalls {
+task LeftAlignAndTrimVariants {
     input {
-        File referenceFasta
-        File referenceFastaFai
-        File referenceFastaDict
-        File unfilteredVcf
-        File unfilteredVcfIndex
-        String outputVcf
-        Int uniqueAltReadCount = 4
-        File mutect2Stats
-
-        File? contaminationTable
-        File? mafTumorSegments
-        File? artifactPriors
-
-        String javaXmx = "12G"
-        String memory = "13G"
-        Int timeMinutes = 60
-        String dockerImage = "broadinstitute/gatk:4.4.0.0"
+      File referenceFasta
+      File referenceFastaFai
+      File referenceFastaDict
+      File unfilteredVcf
+      String alignedVcf
+      
+      String javaXmx = "12G"
+      String memory = "13G"
+      Int timeMinutes = 60
+      String dockerImage = "broadinstitute/gatk:4.4.0.0"
     }
-
+    
     command {
-        set -e
-        mkdir -p "$(dirname ~{outputVcf})"
-        gatk --java-options '-Xmx~{javaXmx} -XX:ParallelGCThreads=1' \
-        FilterMutectCalls \
-        -R ~{referenceFasta} \
-        -V ~{unfilteredVcf} \
-        -O ~{outputVcf} \
-        ~{"--contamination-table " + contaminationTable} \
-        ~{"--tumor-segmentation " + mafTumorSegments} \
-        ~{"--ob-priors " + artifactPriors} \
-        ~{"--unique-alt-read-count " + uniqueAltReadCount} \
-        ~{"-stats " + mutect2Stats} \
-        --filtering-stats "filtering.stats" \
-        --showHidden
+      set -ex
+      mkdir -p "$(dirname ~{alignedVcf})"
+      gatk --java-options '-Xmx~{javaXmx} -XX:ParallelGCThreads=1' \
+      LeftAlignAndTrimVariants \
+      --reference ~{referenceFasta} \
+      --variant ~{unfilteredVcf} \
+      --output ~{alignedVcf} \
+      --split-multi-allelics
     }
 
     output {
-        File filteredVcf = outputVcf
-        File filteredVcfIndex = outputVcf + ".tbi"
-        File filteringStats = "filtering.stats"
+      File outputAlignedVcf = alignedVcf
+      File outputAlignedVcfIndex = alignedVcf + ".idx"
     }
 
     runtime {
@@ -51,7 +37,52 @@ task FilterMutectCalls {
     }
 }
 
-task mutect2 {
+task FilterMutectCalls {
+    input {
+      File referenceFasta
+      File referenceFastaFai
+      File referenceFastaDict
+      File unfilteredVcf
+      File mutect2stats
+      String filteredVcf
+      Int min_reads_per_strand
+      Int min_median_read_position
+      Float min_allele_fraction
+      String javaXmx = "12G"
+      String memory = "13G"
+      Int timeMinutes = 60
+      String dockerImage = "broadinstitute/gatk:4.4.0.0"
+    }
+
+    command {
+      set -ex
+      mkdir -p "$(dirname ~{filteredVcf})"
+      gatk --java-options '-Xmx~{javaXmx} -XX:ParallelGCThreads=1' \
+      FilterMutectCalls \
+      --reference ~{referenceFasta} \
+      --variant ~{unfilteredVcf} \
+      --output ~{filteredVcf} \
+      --min-reads-per-strand ~{min_reads_per_strand} \
+      --min-median-read-position ~{min_median_read_position} \
+      --min-allele-fraction ~{min_allele_fraction} \
+      --stats ~{mutect2stats} \
+      --microbial-mode true
+    }
+
+    output {
+      File outputFilteredVcf = filteredVcf
+      File outputFilteredVcfIndex = filteredVcf + ".idx"
+      File outputFilteredStats = filteredVcf + ".filteringStats.tsv"
+    }
+
+    runtime {
+        memory: memory
+        time_minutes: timeMinutes
+        docker: dockerImage
+    }
+}
+
+task Mutect2 {
     input {
         Array[File]+ inputBams
         Array[File]+ inputBamsIndex
@@ -71,16 +102,16 @@ task mutect2 {
         mkdir -p "$(dirname ~{outputVcf})"
         gatk --java-options '-Xmx~{javaXmx} -XX:ParallelGCThreads=1' \
         Mutect2 \
-        -R ~{referenceFasta} \
-        -I ~{sep=" -I " inputBams} \
-        -O ~{outputVcf} \
-        -L ~{sep=" -L " intervals}
+        --reference ~{referenceFasta} \
+        --input ~{sep=" -I " inputBams} \
+        --output ~{outputVcf} \
+        --intervals ~{sep=" -L " intervals}
     }
 
     output {
       File vcfFile = outputVcf
       File vcfFileIndex = outputVcf + ".idx"
-      File stats = outputVcf + ".stats"
+      File vcfFileStats = outputVcf + ".stats"
     }
 
     runtime {
