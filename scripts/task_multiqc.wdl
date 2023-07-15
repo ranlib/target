@@ -4,7 +4,8 @@ task task_multiqc {
   input {
     Array[File] inputFiles
     String outputPrefix
-  }
+    String docker = "ewels/multiqc:latest"
+}
 
   command {
     for file in ~{sep=' ' inputFiles}; do
@@ -22,7 +23,7 @@ task task_multiqc {
   }
 
   runtime {
-    docker: "ewels/multiqc:latest"
+    docker: "~{docker}"
   }
 }
 
