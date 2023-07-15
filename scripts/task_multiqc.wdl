@@ -4,10 +4,11 @@ task task_multiqc {
   input {
     Array[File] inputFiles
     String outputPrefix
-    String docker = "ewels/multiqc:latest"
-}
-
-  command {
+    String docker = "ewels/multiqc:1.14"
+  }
+  
+  command <<<
+    set -ex
     for file in ~{sep=' ' inputFiles}; do
     if [ -e $file ] ; then
     cp $file .
@@ -16,7 +17,7 @@ task task_multiqc {
     fi
     done
     multiqc --force --no-data-dir -n ~{outputPrefix}.multiqc .
-  }
+  >>>
 
   output {
     File report = "${outputPrefix}.multiqc.html"
