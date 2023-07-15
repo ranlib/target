@@ -1,6 +1,7 @@
 {
     "wf_bbduk.reverseReads": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
     "wf_bbduk.forwardReads": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz",
+    "wf_bbduk.contamination": "/home/dieterbest/Analysis/varpipe4/tests/contamination.tar.gz",
     "wf_bbduk.samplename": "ERR552797",
     "wf_bbduk.cpu": 4,
     "wf_bbduk.memory": "2GB",

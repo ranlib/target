@@ -6,6 +6,7 @@ workflow wf_bbduk {
   input {
     File forwardReads
     File reverseReads
+    File contamination
     String samplename
     String memory
     String docker
@@ -16,6 +17,7 @@ workflow wf_bbduk {
     input:
     read1_trimmed = forwardReads,
     read2_trimmed = reverseReads,
+    contamination = contamination,
     samplename = samplename,
     docker = docker,
     memory = memory,
