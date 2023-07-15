@@ -6,11 +6,11 @@ workflow wf_bbduk {
   input {
     File forwardReads
     File reverseReads
-    File contamination
+    File? contamination
     String samplename
-    String memory
-    String docker
-    Int cpu
+    String memory = "2GB"
+    String docker = "staphb/bbtools:39.01"
+    Int cpu = 4
   }
 
   call bbduk.task_bbduk {

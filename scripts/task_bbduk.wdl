@@ -4,7 +4,7 @@ task task_bbduk {
   input {
     File read1_trimmed
     File read2_trimmed
-    File contamination
+    File? contamination
     String samplename
     String docker = "staphb/bbtools:39.01"
     String memory = "2GB"
@@ -12,12 +12,16 @@ task task_bbduk {
   }
 
   String java_mem = "-Xmx" + sub(memory,"GB","g")
+  Int get_contamination = if defined(contamination) then 1 else 0
   
   command <<<
     set -ex
     date | tee DATE
 
+    if (( ~{get_contamination} ))
+    then
     tar -xvf ~{contamination}
+    fi
     
     repair.sh ~{java_mem} in1=~{read1_trimmed} in2=~{read2_trimmed} out1=~{samplename}.paired_1.fastq.gz out2=~{samplename}.paired_2.fastq.gz
     
