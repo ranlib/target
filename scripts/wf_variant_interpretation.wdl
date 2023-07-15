@@ -8,24 +8,24 @@ task task_variant_interpretation {
     File bed
     File json
     String sample_name
-    Int minimum_coverage = 0
+    Int minimum_coverage = 10
     Int minimum_total_depth = 0
     Int minimum_variant_depth = 0
+    Boolean all_genes = false
     String report
-    Boolean all_genes
   }
   
   command {
     variant_interpretation.py \
-    --vcf ${vcf} \
-    --bam ${bam} \
-    --bed ${bed} \
-    --json ${json} \
-    --sample_name ${sample_name} \
-    --minimum_coverage ${minimum_coverage} \
-    --minimum_total_depth ${minimum_total_depth} \
-    --minimum_variant_depth ${minimum_variant_depth} \
-    --report ${report} \
+    --vcf ~{vcf} \
+    --bam ~{bam} \
+    --bed ~{bed} \
+    --json ~{json} \
+    --sample_name ~{sample_name} \
+    --minimum_coverage ~{minimum_coverage} \
+    --minimum_total_depth ~{minimum_total_depth} \
+    --minimum_variant_depth ~{minimum_variant_depth} \
+    --report ~{report} \
     ${if all_genes then '--all_genes' else ''}
   }
   
@@ -34,7 +34,7 @@ task task_variant_interpretation {
   }
   
   runtime {
-    docker: "dbest/variant_interpretation:v1.0.0"
+    docker: "dbest/variant_interpretation:v1.0.1"
   }
 }
 
@@ -46,12 +46,15 @@ workflow wf_variant_interpretation {
     File bed
     File json
     String sample_name
-    Int minimum_coverage = 0
+    Int minimum_coverage = 10
     Int minimum_total_depth = 0
     Int minimum_variant_depth = 0
-    String report
-    Boolean all_genes
+    Boolean all_genes = false
+    String? report
   }
+
+  # select_first([report]) to coerce String? -> String
+  String the_report = if defined(report) then select_first([report]) else sample_name+"_variant_interpretation.tsv"
   
   call task_variant_interpretation {
     input:
@@ -64,7 +67,7 @@ workflow wf_variant_interpretation {
     minimum_coverage = minimum_coverage,
     minimum_total_depth = minimum_total_depth,
     minimum_variant_depth = minimum_variant_depth,
-    report = report,
+    report = the_report,
     all_genes = all_genes
   }
   
@@ -74,7 +77,7 @@ workflow wf_variant_interpretation {
 
   parameter_meta {
     vcf: {
-      description: "vcf file output from CDC/London TB profiler pipeline.",
+      description: "vcf file or compressed vcf file (suffix vcf.gz) output from CDC/London TB profiler pipeline.",
       category: "required"
     }
     bam: {
@@ -86,7 +89,7 @@ workflow wf_variant_interpretation {
       category: "required"
     }
     bed: {
-      description: "bed file with genomic intervals of interest.",
+      description: "bed file with genomic intervals of interest. Note: reference name in case of London TB profiler is 'Chromosome', make sure to use correct bed file",
       category: "required"
     }
     json: {

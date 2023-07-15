@@ -4,11 +4,6 @@
 ## Inputs
 
 ### Required inputs
-<p name="wf_variant_interpretation.all_genes">
-        <b>wf_variant_interpretation.all_genes</b><br />
-        <i>Boolean &mdash; Default: None</i><br />
-        flag, if true all genes, not only genes of interest, are written to the output tsv report.
-</p>
 <p name="wf_variant_interpretation.bai">
         <b>wf_variant_interpretation.bai</b><br />
         <i>File &mdash; Default: None</i><br />
@@ -22,7 +17,7 @@
 <p name="wf_variant_interpretation.bed">
         <b>wf_variant_interpretation.bed</b><br />
         <i>File &mdash; Default: None</i><br />
-        bed file with genomic intervals of interest.
+        bed file with genomic intervals of interest. Note: reference name in case of London TB profiler is 'Chromosome', make sure to use correct bed file
 </p>
 <p name="wf_variant_interpretation.json">
         <b>wf_variant_interpretation.json</b><br />
@@ -31,7 +26,7 @@
 </p>
 <p name="wf_variant_interpretation.report">
         <b>wf_variant_interpretation.report</b><br />
-        <i>String &mdash; Default: None</i><br />
+        <i>String? &mdash; Default: None</i><br />
         name for output tsv file.
 </p>
 <p name="wf_variant_interpretation.sample_name">
@@ -42,7 +37,7 @@
 <p name="wf_variant_interpretation.vcf">
         <b>wf_variant_interpretation.vcf</b><br />
         <i>File &mdash; Default: None</i><br />
-        vcf file output from CDC/London TB profiler pipeline.
+        vcf file or compressed vcf file (suffix vcf.gz) output from CDC/London TB profiler pipeline.
 </p>
 
 ## Outputs
