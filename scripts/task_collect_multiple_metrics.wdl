@@ -5,6 +5,7 @@ task RunCollectMultipleMetrics {
     File inputBam
     File reference
     String outputBasename = "multiple_metrics"
+    String docker = "broadinstitute/gatk:4.4.0.0"
   }
 
   command {
@@ -42,7 +43,7 @@ task RunCollectMultipleMetrics {
   }
   
   runtime {
-    docker: "broadinstitute/gatk:latest"
+    docker: "~{docker}"
   }
 }
 
