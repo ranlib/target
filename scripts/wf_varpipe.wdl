@@ -27,6 +27,7 @@ workflow wf_varpipe {
     # input for bam QC
     Boolean run_bamQC
     String outputBasename
+    String gatk_docker
     # fastqc
     String fastqc_docker
     Int minNumberReads
@@ -43,6 +44,10 @@ workflow wf_varpipe {
     Int trimmomatic_minlen
     Int trimmomatic_window_size
     Int trimmomatic_quality_trim_score
+    String trimmomatic_memory
+    String trimmomatic_docker
+    # multiqc
+    String multiqc_docker
   }
 
   String outputForward = "${samplename}_1.fq.gz"
@@ -77,7 +82,9 @@ workflow wf_varpipe {
       cpu = threads,
       trimmomatic_minlen = trimmomatic_minlen,
       trimmomatic_window_size = trimmomatic_window_size,
-      trimmomatic_quality_trim_score = trimmomatic_quality_trim_score
+      trimmomatic_quality_trim_score = trimmomatic_quality_trim_score,
+      docker = trimmomatic_docker,
+      memory = trimmomatic_memory
     }
 
 
@@ -126,7 +133,8 @@ workflow wf_varpipe {
 	input:
 	inputBam = task_varpipe.bam,
 	reference = reference,
-	outputBasename = outputBasename
+	outputBasename = outputBasename,
+	docker = gatk_docker
       }
     }
 
@@ -138,7 +146,8 @@ workflow wf_varpipe {
       call multiQC.task_multiqc {
 	input:
 	inputFiles = allReports,
-	outputPrefix = samplename
+	outputPrefix = samplename,
+	docker = multiqc_docker
       }
     }
   }
