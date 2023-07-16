@@ -8,7 +8,7 @@ task task_bbduk {
     String samplename
     String docker = "staphb/bbtools:39.01"
     String memory = "2GB"
-    Int cpu = 1
+    Int threads = 1
   }
 
   String java_mem = "-Xmx" + sub(memory,"GB","g")
@@ -43,6 +43,6 @@ task task_bbduk {
   runtime {
       docker: "~{docker}"
       memory: "~{memory}"
-      cpu: cpu
+      cpu: threads
   }
 }
