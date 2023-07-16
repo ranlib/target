@@ -31,6 +31,12 @@ workflow wf_variant_interpretation {
     File interpretation_report = task_variant_interpretation.interpretation_report
   }
 
+  meta {
+    author: "Dieter Best"
+    email: "Dieter.Best@cdph.ca.gov"
+    description: "## variant interpretation \n This is the variant interpretation workflow.\n\n This also runs as a task in the CDC TB profiler workflow."
+  }
+  
   parameter_meta {
     vcf: {
       description: "vcf file or compressed vcf file (suffix vcf.gz) output from CDC/London TB profiler pipeline.",

@@ -1,5 +1,8 @@
 # wf_variant_interpretation
+## variant interpretation 
+ This is the variant interpretation workflow.
 
+ This also runs as a task in the CDC TB profiler workflow.
 
 ## Inputs
 
