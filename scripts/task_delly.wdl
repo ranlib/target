@@ -5,7 +5,8 @@ task task_delly {
     File bamFile
     File bamIndex
     File referenceFasta
-    String svType
+    String svType = "DEL"
+    String docker = "dbest/delly:v1.0.0"
   }
 
   String outFile = sub(basename(bamFile),".bam",".delly.bcf")
@@ -21,6 +22,6 @@ task task_delly {
   }
 
   runtime {
-    docker: "dbest/delly"
+    docker: "~{docker}"
   }
 }
