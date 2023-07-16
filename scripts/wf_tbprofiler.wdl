@@ -72,8 +72,7 @@ workflow wf_tbprofiler {
 	input:
 	read1_trimmed = task_trimmomatic.read1_trimmed,
 	read2_trimmed = task_trimmomatic.read2_trimmed,
-	samplename = samplename,
-	cpu = threads
+	samplename = samplename
       }
     }
 
@@ -147,4 +146,30 @@ workflow wf_tbprofiler {
     # multiqc
     File? multiqc_report = task_multiqc.report
   }
+
+  meta {
+    author: "Dieter Best"
+    email: "Dieter.Best@cdph.ca.gov"
+    description: "## variant pipeline \n This is the London TB profiler: https://github.com/jodyphelan/TBProfiler.\n\n This also runs fastq QC, decontamination, and alignment QC."
+  }
+  
+  parameter_meta {
+    read1: {
+      description: "List of fastq files with forward reads.",
+      category: "required"
+    }
+    read2: {
+      description: "List of fastq files with reverse reads.",
+      category: "required"
+    }
+    reference: {
+      description: "Reference sequence to align to.",
+      category: "required"
+    }
+    samplename: {
+      description: "Name of the sample.",
+      category: "required"
+    }
+  }
+
 }
