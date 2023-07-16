@@ -27,11 +27,6 @@
         <i>File &mdash; Default: None</i><br />
         json file with drug information for variants.
 </p>
-<p name="wf_variant_interpretation.report">
-        <b>wf_variant_interpretation.report</b><br />
-        <i>String? &mdash; Default: None</i><br />
-        name for output tsv file.
-</p>
 <p name="wf_variant_interpretation.sample_name">
         <b>wf_variant_interpretation.sample_name</b><br />
         <i>String &mdash; Default: None</i><br />
@@ -77,7 +72,7 @@
 <p name="wf_variant_interpretation.interpretation_report">
         <b>wf_variant_interpretation.interpretation_report</b><br />
         <i>File</i><br />
-        output tsv file.
+        Output tsv file of variant interpretation.
 </p>
 
 <hr />

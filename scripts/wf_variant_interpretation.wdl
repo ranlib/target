@@ -80,13 +80,10 @@ workflow wf_variant_interpretation {
     }
     report: {
       description: "name for output tsv file.",
-      category: "required"
+      category: "optional"
     }
     # output
-    interpretation_report: {
-      description: "output tsv file.",
-      category: "required"
-    }
+    interpretation_report: {description: "Output tsv file of variant interpretation."}
   }
   
 }
