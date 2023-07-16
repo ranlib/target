@@ -8,6 +8,7 @@ import "./task_collect_multiple_metrics.wdl" as bamQC
 import "./task_delly.wdl" as delly
 import "./task_multiqc.wdl" as multiQC
 import "./task_concatenate_fastq.wdl" as concatenate_fastq
+import "./task_variant_interpretation.wdl" as vi
 
 workflow wf_varpipe {
   input {
@@ -17,37 +18,26 @@ workflow wf_varpipe {
     File config
     String samplename
     String outdir
-    String genome
-    String varpipe_docker
-    String varpipe_memory
-    Boolean keep
-    Boolean whole_genome
-    Boolean verbose
-    Int threads
-    # input for bam QC
-    Boolean run_bamQC
-    String outputBasename
-    String gatk_docker
-    # fastqc
-    String fastqc_docker
-    Int minNumberReads
+    String genome = "NC_000962.3"
+    Boolean keep = false
+    Boolean whole_genome = true
+    Boolean verbose = false
+    # bamQC
+    Boolean run_bamQC = true
+    String outputBasename = "multiple_metrics"
+    Int minNumberReads = 100000
     # bbduk
-    Boolean run_decontamination
-    String bbduk_memory
-    String bbduk_docker
+    Boolean run_decontamination = true
     # delly
-    Boolean run_delly
-    String svType
-    File? noneFile
+    Boolean run_delly = true
     # trimmomatic
-    Boolean no_trim
-    Int trimmomatic_minlen
-    Int trimmomatic_window_size
-    Int trimmomatic_quality_trim_score
-    String trimmomatic_memory
-    String trimmomatic_docker
-    # multiqc
-    String multiqc_docker
+    Boolean no_trim = true
+    # variant interpretation
+    File bed
+    File json
+    String? report
+    # misc
+    File? noneFile
   }
 
   String outputForward = "${samplename}_1.fq.gz"
@@ -64,9 +54,7 @@ workflow wf_varpipe {
   call fastqc.task_fastqc {
     input:
     forwardReads = task_concatenate_fastq.concatenatedForwardFastq,
-    reverseReads = task_concatenate_fastq.concatenatedReverseFastq,
-    threads = threads,
-    docker = fastqc_docker
+    reverseReads = task_concatenate_fastq.concatenatedReverseFastq
   }
 
   Boolean filter1 = task_fastqc.numberForwardReads == task_fastqc.numberReverseReads
@@ -78,13 +66,7 @@ workflow wf_varpipe {
       input:
       read1 = task_concatenate_fastq.concatenatedForwardFastq,
       read2 = task_concatenate_fastq.concatenatedReverseFastq,
-      samplename = samplename,
-      cpu = threads,
-      trimmomatic_minlen = trimmomatic_minlen,
-      trimmomatic_window_size = trimmomatic_window_size,
-      trimmomatic_quality_trim_score = trimmomatic_quality_trim_score,
-      docker = trimmomatic_docker,
-      memory = trimmomatic_memory
+      samplename = samplename
     }
 
 
@@ -93,10 +75,7 @@ workflow wf_varpipe {
 	input:
 	read1_trimmed = task_trimmomatic.read1_trimmed,
 	read2_trimmed = task_trimmomatic.read2_trimmed,
-	samplename = samplename,
-	cpu = threads,
-	docker = bbduk_docker,
-	memory = bbduk_memory
+	samplename = samplename
       }
     }
     
@@ -109,13 +88,10 @@ workflow wf_varpipe {
       config = config,
       outdir = outdir,
       genome = genome,
-      threads = threads,
       keep = keep,
       no_trim = no_trim,
       whole_genome = whole_genome,
-      verbose = verbose,
-      docker = varpipe_docker,
-      memory = varpipe_memory
+      verbose = verbose
     }
 
     if ( run_delly ) {
@@ -123,8 +99,7 @@ workflow wf_varpipe {
 	input:
 	bamFile = task_varpipe.bam,
 	bamIndex = task_varpipe.bai,
-	referenceFasta = reference,
-	svType = svType
+	referenceFasta = reference
       }
     }
     
@@ -133,11 +108,23 @@ workflow wf_varpipe {
 	input:
 	inputBam = task_varpipe.bam,
 	reference = reference,
-	outputBasename = outputBasename,
-	docker = gatk_docker
+	outputBasename = outputBasename
       }
     }
 
+    String the_report = if defined(report) then select_first([report]) else samplename+"_variant_interpretation.tsv"
+    
+    call vi.task_variant_interpretation {
+      input:
+      vcf = task_varpipe.DR_loci_raw_annotation,
+      bam = task_varpipe.bam,
+      bai = task_varpipe.bai,
+      bed = bed,
+      json = json,
+      sample_name = samplename,
+      report = the_report
+    }
+    
     Array[File] allReports = flatten([
     select_all([task_trimmomatic.trim_err, task_fastqc.forwardData, task_fastqc.reverseData, task_bbduk.adapter_stats, task_bbduk.phiX_stats, task_varpipe.snpEff_summary_full, task_varpipe.snpEff_summary_targets ]),
     flatten(select_all([RunCollectMultipleMetrics.collectMetricsOutput,[]]))
@@ -146,8 +133,7 @@ workflow wf_varpipe {
       call multiQC.task_multiqc {
 	input:
 	inputFiles = allReports,
-	outputPrefix = samplename,
-	docker = multiqc_docker
+	outputPrefix = samplename
       }
     }
   }
@@ -195,7 +181,96 @@ workflow wf_varpipe {
     File phiX_stats = select_first([task_bbduk.phiX_stats, noneFile])
     # output from delly
     File dellyVcf = select_first([task_delly.vcfFile, noneFile])
+    # variant interpretation
+    File? interpretation_report = task_variant_interpretation.interpretation_report
     # multiqc
     File? multiqc_report = task_multiqc.report
+  }
+
+  meta {
+    author: "Dieter Best"
+    email: "Dieter.Best@cdph.ca.gov"
+    description: "## variant pipeline \n This is the CDC TB profiler: https://github.com/CDCgov/NCHHSTP-DTBE-Varpipe-WGS.\n\n This also runs fastq QC, decontamination, and alignment QC."
+  }
+  
+  parameter_meta {
+    read1: {
+      description: "List of fastq files with forward reads.",
+      category: "required"
+    }
+    read2: {
+      description: "List of fastq files with reverse reads.",
+      category: "required"
+    }
+    reference: {
+      description: "Reference sequence to align to.",
+      category: "required"
+    }
+    config: {
+      description: "Configuration file with parameters for the pipeline.",
+      category: "required"
+    }
+    samplename: {
+      description: "Name of the sample.",
+      category: "required"
+    }
+    outdir: {
+      description: "Name of output directory.",
+      category: "required"
+    }
+    genome: {
+      description: "Name of reference genome.",
+      category: "optional"
+    }
+    keep: {
+      description: "Flag if temporary output files should be kept, for debugging purposes.",
+      category: "optional"
+    }
+    whole_genome: {
+      description: "Flag if variant calls should be performed on entire genome, not only intervals of interest.",
+      category: "optional"
+    }
+    verbose: {
+      description: "Flag for additional debugging output written to log file.",
+      category: "optional"
+    }
+    run_bamQC: {
+      description: "Flag for performing alignment bam QC.",
+      category: "optional"
+    }
+    outputBasename: {
+      description: "Prefix for the output files of the alignment QC.",
+      category: "optional"
+    }
+    minNumberReads: {
+      description: "Minimum number of reads required to run the pipeline.",
+      category: "optional"
+    }
+    run_decontamination: {
+      description: "Flag, turn on if decontamination of fastq files should be run.",
+      category: "optional"
+    }
+    run_delly: {
+      description: "Flag, turn on if delly for structural variant calling should be run.",
+      category: "optional"
+    }
+    bed: {
+      description: "bed file with genomic intervals of interest. Note: reference name in case of London TB profiler is 'Chromosome', make sure to use correct bed file",
+      category: "required"
+    }
+    json: {
+      description: "json file with drug information for variants.",
+      category: "required"
+    }
+    report: {
+      description: "Name for output tsv file.",
+      category: "optional"
+    }
+    # output
+    adapter_stats: {description: "Name file where decontamination procedure writes adapter contamination statistics to."}
+    bam: {description: "Output alignement file of alignment procedure, aligner is bwa."}
+    bai: {description: "Index file for output alignement file of alignment procedure, aligner is bwa."}
+    collectMetricsOutput: {description: "Array of output files from alignment bam QC."}
+    interpretation_report: {description: "Output tsv file from variant interpretation."}
   }
 }
