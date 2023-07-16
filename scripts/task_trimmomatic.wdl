@@ -5,15 +5,17 @@ task task_trimmomatic {
     File read1
     File read2
     String samplename
-    String docker="staphb/trimmomatic:0.39"
+    String docker = "staphb/trimmomatic:0.39"
     Int trimmomatic_minlen = 40
     Int trimmomatic_window_size = 4
     Int trimmomatic_quality_trim_score = 15
     Int cpu = 4
-    String memory = "8 GB"
+    String memory = "8GB"
   }
 
   command <<<
+    set -ex
+    
     date | tee DATE
 
     trimmomatic -version > VERSION
