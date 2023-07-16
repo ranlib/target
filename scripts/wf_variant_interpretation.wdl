@@ -10,10 +10,6 @@ workflow wf_variant_interpretation {
     File bed
     File json
     String sample_name
-    Int minimum_coverage = 10
-    Int minimum_total_depth = 0
-    Int minimum_variant_depth = 0
-    Boolean all_genes = false
     String? report
   }
 
@@ -28,11 +24,7 @@ workflow wf_variant_interpretation {
     bed = bed,
     json = json,
     sample_name = sample_name,
-    minimum_coverage = minimum_coverage,
-    minimum_total_depth = minimum_total_depth,
-    minimum_variant_depth = minimum_variant_depth,
-    report = the_report,
-    all_genes = all_genes
+    report = the_report
   }
   
   output {
