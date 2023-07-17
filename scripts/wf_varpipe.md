@@ -61,11 +61,6 @@
         <i>File? &mdash; Default: None</i><br />
         ???
 </p>
-<p name="wf_varpipe.RunCollectMultipleMetrics.docker">
-        <b>wf_varpipe.RunCollectMultipleMetrics.docker</b><br />
-        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
-        ???
-</p>
 <p name="wf_varpipe.task_bbduk.contamination">
         <b>wf_varpipe.task_bbduk.contamination</b><br />
         <i>File? &mdash; Default: None</i><br />
@@ -78,12 +73,22 @@
 </p>
 <p name="wf_varpipe.task_bbduk.memory">
         <b>wf_varpipe.task_bbduk.memory</b><br />
-        <i>String &mdash; Default: "2GB"</i><br />
+        <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_bbduk.threads">
         <b>wf_varpipe.task_bbduk.threads</b><br />
         <i>Int &mdash; Default: 1</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_collect_multiple_metrics.docker">
+        <b>wf_varpipe.task_collect_multiple_metrics.docker</b><br />
+        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_collect_multiple_metrics.outputBasename">
+        <b>wf_varpipe.task_collect_multiple_metrics.outputBasename</b><br />
+        <i>String &mdash; Default: "multiple_metrics"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_delly.docker">
@@ -108,7 +113,7 @@
 </p>
 <p name="wf_varpipe.task_multiqc.docker">
         <b>wf_varpipe.task_multiqc.docker</b><br />
-        <i>String &mdash; Default: "ewels/multiqc:1.14"</i><br />
+        <i>String &mdash; Default: "ewels/multiqc:v1.14"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_trimmomatic.docker">
