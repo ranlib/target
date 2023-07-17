@@ -4,7 +4,7 @@ task task_multiqc {
   input {
     Array[File] inputFiles
     String outputPrefix
-    String docker = "ewels/multiqc:1.14"
+    String docker = "ewels/multiqc:v1.14"
   }
   
   command <<<
