@@ -24,7 +24,6 @@ workflow wf_varpipe {
     Boolean verbose = false
     # bamQC
     Boolean run_bamQC = true
-    String outputBasename = "multiple_metrics"
     Int minNumberReads = 100000
     # bbduk
     Boolean run_decontamination = true
@@ -104,11 +103,10 @@ workflow wf_varpipe {
     }
     
     if ( run_bamQC ) {
-      call bamQC.RunCollectMultipleMetrics {
+      call bamQC.task_collect_multiple_metrics {
 	input:
 	inputBam = task_varpipe.bam,
-	reference = reference,
-	outputBasename = outputBasename
+	reference = reference
       }
     }
 
@@ -127,7 +125,7 @@ workflow wf_varpipe {
     
     Array[File] allReports = flatten([
     select_all([task_trimmomatic.trim_err, task_fastqc.forwardData, task_fastqc.reverseData, task_bbduk.adapter_stats, task_bbduk.phiX_stats, task_varpipe.snpEff_summary_full, task_varpipe.snpEff_summary_targets ]),
-    flatten(select_all([RunCollectMultipleMetrics.collectMetricsOutput,[]]))
+    flatten(select_all([task_collect_multiple_metrics.collectMetricsOutput,[]]))
     ])
     if ( length(allReports) > 0 ) {
       call multiQC.task_multiqc {
@@ -166,7 +164,7 @@ workflow wf_varpipe {
     File? qc_log = task_varpipe.qc_log
     String? pipeline_date = task_varpipe.pipeline_date
     # output from bam QC
-    Array[File]? collectMetricsOutput = RunCollectMultipleMetrics.collectMetricsOutput
+    Array[File]? collectMetricsOutput = task_collect_multiple_metrics.collectMetricsOutput
     # output from fastqc
     File forwardHtml = task_fastqc.forwardHtml
     File reverseHtml = task_fastqc.reverseHtml
