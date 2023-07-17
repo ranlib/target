@@ -1,5 +1,6 @@
 {
-    "inputBam": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_conda_before/ERR552797_sdrcsm.bam",
-    "reference": "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.fasta",
-    "outputBasename": "multiple_metrics"
+    "wf_collect_multiple_metrics.inputBam": "/home/dieterbest/Analysis/varpipe4/tests/ERR552797_conda_before/ERR552797_sdrcsm.bam",
+    "wf_collect_multiple_metrics.reference": "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.fasta",
+    "wf_collect_multiple_metrics.task_collect_multiple_metrics.docker": "broadinstitute/gatk:4.4.0.0",
+    "wf_collect_multiple_metrics.task_collect_multiple_metrics.outputBasename": "multiple_metrics"
 }

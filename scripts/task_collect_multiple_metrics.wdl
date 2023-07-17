@@ -1,6 +1,6 @@
 version 1.0
 
-task RunCollectMultipleMetrics {
+task task_collect_multiple_metrics {
   input {
     File inputBam
     File reference
