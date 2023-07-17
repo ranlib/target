@@ -21,8 +21,9 @@ workflow wf_bbduk {
   output {
     File read1_clean = task_bbduk.read1_clean
     File read2_clean = task_bbduk.read2_clean
-    File adapter_stats = task_bbduk.adapter_stats
     File phiX_stats = task_bbduk.phiX_stats
+    File adapter_stats = task_bbduk.adapter_stats
+    File? Covid19_stats = task_bbduk.Covid19_stats
     String bbduk_docker  = task_bbduk.bbduk_docker
     String pipeline_date = task_bbduk.pipeline_date
   }
