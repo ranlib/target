@@ -7,49 +7,9 @@
 ## Inputs
 
 ### Required inputs
-<p name="wf_tbprofiler.caller">
-        <b>wf_tbprofiler.caller</b><br />
-        <i>String &mdash; Default: None</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.cov_frac_threshold">
-        <b>wf_tbprofiler.cov_frac_threshold</b><br />
-        <i>Int &mdash; Default: None</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.mapper">
-        <b>wf_tbprofiler.mapper</b><br />
-        <i>String &mdash; Default: None</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.min_af">
-        <b>wf_tbprofiler.min_af</b><br />
-        <i>Float &mdash; Default: None</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.min_af_pred">
-        <b>wf_tbprofiler.min_af_pred</b><br />
-        <i>Float &mdash; Default: None</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.min_depth">
-        <b>wf_tbprofiler.min_depth</b><br />
-        <i>Int &mdash; Default: None</i><br />
-        ???
-</p>
 <p name="wf_tbprofiler.minNumberReads">
         <b>wf_tbprofiler.minNumberReads</b><br />
         <i>Int &mdash; Default: None</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.no_trim">
-        <b>wf_tbprofiler.no_trim</b><br />
-        <i>Boolean &mdash; Default: None</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.outputBasename">
-        <b>wf_tbprofiler.outputBasename</b><br />
-        <i>String &mdash; Default: None</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.read1">
@@ -82,40 +42,10 @@
         <i>String &mdash; Default: None</i><br />
         Name of the sample.
 </p>
-<p name="wf_tbprofiler.tbprofiler_docker_image">
-        <b>wf_tbprofiler.tbprofiler_docker_image</b><br />
-        <i>String &mdash; Default: None</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.threads">
-        <b>wf_tbprofiler.threads</b><br />
-        <i>Int &mdash; Default: None</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.trimmomatic_minlen">
-        <b>wf_tbprofiler.trimmomatic_minlen</b><br />
-        <i>Int &mdash; Default: None</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.trimmomatic_quality_trim_score">
-        <b>wf_tbprofiler.trimmomatic_quality_trim_score</b><br />
-        <i>Int &mdash; Default: None</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.trimmomatic_window_size">
-        <b>wf_tbprofiler.trimmomatic_window_size</b><br />
-        <i>Int &mdash; Default: None</i><br />
-        ???
-</p>
 
 ### Other inputs
 <details>
 <summary> Show/Hide </summary>
-<p name="wf_tbprofiler.RunCollectMultipleMetrics.docker">
-        <b>wf_tbprofiler.RunCollectMultipleMetrics.docker</b><br />
-        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
-        ???
-</p>
 <p name="wf_tbprofiler.task_bbduk.contamination">
         <b>wf_tbprofiler.task_bbduk.contamination</b><br />
         <i>File? &mdash; Default: None</i><br />
@@ -136,14 +66,74 @@
         <i>Int &mdash; Default: 1</i><br />
         ???
 </p>
+<p name="wf_tbprofiler.task_collect_multiple_metrics.docker">
+        <b>wf_tbprofiler.task_collect_multiple_metrics.docker</b><br />
+        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_collect_multiple_metrics.outputBasename">
+        <b>wf_tbprofiler.task_collect_multiple_metrics.outputBasename</b><br />
+        <i>String &mdash; Default: "multiple_metrics"</i><br />
+        ???
+</p>
 <p name="wf_tbprofiler.task_fastqc.docker">
         <b>wf_tbprofiler.task_fastqc.docker</b><br />
         <i>String &mdash; Default: "staphb/fastqc:0.12.1"</i><br />
         ???
 </p>
+<p name="wf_tbprofiler.task_fastqc.threads">
+        <b>wf_tbprofiler.task_fastqc.threads</b><br />
+        <i>Int &mdash; Default: 1</i><br />
+        ???
+</p>
 <p name="wf_tbprofiler.task_multiqc.docker">
         <b>wf_tbprofiler.task_multiqc.docker</b><br />
-        <i>String &mdash; Default: "ewels/multiqc:1.14"</i><br />
+        <i>String &mdash; Default: "ewels/multiqc:v1.14"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_tbprofiler.caller">
+        <b>wf_tbprofiler.task_tbprofiler.caller</b><br />
+        <i>String &mdash; Default: "bcftools"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_tbprofiler.cov_frac_threshold">
+        <b>wf_tbprofiler.task_tbprofiler.cov_frac_threshold</b><br />
+        <i>Int &mdash; Default: 1</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_tbprofiler.docker">
+        <b>wf_tbprofiler.task_tbprofiler.docker</b><br />
+        <i>String &mdash; Default: "staphb/tbprofiler:4.4.2"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_tbprofiler.mapper">
+        <b>wf_tbprofiler.task_tbprofiler.mapper</b><br />
+        <i>String &mdash; Default: "bwa"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_tbprofiler.min_af">
+        <b>wf_tbprofiler.task_tbprofiler.min_af</b><br />
+        <i>Float &mdash; Default: 0.1</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_tbprofiler.min_af_pred">
+        <b>wf_tbprofiler.task_tbprofiler.min_af_pred</b><br />
+        <i>Float &mdash; Default: 0.1</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_tbprofiler.min_depth">
+        <b>wf_tbprofiler.task_tbprofiler.min_depth</b><br />
+        <i>Int &mdash; Default: 10</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_tbprofiler.no_trim">
+        <b>wf_tbprofiler.task_tbprofiler.no_trim</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_tbprofiler.threads">
+        <b>wf_tbprofiler.task_tbprofiler.threads</b><br />
+        <i>Int &mdash; Default: 1</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.task_trimmomatic.docker">
@@ -154,6 +144,26 @@
 <p name="wf_tbprofiler.task_trimmomatic.memory">
         <b>wf_tbprofiler.task_trimmomatic.memory</b><br />
         <i>String &mdash; Default: "8GB"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_trimmomatic.threads">
+        <b>wf_tbprofiler.task_trimmomatic.threads</b><br />
+        <i>Int &mdash; Default: 4</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_trimmomatic.trimmomatic_minlen">
+        <b>wf_tbprofiler.task_trimmomatic.trimmomatic_minlen</b><br />
+        <i>Int &mdash; Default: 40</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_trimmomatic.trimmomatic_quality_trim_score">
+        <b>wf_tbprofiler.task_trimmomatic.trimmomatic_quality_trim_score</b><br />
+        <i>Int &mdash; Default: 15</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_trimmomatic.trimmomatic_window_size">
+        <b>wf_tbprofiler.task_trimmomatic.trimmomatic_window_size</b><br />
+        <i>Int &mdash; Default: 4</i><br />
         ???
 </p>
 </details>

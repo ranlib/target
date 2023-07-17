@@ -15,22 +15,9 @@ workflow wf_tbprofiler {
     Array[File]+ read2
     File reference
     String samplename
-    String tbprofiler_docker_image
-    String mapper
-    String caller
-    Float min_af
-    Float min_af_pred
-    Int threads
-    Int min_depth
-    Int cov_frac_threshold
     Int minNumberReads
-    Int trimmomatic_minlen
-    Int trimmomatic_window_size
-    Int trimmomatic_quality_trim_score
-    Boolean no_trim
     Boolean run_decontamination
     Boolean run_bamQC
-    String outputBasename
   }
 
   String outputForward = "${samplename}_1.fq.gz"
@@ -47,8 +34,7 @@ workflow wf_tbprofiler {
   call fastqc.task_fastqc {
     input:
     forwardReads = task_concatenate_fastq.concatenatedForwardFastq,
-    reverseReads = task_concatenate_fastq.concatenatedReverseFastq,
-    threads = threads
+    reverseReads = task_concatenate_fastq.concatenatedReverseFastq
   }
 
   Boolean filter1 = task_fastqc.numberForwardReads == task_fastqc.numberReverseReads
@@ -60,11 +46,7 @@ workflow wf_tbprofiler {
       input:
       read1 = task_concatenate_fastq.concatenatedForwardFastq,
       read2 = task_concatenate_fastq.concatenatedReverseFastq,
-      samplename = samplename,
-      cpu = threads,
-      trimmomatic_minlen = trimmomatic_minlen,
-      trimmomatic_window_size = trimmomatic_window_size,
-      trimmomatic_quality_trim_score = trimmomatic_quality_trim_score
+      samplename = samplename
     }
 
     if ( run_decontamination ) {
@@ -80,16 +62,7 @@ workflow wf_tbprofiler {
       input:
       read1 = select_first([task_bbduk.read1_clean, task_trimmomatic.read1_trimmed]),
       read2 = select_first([task_bbduk.read2_clean, task_trimmomatic.read1_trimmed]),
-      samplename = samplename,
-      cpu = threads,
-      tbprofiler_docker_image = tbprofiler_docker_image,
-      mapper = mapper,
-      caller = caller,
-      min_depth = min_depth,
-      min_af = min_af,
-      min_af_pred = min_af_pred,
-      cov_frac_threshold = cov_frac_threshold,
-      no_trim = no_trim
+      samplename = samplename
     }
     
     call bcf2vcf.task_bcf2vcf {
@@ -98,17 +71,16 @@ workflow wf_tbprofiler {
     }
 
     if ( run_bamQC ) {
-      call bamQC.RunCollectMultipleMetrics {
+      call bamQC.task_collect_multiple_metrics {
 	input:
 	inputBam = task_tbprofiler.bam,
-	reference = reference,
-	outputBasename = outputBasename
+	reference = reference
       }
     }
 
     Array[File] allReports = flatten([
     select_all([task_trimmomatic.trim_log, task_fastqc.forwardData, task_fastqc.reverseData, task_bbduk.adapter_stats, task_bbduk.phiX_stats]),
-    flatten(select_all([RunCollectMultipleMetrics.collectMetricsOutput,[]]))
+    flatten(select_all([task_collect_multiple_metrics.collectMetricsOutput,[]]))
     ])
     if ( length(allReports) > 0 ) {
       call multiQC.task_multiqc {
@@ -142,7 +114,7 @@ workflow wf_tbprofiler {
     File forwardData = task_fastqc.forwardData
     File reverseData = task_fastqc.reverseData
     # output from bam QC
-    Array[File]? collectMetricsOutput = RunCollectMultipleMetrics.collectMetricsOutput
+    Array[File]? collectMetricsOutput = task_collect_multiple_metrics.collectMetricsOutput
     # multiqc
     File? multiqc_report = task_multiqc.report
   }

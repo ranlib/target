@@ -5,14 +5,14 @@ task task_tbprofiler {
     File read1
     File? read2
     String samplename
-    String tbprofiler_docker_image = "staphb/tbprofiler:4.4.2"
+    String docker = "staphb/tbprofiler:4.4.2"
     String mapper = "bwa"
     String caller = "bcftools"
     Int min_depth = 10
     Float min_af = 0.1
     Float min_af_pred = 0.1
     Int cov_frac_threshold = 1
-    Int cpu = 1
+    Int threads = 1
     Boolean no_trim = false
   }
   command {
@@ -20,7 +20,7 @@ task task_tbprofiler {
     ~{true="--no_trim" false="" no_trim} \
     --read1 ~{read1} \
     --read2 ~{read2} \
-    --threads ~{cpu} \
+    --threads ~{threads} \
     --prefix ~{samplename} \
     --mapper ~{mapper} \
     --caller ~{caller} \
@@ -42,9 +42,9 @@ task task_tbprofiler {
     File bcf = "./vcf/~{samplename}.delly.bcf"
   }
   runtime {
-    docker: "~{tbprofiler_docker_image}"
+    docker: "~{docker}"
     memory: "16 GB"
-    cpu: cpu
+    cpu: threads
   }
   meta {
     author: "Dieter Best"
