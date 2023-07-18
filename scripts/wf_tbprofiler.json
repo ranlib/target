@@ -1,10 +1,21 @@
 {
+    "wf_tbprofiler.bed": "/home/dieterbest/Software/TBProfiler/db/tbdb.bed",
+    "wf_tbprofiler.json": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb.dr.json",
     "wf_tbprofiler.minNumberReads": 100000,
     "wf_tbprofiler.run_decontamination": true,
     "wf_tbprofiler.run_bamQC": true,
     "wf_tbprofiler.samplename": "ERR552797",
-    "wf_tbprofiler.read1": ["/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz"],
-    "wf_tbprofiler.read2": ["/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz"],
-    "wf_tbprofiler.reference": "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.fasta"
+    "wf_tbprofiler.read1": [
+        "/home/dieterbest/Analysis/varpipe4/data/1_1.fq.gz",
+        "/home/dieterbest/Analysis/varpipe4/data/2_1.fq.gz",
+        "/home/dieterbest/Analysis/varpipe4/data/3_1.fq.gz"
+    ],
+    "wf_tbprofiler.read2": [
+        "/home/dieterbest/Analysis/varpipe4/data/1_2.fq.gz",
+        "/home/dieterbest/Analysis/varpipe4/data/2_2.fq.gz",
+        "/home/dieterbest/Analysis/varpipe4/data/3_2.fq.gz"
+    ],
+    "wf_tbprofiler.reference": "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.fasta",
+    "wf_tbprofiler.report": "ERR552797_variant_interpretation.tsv"
 }
 

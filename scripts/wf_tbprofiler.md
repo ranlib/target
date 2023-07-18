@@ -7,6 +7,16 @@
 ## Inputs
 
 ### Required inputs
+<p name="wf_tbprofiler.bed">
+        <b>wf_tbprofiler.bed</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.json">
+        <b>wf_tbprofiler.json</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
+</p>
 <p name="wf_tbprofiler.minNumberReads">
         <b>wf_tbprofiler.minNumberReads</b><br />
         <i>Int &mdash; Default: None</i><br />
@@ -46,6 +56,11 @@
 ### Other inputs
 <details>
 <summary> Show/Hide </summary>
+<p name="wf_tbprofiler.report">
+        <b>wf_tbprofiler.report</b><br />
+        <i>String? &mdash; Default: None</i><br />
+        ???
+</p>
 <p name="wf_tbprofiler.task_bbduk.contamination">
         <b>wf_tbprofiler.task_bbduk.contamination</b><br />
         <i>File? &mdash; Default: None</i><br />
@@ -58,7 +73,7 @@
 </p>
 <p name="wf_tbprofiler.task_bbduk.memory">
         <b>wf_tbprofiler.task_bbduk.memory</b><br />
-        <i>String &mdash; Default: "2GB"</i><br />
+        <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.task_bbduk.threads">
@@ -166,6 +181,31 @@
         <i>Int &mdash; Default: 4</i><br />
         ???
 </p>
+<p name="wf_tbprofiler.task_variant_interpretation.all_genes">
+        <b>wf_tbprofiler.task_variant_interpretation.all_genes</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_variant_interpretation.docker">
+        <b>wf_tbprofiler.task_variant_interpretation.docker</b><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.1"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_variant_interpretation.minimum_coverage">
+        <b>wf_tbprofiler.task_variant_interpretation.minimum_coverage</b><br />
+        <i>Int &mdash; Default: 10</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_variant_interpretation.minimum_total_depth">
+        <b>wf_tbprofiler.task_variant_interpretation.minimum_total_depth</b><br />
+        <i>Int &mdash; Default: 0</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_variant_interpretation.minimum_variant_depth">
+        <b>wf_tbprofiler.task_variant_interpretation.minimum_variant_depth</b><br />
+        <i>Int &mdash; Default: 0</i><br />
+        ???
+</p>
 </details>
 
 ## Outputs
@@ -212,6 +252,11 @@
 <p name="wf_tbprofiler.forwardZip">
         <b>wf_tbprofiler.forwardZip</b><br />
         <i>File</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.interpretation_report">
+        <b>wf_tbprofiler.interpretation_report</b><br />
+        <i>File?</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.multiqc_report">

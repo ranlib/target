@@ -8,6 +8,7 @@ import "./task_trimmomatic.wdl" as trimmomatic
 import "./task_collect_multiple_metrics.wdl" as bamQC
 import "./task_multiqc.wdl" as multiQC
 import "./task_concatenate_fastq.wdl" as concatenate_fastq
+import "./task_variant_interpretation.wdl" as vi
 
 workflow wf_tbprofiler {
   input {
@@ -18,6 +19,10 @@ workflow wf_tbprofiler {
     Int minNumberReads
     Boolean run_decontamination
     Boolean run_bamQC
+    # variant interpretation
+    File bed
+    File json
+    String? report
   }
 
   String outputForward = "${samplename}_1.fq.gz"
@@ -78,6 +83,19 @@ workflow wf_tbprofiler {
       }
     }
 
+    String the_report = if defined(report) then select_first([report]) else samplename+"_variant_interpretation.tsv"
+    
+    call vi.task_variant_interpretation {
+      input:
+      vcf = task_tbprofiler.vcf,
+      bam = task_tbprofiler.bam,
+      bai = task_tbprofiler.bai,
+      bed = bed,
+      json = json,
+      sample_name = samplename,
+      report = the_report
+    }
+
     Array[File] allReports = flatten([
     select_all([task_trimmomatic.trim_log, task_fastqc.forwardData, task_fastqc.reverseData, task_bbduk.adapter_stats, task_bbduk.phiX_stats]),
     flatten(select_all([task_collect_multiple_metrics.collectMetricsOutput,[]]))
@@ -115,6 +133,8 @@ workflow wf_tbprofiler {
     File reverseData = task_fastqc.reverseData
     # output from bam QC
     Array[File]? collectMetricsOutput = task_collect_multiple_metrics.collectMetricsOutput
+    # variant interpretation
+    File? interpretation_report = task_variant_interpretation.interpretation_report
     # multiqc
     File? multiqc_report = task_multiqc.report
   }
