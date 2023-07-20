@@ -56,11 +56,6 @@
         <i>Boolean &mdash; Default: true</i><br />
         ???
 </p>
-<p name="wf_varpipe.noneFile">
-        <b>wf_varpipe.noneFile</b><br />
-        <i>File? &mdash; Default: None</i><br />
-        ???
-</p>
 <p name="wf_varpipe.task_bbduk.contamination">
         <b>wf_varpipe.task_bbduk.contamination</b><br />
         <i>File? &mdash; Default: None</i><br />
@@ -153,7 +148,7 @@
 </p>
 <p name="wf_varpipe.task_variant_interpretation.docker">
         <b>wf_varpipe.task_variant_interpretation.docker</b><br />
-        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.1"</i><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.2"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_variant_interpretation.minimum_coverage">
@@ -191,7 +186,7 @@
 ## Outputs
 <p name="wf_varpipe.adapter_stats">
         <b>wf_varpipe.adapter_stats</b><br />
-        <i>File</i><br />
+        <i>File?</i><br />
         Name file where decontamination procedure writes adapter contamination statistics to.
 </p>
 <p name="wf_varpipe.bai">
@@ -211,58 +206,58 @@
 </p>
 <p name="wf_varpipe.dellyVcf">
         <b>wf_varpipe.dellyVcf</b><br />
-        <i>File</i><br />
-        ???
+        <i>File?</i><br />
+        Ouput vcf file from delly structural variant caller.
 </p>
 <p name="wf_varpipe.DR_loci_annotation">
         <b>wf_varpipe.DR_loci_annotation</b><br />
         <i>File?</i><br />
-        ???
+        Ouput text file with annotated variant calls in regions of interest.
 </p>
 <p name="wf_varpipe.DR_loci_Final_annotation">
         <b>wf_varpipe.DR_loci_Final_annotation</b><br />
         <i>File?</i><br />
-        ???
+        Ouput text file with annotated variant calls in regions of interest with some selection.
 </p>
 <p name="wf_varpipe.DR_loci_raw_annotation">
         <b>wf_varpipe.DR_loci_raw_annotation</b><br />
         <i>File?</i><br />
-        ???
+        Ouput vcf file with annotated variant calls in regions of interest.
 </p>
 <p name="wf_varpipe.forwardData">
         <b>wf_varpipe.forwardData</b><br />
         <i>File</i><br />
-        ???
+        Fastqc output data for forward reads.
 </p>
 <p name="wf_varpipe.forwardHtml">
         <b>wf_varpipe.forwardHtml</b><br />
         <i>File</i><br />
-        ???
+        Fastqc output html file for forward reads.
 </p>
 <p name="wf_varpipe.forwardSummary">
         <b>wf_varpipe.forwardSummary</b><br />
         <i>File</i><br />
-        ???
+        Fastqc output summary file for forward reads.
 </p>
 <p name="wf_varpipe.forwardZip">
         <b>wf_varpipe.forwardZip</b><br />
         <i>File</i><br />
-        ???
+        Fastqc output zip file for forward reads.
 </p>
 <p name="wf_varpipe.full_annotation">
         <b>wf_varpipe.full_annotation</b><br />
         <i>File?</i><br />
-        ???
+        Ouput text file with annotated variant calls in regions of interest.
 </p>
 <p name="wf_varpipe.full_Final_annotation">
         <b>wf_varpipe.full_Final_annotation</b><br />
         <i>File?</i><br />
-        ???
+        Ouput text file with annotated variant calls in regions of interest with some selection.
 </p>
 <p name="wf_varpipe.full_raw_annotation">
         <b>wf_varpipe.full_raw_annotation</b><br />
         <i>File?</i><br />
-        ???
+        Ouput vcf file with annotated variant calls in regions of interest.
 </p>
 <p name="wf_varpipe.genome_region_coverage">
         <b>wf_varpipe.genome_region_coverage</b><br />
@@ -272,7 +267,7 @@
 <p name="wf_varpipe.interpretation">
         <b>wf_varpipe.interpretation</b><br />
         <i>File?</i><br />
-        ???
+        Output tsv file from varpipe interpretation.
 </p>
 <p name="wf_varpipe.interpretation_report">
         <b>wf_varpipe.interpretation_report</b><br />
@@ -282,17 +277,17 @@
 <p name="wf_varpipe.Lineage">
         <b>wf_varpipe.Lineage</b><br />
         <i>File?</i><br />
-        ???
+        Varpipe lineage output.
 </p>
 <p name="wf_varpipe.lineage_report">
         <b>wf_varpipe.lineage_report</b><br />
         <i>File?</i><br />
-        ???
+        Varpipe lineage report.
 </p>
 <p name="wf_varpipe.log">
         <b>wf_varpipe.log</b><br />
         <i>File?</i><br />
-        ???
+        Varpipe log file.
 </p>
 <p name="wf_varpipe.mark_duplicates_metrics">
         <b>wf_varpipe.mark_duplicates_metrics</b><br />
@@ -302,12 +297,12 @@
 <p name="wf_varpipe.multiqc_report">
         <b>wf_varpipe.multiqc_report</b><br />
         <i>File?</i><br />
-        ???
+        Output html file with QC summary report.
 </p>
 <p name="wf_varpipe.phiX_stats">
         <b>wf_varpipe.phiX_stats</b><br />
-        <i>File</i><br />
-        ???
+        <i>File?</i><br />
+        phiX contamination report from bbduk decontamination task.
 </p>
 <p name="wf_varpipe.pipeline_date">
         <b>wf_varpipe.pipeline_date</b><br />
@@ -317,27 +312,27 @@
 <p name="wf_varpipe.qc_log">
         <b>wf_varpipe.qc_log</b><br />
         <i>File?</i><br />
-        ???
+        Varpipe QC report.
 </p>
 <p name="wf_varpipe.reverseData">
         <b>wf_varpipe.reverseData</b><br />
         <i>File</i><br />
-        ???
+        Fastqc output data for reverse reads.
 </p>
 <p name="wf_varpipe.reverseHtml">
         <b>wf_varpipe.reverseHtml</b><br />
         <i>File</i><br />
-        ???
+        Fastqc output html file for reverse reads.
 </p>
 <p name="wf_varpipe.reverseSummary">
         <b>wf_varpipe.reverseSummary</b><br />
         <i>File</i><br />
-        ???
+        Fastqc output summary file for reverse reads.
 </p>
 <p name="wf_varpipe.reverseZip">
         <b>wf_varpipe.reverseZip</b><br />
         <i>File</i><br />
-        ???
+        Fastqc output zip file for reverse reads.
 </p>
 <p name="wf_varpipe.snpEff_summary_full">
         <b>wf_varpipe.snpEff_summary_full</b><br />
