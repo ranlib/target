@@ -16,7 +16,7 @@ workflow wf_tbprofiler {
     Array[File]+ read2
     File reference
     String samplename
-    Int minNumberReads
+    Int minNumberReads = 10000
     Boolean run_decontamination
     Boolean run_bamQC
     # variant interpretation
@@ -95,21 +95,21 @@ workflow wf_tbprofiler {
       sample_name = samplename,
       report = the_report
     }
-
-    Array[File] allReports = flatten([
-    select_all([task_trimmomatic.trim_log, task_fastqc.forwardData, task_fastqc.reverseData, task_bbduk.adapter_stats, task_bbduk.phiX_stats]),
-    flatten(select_all([task_collect_multiple_metrics.collectMetricsOutput,[]]))
-    ])
-    if ( length(allReports) > 0 ) {
-      call multiQC.task_multiqc {
-	input:
-	inputFiles = allReports,
-	outputPrefix = samplename
-      }
-    }
     
   }
   # end filter
+  
+  Array[File] allReports = flatten([
+  select_all([task_trimmomatic.trim_err, task_fastqc.forwardData, task_fastqc.reverseData, task_bbduk.adapter_stats, task_bbduk.phiX_stats ]),
+  flatten(select_all([task_collect_multiple_metrics.collectMetricsOutput,[]]))
+  ])
+  if ( length(allReports) > 0 ) {
+    call multiQC.task_multiqc {
+      input:
+      inputFiles = allReports,
+      outputPrefix = samplename
+    }
+  }
   
   output {
     File? csv = task_tbprofiler.csv
@@ -162,6 +162,51 @@ workflow wf_tbprofiler {
       description: "Name of the sample.",
       category: "required"
     }
+    bed: {
+      description: "bed file with genomic intervals of interest. Note: reference name in case of London TB profiler is 'Chromosome', make sure to use correct bed file",
+      category: "required"
+    }
+    json: {
+      description: "json file with drug information for variants.",
+      category: "required"
+    }
+    report: {
+      description: "Name for output tsv file.",
+      category: "optional"
+    }
+    run_decontamination: {
+      description: "Flag, turn on if decontamination of fastq files should be run.",
+      category: "optional"
+    }
+    run_bamQC: {
+      description: "Flag for performing alignment bam QC.",
+      category: "optional"
+    }
+    # output
+    adapter_stats: {description: "Name file where decontamination procedure writes adapter contamination statistics to."}
+    phiX_stats: {description: "phiX contamination report from bbduk decontamination task."}
+
+    bam: {description: "Output alignement file of alignment procedure, aligner is bwa."}
+    bai: {description: "Index file for output alignement file of alignment procedure, aligner is bwa."}
+    csv: {description: "Ouput variant call file in csv format."}
+    vcf: {description: "Ouput variant call file in vcf format."}
+    svs: {description: "Ouput structural variants call file in vcf format."}
+
+    collectMetricsOutput: {description: "Array of output files from alignment bam QC."}
+
+    forwardData: {description: "Fastqc output data for forward reads."}
+    forwardHtml: {description: "Fastqc output html file for forward reads."}
+    forwardSummary: {description: "Fastqc output summary file for forward reads."}
+    forwardZip: {description: "Fastqc output zip file for forward reads."}
+    
+    reverseData: {description: "Fastqc output data for reverse reads."}
+    reverseHtml: {description: "Fastqc output html file for reverse reads."}
+    reverseSummary: {description: "Fastqc output summary file for reverse reads."}
+    reverseZip: {description: "Fastqc output zip file for reverse reads."}
+
+    trim_stats: {description: "Output text file for read trimming statistics."}
+    interpretation_report: {description: "Output tsv file from variant interpretation."}
+    multiqc_report: {description: "Output html file with QC summary report."}
   }
 
 }
