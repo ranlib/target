@@ -13,7 +13,7 @@ task task_variant_interpretation {
     Int minimum_variant_depth = 0
     Boolean all_genes = false
     String report
-    String docker = "dbest/variant_interpretation:v1.0.1"
+    String docker = "dbest/variant_interpretation:v1.0.2"
   }
   
   command {
