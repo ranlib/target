@@ -17,8 +17,8 @@ workflow wf_tbprofiler {
     File reference
     String samplename
     Int minNumberReads = 10000
-    Boolean run_decontamination
-    Boolean run_bamQC
+    Boolean run_decontamination = true
+    Boolean run_bamQC = true
     # variant interpretation
     File bed
     File json
