@@ -10,17 +10,12 @@
 <p name="wf_tbprofiler.bed">
         <b>wf_tbprofiler.bed</b><br />
         <i>File &mdash; Default: None</i><br />
-        ???
+        bed file with genomic intervals of interest. Note: reference name in case of London TB profiler is 'Chromosome', make sure to use correct bed file
 </p>
 <p name="wf_tbprofiler.json">
         <b>wf_tbprofiler.json</b><br />
         <i>File &mdash; Default: None</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.minNumberReads">
-        <b>wf_tbprofiler.minNumberReads</b><br />
-        <i>Int &mdash; Default: None</i><br />
-        ???
+        json file with drug information for variants.
 </p>
 <p name="wf_tbprofiler.read1">
         <b>wf_tbprofiler.read1</b><br />
@@ -40,12 +35,12 @@
 <p name="wf_tbprofiler.run_bamQC">
         <b>wf_tbprofiler.run_bamQC</b><br />
         <i>Boolean &mdash; Default: None</i><br />
-        ???
+        Flag for performing alignment bam QC.
 </p>
 <p name="wf_tbprofiler.run_decontamination">
         <b>wf_tbprofiler.run_decontamination</b><br />
         <i>Boolean &mdash; Default: None</i><br />
-        ???
+        Flag, turn on if decontamination of fastq files should be run.
 </p>
 <p name="wf_tbprofiler.samplename">
         <b>wf_tbprofiler.samplename</b><br />
@@ -56,9 +51,9 @@
 ### Other inputs
 <details>
 <summary> Show/Hide </summary>
-<p name="wf_tbprofiler.report">
-        <b>wf_tbprofiler.report</b><br />
-        <i>String? &mdash; Default: None</i><br />
+<p name="wf_tbprofiler.minNumberReads">
+        <b>wf_tbprofiler.minNumberReads</b><br />
+        <i>Int &mdash; Default: 10000</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.task_bbduk.contamination">
@@ -188,7 +183,7 @@
 </p>
 <p name="wf_tbprofiler.task_variant_interpretation.docker">
         <b>wf_tbprofiler.task_variant_interpretation.docker</b><br />
-        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.1"</i><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.2"</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.task_variant_interpretation.minimum_coverage">
@@ -212,97 +207,97 @@
 <p name="wf_tbprofiler.adapter_stats">
         <b>wf_tbprofiler.adapter_stats</b><br />
         <i>File?</i><br />
-        ???
+        Name file where decontamination procedure writes adapter contamination statistics to.
 </p>
 <p name="wf_tbprofiler.bai">
         <b>wf_tbprofiler.bai</b><br />
         <i>File?</i><br />
-        ???
+        Index file for output alignement file of alignment procedure, aligner is bwa.
 </p>
 <p name="wf_tbprofiler.bam">
         <b>wf_tbprofiler.bam</b><br />
         <i>File?</i><br />
-        ???
+        Output alignement file of alignment procedure, aligner is bwa.
 </p>
 <p name="wf_tbprofiler.collectMetricsOutput">
         <b>wf_tbprofiler.collectMetricsOutput</b><br />
         <i>Array[File]?</i><br />
-        ???
+        Array of output files from alignment bam QC.
 </p>
 <p name="wf_tbprofiler.csv">
         <b>wf_tbprofiler.csv</b><br />
         <i>File?</i><br />
-        ???
+        Ouput variant call file in csv format.
 </p>
 <p name="wf_tbprofiler.forwardData">
         <b>wf_tbprofiler.forwardData</b><br />
         <i>File</i><br />
-        ???
+        Fastqc output data for forward reads.
 </p>
 <p name="wf_tbprofiler.forwardHtml">
         <b>wf_tbprofiler.forwardHtml</b><br />
         <i>File</i><br />
-        ???
+        Fastqc output html file for forward reads.
 </p>
 <p name="wf_tbprofiler.forwardSummary">
         <b>wf_tbprofiler.forwardSummary</b><br />
         <i>File</i><br />
-        ???
+        Fastqc output summary file for forward reads.
 </p>
 <p name="wf_tbprofiler.forwardZip">
         <b>wf_tbprofiler.forwardZip</b><br />
         <i>File</i><br />
-        ???
+        Fastqc output zip file for forward reads.
 </p>
 <p name="wf_tbprofiler.interpretation_report">
         <b>wf_tbprofiler.interpretation_report</b><br />
         <i>File?</i><br />
-        ???
+        Output tsv file from variant interpretation.
 </p>
 <p name="wf_tbprofiler.multiqc_report">
         <b>wf_tbprofiler.multiqc_report</b><br />
         <i>File?</i><br />
-        ???
+        Output html file with QC summary report.
 </p>
 <p name="wf_tbprofiler.phiX_stats">
         <b>wf_tbprofiler.phiX_stats</b><br />
         <i>File?</i><br />
-        ???
+        phiX contamination report from bbduk decontamination task.
 </p>
 <p name="wf_tbprofiler.reverseData">
         <b>wf_tbprofiler.reverseData</b><br />
         <i>File</i><br />
-        ???
+        Fastqc output data for reverse reads.
 </p>
 <p name="wf_tbprofiler.reverseHtml">
         <b>wf_tbprofiler.reverseHtml</b><br />
         <i>File</i><br />
-        ???
+        Fastqc output html file for reverse reads.
 </p>
 <p name="wf_tbprofiler.reverseSummary">
         <b>wf_tbprofiler.reverseSummary</b><br />
         <i>File</i><br />
-        ???
+        Fastqc output summary file for reverse reads.
 </p>
 <p name="wf_tbprofiler.reverseZip">
         <b>wf_tbprofiler.reverseZip</b><br />
         <i>File</i><br />
-        ???
+        Fastqc output zip file for reverse reads.
 </p>
 <p name="wf_tbprofiler.svs">
         <b>wf_tbprofiler.svs</b><br />
         <i>File?</i><br />
-        ???
+        Ouput structural variants call file in vcf format.
 </p>
 <p name="wf_tbprofiler.trim_stats">
         <b>wf_tbprofiler.trim_stats</b><br />
         <i>File?</i><br />
-        ???
+        Output text file for read trimming statistics.
 </p>
 <p name="wf_tbprofiler.vcf">
         <b>wf_tbprofiler.vcf</b><br />
         <i>File?</i><br />
-        ???
+        Ouput variant call file in vcf format.
 </p>
 
 <hr />
