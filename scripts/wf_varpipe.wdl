@@ -24,7 +24,7 @@ workflow wf_varpipe {
     Boolean verbose = false
     # bamQC
     Boolean run_bamQC = true
-    Int minNumberReads = 100000
+    Int minNumberReads = 10000
     # bbduk
     Boolean run_decontamination = true
     # delly
@@ -35,8 +35,6 @@ workflow wf_varpipe {
     File bed
     File json
     String? report
-    # misc
-    File? noneFile
   }
 
   String outputForward = "${samplename}_1.fq.gz"
@@ -111,7 +109,6 @@ workflow wf_varpipe {
     }
 
     String the_report = if defined(report) then select_first([report]) else samplename+"_variant_interpretation.tsv"
-    
     call vi.task_variant_interpretation {
       input:
       vcf = task_varpipe.DR_loci_raw_annotation,
@@ -122,20 +119,21 @@ workflow wf_varpipe {
       sample_name = samplename,
       report = the_report
     }
-    
-    Array[File] allReports = flatten([
-    select_all([task_trimmomatic.trim_err, task_fastqc.forwardData, task_fastqc.reverseData, task_bbduk.adapter_stats, task_bbduk.phiX_stats, task_varpipe.snpEff_summary_full, task_varpipe.snpEff_summary_targets ]),
-    flatten(select_all([task_collect_multiple_metrics.collectMetricsOutput,[]]))
-    ])
-    if ( length(allReports) > 0 ) {
-      call multiQC.task_multiqc {
-	input:
-	inputFiles = allReports,
-	outputPrefix = samplename
-      }
+  }
+  # end filter
+  
+  Array[File] allReports = flatten([
+  select_all([task_trimmomatic.trim_err, task_fastqc.forwardData, task_fastqc.reverseData, task_bbduk.adapter_stats, task_bbduk.phiX_stats, task_varpipe.snpEff_summary_full, task_varpipe.snpEff_summary_targets ]),
+  flatten(select_all([task_collect_multiple_metrics.collectMetricsOutput,[]]))
+  ])
+  if ( length(allReports) > 0 ) {
+    call multiQC.task_multiqc {
+      input:
+      inputFiles = allReports,
+      outputPrefix = samplename
     }
   }
-
+    
   output {
     # output from varpipe
     File? DR_loci_annotation  = task_varpipe.DR_loci_annotation 
@@ -175,10 +173,10 @@ workflow wf_varpipe {
     File forwardData = task_fastqc.forwardData
     File reverseData = task_fastqc.reverseData
     # output from bbduk
-    File adapter_stats = select_first([task_bbduk.adapter_stats, noneFile])
-    File phiX_stats = select_first([task_bbduk.phiX_stats, noneFile])
+    File? adapter_stats = task_bbduk.adapter_stats
+    File? phiX_stats = task_bbduk.phiX_stats
     # output from delly
-    File dellyVcf = select_first([task_delly.vcfFile, noneFile])
+    File? dellyVcf = task_delly.vcfFile
     # variant interpretation
     File? interpretation_report = task_variant_interpretation.interpretation_report
     # multiqc
@@ -264,11 +262,46 @@ workflow wf_varpipe {
       description: "Name for output tsv file.",
       category: "optional"
     }
+
     # output
-    adapter_stats: {description: "Name file where decontamination procedure writes adapter contamination statistics to."}
     bam: {description: "Output alignement file of alignment procedure, aligner is bwa."}
     bai: {description: "Index file for output alignement file of alignment procedure, aligner is bwa."}
+
+    DR_loci_raw_annotation: {description: "Ouput vcf file with annotated variant calls in regions of interest."}
+    DR_loci_annotation: {description: "Ouput text file with annotated variant calls in regions of interest."}
+    DR_loci_Final_annotation: {description: "Ouput text file with annotated variant calls in regions of interest with some selection."}
+
+    full_raw_annotation: {description: "Ouput vcf file with annotated variant calls in regions of interest."}
+    full_annotation: {description: "Ouput text file with annotated variant calls in regions of interest."}
+    full_Final_annotation: {description: "Ouput text file with annotated variant calls in regions of interest with some selection."}
+
+    forwardData: {description: "Fastqc output data for forward reads."}
+    forwardHtml: {description: "Fastqc output html file for forward reads."}
+    forwardSummary: {description: "Fastqc output summary file for forward reads."}
+    forwardZip: {description: "Fastqc output zip file for forward reads."}
+    
+    reverseData: {description: "Fastqc output data for reverse reads."}
+    reverseHtml: {description: "Fastqc output html file for reverse reads."}
+    reverseSummary: {description: "Fastqc output summary file for reverse reads."}
+    reverseZip: {description: "Fastqc output zip file for reverse reads."}
+    
+    Lineage: {description: "Varpipe lineage output."}
+    lineage_report: {description: "Varpipe lineage report."}
+
+    log: {description: "Varpipe log file."}
+    qc_log: {description: "Varpipe QC report."}
+    
     collectMetricsOutput: {description: "Array of output files from alignment bam QC."}
+
+    adapter_stats: {description: "Name file where decontamination procedure writes adapter contamination statistics to."}
+    phiX_stats: {description: "phiX contamination report from bbduk decontamination task."}
+
+    dellyVcf: {description: "Ouput vcf file from delly structural variant caller."}
+
+    interpretation: {description: "Output tsv file from varpipe interpretation."}
     interpretation_report: {description: "Output tsv file from variant interpretation."}
+
+    multiqc_report: {description: "Output html file with QC summary report."}
+
   }
 }
