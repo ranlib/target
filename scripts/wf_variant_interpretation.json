@@ -6,7 +6,7 @@
     "wf_variant_interpretation.report": "ERR552797_variant_interpretation.tsv",
     "wf_variant_interpretation.sample_name": "ERR552797",
     "wf_variant_interpretation.task_variant_interpretation.all_genes": false,
-    "wf_variant_interpretation.task_variant_interpretation.docker": "dbest/variant_interpretation:v1.0.1",
+    "wf_variant_interpretation.task_variant_interpretation.docker": "dbest/variant_interpretation:v1.0.2",
     "wf_variant_interpretation.task_variant_interpretation.minimum_coverage": 10,
     "wf_variant_interpretation.task_variant_interpretation.minimum_total_depth": 0,
     "wf_variant_interpretation.task_variant_interpretation.minimum_variant_depth": 0,
