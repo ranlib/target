@@ -15,7 +15,7 @@ task task_varpipe {
     Boolean verbose = true
     Int threads = 1
     String memory = "32 GB"
-    String docker = "dbest/varpipe4:latest"
+    String docker = "dbest/varpipe4:v1.0.0"
   }
   
   command {

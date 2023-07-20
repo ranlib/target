@@ -36,7 +36,7 @@
     "wf_varpipe.task_variant_interpretation.minimum_coverage": 10,
     "wf_varpipe.task_variant_interpretation.minimum_total_depth": 0,
     "wf_varpipe.task_variant_interpretation.minimum_variant_depth": 0,
-    "wf_varpipe.task_varpipe.docker": "dbest/varpipe4:latest",
+    "wf_varpipe.task_varpipe.docker": "dbest/varpipe4:v1.0.0",
     "wf_varpipe.task_varpipe.memory": "8GB",
     "wf_varpipe.task_varpipe.threads": 4,
     "wf_varpipe.verbose": false,
