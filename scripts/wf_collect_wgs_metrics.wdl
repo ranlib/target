@@ -1,33 +1,8 @@
 version 1.0
 
-task RunCollectWgsMetrics {
-  input {
-    File inputBam
-    File reference
-    String outputFile = "collect_wgs_metrics.txt"
-    Int minMappingQuality = 20
-    Int minBaseQuality = 20
-  }
+import "./task_collect_wgs_metrics.wdl" as wgs_metrics
 
-  command {
-    gatk CollectWgsMetrics \
-    -I ${inputBam} \
-    -R ${reference} \
-    -O ${outputFile} \
-    -MQ ${minMappingQuality} \
-    -Q ${minBaseQuality}
-  }
-
-  output {
-    File collectMetricsOutput = "${outputFile}"
-  }
-  
-  runtime {
-    docker: "broadinstitute/gatk:latest"
-  }
-}
-
-workflow RunCollectWgsMetricsWorkflow {
+workflow wf_collect_wgs_metrics {
   input {
     File inputBam
     File reference
@@ -36,7 +11,7 @@ workflow RunCollectWgsMetricsWorkflow {
     Int? minBaseQuality
   }
 
-  call RunCollectWgsMetrics {
+  call wgs_metrics.task_collect_wgs_metrics {
     input:
       inputBam = inputBam,
       reference = reference,
@@ -46,6 +21,6 @@ workflow RunCollectWgsMetricsWorkflow {
     }
 
     output {
-      File collectMetricsOutput = RunCollectWgsMetrics.collectMetricsOutput
+      File collectMetricsOutput =task_collect_wgs_metrics.collectMetricsOutput
     }
 }
