@@ -37,12 +37,10 @@ task task_bbduk {
     k=31 hdist=1 \
     stats=~{samplename}.phix.stats.txt
 
-    if (( ~{get_contamination} ))
-    then
+    if (( ~{get_contamination} )) ; then
     tar -xvf ~{contamination}
 
-    if [ -f contamination/Covid19_ref.fa.gz ]
-    then
+    if [ -f contamination/Covid19_ref.fa.gz ] ; then
     bbduk.sh ~{java_mem} threads=~{threads} \
     in1=~{samplename}.rmadpt_1.fastq.gz in2=~{samplename}.rmadpt_2.fastq.gz \
     out1=~{samplename}_1.clean.fastq.gz out2=~{samplename}_2.clean.fastq.gz \
