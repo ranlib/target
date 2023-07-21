@@ -5,10 +5,12 @@ import "./task_fastqc.wdl" as fastqc
 import "./task_trimmomatic.wdl" as trimmomatic
 import "./task_bbduk.wdl" as bbduk
 import "./task_collect_multiple_metrics.wdl" as bamQC
+import "./task_collect_wgs_metrics.wdl" as wgsQC
 import "./task_delly.wdl" as delly
 import "./task_multiqc.wdl" as multiQC
 import "./task_concatenate_fastq.wdl" as concatenate_fastq
 import "./task_variant_interpretation.wdl" as vi
+import "./wf_clockwork_decontamination.wdl" as cd
 
 workflow wf_varpipe {
   input {
@@ -27,6 +29,10 @@ workflow wf_varpipe {
     Int minNumberReads = 10000
     # bbduk
     Boolean run_decontamination = true
+    # clockwork
+    Boolean run_clockwork_decontamination = true
+    File clockwork_decontamination_metadata
+    File clockwork_contaminants
     # delly
     Boolean run_delly = true
     # trimmomatic
@@ -75,11 +81,22 @@ workflow wf_varpipe {
 	samplename = samplename
       }
     }
-    
+
+    if ( run_clockwork_decontamination ) {
+      call cd.wf_clockwork_decontamination {
+	input:
+	reference = clockwork_contaminants,
+	sample_name = samplename,
+        metadata_file = clockwork_decontamination_metadata,
+	input_reads_1 = task_trimmomatic.read1_trimmed,
+	input_reads_2 = task_trimmomatic.read2_trimmed
+      }
+    }
+
     call varpipe.task_varpipe {
       input:
-      read1 = select_first([task_bbduk.read1_clean, task_trimmomatic.read1_trimmed]),
-      read2 = select_first([task_bbduk.read2_clean, task_trimmomatic.read2_trimmed]),
+      read1 = select_first([task_bbduk.read1_clean, wf_clockwork_decontamination.clean_reads_1, task_trimmomatic.read1_trimmed]),
+      read2 = select_first([task_bbduk.read2_clean, wf_clockwork_decontamination.clean_reads_2, task_trimmomatic.read2_trimmed]),
       reference = reference,
       samplename = samplename,
       config = config,
@@ -106,6 +123,11 @@ workflow wf_varpipe {
 	inputBam = task_varpipe.bam,
 	reference = reference
       }
+      call wgsQC.task_collect_wgs_metrics {
+	input:
+	inputBam = task_varpipe.bam,
+	reference = reference
+      }
     }
 
     String the_report = if defined(report) then select_first([report]) else samplename+"_variant_interpretation.tsv"
@@ -123,7 +145,7 @@ workflow wf_varpipe {
   # end filter
   
   Array[File] allReports = flatten([
-  select_all([task_trimmomatic.trim_err, task_fastqc.forwardData, task_fastqc.reverseData, task_bbduk.adapter_stats, task_bbduk.phiX_stats, task_varpipe.snpEff_summary_full, task_varpipe.snpEff_summary_targets ]),
+  select_all([task_trimmomatic.trim_err, task_fastqc.forwardData, task_fastqc.reverseData, task_bbduk.adapter_stats, task_bbduk.phiX_stats, task_varpipe.snpEff_summary_full, task_varpipe.snpEff_summary_targets, task_collect_wgs_metrics.collectMetricsOutput ]),
   flatten(select_all([task_collect_multiple_metrics.collectMetricsOutput,[]]))
   ])
   if ( length(allReports) > 0 ) {
@@ -163,6 +185,7 @@ workflow wf_varpipe {
     String? pipeline_date = task_varpipe.pipeline_date
     # output from bam QC
     Array[File]? collectMetricsOutput = task_collect_multiple_metrics.collectMetricsOutput
+    File? collectWgsOutput = task_collect_wgs_metrics.collectMetricsOutput
     # output from fastqc
     File forwardHtml = task_fastqc.forwardHtml
     File reverseHtml = task_fastqc.reverseHtml
@@ -175,6 +198,8 @@ workflow wf_varpipe {
     # output from bbduk
     File? adapter_stats = task_bbduk.adapter_stats
     File? phiX_stats = task_bbduk.phiX_stats
+    # output from clockwork decontamination
+    File? clockwork_decontamination_stats = wf_clockwork_decontamination.stats
     # output from delly
     File? dellyVcf = task_delly.vcfFile
     # variant interpretation
