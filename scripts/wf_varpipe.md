@@ -12,6 +12,16 @@
         <i>File &mdash; Default: None</i><br />
         bed file with genomic intervals of interest. Note: reference name in case of London TB profiler is 'Chromosome', make sure to use correct bed file
 </p>
+<p name="wf_varpipe.clockwork_contaminants">
+        <b>wf_varpipe.clockwork_contaminants</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
+</p>
+<p name="wf_varpipe.clockwork_decontamination_metadata">
+        <b>wf_varpipe.clockwork_decontamination_metadata</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
+</p>
 <p name="wf_varpipe.config">
         <b>wf_varpipe.config</b><br />
         <i>File &mdash; Default: None</i><br />
@@ -56,6 +66,11 @@
         <i>Boolean &mdash; Default: true</i><br />
         ???
 </p>
+<p name="wf_varpipe.run_clockwork_decontamination">
+        <b>wf_varpipe.run_clockwork_decontamination</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
 <p name="wf_varpipe.task_bbduk.contamination">
         <b>wf_varpipe.task_bbduk.contamination</b><br />
         <i>File? &mdash; Default: None</i><br />
@@ -84,6 +99,21 @@
 <p name="wf_varpipe.task_collect_multiple_metrics.outputBasename">
         <b>wf_varpipe.task_collect_multiple_metrics.outputBasename</b><br />
         <i>String &mdash; Default: "multiple_metrics"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_collect_wgs_metrics.minBaseQuality">
+        <b>wf_varpipe.task_collect_wgs_metrics.minBaseQuality</b><br />
+        <i>Int &mdash; Default: 20</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_collect_wgs_metrics.minMappingQuality">
+        <b>wf_varpipe.task_collect_wgs_metrics.minMappingQuality</b><br />
+        <i>Int &mdash; Default: 20</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_collect_wgs_metrics.outputFile">
+        <b>wf_varpipe.task_collect_wgs_metrics.outputFile</b><br />
+        <i>String &mdash; Default: "collect_wgs_metrics.txt"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_delly.docker">
@@ -168,7 +198,7 @@
 </p>
 <p name="wf_varpipe.task_varpipe.docker">
         <b>wf_varpipe.task_varpipe.docker</b><br />
-        <i>String &mdash; Default: "dbest/varpipe4:latest"</i><br />
+        <i>String &mdash; Default: "dbest/varpipe4:v1.0.0"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_varpipe.memory">
@@ -178,6 +208,11 @@
 </p>
 <p name="wf_varpipe.task_varpipe.threads">
         <b>wf_varpipe.task_varpipe.threads</b><br />
+        <i>Int &mdash; Default: 1</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_clockwork_decontamination.threads">
+        <b>wf_varpipe.wf_clockwork_decontamination.threads</b><br />
         <i>Int &mdash; Default: 1</i><br />
         ???
 </p>
@@ -199,10 +234,20 @@
         <i>File?</i><br />
         Output alignement file of alignment procedure, aligner is bwa.
 </p>
+<p name="wf_varpipe.clockwork_decontamination_stats">
+        <b>wf_varpipe.clockwork_decontamination_stats</b><br />
+        <i>File?</i><br />
+        ???
+</p>
 <p name="wf_varpipe.collectMetricsOutput">
         <b>wf_varpipe.collectMetricsOutput</b><br />
         <i>Array[File]?</i><br />
         Array of output files from alignment bam QC.
+</p>
+<p name="wf_varpipe.collectWgsOutput">
+        <b>wf_varpipe.collectWgsOutput</b><br />
+        <i>File?</i><br />
+        ???
 </p>
 <p name="wf_varpipe.dellyVcf">
         <b>wf_varpipe.dellyVcf</b><br />
