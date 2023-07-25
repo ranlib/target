@@ -1,7 +1,5 @@
 {
-  "wf_collect_wgs_metrics.inputBam": "/home/dieterbest/Analysis/varpipe4/tests/ERR552797_conda_before/ERR552797_sdrcsm.bam",
-  "wf_collect_wgs_metrics.minBaseQuality": 20,
-  "wf_collect_wgs_metrics.outputFile": "collect_wgs_metrics.txt",
-  "wf_collect_wgs_metrics.reference": "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.fasta",
-  "wf_collect_wgs_metrics.minMappingQuality": 20
+    "wf_collect_wgs_metrics.bam": "/home/dieterbest/Analysis/varpipe4/tests/ERR552797_conda_before/ERR552797_sdrcsm.bam",
+    "wf_collect_wgs_metrics.reference": "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.fasta",
+    "wf_collect_wgs_metrics.bed": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb.bed"
 }
