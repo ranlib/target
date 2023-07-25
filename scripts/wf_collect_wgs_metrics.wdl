@@ -4,23 +4,20 @@ import "./task_collect_wgs_metrics.wdl" as wgs_metrics
 
 workflow wf_collect_wgs_metrics {
   input {
-    File inputBam
     File reference
-    String outputFile
-    Int? minMappingQuality
-    Int? minBaseQuality
+    File bam
+    File? bed
   }
-
+  
   call wgs_metrics.task_collect_wgs_metrics {
     input:
-      inputBam = inputBam,
-      reference = reference,
-      outputFile = outputFile,
-      minMappingQuality = minMappingQuality,
-      minBaseQuality = minBaseQuality
-    }
-
-    output {
-      File collectMetricsOutput =task_collect_wgs_metrics.collectMetricsOutput
-    }
+    reference = reference,
+    bam = bam,
+    bed = bed
+  }
+  
+  output {
+    File collectMetricsOutput = task_collect_wgs_metrics.collectMetricsOutput
+    File collectMetricsSensitivity = task_collect_wgs_metrics.collectMetricsSensitivity
+  }
 }
