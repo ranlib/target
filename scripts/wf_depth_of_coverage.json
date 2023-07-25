@@ -1,0 +1,8 @@
+{
+    "wf_depth_of_coverage.bed": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb.bed",
+    "wf_depth_of_coverage.lowerCoverageThreshold": 10,
+    "wf_depth_of_coverage.outputPrefix": "depth_of_coverage",
+    "wf_depth_of_coverage.bam": "/home/dieterbest/Analysis/varpipe4/tests/ERR552797_conda_before/ERR552797_sdrcsm.bam",
+    "wf_depth_of_coverage.reference": "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.fasta"
+}
+
