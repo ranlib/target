@@ -4,13 +4,13 @@ import "./task_collect_multiple_metrics.wdl" as bamQC
 
 workflow wf_collect_multiple_metrics {
   input {
-    File inputBam
+    File bam
     File reference
   }
 
   call bamQC.task_collect_multiple_metrics {
     input:
-      inputBam = inputBam,
+      bam = bam,
       reference = reference
     }
 

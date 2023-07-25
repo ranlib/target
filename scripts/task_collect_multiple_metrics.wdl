@@ -2,7 +2,7 @@ version 1.0
 
 task task_collect_multiple_metrics {
   input {
-    File inputBam
+    File bam
     File reference
     String outputBasename = "multiple_metrics"
     String docker = "broadinstitute/gatk:4.4.0.0"
@@ -10,7 +10,7 @@ task task_collect_multiple_metrics {
 
   command {
     gatk CollectMultipleMetrics \
-    -I ${inputBam} \
+    -I ${bam} \
     -R ${reference} \
     -O ${outputBasename} \
     --PROGRAM CollectAlignmentSummaryMetrics \
