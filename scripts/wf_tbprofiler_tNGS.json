@@ -1,0 +1,10 @@
+{
+    "wf_tbprofiler.reference": "/home/dieterbest/Software/TBProfiler/db/tbdb.fasta",
+    "wf_tbprofiler.bed": "/home/dieterbest/Software/TBProfiler/db/tbdb.bed",
+    "wf_tbprofiler.json": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb.dr.json",
+    "wf_tbprofiler.samplename": "5-16-22A-15-1plus",
+    "wf_tbprofiler.read1": ["/home/dieterbest/Analysis/varpipe4/data/5-16-22A-15-1plus_S2_L001_R1_001.fastq.gz"],
+    "wf_tbprofiler.read2": ["/home/dieterbest/Analysis/varpipe4/data/5-16-22A-15-1plus_S2_L001_R2_001.fastq.gz"],
+    "wf_tbprofiler.report": "variant_interpretation.tsv"
+}
+
