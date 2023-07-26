@@ -32,16 +32,6 @@
         <i>File &mdash; Default: None</i><br />
         Reference sequence to align to.
 </p>
-<p name="wf_tbprofiler.run_bamQC">
-        <b>wf_tbprofiler.run_bamQC</b><br />
-        <i>Boolean &mdash; Default: None</i><br />
-        Flag for performing alignment bam QC.
-</p>
-<p name="wf_tbprofiler.run_decontamination">
-        <b>wf_tbprofiler.run_decontamination</b><br />
-        <i>Boolean &mdash; Default: None</i><br />
-        Flag, turn on if decontamination of fastq files should be run.
-</p>
 <p name="wf_tbprofiler.samplename">
         <b>wf_tbprofiler.samplename</b><br />
         <i>String &mdash; Default: None</i><br />
@@ -84,6 +74,71 @@
 <p name="wf_tbprofiler.task_collect_multiple_metrics.outputBasename">
         <b>wf_tbprofiler.task_collect_multiple_metrics.outputBasename</b><br />
         <i>String &mdash; Default: "multiple_metrics"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_collect_wgs_metrics.bed">
+        <b>wf_tbprofiler.task_collect_wgs_metrics.bed</b><br />
+        <i>File? &mdash; Default: None</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_collect_wgs_metrics.coverage_cap">
+        <b>wf_tbprofiler.task_collect_wgs_metrics.coverage_cap</b><br />
+        <i>Int &mdash; Default: 250</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_collect_wgs_metrics.docker">
+        <b>wf_tbprofiler.task_collect_wgs_metrics.docker</b><br />
+        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_collect_wgs_metrics.minBaseQuality">
+        <b>wf_tbprofiler.task_collect_wgs_metrics.minBaseQuality</b><br />
+        <i>Int &mdash; Default: 20</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_collect_wgs_metrics.minMappingQuality">
+        <b>wf_tbprofiler.task_collect_wgs_metrics.minMappingQuality</b><br />
+        <i>Int &mdash; Default: 20</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_collect_wgs_metrics.outputFile">
+        <b>wf_tbprofiler.task_collect_wgs_metrics.outputFile</b><br />
+        <i>String &mdash; Default: "collect_wgs_metrics.txt"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_collect_wgs_metrics.read_length">
+        <b>wf_tbprofiler.task_collect_wgs_metrics.read_length</b><br />
+        <i>Int &mdash; Default: 150</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_collect_wgs_metrics.sample_size">
+        <b>wf_tbprofiler.task_collect_wgs_metrics.sample_size</b><br />
+        <i>Int &mdash; Default: 10000</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_collect_wgs_metrics.sensitivityFile">
+        <b>wf_tbprofiler.task_collect_wgs_metrics.sensitivityFile</b><br />
+        <i>String &mdash; Default: "collect_wgs_sensitivity_metrics.txt"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_collect_wgs_metrics.use_fast_algorithm">
+        <b>wf_tbprofiler.task_collect_wgs_metrics.use_fast_algorithm</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_depth_of_coverage.lower_coverage">
+        <b>wf_tbprofiler.task_depth_of_coverage.lower_coverage</b><br />
+        <i>Int &mdash; Default: 10</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_depth_of_coverage.min_base_quality">
+        <b>wf_tbprofiler.task_depth_of_coverage.min_base_quality</b><br />
+        <i>Int &mdash; Default: 20</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_depth_of_coverage.outputPrefix">
+        <b>wf_tbprofiler.task_depth_of_coverage.outputPrefix</b><br />
+        <i>String &mdash; Default: "depth_of_coverage"</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.task_fastqc.docker">
@@ -201,6 +256,76 @@
         <i>Int &mdash; Default: 0</i><br />
         ???
 </p>
+<p name="wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.clip_overlapping_reads">
+        <b>wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.clip_overlapping_reads</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.coverage_cap">
+        <b>wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.coverage_cap</b><br />
+        <i>Int &mdash; Default: 250</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.docker">
+        <b>wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.docker</b><br />
+        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.minBaseQuality">
+        <b>wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.minBaseQuality</b><br />
+        <i>Int &mdash; Default: 20</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.minMappingQuality">
+        <b>wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.minMappingQuality</b><br />
+        <i>Int &mdash; Default: 20</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.outputMetrics">
+        <b>wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.outputMetrics</b><br />
+        <i>String &mdash; Default: "collect_targeted_pcr_metrics.txt"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.sample_size">
+        <b>wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.sample_size</b><br />
+        <i>Int &mdash; Default: 10000</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.sensitivityFile">
+        <b>wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.sensitivityFile</b><br />
+        <i>String &mdash; Default: "collect_targeted_pcr_sensitivity_metrics.txt"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_add_pg_tag_to_read">
+        <b>wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_add_pg_tag_to_read</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_remove_duplicates">
+        <b>wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_remove_duplicates</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_remove_sequencing_duplicates">
+        <b>wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_remove_sequencing_duplicates</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_mark_duplicates.docker">
+        <b>wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_mark_duplicates.docker</b><br />
+        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_mark_duplicates.marked_bam">
+        <b>wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_mark_duplicates.marked_bam</b><br />
+        <i>String? &mdash; Default: None</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_mark_duplicates.metrics_txt">
+        <b>wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_mark_duplicates.metrics_txt</b><br />
+        <i>String &mdash; Default: "mark_duplicates_metrics.txt"</i><br />
+        ???
+</p>
 </details>
 
 ## Outputs
@@ -219,15 +344,25 @@
         <i>File?</i><br />
         Output alignement file of alignment procedure, aligner is bwa.
 </p>
-<p name="wf_tbprofiler.collectMetricsOutput">
-        <b>wf_tbprofiler.collectMetricsOutput</b><br />
-        <i>Array[File]?</i><br />
-        Array of output files from alignment bam QC.
+<p name="wf_tbprofiler.collect_targeted_pcr_metrics">
+        <b>wf_tbprofiler.collect_targeted_pcr_metrics</b><br />
+        <i>File?</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.collect_wgs_output_metrics">
+        <b>wf_tbprofiler.collect_wgs_output_metrics</b><br />
+        <i>File?</i><br />
+        ???
 </p>
 <p name="wf_tbprofiler.csv">
         <b>wf_tbprofiler.csv</b><br />
         <i>File?</i><br />
         Ouput variant call file in csv format.
+</p>
+<p name="wf_tbprofiler.depth_of_coverage_outputs">
+        <b>wf_tbprofiler.depth_of_coverage_outputs</b><br />
+        <i>Array[File]?</i><br />
+        ???
 </p>
 <p name="wf_tbprofiler.forwardData">
         <b>wf_tbprofiler.forwardData</b><br />
@@ -253,6 +388,11 @@
         <b>wf_tbprofiler.interpretation_report</b><br />
         <i>File?</i><br />
         Output tsv file from variant interpretation.
+</p>
+<p name="wf_tbprofiler.multiple_metrics_outputs">
+        <b>wf_tbprofiler.multiple_metrics_outputs</b><br />
+        <i>Array[File]?</i><br />
+        ???
 </p>
 <p name="wf_tbprofiler.multiqc_report">
         <b>wf_tbprofiler.multiqc_report</b><br />
