@@ -1,14 +1,17 @@
 version 1.0
 
+import "./task_concatenate_fastq.wdl" as concatenate_fastq
+import "./task_fastqc.wdl" as fastqc
+import "./task_trimmomatic.wdl" as trimmomatic
+import "./task_bbduk.wdl" as bbduk
 import "./task_tbprofiler.wdl" as tbprofiler
 import "./task_bcf2vcf.wdl" as bcf2vcf
-import "./task_fastqc.wdl" as fastqc
-import "./task_bbduk.wdl" as bbduk
-import "./task_trimmomatic.wdl" as trimmomatic
-import "./task_collect_multiple_metrics.wdl" as bamQC
 import "./task_multiqc.wdl" as multiQC
-import "./task_concatenate_fastq.wdl" as concatenate_fastq
 import "./task_variant_interpretation.wdl" as vi
+import "./task_collect_multiple_metrics.wdl" as bamQC
+import "./task_collect_wgs_metrics.wdl" as wgsQC
+import "./wf_collect_targeted_pcr_metrics.wdl" as tpcrm
+import "./task_depth_of_coverage.wdl" as doc
 
 workflow wf_tbprofiler {
   input {
@@ -78,8 +81,26 @@ workflow wf_tbprofiler {
     if ( run_bamQC ) {
       call bamQC.task_collect_multiple_metrics {
 	input:
-	inputBam = task_tbprofiler.bam,
+	bam = task_tbprofiler.bam,
 	reference = reference
+      }
+      call wgsQC.task_collect_wgs_metrics {
+	input:
+	bam = task_tbprofiler.bam,
+	reference = reference
+      }
+      call tpcrm.wf_collect_targeted_pcr_metrics {
+	input:
+	bam = task_tbprofiler.bam,
+	reference = reference,
+	amplicon_bed = bed,
+	target_bed = bed
+      }
+      call doc.task_depth_of_coverage {
+	input:
+	bam = task_tbprofiler.bam,
+	reference = reference,
+	intervals = bed
       }
     }
 
@@ -132,7 +153,10 @@ workflow wf_tbprofiler {
     File forwardData = task_fastqc.forwardData
     File reverseData = task_fastqc.reverseData
     # output from bam QC
-    Array[File]? collectMetricsOutput = task_collect_multiple_metrics.collectMetricsOutput
+    Array[File]? multiple_metrics_outputs = task_collect_multiple_metrics.collectMetricsOutput
+    Array[File]? depth_of_coverage_outputs = task_depth_of_coverage.outputs
+    File? collect_wgs_output_metrics = task_collect_wgs_metrics.collectMetricsOutput
+    File? collect_targeted_pcr_metrics = wf_collect_targeted_pcr_metrics.output_metrics
     # variant interpretation
     File? interpretation_report = task_variant_interpretation.interpretation_report
     # multiqc
