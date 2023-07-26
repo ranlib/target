@@ -1,16 +1,18 @@
 version 1.0
 
-import "./task_varpipe.wdl" as varpipe
+import "./task_concatenate_fastq.wdl" as concatenate_fastq
 import "./task_fastqc.wdl" as fastqc
 import "./task_trimmomatic.wdl" as trimmomatic
 import "./task_bbduk.wdl" as bbduk
-import "./task_collect_multiple_metrics.wdl" as bamQC
-import "./task_collect_wgs_metrics.wdl" as wgsQC
+import "./wf_clockwork_decontamination.wdl" as cd
+import "./task_varpipe.wdl" as varpipe
 import "./task_delly.wdl" as delly
 import "./task_multiqc.wdl" as multiQC
-import "./task_concatenate_fastq.wdl" as concatenate_fastq
 import "./task_variant_interpretation.wdl" as vi
-import "./wf_clockwork_decontamination.wdl" as cd
+import "./task_collect_multiple_metrics.wdl" as bamQC
+import "./task_collect_wgs_metrics.wdl" as wgsQC
+import "./wf_collect_targeted_pcr_metrics.wdl" as tpcrm
+import "./task_depth_of_coverage.wdl" as doc
 
 workflow wf_varpipe {
   input {
@@ -120,13 +122,26 @@ workflow wf_varpipe {
     if ( run_bamQC ) {
       call bamQC.task_collect_multiple_metrics {
 	input:
-	inputBam = task_varpipe.bam,
+	bam = task_varpipe.bam,
 	reference = reference
       }
       call wgsQC.task_collect_wgs_metrics {
 	input:
-	inputBam = task_varpipe.bam,
+	bam = task_varpipe.bam,
 	reference = reference
+      }
+      call tpcrm.wf_collect_targeted_pcr_metrics {
+	input:
+	bam = task_varpipe.bam,
+	reference = reference,
+	amplicon_bed = bed,
+	target_bed = bed
+      }
+      call doc.task_depth_of_coverage {
+	input:
+	bam = task_varpipe.bam,
+	reference = reference,
+	intervals = bed
       }
     }
 
@@ -184,8 +199,10 @@ workflow wf_varpipe {
     File? qc_log = task_varpipe.qc_log
     String? pipeline_date = task_varpipe.pipeline_date
     # output from bam QC
-    Array[File]? collectMetricsOutput = task_collect_multiple_metrics.collectMetricsOutput
-    File? collectWgsOutput = task_collect_wgs_metrics.collectMetricsOutput
+    Array[File]? multiple_metrics_outputs = task_collect_multiple_metrics.collectMetricsOutput
+    Array[File]? depth_of_coverage_outputs = task_depth_of_coverage.outputs
+    File? collect_wgs_output_metrics = task_collect_wgs_metrics.collectMetricsOutput
+    File? collect_targeted_pcr_metrics = wf_collect_targeted_pcr_metrics.output_metrics
     # output from fastqc
     File forwardHtml = task_fastqc.forwardHtml
     File reverseHtml = task_fastqc.reverseHtml
