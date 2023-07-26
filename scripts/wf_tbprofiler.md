@@ -12,6 +12,16 @@
         <i>File &mdash; Default: None</i><br />
         bed file with genomic intervals of interest. Note: reference name in case of London TB profiler is 'Chromosome', make sure to use correct bed file
 </p>
+<p name="wf_tbprofiler.clockwork_contaminants">
+        <b>wf_tbprofiler.clockwork_contaminants</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.clockwork_decontamination_metadata">
+        <b>wf_tbprofiler.clockwork_decontamination_metadata</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
+</p>
 <p name="wf_tbprofiler.json">
         <b>wf_tbprofiler.json</b><br />
         <i>File &mdash; Default: None</i><br />
@@ -44,6 +54,11 @@
 <p name="wf_tbprofiler.minNumberReads">
         <b>wf_tbprofiler.minNumberReads</b><br />
         <i>Int &mdash; Default: 10000</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.run_clockwork_decontamination">
+        <b>wf_tbprofiler.run_clockwork_decontamination</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.task_bbduk.contamination">
@@ -256,6 +271,11 @@
         <i>Int &mdash; Default: 0</i><br />
         ???
 </p>
+<p name="wf_tbprofiler.wf_clockwork_decontamination.threads">
+        <b>wf_tbprofiler.wf_clockwork_decontamination.threads</b><br />
+        <i>Int &mdash; Default: 1</i><br />
+        ???
+</p>
 <p name="wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.clip_overlapping_reads">
         <b>wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.clip_overlapping_reads</b><br />
         <i>Boolean &mdash; Default: true</i><br />
@@ -343,6 +363,11 @@
         <b>wf_tbprofiler.bam</b><br />
         <i>File?</i><br />
         Output alignement file of alignment procedure, aligner is bwa.
+</p>
+<p name="wf_tbprofiler.clockwork_decontamination_stats">
+        <b>wf_tbprofiler.clockwork_decontamination_stats</b><br />
+        <i>File?</i><br />
+        ???
 </p>
 <p name="wf_tbprofiler.collect_targeted_pcr_metrics">
         <b>wf_tbprofiler.collect_targeted_pcr_metrics</b><br />

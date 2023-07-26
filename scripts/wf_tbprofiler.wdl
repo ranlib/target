@@ -4,6 +4,7 @@ import "./task_concatenate_fastq.wdl" as concatenate_fastq
 import "./task_fastqc.wdl" as fastqc
 import "./task_trimmomatic.wdl" as trimmomatic
 import "./task_bbduk.wdl" as bbduk
+import "./wf_clockwork_decontamination.wdl" as cd
 import "./task_tbprofiler.wdl" as tbprofiler
 import "./task_bcf2vcf.wdl" as bcf2vcf
 import "./task_multiqc.wdl" as multiQC
@@ -21,6 +22,10 @@ workflow wf_tbprofiler {
     String samplename
     Int minNumberReads = 10000
     Boolean run_decontamination = true
+    # clockwork
+    Boolean run_clockwork_decontamination = true
+    File clockwork_decontamination_metadata
+    File clockwork_contaminants
     Boolean run_bamQC = true
     # variant interpretation
     File bed
@@ -66,6 +71,17 @@ workflow wf_tbprofiler {
       }
     }
 
+    if ( run_clockwork_decontamination ) {
+      call cd.wf_clockwork_decontamination {
+	input:
+	reference = clockwork_contaminants,
+	sample_name = samplename,
+        metadata_file = clockwork_decontamination_metadata,
+	input_reads_1 = task_trimmomatic.read1_trimmed,
+	input_reads_2 = task_trimmomatic.read2_trimmed
+      }
+    }
+    
     call tbprofiler.task_tbprofiler {
       input:
       read1 = select_first([task_bbduk.read1_clean, task_trimmomatic.read1_trimmed]),
@@ -138,11 +154,13 @@ workflow wf_tbprofiler {
     File? bai = task_tbprofiler.bai
     File? vcf = task_tbprofiler.vcf
     File? svs = task_bcf2vcf.vcf_file
-    # output from trimmer
+    # output from trimmer trimmomatic
     File? trim_stats = task_trimmomatic.trim_stats
-    # output from decontamination
+    # output from bbduk decontamination
     File? phiX_stats = task_bbduk.phiX_stats
     File? adapter_stats = task_bbduk.adapter_stats
+    # output from clockwork decontamination
+    File? clockwork_decontamination_stats = wf_clockwork_decontamination.stats
     # output from fastqc
     File forwardHtml = task_fastqc.forwardHtml
     File reverseHtml = task_fastqc.reverseHtml
