@@ -15,7 +15,7 @@
     "wf_varpipe.report": "ERR552797_variant_interpretation.tsv",
     "wf_varpipe.run_bamQC": true,
     "wf_varpipe.run_decontamination": true,
-    "wf_varpipe.run_clockwork_decontamination": false,
+    "wf_varpipe.run_clockwork_decontamination": true,
     "wf_varpipe.run_delly": true,
     "wf_varpipe.samplename": "ERR552797",
     "wf_varpipe.task_bbduk.docker": "staphb/bbtools:39.01",
