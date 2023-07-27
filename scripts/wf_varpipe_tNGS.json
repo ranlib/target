@@ -1,7 +1,7 @@
 {
     "wf_varpipe.bed": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb.bed",
-    "wf_varpipe.clockwork_contaminants": "/home/dieterbest/Analysis/varpipe4/tests/clockwork_contaminants.fa.gz",
-    "wf_varpipe.clockwork_decontamination_metadata": "/home/dieterbest/Analysis/varpipe4/tests/clockwork_decontamination_metadata.tsv",
+    "wf_varpipe.clockwork_contaminants": "/home/dieterbest/Analysis/varpipe4/contamination/clockwork_contaminants.fa.gz",
+    "wf_varpipe.clockwork_decontamination_metadata": "/home/dieterbest/Analysis/varpipe4/contamination/clockwork_decontamination_metadata.tsv",
     "wf_varpipe.config": "/home/dieterbest/Analysis/varpipe4/configuration/snp_tNGS_docker.config",
     "wf_varpipe.genome": "NC_000962.3",
     "wf_varpipe.json": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb.dr.json",
