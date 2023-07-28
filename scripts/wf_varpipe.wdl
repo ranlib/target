@@ -233,15 +233,15 @@ workflow wf_varpipe {
   
   parameter_meta {
     read1: {
-      description: "List of fastq files with forward reads.",
+      description: "List of fastq files with forward reads. Must have suffix fastq.gz or fq.gz.",
       category: "required"
     }
     read2: {
-      description: "List of fastq files with reverse reads.",
+      description: "List of fastq files with reverse reads. Must have suffix fastq.gz or fq.gz.",
       category: "required"
     }
     reference: {
-      description: "Reference sequence to align to.",
+      description: "Reference sequence to align to in fasta format.",
       category: "required"
     }
     config: {
@@ -249,15 +249,15 @@ workflow wf_varpipe {
       category: "required"
     }
     samplename: {
-      description: "Name of the sample.",
+      description: "Alphanumeric name of the sample.",
       category: "required"
     }
     outdir: {
-      description: "Name of output directory.",
+      description: "Alphanumeric name of output directory.",
       category: "required"
     }
     genome: {
-      description: "Name of reference genome.",
+      description: "Alphanumeric name of reference genome.",
       category: "optional"
     }
     keep: {

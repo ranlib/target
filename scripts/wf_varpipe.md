@@ -35,27 +35,27 @@
 <p name="wf_varpipe.outdir">
         <b>wf_varpipe.outdir</b><br />
         <i>String &mdash; Default: None</i><br />
-        Name of output directory.
+        Alphanumeric name of output directory.
 </p>
 <p name="wf_varpipe.read1">
         <b>wf_varpipe.read1</b><br />
         <i>Array[File]+ &mdash; Default: None</i><br />
-        List of fastq files with forward reads.
+        List of fastq files with forward reads. Must have suffix fastq.gz or fq.gz.
 </p>
 <p name="wf_varpipe.read2">
         <b>wf_varpipe.read2</b><br />
         <i>Array[File]+ &mdash; Default: None</i><br />
-        List of fastq files with reverse reads.
+        List of fastq files with reverse reads. Must have suffix fastq.gz or fq.gz.
 </p>
 <p name="wf_varpipe.reference">
         <b>wf_varpipe.reference</b><br />
         <i>File &mdash; Default: None</i><br />
-        Reference sequence to align to.
+        Reference sequence to align to in fasta format.
 </p>
 <p name="wf_varpipe.samplename">
         <b>wf_varpipe.samplename</b><br />
         <i>String &mdash; Default: None</i><br />
-        Name of the sample.
+        Alphanumeric name of the sample.
 </p>
 
 ### Other inputs
