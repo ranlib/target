@@ -8,8 +8,8 @@ task task_fastqc {
     String docker = "staphb/fastqc:0.12.1"
   }
 
-  String forwardName = sub(basename(forwardReads),".f.*q.*$","")
-  String reverseName = sub(basename(reverseReads),".f.*q.*$","")
+  String forwardName = sub(sub(basename(forwardReads),".fastq.gz$",""),".fq.gz","")
+  String reverseName = sub(sub(basename(reverseReads),".fastq.gz$",""),".fq.gz","")
   String tempForwardData = forwardName + "_fastqc/fastqc_data.txt"
   String tempReverseData = reverseName + "_fastqc/fastqc_data.txt"
   
