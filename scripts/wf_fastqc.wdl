@@ -6,6 +6,8 @@ workflow wf_fastqc {
   input {
     File forwardReads
     File reverseReads
+    File? adapters
+    File? contaminants
     Int threads = 1
   }
 
@@ -13,6 +15,8 @@ workflow wf_fastqc {
     input:
     forwardReads = forwardReads,
     reverseReads = reverseReads,
+    adapters = adapters,
+    contaminants = contaminants,
     threads = threads
   }
 

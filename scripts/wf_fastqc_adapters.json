@@ -1,0 +1,8 @@
+{
+    "wf_fastqc.forwardReads": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
+    "wf_fastqc.reverseReads": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz",
+    "wf_fastqc.adapters": "/home/dieterbest/Analysis/varpipe4/contamination/adapters.fa.gz",
+    "wf_fastqc.contaminants": "/home/dieterbest/Analysis/varpipe4/contamination/phix174_ill.ref.fa.gz",
+    "wf_fastqc.threads": 10
+}
+
