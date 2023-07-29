@@ -18,6 +18,7 @@ R2=$FASTQ/ERR552797_30percent_2.fq.gz
 NAME="NC_000962.3"
 REF="../references/NC_000962.3/NC_000962.3.fasta"
 CONFIG=snp.config
+CONFIG=snp_home.config
 
 if [ "$MODE" = "conda" ] ; then
     time ../tools/Varpipeline.py \
@@ -70,14 +71,14 @@ fi
 # run WDL script via miniwdl
 #
 if [ "$MODE" = "wdl" ] ; then
-    time miniwdl run ../scripts/wf_varpipe.wdl -i wf_varpipe.json
+    time miniwdl run --debug --dir varpipe ../scripts/wf_varpipe.wdl -i ../scripts/wf_varpipe.json
 fi
 
 #
 # run WDL script via cromwell
 #
 if [ "$MODE" = "cromwell" ] ; then
-    time java -jar $HOME/Software/cromwell-85.jar run ../scripts/wf_varpipe.wdl -i wf_varpipe.json
+    time java -jar $HOME/Software/cromwell-85.jar run ../scripts/wf_varpipe.wdl -i ../scripts/wf_varpipe.json
 fi
 
 #
