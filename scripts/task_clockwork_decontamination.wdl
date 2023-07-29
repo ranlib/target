@@ -23,6 +23,7 @@ task map_reads {
   runtime {
     docker: docker
     memory: memory
+    maxRetries: 3
   }
 }
 
@@ -50,6 +51,7 @@ task remove_contam {
   runtime {
     docker: docker
     memory: memory
+    maxRetries: 3
   }
 }
 
