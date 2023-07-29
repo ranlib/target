@@ -14,7 +14,7 @@ task task_varpipe {
     Boolean whole_genome = true
     Boolean verbose = true
     Int threads = 1
-    String memory = "32 GB"
+    String memory = "32GB"
     String docker = "dbest/varpipe4:v1.0.0"
   }
   
