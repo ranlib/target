@@ -14,6 +14,7 @@ task task_variant_interpretation {
     Boolean all_genes = false
     String report
     String docker = "dbest/variant_interpretation:v1.0.2"
+    String memory = "8GB"
   }
   
   command {
@@ -35,7 +36,8 @@ task task_variant_interpretation {
   }
   
   runtime {
-    docker: "${docker}"
+    docker: docker
+    memory: memory
   }
 }
 

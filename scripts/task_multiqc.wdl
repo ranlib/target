@@ -5,6 +5,7 @@ task task_multiqc {
     Array[File] inputFiles
     String outputPrefix
     String docker = "ewels/multiqc:v1.14"
+    String memory = "8GB"
   }
   
   command <<<
@@ -24,7 +25,8 @@ task task_multiqc {
   }
 
   runtime {
-    docker: "~{docker}"
+    docker: docker
+    memory: memory
   }
 }
 

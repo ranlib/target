@@ -63,8 +63,8 @@ task task_varpipe {
   }
   
   runtime {
-    docker: "~{docker}"
-    memory: "~{memory}"
+    docker: docker
+    memory: memory
     cpu: threads
   }
 }

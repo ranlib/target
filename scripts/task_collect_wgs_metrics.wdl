@@ -14,6 +14,7 @@ task task_collect_wgs_metrics {
     Int sample_size = 10000
     Boolean use_fast_algorithm = true
     String docker = "broadinstitute/gatk:4.4.0.0"
+    String memory = "8GB"
   }
 
   Int do_intervals = if defined(bed) then 1 else 0
@@ -68,7 +69,8 @@ task task_collect_wgs_metrics {
   }
   
   runtime {
-    docker: "~{docker}"
+    docker: docker
+    memory: memory
   }
 }
 

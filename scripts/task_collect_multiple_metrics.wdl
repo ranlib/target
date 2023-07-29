@@ -6,6 +6,7 @@ task task_collect_multiple_metrics {
     File reference
     String outputBasename = "multiple_metrics"
     String docker = "broadinstitute/gatk:4.4.0.0"
+    String memory = "8GB"
   }
 
   command {
@@ -43,7 +44,8 @@ task task_collect_multiple_metrics {
   }
   
   runtime {
-    docker: "~{docker}"
+    docker: docker
+    memory: memory
   }
 }
 

@@ -9,6 +9,7 @@ task task_collect_targeted_pcr_metrics {
     String outputMetrics = "collect_targeted_pcr_metrics.txt"
     String sensitivityFile = "collect_targeted_pcr_sensitivity_metrics.txt"
     String docker = "broadinstitute/gatk:4.4.0.0"
+    String memory = "8GB"
     Int minMappingQuality = 20
     Int minBaseQuality = 20
     Int coverage_cap = 250
@@ -57,7 +58,7 @@ task task_collect_targeted_pcr_metrics {
   }
   
   runtime {
-    docker: "~{docker}"
-    memory: "8GB"
+    docker: docker
+    memory: memory
   }
 }

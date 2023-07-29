@@ -44,8 +44,8 @@ task task_trimmomatic {
   }
 
   runtime {
-    docker: "~{docker}"
-    memory: "~{memory}"
+    docker: docker
+    memory: memory
     cpu: threads
     disks: "local-disk 100 SSD"
     preemptible: 0

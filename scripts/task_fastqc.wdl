@@ -8,6 +8,7 @@ task task_fastqc {
     File? contaminants
     Int threads = 1
     String docker = "staphb/fastqc:0.12.1"
+    String memory = "8GB"
   }
 
   String forwardName = sub(sub(basename(forwardReads),".fastq.gz$",""),".fq.gz$","")
@@ -59,7 +60,8 @@ task task_fastqc {
   }
   
   runtime {
-    docker: "~{docker}"
+    docker: docker
+    memory: memory
     cpu: threads
   }
   

@@ -7,6 +7,7 @@ task task_mark_duplicates {
     String? marked_bam
     String metrics_txt = "mark_duplicates_metrics.txt"
     String docker = "broadinstitute/gatk:4.4.0.0"
+    String memory = "8GB"
     Boolean do_remove_duplicates = false # default
     Boolean do_remove_sequencing_duplicates = false # default
     Boolean do_add_pg_tag_to_read = false # not default
@@ -31,6 +32,7 @@ task task_mark_duplicates {
   }
 
   runtime {
-    docker: "~{docker}"
+    docker: docker
+    memory: memory
   }
 }

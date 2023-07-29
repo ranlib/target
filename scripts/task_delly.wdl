@@ -23,7 +23,7 @@ task task_delly {
   }
 
   runtime {
-    docker: "~{docker}"
-    memory: "~{memory}"
+    docker: docker
+    memory: memory
   }
 }

@@ -7,6 +7,8 @@ task task_collect_hs_metrics {
     File bait_bed
     File target_bed
     String hs_metrics = "collect_hs_metrics.txt"
+    String docker = "broadinstitute/gatk:4.4.0.0"
+    String memory = "8GB"
   }
 
   String bait_intervals = if defined(bait_bed) then "bait.intervals" else ""
@@ -42,6 +44,7 @@ task task_collect_hs_metrics {
   }
 
   runtime {
-    docker: "broadinstitute/gatk:4.4.0.0"
+    docker: docker
+    memory: memory
   }
 }

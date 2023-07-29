@@ -64,8 +64,8 @@ task task_bbduk {
   }
 
   runtime {
-      docker: "~{docker}"
-      memory: "~{memory}"
+      docker: docker
+      memory: memory
       cpu: threads
   }
 }

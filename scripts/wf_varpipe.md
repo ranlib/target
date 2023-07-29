@@ -96,6 +96,11 @@
         <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
         ???
 </p>
+<p name="wf_varpipe.task_collect_multiple_metrics.memory">
+        <b>wf_varpipe.task_collect_multiple_metrics.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
+        ???
+</p>
 <p name="wf_varpipe.task_collect_multiple_metrics.outputBasename">
         <b>wf_varpipe.task_collect_multiple_metrics.outputBasename</b><br />
         <i>String &mdash; Default: "multiple_metrics"</i><br />
@@ -114,6 +119,11 @@
 <p name="wf_varpipe.task_collect_wgs_metrics.docker">
         <b>wf_varpipe.task_collect_wgs_metrics.docker</b><br />
         <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_collect_wgs_metrics.memory">
+        <b>wf_varpipe.task_collect_wgs_metrics.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_collect_wgs_metrics.minBaseQuality">
@@ -156,14 +166,29 @@
         <i>String &mdash; Default: "dbest/delly:v1.0.0"</i><br />
         ???
 </p>
+<p name="wf_varpipe.task_delly.memory">
+        <b>wf_varpipe.task_delly.memory</b><br />
+        <i>String &mdash; Default: "32GB"</i><br />
+        ???
+</p>
 <p name="wf_varpipe.task_delly.svType">
         <b>wf_varpipe.task_delly.svType</b><br />
         <i>String &mdash; Default: "DEL"</i><br />
         ???
 </p>
+<p name="wf_varpipe.task_depth_of_coverage.docker">
+        <b>wf_varpipe.task_depth_of_coverage.docker</b><br />
+        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        ???
+</p>
 <p name="wf_varpipe.task_depth_of_coverage.lower_coverage">
         <b>wf_varpipe.task_depth_of_coverage.lower_coverage</b><br />
         <i>Int &mdash; Default: 10</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_depth_of_coverage.memory">
+        <b>wf_varpipe.task_depth_of_coverage.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_depth_of_coverage.min_base_quality">
@@ -176,9 +201,24 @@
         <i>String &mdash; Default: "depth_of_coverage"</i><br />
         ???
 </p>
+<p name="wf_varpipe.task_fastqc.adapters">
+        <b>wf_varpipe.task_fastqc.adapters</b><br />
+        <i>File? &mdash; Default: None</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_fastqc.contaminants">
+        <b>wf_varpipe.task_fastqc.contaminants</b><br />
+        <i>File? &mdash; Default: None</i><br />
+        ???
+</p>
 <p name="wf_varpipe.task_fastqc.docker">
         <b>wf_varpipe.task_fastqc.docker</b><br />
         <i>String &mdash; Default: "staphb/fastqc:0.12.1"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_fastqc.memory">
+        <b>wf_varpipe.task_fastqc.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_fastqc.threads">
@@ -189,6 +229,11 @@
 <p name="wf_varpipe.task_multiqc.docker">
         <b>wf_varpipe.task_multiqc.docker</b><br />
         <i>String &mdash; Default: "ewels/multiqc:v1.14"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_multiqc.memory">
+        <b>wf_varpipe.task_multiqc.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_trimmomatic.docker">
@@ -231,6 +276,11 @@
         <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.2"</i><br />
         ???
 </p>
+<p name="wf_varpipe.task_variant_interpretation.memory">
+        <b>wf_varpipe.task_variant_interpretation.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
+        ???
+</p>
 <p name="wf_varpipe.task_variant_interpretation.minimum_coverage">
         <b>wf_varpipe.task_variant_interpretation.minimum_coverage</b><br />
         <i>Int &mdash; Default: 10</i><br />
@@ -253,12 +303,32 @@
 </p>
 <p name="wf_varpipe.task_varpipe.memory">
         <b>wf_varpipe.task_varpipe.memory</b><br />
-        <i>String &mdash; Default: "32 GB"</i><br />
+        <i>String &mdash; Default: "32GB"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_varpipe.threads">
         <b>wf_varpipe.task_varpipe.threads</b><br />
         <i>Int &mdash; Default: 1</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_clockwork_decontamination.map_reads.docker">
+        <b>wf_varpipe.wf_clockwork_decontamination.map_reads.docker</b><br />
+        <i>String &mdash; Default: "dbest/clockwork:v1.0.0"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_clockwork_decontamination.map_reads.memory">
+        <b>wf_varpipe.wf_clockwork_decontamination.map_reads.memory</b><br />
+        <i>String &mdash; Default: "32GB"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_clockwork_decontamination.remove_contam.docker">
+        <b>wf_varpipe.wf_clockwork_decontamination.remove_contam.docker</b><br />
+        <i>String &mdash; Default: "dbest/clockwork:v1.0.0"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_clockwork_decontamination.remove_contam.memory">
+        <b>wf_varpipe.wf_clockwork_decontamination.remove_contam.memory</b><br />
+        <i>String &mdash; Default: "32GB"</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_clockwork_decontamination.threads">
@@ -279,6 +349,11 @@
 <p name="wf_varpipe.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.docker">
         <b>wf_varpipe.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.docker</b><br />
         <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.memory">
+        <b>wf_varpipe.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.minBaseQuality">
@@ -329,6 +404,11 @@
 <p name="wf_varpipe.wf_collect_targeted_pcr_metrics.task_mark_duplicates.marked_bam">
         <b>wf_varpipe.wf_collect_targeted_pcr_metrics.task_mark_duplicates.marked_bam</b><br />
         <i>String? &mdash; Default: None</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_collect_targeted_pcr_metrics.task_mark_duplicates.memory">
+        <b>wf_varpipe.wf_collect_targeted_pcr_metrics.task_mark_duplicates.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_collect_targeted_pcr_metrics.task_mark_duplicates.metrics_txt">

@@ -8,6 +8,7 @@ task map_reads {
     File input_reads_2
     String output_bam
     String memory = "32GB"			
+    String docker = "dbest/clockwork:v1.0.0"
     Int threads = 1
   }
 
@@ -20,8 +21,8 @@ task map_reads {
   }
   
   runtime {
-    docker: "dbest/clockwork:v1.0.0"
-    memory: "~{memory}"
+    docker: docker
+    memory: memory
   }
 }
 
@@ -32,7 +33,8 @@ task remove_contam {
     String output_file
     String output_reads_1
     String output_reads_2
-    String memory = "32GB"			
+    String memory = "32GB"
+    String docker = "dbest/clockwork:v1.0.0"
   }
 
   command {
@@ -46,8 +48,8 @@ task remove_contam {
   }
 
   runtime {
-    docker: "dbest/clockwork:v1.0.0"
-    memory: "~{memory}"
+    docker: docker
+    memory: memory
   }
 }
 

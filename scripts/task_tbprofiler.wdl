@@ -6,6 +6,7 @@ task task_tbprofiler {
     File? read2
     String samplename
     String docker = "staphb/tbprofiler:4.4.2"
+    String memory = "16GB"
     String mapper = "bwa"
     String caller = "bcftools"
     Int min_depth = 10
@@ -42,8 +43,8 @@ task task_tbprofiler {
     File bcf = "./vcf/~{samplename}.delly.bcf"
   }
   runtime {
-    docker: "~{docker}"
-    memory: "16 GB"
+    docker: docker
+    memory: memory
     cpu: threads
   }
   meta {
