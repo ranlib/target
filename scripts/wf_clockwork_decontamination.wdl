@@ -13,6 +13,7 @@ workflow wf_clockwork_decontamination {
     String output_file = sample_name + "_clockwork_decontamination.stats"
     String output_reads_1 = sample_name + "_clockwork_cleaned_1.fq.gz"
     String output_reads_2 = sample_name + "_clockwork_cleaned_2.fq.gz"
+    String memory = "64GB"
     Int threads = 1
   }
 
@@ -23,6 +24,7 @@ workflow wf_clockwork_decontamination {
     reference = reference,
     input_reads_1 = input_reads_1,
     input_reads_2 = input_reads_2,
+    memory = memory,
     threads = threads
   }
 
@@ -30,6 +32,7 @@ workflow wf_clockwork_decontamination {
     input:
     metadata_file = metadata_file,
     input_bam = map_reads.bam_file,
+    memory = memory,
     output_file = output_file,
     output_reads_1 = output_reads_1,
     output_reads_2 = output_reads_2
