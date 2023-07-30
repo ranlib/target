@@ -1,8 +1,8 @@
 {
-  "bwa_mem.sample_name": "ERR552797",
-  "bwa_mem.r1fastq": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
-  "bwa_mem.r2fastq": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz",
-  "bwa_mem.ref_fasta": "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.fasta",
-  "bwa_mem.threads": 4
+  "wf_bwa.sample_name": "ERR552797",
+  "wf_bwa.r1fastq": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
+  "wf_bwa.r2fastq": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz",
+  "wf_bwa.reference": "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.fasta",
+  "wf_bwa.threads": 4
 }
 

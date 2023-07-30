@@ -1,49 +1,49 @@
 version 1.0
 
-workflow bwa_mem {
+workflow wf_bwa {
   input {
     String sample_name
     File r1fastq
     File r2fastq
-    File ref_fasta
+    File reference
     Int threads
   }
   
-  call align {
+  call task_bwa {
     input:
     sample_name = sample_name,
     r1fastq = r1fastq,
     r2fastq = r2fastq,
-    ref_fasta = ref_fasta,
+    reference = reference,
     threads = threads
   }
   
-  call sortSam {
+  call task_sortSam {
     input:
     sample_name = sample_name,
-    insam = align.outsam
+    insam = task_bwa.outsam
   }
 
   output {
-    File outbam = sortSam.outbam
-    File outbamidx = sortSam.outbamidx
+    File outbam = task_sortSam.outbam
+    File outbamidx = task_sortSam.outbamidx
   }
   
 }
 
-task align {
+task task_bwa {
   input {
     String sample_name
     File r1fastq
     File r2fastq
-    File ref_fasta
+    File reference
     Int threads
   }
   
   command <<<
-    bwa index ~{ref_fasta}
+    bwa index ~{reference}
     read_group="@RG\\tID:~{sample_name}\\tSM:~{sample_name}\\tPL:ILLUMINA"
-    bwa mem -M -t ~{threads} -R ${read_group} -o ~{sample_name}.sam ~{ref_fasta} ~{r1fastq} ~{r2fastq} 
+    bwa mem -M -t ~{threads} -R ${read_group} -o ~{sample_name}.sam ~{reference} ~{r1fastq} ~{r2fastq} 
   >>>
 
   output {
@@ -59,7 +59,7 @@ task align {
 }
 
 
-task sortSam {
+task task_sortSam {
   input {
     String sample_name
     File insam
