@@ -1,0 +1,15 @@
+{
+    "wf_ngs_pipeline.read1": ["/home/dieterbest/Analysis/varpipe4/data/5-16-22A-15-1plus_S2_L001_R1_001.fastq.gz"],
+    "wf_ngs_pipeline.read2": ["/home/dieterbest/Analysis/varpipe4/data/5-16-22A-15-1plus_S2_L001_R2_001.fastq.gz"],
+    "wf_ngs_pipeline.samplename": "ERR552797",
+    "wf_ngs_pipeline.genbankFile": "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.gb",
+    "wf_ngs_pipeline.intervals": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb_intervals.bed",
+    "wf_ngs_pipeline.threads": 4,
+    "wf_ngs_pipeline.min_reads_per_strand": 1,
+    "wf_ngs_pipeline.min_median_read_position": 1,
+    "wf_ngs_pipeline.min_allele_fraction": 0.01,
+    "wf_ngs_pipeline.genome": "NC_000962.3",
+    "wf_ngs_pipeline.dataDir": "/home/dieterbest/Analysis/varpipe4/tests/snpEff.zip",
+    "wf_ngs_pipeline.config": "/home/dieterbest/Analysis/varpipe4/tests/snpEff.config"
+}
+
