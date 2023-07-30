@@ -1,5 +1,5 @@
 {
-  "wf_bwa.sample_name": "ERR552797",
+  "wf_bwa.samplename": "ERR552797",
   "wf_bwa.r1fastq": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
   "wf_bwa.r2fastq": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz",
   "wf_bwa.reference": "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.fasta",

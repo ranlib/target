@@ -2,7 +2,7 @@ version 1.0
 
 workflow wf_bwa {
   input {
-    String sample_name
+    String samplename
     File r1fastq
     File r2fastq
     File reference
@@ -11,7 +11,7 @@ workflow wf_bwa {
   
   call task_bwa {
     input:
-    sample_name = sample_name,
+    samplename = samplename,
     r1fastq = r1fastq,
     r2fastq = r2fastq,
     reference = reference,
@@ -20,7 +20,7 @@ workflow wf_bwa {
   
   call task_sortSam {
     input:
-    sample_name = sample_name,
+    samplename = samplename,
     insam = task_bwa.outsam
   }
 
@@ -33,7 +33,7 @@ workflow wf_bwa {
 
 task task_bwa {
   input {
-    String sample_name
+    String samplename
     File r1fastq
     File r2fastq
     File reference
@@ -42,12 +42,12 @@ task task_bwa {
   
   command <<<
     bwa index ~{reference}
-    read_group="@RG\\tID:~{sample_name}\\tSM:~{sample_name}\\tPL:ILLUMINA"
-    bwa mem -M -t ~{threads} -R ${read_group} -o ~{sample_name}.sam ~{reference} ~{r1fastq} ~{r2fastq} 
+    read_group="@RG\\tID:~{samplename}\\tSM:~{samplename}\\tPL:ILLUMINA"
+    bwa mem -M -t ~{threads} -R ${read_group} -o ~{samplename}.sam ~{reference} ~{r1fastq} ~{r2fastq} 
   >>>
 
   output {
-    File outsam = "${sample_name}.sam"
+    File outsam = "${samplename}.sam"
   }
 
   runtime {
@@ -61,21 +61,21 @@ task task_bwa {
 
 task task_sortSam {
   input {
-    String sample_name
+    String samplename
     File insam
   }
   
   command <<<
     gatk SortSam \
     --INPUT ~{insam} \
-    --OUTPUT ~{sample_name}.sorted.bam \
+    --OUTPUT ~{samplename}.sorted.bam \
     --SORT_ORDER coordinate \
     --CREATE_INDEX true
   >>>
 
   output {
-    File outbam = "${sample_name}.sorted.bam"
-    File outbamidx = "${sample_name}.sorted.bai"
+    File outbam = "${samplename}.sorted.bam"
+    File outbamidx = "${samplename}.sorted.bai"
   }
 
   runtime {
