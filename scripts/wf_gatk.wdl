@@ -16,8 +16,8 @@ workflow wf_gatk {
     Int min_reads_per_strand
     Int min_median_read_position
     Float min_allele_fraction
-    String javaXmx = "4G"
-    String memory = "5G"
+    String javaXmx = "8G"
+    String memory = "9G"
     Int timeMinutes = 240
     String dockerImage = "broadinstitute/gatk:4.4.0.0"
   }
