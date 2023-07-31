@@ -175,6 +175,16 @@
         <i>Boolean &mdash; Default: true</i><br />
         ???
 </p>
+<p name="wf_ngs_pipeline.run_bamQC">
+        <b>wf_ngs_pipeline.run_bamQC</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.run_delly">
+        <b>wf_ngs_pipeline.run_delly</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
 <p name="wf_ngs_pipeline.SnpEff.dockerImage">
         <b>wf_ngs_pipeline.SnpEff.dockerImage</b><br />
         <i>String &mdash; Default: "quay.io/biocontainers/snpeff:5.1d--hdfd78af_0"</i><br />
@@ -220,11 +230,6 @@
         <i>String &mdash; Default: "./snpeff.vcf"</i><br />
         ???
 </p>
-<p name="wf_ngs_pipeline.SnpEff.timeMinutes">
-        <b>wf_ngs_pipeline.SnpEff.timeMinutes</b><br />
-        <i>Int &mdash; Default: 60</i><br />
-        ???
-</p>
 <p name="wf_ngs_pipeline.SnpEff.upDownStreamLen">
         <b>wf_ngs_pipeline.SnpEff.upDownStreamLen</b><br />
         <i>Int? &mdash; Default: None</i><br />
@@ -250,6 +255,76 @@
         <i>Int &mdash; Default: 1</i><br />
         ???
 </p>
+<p name="wf_ngs_pipeline.task_collect_multiple_metrics.docker">
+        <b>wf_ngs_pipeline.task_collect_multiple_metrics.docker</b><br />
+        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_collect_multiple_metrics.memory">
+        <b>wf_ngs_pipeline.task_collect_multiple_metrics.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_collect_multiple_metrics.outputBasename">
+        <b>wf_ngs_pipeline.task_collect_multiple_metrics.outputBasename</b><br />
+        <i>String &mdash; Default: "multiple_metrics"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_collect_wgs_metrics.bed">
+        <b>wf_ngs_pipeline.task_collect_wgs_metrics.bed</b><br />
+        <i>File? &mdash; Default: None</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_collect_wgs_metrics.coverage_cap">
+        <b>wf_ngs_pipeline.task_collect_wgs_metrics.coverage_cap</b><br />
+        <i>Int &mdash; Default: 250</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_collect_wgs_metrics.docker">
+        <b>wf_ngs_pipeline.task_collect_wgs_metrics.docker</b><br />
+        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_collect_wgs_metrics.memory">
+        <b>wf_ngs_pipeline.task_collect_wgs_metrics.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_collect_wgs_metrics.minBaseQuality">
+        <b>wf_ngs_pipeline.task_collect_wgs_metrics.minBaseQuality</b><br />
+        <i>Int &mdash; Default: 20</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_collect_wgs_metrics.minMappingQuality">
+        <b>wf_ngs_pipeline.task_collect_wgs_metrics.minMappingQuality</b><br />
+        <i>Int &mdash; Default: 20</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_collect_wgs_metrics.outputFile">
+        <b>wf_ngs_pipeline.task_collect_wgs_metrics.outputFile</b><br />
+        <i>String &mdash; Default: "collect_wgs_metrics.txt"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_collect_wgs_metrics.read_length">
+        <b>wf_ngs_pipeline.task_collect_wgs_metrics.read_length</b><br />
+        <i>Int &mdash; Default: 150</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_collect_wgs_metrics.sample_size">
+        <b>wf_ngs_pipeline.task_collect_wgs_metrics.sample_size</b><br />
+        <i>Int &mdash; Default: 10000</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_collect_wgs_metrics.sensitivityFile">
+        <b>wf_ngs_pipeline.task_collect_wgs_metrics.sensitivityFile</b><br />
+        <i>String &mdash; Default: "collect_wgs_sensitivity_metrics.txt"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_collect_wgs_metrics.use_fast_algorithm">
+        <b>wf_ngs_pipeline.task_collect_wgs_metrics.use_fast_algorithm</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
 <p name="wf_ngs_pipeline.task_create_sequence_dictionary.docker">
         <b>wf_ngs_pipeline.task_create_sequence_dictionary.docker</b><br />
         <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
@@ -258,6 +333,46 @@
 <p name="wf_ngs_pipeline.task_create_sequence_dictionary.memory">
         <b>wf_ngs_pipeline.task_create_sequence_dictionary.memory</b><br />
         <i>String &mdash; Default: "8GB"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_delly.docker">
+        <b>wf_ngs_pipeline.task_delly.docker</b><br />
+        <i>String &mdash; Default: "dbest/delly:v1.0.0"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_delly.memory">
+        <b>wf_ngs_pipeline.task_delly.memory</b><br />
+        <i>String &mdash; Default: "32GB"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_delly.svType">
+        <b>wf_ngs_pipeline.task_delly.svType</b><br />
+        <i>String &mdash; Default: "DEL"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_depth_of_coverage.docker">
+        <b>wf_ngs_pipeline.task_depth_of_coverage.docker</b><br />
+        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_depth_of_coverage.lower_coverage">
+        <b>wf_ngs_pipeline.task_depth_of_coverage.lower_coverage</b><br />
+        <i>Int &mdash; Default: 10</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_depth_of_coverage.memory">
+        <b>wf_ngs_pipeline.task_depth_of_coverage.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_depth_of_coverage.min_base_quality">
+        <b>wf_ngs_pipeline.task_depth_of_coverage.min_base_quality</b><br />
+        <i>Int &mdash; Default: 20</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_depth_of_coverage.outputPrefix">
+        <b>wf_ngs_pipeline.task_depth_of_coverage.outputPrefix</b><br />
+        <i>String &mdash; Default: "depth_of_coverage"</i><br />
         ???
 </p>
 <p name="wf_ngs_pipeline.task_fastqc.adapters">
@@ -320,6 +435,86 @@
         <i>Int &mdash; Default: 1</i><br />
         ???
 </p>
+<p name="wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.clip_overlapping_reads">
+        <b>wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.clip_overlapping_reads</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.coverage_cap">
+        <b>wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.coverage_cap</b><br />
+        <i>Int &mdash; Default: 250</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.docker">
+        <b>wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.docker</b><br />
+        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.memory">
+        <b>wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.minBaseQuality">
+        <b>wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.minBaseQuality</b><br />
+        <i>Int &mdash; Default: 20</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.minMappingQuality">
+        <b>wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.minMappingQuality</b><br />
+        <i>Int &mdash; Default: 20</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.outputMetrics">
+        <b>wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.outputMetrics</b><br />
+        <i>String &mdash; Default: "collect_targeted_pcr_metrics.txt"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.sample_size">
+        <b>wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.sample_size</b><br />
+        <i>Int &mdash; Default: 10000</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.sensitivityFile">
+        <b>wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.sensitivityFile</b><br />
+        <i>String &mdash; Default: "collect_targeted_pcr_sensitivity_metrics.txt"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_add_pg_tag_to_read">
+        <b>wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_add_pg_tag_to_read</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_remove_duplicates">
+        <b>wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_remove_duplicates</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_remove_sequencing_duplicates">
+        <b>wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_remove_sequencing_duplicates</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_mark_duplicates.docker">
+        <b>wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_mark_duplicates.docker</b><br />
+        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_mark_duplicates.marked_bam">
+        <b>wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_mark_duplicates.marked_bam</b><br />
+        <i>String? &mdash; Default: None</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_mark_duplicates.memory">
+        <b>wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_mark_duplicates.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_mark_duplicates.metrics_txt">
+        <b>wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_mark_duplicates.metrics_txt</b><br />
+        <i>String &mdash; Default: "mark_duplicates_metrics.txt"</i><br />
+        ???
+</p>
 <p name="wf_ngs_pipeline.wf_gatk.dockerImage">
         <b>wf_ngs_pipeline.wf_gatk.dockerImage</b><br />
         <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
@@ -333,11 +528,6 @@
 <p name="wf_ngs_pipeline.wf_gatk.memory">
         <b>wf_ngs_pipeline.wf_gatk.memory</b><br />
         <i>String &mdash; Default: "9G"</i><br />
-        ???
-</p>
-<p name="wf_ngs_pipeline.wf_gatk.timeMinutes">
-        <b>wf_ngs_pipeline.wf_gatk.timeMinutes</b><br />
-        <i>Int &mdash; Default: 240</i><br />
         ???
 </p>
 </details>
