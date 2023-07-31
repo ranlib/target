@@ -15,6 +15,7 @@ import "./task_collect_multiple_metrics.wdl" as bamQC
 import "./task_collect_wgs_metrics.wdl" as wgsQC
 import "./wf_collect_targeted_pcr_metrics.wdl" as tpcrm
 import "./task_depth_of_coverage.wdl" as doc
+import "./task_multiqc.wdl" as multiQC
 
 workflow wf_ngs_pipeline {
   input {
@@ -90,7 +91,7 @@ workflow wf_ngs_pipeline {
     addMDTagToSam = true,
     outputSam = true,
     cores = threads
-}
+  }
 
   call bwa.wf_bwa {
     input:
@@ -165,17 +166,63 @@ workflow wf_ngs_pipeline {
     }
   }
 
+  Array[File] allReports = flatten([
+  select_all([
+  task_trimmomatic.trim_err,
+  task_fastqc.forwardData,
+  task_fastqc.reverseData,
+  task_bbduk.adapter_stats,
+  task_bbduk.phiX_stats,
+  task_collect_wgs_metrics.collectMetricsOutput,
+  wf_collect_targeted_pcr_metrics.output_metrics ]),
+  flatten(select_all([task_collect_multiple_metrics.collectMetricsOutput,[]]))
+  ])
+  if ( length(allReports) > 0 ) {
+    call multiQC.task_multiqc {
+      input:
+      inputFiles = allReports,
+      outputPrefix = samplename
+    }
+  }
+  
   output {
-    File bam = wf_bwa.outbam
-    File bai = wf_bwa.outbamidx
-    File vcf = wf_gatk.vcfFile
-    File vcfIndex = wf_gatk.vcfFileIndex
-    File vcfStats = wf_gatk.vcfFileStats
-    File vcfAligned = wf_gatk.vcfAlignedFile
-    File vcfAlignedIndex = wf_gatk.vcfAlignedFileIndex
-    File vcfFiltered = wf_gatk.vcfFilteredFile
-    File vcfFilteredIndex = wf_gatk.vcfFilteredFileIndex
-    File vcfFilteredStats = wf_gatk.vcfFilteredFileStats
+    # output from fastqc
+    File forwardHtml = task_fastqc.forwardHtml
+    File reverseHtml = task_fastqc.reverseHtml
+    File forwardZip = task_fastqc.forwardZip
+    File reverseZip = task_fastqc.reverseZip
+    File forwardSummary = task_fastqc.forwardSummary
+    File reverseSummary = task_fastqc.reverseSummary
+    File forwardData = task_fastqc.forwardData
+    File reverseData = task_fastqc.reverseData
+    # output from trimmomatic
+    #File? trim_log = task_trimmomatic.trim_log
+    File? trim_err = task_trimmomatic.trim_err
+    File? trim_stats = task_trimmomatic.trim_stats
+    # output from bbduk
+    File? adapter_stats = task_bbduk.adapter_stats
+    File? phiX_stats = task_bbduk.phiX_stats
+    # output from variant calling
+    File? bam = wf_bwa.outbam
+    File? bai = wf_bwa.outbamidx
+    File? vcf = wf_gatk.vcfFile
+    File? vcfIndex = wf_gatk.vcfFileIndex
+    File? vcfStats = wf_gatk.vcfFileStats
+    File? vcfAligned = wf_gatk.vcfAlignedFile
+    File? vcfAlignedIndex = wf_gatk.vcfAlignedFileIndex
+    File? vcfFiltered = wf_gatk.vcfFilteredFile
+    File? vcfFilteredIndex = wf_gatk.vcfFilteredFileIndex
+    File? vcfFilteredStats = wf_gatk.vcfFilteredFileStats
+    # snpEff
     File vcfAnnotated = SnpEff.outputVcf
+    # output from delly
+    File? dellyVcf = task_delly.vcfFile
+    # output from bam QC
+    Array[File]? multiple_metrics_outputs = task_collect_multiple_metrics.collectMetricsOutput
+    Array[File]? depth_of_coverage_outputs = task_depth_of_coverage.outputs
+    File? collect_wgs_output_metrics = task_collect_wgs_metrics.collectMetricsOutput
+    File? collect_targeted_pcr_metrics = wf_collect_targeted_pcr_metrics.output_metrics
+    # multiqc
+    File? multiqc_report = task_multiqc.report
   }
 }
