@@ -10,6 +10,11 @@ import "./wf_bwa.wdl" as bwa
 import "./wf_gatk.wdl" as gatk
 import "./task_minimap2.wdl" as minimap2
 import "./task_snpEff.wdl" as snpEff
+import "./task_delly.wdl" as delly
+import "./task_collect_multiple_metrics.wdl" as bamQC
+import "./task_collect_wgs_metrics.wdl" as wgsQC
+import "./wf_collect_targeted_pcr_metrics.wdl" as tpcrm
+import "./task_depth_of_coverage.wdl" as doc
 
 workflow wf_ngs_pipeline {
   input {
@@ -26,6 +31,9 @@ workflow wf_ngs_pipeline {
     String genome
     File dataDir
     File config
+
+    Boolean run_delly = true
+    Boolean run_bamQC = true
   }
 
   String outputForward = "${samplename}_1.fq.gz"
@@ -120,6 +128,41 @@ workflow wf_ngs_pipeline {
     genome = genome,
     config = config,
     dataDir = dataDir
+  }
+
+  if ( run_delly ) {
+    call delly.task_delly {
+      input:
+      bamFile = wf_bwa.outbam,
+      bamIndex = wf_bwa.outbamidx,
+      referenceFasta = task_genbank_to_fasta.fastaFile
+    }
+  }
+  
+  if ( run_bamQC ) {
+    call bamQC.task_collect_multiple_metrics {
+      input:
+      bam = wf_bwa.outbam,
+      reference = task_genbank_to_fasta.fastaFile
+    }
+    call wgsQC.task_collect_wgs_metrics {
+      input:
+      bam = wf_bwa.outbam,
+      reference = task_genbank_to_fasta.fastaFile
+    }
+    call tpcrm.wf_collect_targeted_pcr_metrics {
+      input:
+      bam = wf_bwa.outbam,
+      reference = task_genbank_to_fasta.fastaFile,
+      amplicon_bed = intervals,
+      target_bed = intervals
+    }
+    call doc.task_depth_of_coverage {
+      input:
+      bam = wf_bwa.outbam,
+      reference = task_genbank_to_fasta.fastaFile,
+      intervals = intervals
+    }
   }
 
   output {
