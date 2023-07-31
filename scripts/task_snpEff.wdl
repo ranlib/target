@@ -16,7 +16,6 @@ task SnpEff {
       
       String memory = "9G"
       String javaXmx = "8G"
-      Int timeMinutes = 60
       String dockerImage = "quay.io/biocontainers/snpeff:5.1d--hdfd78af_0"
     }
     

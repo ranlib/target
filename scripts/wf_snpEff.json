@@ -11,7 +11,6 @@
     "wf_snpEff.lof": true,
     "wf_snpEff.javaXmx": "8G",
     "wf_snpEff.memory": "9G",
-    "wf_snpEff.timeMinutes": 60,
     "wf_snpEff.outputPath": "./snpeff.vcf"
 }
 

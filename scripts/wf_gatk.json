@@ -13,7 +13,6 @@
     "wf_gatk.min_allele_fraction": 0.01,
     "wf_gatk.dockerImage": "broadinstitute/gatk:4.4.0.0",
     "wf_gatk.javaXmx": "4G",
-    "wf_gatk.memory": "5G",
-    "wf_gatk.timeMinutes": 240
+    "wf_gatk.memory": "5G"
 }
 

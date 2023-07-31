@@ -18,7 +18,6 @@ workflow wf_gatk {
     Float min_allele_fraction
     String javaXmx = "8G"
     String memory = "9G"
-    Int timeMinutes = 240
     String dockerImage = "broadinstitute/gatk:4.4.0.0"
   }
 
@@ -33,7 +32,6 @@ workflow wf_gatk {
     intervals = intervals,
     javaXmx = javaXmx,
     memory = memory,
-    timeMinutes = timeMinutes,
     dockerImage = dockerImage
   }
 
@@ -46,7 +44,6 @@ workflow wf_gatk {
     alignedVcf = outputAlignedVcf,
     javaXmx = javaXmx,
     memory = memory,
-    timeMinutes = timeMinutes,
     dockerImage = dockerImage
   }
 
@@ -63,7 +60,6 @@ workflow wf_gatk {
     min_allele_fraction = min_allele_fraction,
     javaXmx = javaXmx,
     memory = memory,
-    timeMinutes = timeMinutes,
     dockerImage = dockerImage
   }
 
