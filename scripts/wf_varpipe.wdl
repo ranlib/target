@@ -160,7 +160,15 @@ workflow wf_varpipe {
   # end filter
   
   Array[File] allReports = flatten([
-  select_all([task_trimmomatic.trim_err, task_fastqc.forwardData, task_fastqc.reverseData, task_bbduk.adapter_stats, task_bbduk.phiX_stats, task_varpipe.snpEff_summary_full, task_varpipe.snpEff_summary_targets, task_collect_wgs_metrics.collectMetricsOutput ]),
+  select_all([task_trimmomatic.trim_err,
+  task_fastqc.forwardData,
+  task_fastqc.reverseData,
+  task_bbduk.adapter_stats,
+  task_bbduk.phiX_stats,
+  task_varpipe.snpEff_summary_full,
+  task_varpipe.snpEff_summary_targets,
+  task_collect_wgs_metrics.collectMetricsOutput,
+  wf_collect_targeted_pcr_metrics.output_metrics ]),
   flatten(select_all([task_collect_multiple_metrics.collectMetricsOutput,[]]))
   ])
   if ( length(allReports) > 0 ) {
