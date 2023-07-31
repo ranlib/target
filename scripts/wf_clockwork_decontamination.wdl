@@ -10,7 +10,7 @@ workflow wf_clockwork_decontamination {
     File input_reads_1
     File input_reads_2
     String output_bam = sample_name + "_clockwork_decontamination.bam"
-    String output_file = sample_name + "_clockwork_decontamination.stats"
+    String output_file = sample_name + "_clockwork_decontamination_stats.txt"
     String output_reads_1 = sample_name + "_clockwork_cleaned_1.fq.gz"
     String output_reads_2 = sample_name + "_clockwork_cleaned_2.fq.gz"
     String memory = "64GB"
