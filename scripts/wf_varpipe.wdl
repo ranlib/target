@@ -26,8 +26,10 @@ workflow wf_varpipe {
     Boolean keep = false
     Boolean whole_genome = true
     Boolean verbose = false
-    # bamQC
-    Boolean run_bamQC = true
+    # trimmomatic
+    Boolean no_trim = true
+    # fastqc
+    Boolean run_fastqc_after_cleanup = true
     Int minNumberReads = 10000
     # bbduk
     Boolean run_decontamination = true
@@ -37,8 +39,8 @@ workflow wf_varpipe {
     File clockwork_contaminants
     # delly
     Boolean run_delly = true
-    # trimmomatic
-    Boolean no_trim = true
+    # bamQC
+    Boolean run_bamQC = true
     # variant interpretation
     File bed
     File json
@@ -74,7 +76,6 @@ workflow wf_varpipe {
       samplename = samplename
     }
 
-
     if ( run_decontamination ) {
       call bbduk.task_bbduk {
 	input:
@@ -95,6 +96,14 @@ workflow wf_varpipe {
       }
     }
 
+    if ( run_fastqc_after_cleanup ) {
+      call fastqc.task_fastqc as fastqc_after_cleanup {
+	input:
+	forwardReads = select_first([task_bbduk.read1_clean, wf_clockwork_decontamination.clean_reads_1, task_trimmomatic.read1_trimmed]),
+	reverseReads = select_first([task_bbduk.read2_clean, wf_clockwork_decontamination.clean_reads_2, task_trimmomatic.read2_trimmed])
+      }
+    }
+    
     call varpipe.task_varpipe {
       input:
       read1 = select_first([task_bbduk.read1_clean, wf_clockwork_decontamination.clean_reads_1, task_trimmomatic.read1_trimmed]),
@@ -115,7 +124,7 @@ workflow wf_varpipe {
 	input:
 	bamFile = task_varpipe.bam,
 	bamIndex = task_varpipe.bai,
-	referenceFasta = reference
+	reference = reference
       }
     }
     
@@ -180,6 +189,10 @@ workflow wf_varpipe {
   }
     
   output {
+    # trimmomatic
+    #File? trim_log = task_trimmomatic.trim_log
+    File? trim_err = task_trimmomatic.trim_err
+    File? trim_stats = task_trimmomatic.trim_stats
     # output from varpipe
     File? DR_loci_annotation  = task_varpipe.DR_loci_annotation 
     File? DR_loci_Final_annotation  = task_varpipe.DR_loci_Final_annotation 
@@ -198,9 +211,6 @@ workflow wf_varpipe {
     File? structural_variants  = task_varpipe.structural_variants 
     File? summary  = task_varpipe.summary 
     File? target_region_coverage  = task_varpipe.target_region_coverage
-    #File? trim_log = task_trimmomatic.trim_log
-    File? trim_err = task_trimmomatic.trim_err
-    File? trim_stats = task_trimmomatic.trim_stats
     File? mark_duplicates_metrics = task_varpipe.mark_duplicates_metrics
     File? snpEff_summary_targets = task_varpipe.snpEff_summary_targets
     File? snpEff_summary_full = task_varpipe.snpEff_summary_full
@@ -220,6 +230,15 @@ workflow wf_varpipe {
     File reverseSummary = task_fastqc.reverseSummary
     File forwardData = task_fastqc.forwardData
     File reverseData = task_fastqc.reverseData
+    # output from fastqc after cleanup
+    File? forwardHtml_cleaned = fastqc_after_cleanup.forwardHtml
+    File? reverseHtml_cleaned = fastqc_after_cleanup.reverseHtml
+    File? forwardZip_cleaned = fastqc_after_cleanup.forwardZip
+    File? reverseZip_cleaned = fastqc_after_cleanup.reverseZip
+    File? forwardSummary_cleaned = fastqc_after_cleanup.forwardSummary
+    File? reverseSummary_cleaned = fastqc_after_cleanup.reverseSummary
+    File? forwardData_cleaned = fastqc_after_cleanup.forwardData
+    File? reverseData_cleaned = fastqc_after_cleanup.reverseData
     # output from bbduk
     File? adapter_stats = task_bbduk.adapter_stats
     File? phiX_stats = task_bbduk.phiX_stats
