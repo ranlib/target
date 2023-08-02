@@ -6,6 +6,7 @@ task task_fastqc {
     File reverseReads
     File? adapters
     File? contaminants
+    File? limits
     Int threads = 1
     String docker = "staphb/fastqc:0.12.1"
     String memory = "8GB"
@@ -21,26 +22,22 @@ task task_fastqc {
 
   command <<<
     set -x
-    if (( ~{do_adapters} && ~{do_contaminants} )) ; then
-    # assume adapters input file is a gzipped fasta file
-    zcat ~{adapters} | awk 'BEGIN{RS=">"; OFS="\t"}{print $1,$2}' > adapters.tsv 
-    # assume contaminants input file is a gzipped fasta file
-    zcat ~{contaminants} | awk 'BEGIN{RS=">";OFS="\t"}{print $1,$2}' > contaminants.tsv 
-    fastqc ~{forwardReads} ~{reverseReads} --outdir "." --extract --threads ~{threads} --adapters ~{adapters} --contaminants ~{contaminants}
-
-    elif (( ~{do_adapters} )) ; then
-    # assume adapters input file is a gzipped fasta file
-    zcat ~{adapters} | awk 'BEGIN{RS=">"; OFS="\t"}{print $1,$2}' > adapters.tsv 
-    fastqc ~{forwardReads} ~{reverseReads} --outdir "." --extract --threads ~{threads} adapters.tsv 
-
-    elif (( ~{do_contaminants} )) ; then
-    # assume contaminants input file is a gzipped fasta file
-    zcat ~{contaminants} | awk 'BEGIN{RS=">";OFS="\t"}{print $1,$2}' > contaminants.tsv 
-    fastqc ~{forwardReads} ~{reverseReads} --outdir "." --extract --threads ~{threads} --contaminants contaminants.tsv
-
-    else
-    fastqc ~{forwardReads} ~{reverseReads} --outdir "." --extract --threads ~{threads}
+    CONT=""
+    ADAP=""
+    
+    if (( ~{do_adapters} )) ; then
+    zcat ~{adapters} | awk 'BEGIN{RS=">"; OFS="\t"}{print $1,$2}' > adapters.tsv
+    ADAP="--adapters adapters.tsv"
     fi
+    
+    if (( ~{do_contaminants} )) ; then
+    zcat ~{contaminants} | awk 'BEGIN{RS=">";OFS="\t"}{print $1,$2}' > contaminants.tsv 
+    CONT="--contaminants contaminants.tsv"
+    fi
+
+    fastqc --outdir "." --extract --threads ~{threads} ${ADAP} ${CONT} \
+    ~{"--limits " + limits} \
+    ~{forwardReads} ~{reverseReads} 
 
     grep 'Total Sequences' "~{tempForwardData}" | cut -f 2 1> NUMBER_FORWARD_SEQUENCES
     grep 'Total Sequences' "~{tempReverseData}" | cut -f 2 1> NUMBER_REVERSE_SEQUENCES
@@ -65,6 +62,27 @@ task task_fastqc {
     cpu: threads
   }
   
+  parameter_meta {
+    forwardReads: {description: "fastq file with forward reads.", category: "required"}
+    reverseReads: {description: "fastq file with reverse reads.", category: "required"}
+    threads: {description: "Number of cpus for this process.", category: "optional"}
+    adapters: {description: "tsv file with adapter names in column 1 and sequences in column 2.", category: "optional"}
+    contaminants: {description: "tsv file with adapter names in column 1 and sequences in column 2.", category: "optional"}
+    limits: {description: "File with a set of warn/error limits for the various modules", category: "optional"}
+    memory: {description: "The amount of memory this job will use.", category: "advanced"}
+    docker: {description: "The docker image used for this task.", category: "advanced"}
+
+    forwardHtml: {description: "Output html file for forward reads."}
+    reverseHtml: {description: "Output html file for reverse reads."}
+    forwardZip: {description: "Output zip file for forward reads."}
+    reverseZip: {description: "Output zip file for reverse reads."}
+    forwardData: {description: "Output data file for forward reads."}
+    reverseData: {description: "Output data file for reverse reads."}
+    forwardSummary: {description: "Output summary file for forward reads."}
+    reverseSummary: {description: "Output summary file for reverse reads."}
+    numberForwardReads: {description: "Number of forward reads."}
+    numberReverseReads: {description: "Number of reverse reads."}
+  }
 }
 
 
