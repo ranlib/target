@@ -172,6 +172,8 @@ workflow wf_varpipe {
   select_all([task_trimmomatic.trim_err,
   task_fastqc.forwardData,
   task_fastqc.reverseData,
+  fastqc_after_cleanup.forwardData,
+  fastqc_after_cleanup.reverseData,
   task_bbduk.adapter_stats,
   task_bbduk.phiX_stats,
   task_varpipe.snpEff_summary_full,
