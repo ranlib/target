@@ -326,19 +326,14 @@
         <i>String &mdash; Default: "dbest/clockwork:v1.0.0"</i><br />
         ???
 </p>
-<p name="wf_tbprofiler.wf_clockwork_decontamination.map_reads.memory">
-        <b>wf_tbprofiler.wf_clockwork_decontamination.map_reads.memory</b><br />
-        <i>String &mdash; Default: "32GB"</i><br />
+<p name="wf_tbprofiler.wf_clockwork_decontamination.memory">
+        <b>wf_tbprofiler.wf_clockwork_decontamination.memory</b><br />
+        <i>String &mdash; Default: "64GB"</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.wf_clockwork_decontamination.remove_contam.docker">
         <b>wf_tbprofiler.wf_clockwork_decontamination.remove_contam.docker</b><br />
         <i>String &mdash; Default: "dbest/clockwork:v1.0.0"</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.wf_clockwork_decontamination.remove_contam.memory">
-        <b>wf_tbprofiler.wf_clockwork_decontamination.remove_contam.memory</b><br />
-        <i>String &mdash; Default: "32GB"</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.wf_clockwork_decontamination.threads">
