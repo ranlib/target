@@ -8,6 +8,7 @@ workflow wf_fastqc {
     File reverseReads
     File? adapters
     File? contaminants
+    File? limits
     Int threads = 1
   }
 
@@ -15,8 +16,9 @@ workflow wf_fastqc {
     input:
     forwardReads = forwardReads,
     reverseReads = reverseReads,
-    adapters = adapters,
     contaminants = contaminants,
+    adapters = adapters,
+    limits = limits,
     threads = threads
   }
 
@@ -32,4 +34,25 @@ workflow wf_fastqc {
     Int numberForwardReads = task_fastqc.numberForwardReads
     Int numberReverseReads = task_fastqc.numberForwardReads
   }
+
+  parameter_meta {
+    forwardReads: {description: "fastq file with forward reads.", category: "required"}
+    reverseReads: {description: "fastq file with reverse reads.", category: "required"}
+    threads: {description: "Number of cpus for this process.", category: "optional"}
+    adapters: {description: "tsv file with adapter names in column 1 and sequences in column 2.", category: "optional"}
+    contaminants: {description: "tsv file with adapter names in column 1 and sequences in column 2.", category: "optional"}
+    limits: {description: "File with a set of warn/error limits for the various modules", category: "optional"}
+    
+    forwardHtml: {description: "Output html file for forward reads."}
+    reverseHtml: {description: "Output html file for reverse reads."}
+    forwardZip: {description: "Output zip file for forward reads."}
+    reverseZip: {description: "Output zip file for reverse reads."}
+    forwardData: {description: "Output data file for forward reads."}
+    reverseData: {description: "Output data file for reverse reads."}
+    forwardSummary: {description: "Output summary file for forward reads."}
+    reverseSummary: {description: "Output summary file for reverse reads."}
+    numberForwardReads: {description: "Number of forward reads."}
+    numberReverseReads: {description: "Number of reverse reads."}
+  }
+
 }
