@@ -6,7 +6,7 @@ workflow wf_delly {
   input {
     Array[File]+ bamFiles
     Array[File]+ bamIndices
-    File referenceFasta
+    File reference
     String svType
   }
 
@@ -15,7 +15,7 @@ workflow wf_delly {
       input:
       bamFile = bamFiles[idx],
       bamIndex = bamIndices[idx],
-      referenceFasta = referenceFasta,
+      reference = reference,
       svType = svType
     }
   }
