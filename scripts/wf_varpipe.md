@@ -58,6 +58,48 @@
         Alphanumeric name of the sample.
 </p>
 
+### Other common inputs
+<p name="wf_varpipe.task_delly.svType">
+        <b>wf_varpipe.task_delly.svType</b><br />
+        <i>String &mdash; Default: "DEL"</i><br />
+        Type of structural variant to look for.
+</p>
+
+### Advanced inputs
+<details>
+<summary> Show/Hide </summary>
+<p name="wf_varpipe.fastqc_after_cleanup.docker">
+        <b>wf_varpipe.fastqc_after_cleanup.docker</b><br />
+        <i>String &mdash; Default: "staphb/fastqc:0.12.1"</i><br />
+        The docker image used for this task.
+</p>
+<p name="wf_varpipe.fastqc_after_cleanup.memory">
+        <b>wf_varpipe.fastqc_after_cleanup.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
+        The amount of memory this job will use.
+</p>
+<p name="wf_varpipe.task_delly.docker">
+        <b>wf_varpipe.task_delly.docker</b><br />
+        <i>String &mdash; Default: "dbest/delly:v1.0.0"</i><br />
+        The docker image used for this task.
+</p>
+<p name="wf_varpipe.task_delly.memory">
+        <b>wf_varpipe.task_delly.memory</b><br />
+        <i>String &mdash; Default: "32GB"</i><br />
+        The memory required to run the programs.
+</p>
+<p name="wf_varpipe.task_fastqc.docker">
+        <b>wf_varpipe.task_fastqc.docker</b><br />
+        <i>String &mdash; Default: "staphb/fastqc:0.12.1"</i><br />
+        The docker image used for this task.
+</p>
+<p name="wf_varpipe.task_fastqc.memory">
+        <b>wf_varpipe.task_fastqc.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
+        The amount of memory this job will use.
+</p>
+</details>
+
 ### Other inputs
 <details>
 <summary> Show/Hide </summary>
@@ -68,6 +110,11 @@
 </p>
 <p name="wf_varpipe.run_clockwork_decontamination">
         <b>wf_varpipe.run_clockwork_decontamination</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
+<p name="wf_varpipe.run_fastqc_after_cleanup">
+        <b>wf_varpipe.run_fastqc_after_cleanup</b><br />
         <i>Boolean &mdash; Default: true</i><br />
         ???
 </p>
@@ -161,21 +208,6 @@
         <i>Boolean &mdash; Default: true</i><br />
         ???
 </p>
-<p name="wf_varpipe.task_delly.docker">
-        <b>wf_varpipe.task_delly.docker</b><br />
-        <i>String &mdash; Default: "dbest/delly:v1.0.0"</i><br />
-        ???
-</p>
-<p name="wf_varpipe.task_delly.memory">
-        <b>wf_varpipe.task_delly.memory</b><br />
-        <i>String &mdash; Default: "32GB"</i><br />
-        ???
-</p>
-<p name="wf_varpipe.task_delly.svType">
-        <b>wf_varpipe.task_delly.svType</b><br />
-        <i>String &mdash; Default: "DEL"</i><br />
-        ???
-</p>
 <p name="wf_varpipe.task_depth_of_coverage.docker">
         <b>wf_varpipe.task_depth_of_coverage.docker</b><br />
         <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
@@ -199,31 +231,6 @@
 <p name="wf_varpipe.task_depth_of_coverage.outputPrefix">
         <b>wf_varpipe.task_depth_of_coverage.outputPrefix</b><br />
         <i>String &mdash; Default: "depth_of_coverage"</i><br />
-        ???
-</p>
-<p name="wf_varpipe.task_fastqc.adapters">
-        <b>wf_varpipe.task_fastqc.adapters</b><br />
-        <i>File? &mdash; Default: None</i><br />
-        ???
-</p>
-<p name="wf_varpipe.task_fastqc.contaminants">
-        <b>wf_varpipe.task_fastqc.contaminants</b><br />
-        <i>File? &mdash; Default: None</i><br />
-        ???
-</p>
-<p name="wf_varpipe.task_fastqc.docker">
-        <b>wf_varpipe.task_fastqc.docker</b><br />
-        <i>String &mdash; Default: "staphb/fastqc:0.12.1"</i><br />
-        ???
-</p>
-<p name="wf_varpipe.task_fastqc.memory">
-        <b>wf_varpipe.task_fastqc.memory</b><br />
-        <i>String &mdash; Default: "8GB"</i><br />
-        ???
-</p>
-<p name="wf_varpipe.task_fastqc.threads">
-        <b>wf_varpipe.task_fastqc.threads</b><br />
-        <i>Int &mdash; Default: 1</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_multiqc.docker">
@@ -316,19 +323,14 @@
         <i>String &mdash; Default: "dbest/clockwork:v1.0.0"</i><br />
         ???
 </p>
-<p name="wf_varpipe.wf_clockwork_decontamination.map_reads.memory">
-        <b>wf_varpipe.wf_clockwork_decontamination.map_reads.memory</b><br />
-        <i>String &mdash; Default: "32GB"</i><br />
+<p name="wf_varpipe.wf_clockwork_decontamination.memory">
+        <b>wf_varpipe.wf_clockwork_decontamination.memory</b><br />
+        <i>String &mdash; Default: "64GB"</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_clockwork_decontamination.remove_contam.docker">
         <b>wf_varpipe.wf_clockwork_decontamination.remove_contam.docker</b><br />
         <i>String &mdash; Default: "dbest/clockwork:v1.0.0"</i><br />
-        ???
-</p>
-<p name="wf_varpipe.wf_clockwork_decontamination.remove_contam.memory">
-        <b>wf_varpipe.wf_clockwork_decontamination.remove_contam.memory</b><br />
-        <i>String &mdash; Default: "32GB"</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_clockwork_decontamination.threads">
@@ -479,20 +481,40 @@
         <i>File</i><br />
         Fastqc output data for forward reads.
 </p>
+<p name="wf_varpipe.forwardData_cleaned">
+        <b>wf_varpipe.forwardData_cleaned</b><br />
+        <i>File?</i><br />
+        ???
+</p>
 <p name="wf_varpipe.forwardHtml">
         <b>wf_varpipe.forwardHtml</b><br />
         <i>File</i><br />
         Fastqc output html file for forward reads.
+</p>
+<p name="wf_varpipe.forwardHtml_cleaned">
+        <b>wf_varpipe.forwardHtml_cleaned</b><br />
+        <i>File?</i><br />
+        ???
 </p>
 <p name="wf_varpipe.forwardSummary">
         <b>wf_varpipe.forwardSummary</b><br />
         <i>File</i><br />
         Fastqc output summary file for forward reads.
 </p>
+<p name="wf_varpipe.forwardSummary_cleaned">
+        <b>wf_varpipe.forwardSummary_cleaned</b><br />
+        <i>File?</i><br />
+        ???
+</p>
 <p name="wf_varpipe.forwardZip">
         <b>wf_varpipe.forwardZip</b><br />
         <i>File</i><br />
         Fastqc output zip file for forward reads.
+</p>
+<p name="wf_varpipe.forwardZip_cleaned">
+        <b>wf_varpipe.forwardZip_cleaned</b><br />
+        <i>File?</i><br />
+        ???
 </p>
 <p name="wf_varpipe.full_annotation">
         <b>wf_varpipe.full_annotation</b><br />
@@ -574,20 +596,40 @@
         <i>File</i><br />
         Fastqc output data for reverse reads.
 </p>
+<p name="wf_varpipe.reverseData_cleaned">
+        <b>wf_varpipe.reverseData_cleaned</b><br />
+        <i>File?</i><br />
+        ???
+</p>
 <p name="wf_varpipe.reverseHtml">
         <b>wf_varpipe.reverseHtml</b><br />
         <i>File</i><br />
         Fastqc output html file for reverse reads.
+</p>
+<p name="wf_varpipe.reverseHtml_cleaned">
+        <b>wf_varpipe.reverseHtml_cleaned</b><br />
+        <i>File?</i><br />
+        ???
 </p>
 <p name="wf_varpipe.reverseSummary">
         <b>wf_varpipe.reverseSummary</b><br />
         <i>File</i><br />
         Fastqc output summary file for reverse reads.
 </p>
+<p name="wf_varpipe.reverseSummary_cleaned">
+        <b>wf_varpipe.reverseSummary_cleaned</b><br />
+        <i>File?</i><br />
+        ???
+</p>
 <p name="wf_varpipe.reverseZip">
         <b>wf_varpipe.reverseZip</b><br />
         <i>File</i><br />
         Fastqc output zip file for reverse reads.
+</p>
+<p name="wf_varpipe.reverseZip_cleaned">
+        <b>wf_varpipe.reverseZip_cleaned</b><br />
+        <i>File?</i><br />
+        ???
 </p>
 <p name="wf_varpipe.snpEff_summary_full">
         <b>wf_varpipe.snpEff_summary_full</b><br />
