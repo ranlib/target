@@ -66,6 +66,11 @@
         <i>String? &mdash; Default: None</i><br />
         How to find GT-AG. f:transcript strand, b:both strands, n:don't match GT-AG.
 </p>
+<p name="wf_ngs_pipeline.task_delly.svType">
+        <b>wf_ngs_pipeline.task_delly.svType</b><br />
+        <i>String &mdash; Default: "DEL"</i><br />
+        Type of structural variant to look for.
+</p>
 
 ### Advanced inputs
 <details>
@@ -159,6 +164,16 @@
         <b>wf_ngs_pipeline.Mapping.timeMinutes</b><br />
         <i>Int &mdash; Default: 1 + ceil((size(queryFile1,"G") * 200 / cores))</i><br />
         The maximum amount of time the job will run in minutes.
+</p>
+<p name="wf_ngs_pipeline.task_delly.docker">
+        <b>wf_ngs_pipeline.task_delly.docker</b><br />
+        <i>String &mdash; Default: "dbest/delly:v1.0.0"</i><br />
+        The docker image used for this task.
+</p>
+<p name="wf_ngs_pipeline.task_delly.memory">
+        <b>wf_ngs_pipeline.task_delly.memory</b><br />
+        <i>String &mdash; Default: "32GB"</i><br />
+        The memory required to run the programs.
 </p>
 </details>
 
@@ -335,21 +350,6 @@
         <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
-<p name="wf_ngs_pipeline.task_delly.docker">
-        <b>wf_ngs_pipeline.task_delly.docker</b><br />
-        <i>String &mdash; Default: "dbest/delly:v1.0.0"</i><br />
-        ???
-</p>
-<p name="wf_ngs_pipeline.task_delly.memory">
-        <b>wf_ngs_pipeline.task_delly.memory</b><br />
-        <i>String &mdash; Default: "32GB"</i><br />
-        ???
-</p>
-<p name="wf_ngs_pipeline.task_delly.svType">
-        <b>wf_ngs_pipeline.task_delly.svType</b><br />
-        <i>String &mdash; Default: "DEL"</i><br />
-        ???
-</p>
 <p name="wf_ngs_pipeline.task_depth_of_coverage.docker">
         <b>wf_ngs_pipeline.task_depth_of_coverage.docker</b><br />
         <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
@@ -398,6 +398,16 @@
 <p name="wf_ngs_pipeline.task_fastqc.threads">
         <b>wf_ngs_pipeline.task_fastqc.threads</b><br />
         <i>Int &mdash; Default: 1</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_multiqc.docker">
+        <b>wf_ngs_pipeline.task_multiqc.docker</b><br />
+        <i>String &mdash; Default: "ewels/multiqc:v1.14"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_multiqc.memory">
+        <b>wf_ngs_pipeline.task_multiqc.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
 <p name="wf_ngs_pipeline.task_trimmomatic.docker">
@@ -533,29 +543,119 @@
 </details>
 
 ## Outputs
+<p name="wf_ngs_pipeline.adapter_stats">
+        <b>wf_ngs_pipeline.adapter_stats</b><br />
+        <i>File?</i><br />
+        ???
+</p>
 <p name="wf_ngs_pipeline.bai">
         <b>wf_ngs_pipeline.bai</b><br />
-        <i>File</i><br />
+        <i>File?</i><br />
         ???
 </p>
 <p name="wf_ngs_pipeline.bam">
         <b>wf_ngs_pipeline.bam</b><br />
+        <i>File?</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.collect_targeted_pcr_metrics">
+        <b>wf_ngs_pipeline.collect_targeted_pcr_metrics</b><br />
+        <i>File?</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.collect_wgs_output_metrics">
+        <b>wf_ngs_pipeline.collect_wgs_output_metrics</b><br />
+        <i>File?</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.dellyVcf">
+        <b>wf_ngs_pipeline.dellyVcf</b><br />
+        <i>File?</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.depth_of_coverage_outputs">
+        <b>wf_ngs_pipeline.depth_of_coverage_outputs</b><br />
+        <i>Array[File]?</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.forwardData">
+        <b>wf_ngs_pipeline.forwardData</b><br />
         <i>File</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.forwardHtml">
+        <b>wf_ngs_pipeline.forwardHtml</b><br />
+        <i>File</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.forwardSummary">
+        <b>wf_ngs_pipeline.forwardSummary</b><br />
+        <i>File</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.forwardZip">
+        <b>wf_ngs_pipeline.forwardZip</b><br />
+        <i>File</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.multiple_metrics_outputs">
+        <b>wf_ngs_pipeline.multiple_metrics_outputs</b><br />
+        <i>Array[File]?</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.multiqc_report">
+        <b>wf_ngs_pipeline.multiqc_report</b><br />
+        <i>File?</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.phiX_stats">
+        <b>wf_ngs_pipeline.phiX_stats</b><br />
+        <i>File?</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.reverseData">
+        <b>wf_ngs_pipeline.reverseData</b><br />
+        <i>File</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.reverseHtml">
+        <b>wf_ngs_pipeline.reverseHtml</b><br />
+        <i>File</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.reverseSummary">
+        <b>wf_ngs_pipeline.reverseSummary</b><br />
+        <i>File</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.reverseZip">
+        <b>wf_ngs_pipeline.reverseZip</b><br />
+        <i>File</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.trim_err">
+        <b>wf_ngs_pipeline.trim_err</b><br />
+        <i>File?</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.trim_stats">
+        <b>wf_ngs_pipeline.trim_stats</b><br />
+        <i>File?</i><br />
         ???
 </p>
 <p name="wf_ngs_pipeline.vcf">
         <b>wf_ngs_pipeline.vcf</b><br />
-        <i>File</i><br />
+        <i>File?</i><br />
         ???
 </p>
 <p name="wf_ngs_pipeline.vcfAligned">
         <b>wf_ngs_pipeline.vcfAligned</b><br />
-        <i>File</i><br />
+        <i>File?</i><br />
         ???
 </p>
 <p name="wf_ngs_pipeline.vcfAlignedIndex">
         <b>wf_ngs_pipeline.vcfAlignedIndex</b><br />
-        <i>File</i><br />
+        <i>File?</i><br />
         ???
 </p>
 <p name="wf_ngs_pipeline.vcfAnnotated">
@@ -565,27 +665,27 @@
 </p>
 <p name="wf_ngs_pipeline.vcfFiltered">
         <b>wf_ngs_pipeline.vcfFiltered</b><br />
-        <i>File</i><br />
+        <i>File?</i><br />
         ???
 </p>
 <p name="wf_ngs_pipeline.vcfFilteredIndex">
         <b>wf_ngs_pipeline.vcfFilteredIndex</b><br />
-        <i>File</i><br />
+        <i>File?</i><br />
         ???
 </p>
 <p name="wf_ngs_pipeline.vcfFilteredStats">
         <b>wf_ngs_pipeline.vcfFilteredStats</b><br />
-        <i>File</i><br />
+        <i>File?</i><br />
         ???
 </p>
 <p name="wf_ngs_pipeline.vcfIndex">
         <b>wf_ngs_pipeline.vcfIndex</b><br />
-        <i>File</i><br />
+        <i>File?</i><br />
         ???
 </p>
 <p name="wf_ngs_pipeline.vcfStats">
         <b>wf_ngs_pipeline.vcfStats</b><br />
-        <i>File</i><br />
+        <i>File?</i><br />
         ???
 </p>
 

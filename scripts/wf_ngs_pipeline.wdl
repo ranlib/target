@@ -136,7 +136,7 @@ workflow wf_ngs_pipeline {
       input:
       bamFile = wf_bwa.outbam,
       bamIndex = wf_bwa.outbamidx,
-      referenceFasta = task_genbank_to_fasta.fastaFile
+      reference = task_genbank_to_fasta.fastaFile
     }
   }
   
