@@ -32,5 +32,6 @@ task task_fastq_screen {
   runtime {
     docker: docker
     memory: memory
+    cpu: threads
   }
 }
