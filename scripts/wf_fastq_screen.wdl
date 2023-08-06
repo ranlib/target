@@ -20,5 +20,7 @@ workflow wf_fastq_screen {
     File html = task_fastq_screen.html
     #File png = task_fastq_screen.png
     File txt = task_fastq_screen.txt
+    File tagged = task_fastq_screen.tagged
+    File tagged_filter = task_fastq_screen.tagged_filter
   }
 }
