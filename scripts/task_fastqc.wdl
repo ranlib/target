@@ -17,20 +17,17 @@ task task_fastqc {
   String tempForwardData = forwardName + "_fastqc/fastqc_data.txt"
   String tempReverseData = reverseName + "_fastqc/fastqc_data.txt"
   
-  Int do_adapters = if defined(adapters) then 1 else 0
-  Int do_contaminants = if defined(contaminants) then 1 else 0
-
   command <<<
     set -x
     CONT=""
     ADAP=""
     
-    if (( ~{do_adapters} )) ; then
+    if ~{defined(adapters)} ; then
     zcat ~{adapters} | awk 'BEGIN{RS=">"; OFS="\t"}{print $1,$2}' > adapters.tsv
     ADAP="--adapters adapters.tsv"
     fi
     
-    if (( ~{do_contaminants} )) ; then
+    if ~{defined(contaminants)} ; then
     zcat ~{contaminants} | awk 'BEGIN{RS=">";OFS="\t"}{print $1,$2}' > contaminants.tsv 
     CONT="--contaminants contaminants.tsv"
     fi
