@@ -27,6 +27,16 @@
         <i>File &mdash; Default: None</i><br />
         Configuration file with parameters for the pipeline.
 </p>
+<p name="wf_varpipe.fastq_screen_configuration">
+        <b>wf_varpipe.fastq_screen_configuration</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
+</p>
+<p name="wf_varpipe.fastq_screen_contaminants">
+        <b>wf_varpipe.fastq_screen_contaminants</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
+</p>
 <p name="wf_varpipe.json">
         <b>wf_varpipe.json</b><br />
         <i>File &mdash; Default: None</i><br />
@@ -231,6 +241,36 @@
 <p name="wf_varpipe.task_depth_of_coverage.outputPrefix">
         <b>wf_varpipe.task_depth_of_coverage.outputPrefix</b><br />
         <i>String &mdash; Default: "depth_of_coverage"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_fastq_screen.aligner">
+        <b>wf_varpipe.task_fastq_screen.aligner</b><br />
+        <i>String &mdash; Default: "bwa"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_fastq_screen.docker">
+        <b>wf_varpipe.task_fastq_screen.docker</b><br />
+        <i>String &mdash; Default: "dbest/fastq_screen:v0.15.3"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_fastq_screen.memory">
+        <b>wf_varpipe.task_fastq_screen.memory</b><br />
+        <i>String &mdash; Default: "10GB"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_fastq_screen.nohits">
+        <b>wf_varpipe.task_fastq_screen.nohits</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_fastq_screen.subset">
+        <b>wf_varpipe.task_fastq_screen.subset</b><br />
+        <i>Int &mdash; Default: 100000</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_fastq_screen.threads">
+        <b>wf_varpipe.task_fastq_screen.threads</b><br />
+        <i>Int &mdash; Default: 1</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_multiqc.docker">
@@ -475,6 +515,26 @@
         <b>wf_varpipe.DR_loci_raw_annotation</b><br />
         <i>File?</i><br />
         Ouput vcf file with annotated variant calls in regions of interest.
+</p>
+<p name="wf_varpipe.fastq_screen_html">
+        <b>wf_varpipe.fastq_screen_html</b><br />
+        <i>File</i><br />
+        ???
+</p>
+<p name="wf_varpipe.fastq_screen_tagged">
+        <b>wf_varpipe.fastq_screen_tagged</b><br />
+        <i>File</i><br />
+        ???
+</p>
+<p name="wf_varpipe.fastq_screen_tagged_filter">
+        <b>wf_varpipe.fastq_screen_tagged_filter</b><br />
+        <i>File</i><br />
+        ???
+</p>
+<p name="wf_varpipe.fastq_screen_txt">
+        <b>wf_varpipe.fastq_screen_txt</b><br />
+        <i>File</i><br />
+        ???
 </p>
 <p name="wf_varpipe.forwardData">
         <b>wf_varpipe.forwardData</b><br />

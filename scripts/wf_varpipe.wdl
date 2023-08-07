@@ -2,6 +2,7 @@ version 1.0
 
 import "./task_concatenate_fastq.wdl" as concatenate_fastq
 import "./task_fastqc.wdl" as fastqc
+import "./task_fastq_screen.wdl" as fastq_screen
 import "./task_trimmomatic.wdl" as trimmomatic
 import "./task_bbduk.wdl" as bbduk
 import "./wf_clockwork_decontamination.wdl" as cd
@@ -26,6 +27,9 @@ workflow wf_varpipe {
     Boolean keep = false
     Boolean whole_genome = true
     Boolean verbose = false
+    # fastq_screen
+    File fastq_screen_configuration
+    File fastq_screen_contaminants
     # trimmomatic
     Boolean no_trim = true
     # fastqc
@@ -56,6 +60,14 @@ workflow wf_varpipe {
       reverseFastqFiles = read2,
       outputForward = outputForward,
       outputReverse = outputReverse
+  }
+
+  call fastq_screen.task_fastq_screen {
+    input:
+    reads = task_concatenate_fastq.concatenatedForwardFastq,
+    configuration = fastq_screen_configuration,
+    contaminants = fastq_screen_contaminants
+
   }
 
   call fastqc.task_fastqc {
@@ -170,6 +182,7 @@ workflow wf_varpipe {
   
   Array[File] allReports = flatten([
   select_all([task_trimmomatic.trim_err,
+  task_fastq_screen.txt,
   task_fastqc.forwardData,
   task_fastqc.reverseData,
   fastqc_after_cleanup.forwardData,
@@ -223,6 +236,11 @@ workflow wf_varpipe {
     Array[File]? depth_of_coverage_outputs = task_depth_of_coverage.outputs
     File? collect_wgs_output_metrics = task_collect_wgs_metrics.collectMetricsOutput
     File? collect_targeted_pcr_metrics = wf_collect_targeted_pcr_metrics.output_metrics
+    # output from fastq_screen
+    File fastq_screen_html = task_fastq_screen.html
+    File fastq_screen_txt = task_fastq_screen.txt
+    File fastq_screen_tagged = task_fastq_screen.tagged
+    File fastq_screen_tagged_filter = task_fastq_screen.tagged_filter
     # output from fastqc
     File forwardHtml = task_fastqc.forwardHtml
     File reverseHtml = task_fastqc.reverseHtml
