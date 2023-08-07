@@ -17,27 +17,25 @@ task task_collect_wgs_metrics {
     String memory = "8GB"
   }
 
-  Int do_intervals = if defined(bed) then 1 else 0
-  String intervals = if defined(bed) then "intervals.intervals" else ""
   #--ALLELE_FRACTION [0.001, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.3, 0.5]
   
   command {
     set -ex
 
-    if (( ~{do_intervals} )) ; then
+    if ~{defined(bed)} ; then
     gatk CreateSequenceDictionary \
     --REFERENCE ~{reference} \
     --OUTPUT "reference.dict"
     
     gatk BedToIntervalList \
     --INPUT ~{bed} \
-    --OUTPUT ~{intervals} \
+    --OUTPUT "bed.intervals" \
     --SEQUENCE_DICTIONARY "reference.dict"
     
     gatk CollectWgsMetrics \
     --INPUT ~{bam} \
     --REFERENCE_SEQUENCE ~{reference} \
-    --INTERVALS ~{intervals} \
+    --INTERVALS "bed.intervals" \
     --OUTPUT ~{outputFile} \
     --READ_LENGTH ~{read_length} \
     --COVERAGE_CAP ~{coverage_cap} \
