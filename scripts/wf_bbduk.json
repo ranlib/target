@@ -1,9 +1,10 @@
 {
-    "wf_bbduk.contamination": "/home/dieterbest/Analysis/varpipe4/tests/contamination.tar.gz",
+    "wf_bbduk.contamination": "/home/dieterbest/Analysis/varpipe4/contamination/bbduk_contamination.tar.gz",
     "wf_bbduk.forwardReads": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
     "wf_bbduk.reverseReads": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz",
     "wf_bbduk.samplename": "ERR552797",
-    "wf_bbduk.task_bbduk.threads": 6,
+    "wf_bbduk.task_bbduk.threads": 1,
+    "wf_bbduk.task_bbduk.keep": false,
     "wf_bbduk.task_bbduk.docker": "staphb/bbtools:39.01",
     "wf_bbduk.task_bbduk.memory": "6GB"
 }
