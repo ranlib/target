@@ -57,7 +57,7 @@ task task_bbduk {
     k=31 hdist=1 \
     stats=~{samplename}_polyA.stats.txt
 
-    # additonal contaminants
+    # additional contaminants
     if ~{defined(contamination)} ; then
 
     tar -xvf ~{contamination}
