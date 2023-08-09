@@ -46,9 +46,10 @@ workflow wf_varpipe {
     # bamQC
     Boolean run_bamQC = true
     # variant interpretation
+    Boolean run_variant_interpretation = true
+    String? report
     File bed
     File json
-    String? report
   }
 
   String outputForward = "${samplename}_1.fq.gz"
@@ -166,16 +167,18 @@ workflow wf_varpipe {
       }
     }
 
-    String the_report = if defined(report) then select_first([report]) else samplename+"_variant_interpretation.tsv"
-    call vi.task_variant_interpretation {
-      input:
-      vcf = task_varpipe.DR_loci_raw_annotation,
-      bam = task_varpipe.bam,
-      bai = task_varpipe.bai,
-      bed = bed,
-      json = json,
-      sample_name = samplename,
-      report = the_report
+    if ( run_variant_interpretation ) {
+      String the_report = if defined(report) then select_first([report]) else samplename+"_variant_interpretation.tsv"
+      call vi.task_variant_interpretation {
+	input:
+	vcf = task_varpipe.DR_loci_raw_annotation,
+	bam = task_varpipe.bam,
+	bai = task_varpipe.bai,
+	bed = bed,
+	json = json,
+	sample_name = samplename,
+	report = the_report
+      }
     }
   }
   # end filter

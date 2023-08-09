@@ -1,5 +1,5 @@
 {
-    "wf_varpipe.bed": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb.bed",
+    "wf_varpipe.bed": "/home/dieterbest/Analysis/varpipe4/intervals/amp.bed",
     "wf_varpipe.clockwork_contaminants": "/home/dieterbest/Analysis/varpipe4/contamination/clockwork_contaminants.fa.gz",
     "wf_varpipe.clockwork_decontamination_metadata": "/home/dieterbest/Analysis/varpipe4/contamination/clockwork_decontamination_metadata.tsv",
     "wf_varpipe.config": "/home/dieterbest/Analysis/varpipe4/configuration/snp_docker.config",
@@ -21,7 +21,7 @@
     "wf_varpipe.run_decontamination": true,
     "wf_varpipe.run_clockwork_decontamination": true,
     "wf_varpipe.run_delly": true,
-    "wf_varpipe.run_variant_interpretation": true,
+    "wf_varpipe.run_variant_interpretation": false,
     "wf_varpipe.samplename": "ERR552797",
     "wf_varpipe.task_bbduk.docker": "staphb/bbtools:39.01",
     "wf_varpipe.task_bbduk.memory": "8GB",
