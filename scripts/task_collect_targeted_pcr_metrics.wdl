@@ -53,8 +53,8 @@ task task_collect_targeted_pcr_metrics {
   }
   
   output {
-    File metrics = "${outputMetrics}"
-    File collectMetricsSensitivity = "${sensitivityFile}"
+    File? metrics = "${outputMetrics}"
+    File? collectMetricsSensitivity = "${sensitivityFile}"
   }
   
   runtime {
