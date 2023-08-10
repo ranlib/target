@@ -27,7 +27,7 @@ workflow wf_collect_targeted_pcr_metrics {
   }
   
   output {
-    File output_metrics = task_collect_targeted_pcr_metrics.metrics
+    File? output_metrics = task_collect_targeted_pcr_metrics.metrics
     File output_marked_bam = task_mark_duplicates.output_marked_bam
     File output_marked_metrics_txt = task_mark_duplicates.output_marked_metrics_txt
   }
