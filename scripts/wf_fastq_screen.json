@@ -1,6 +1,6 @@
 {
     "wf_fastq_screen.reads": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
-    "wf_fastq_screen.configuration": "/home/dieterbest/Analysis/varpipe4/scripts/fastq_screen.conf",
+    "wf_fastq_screen.configuration": "/home/dieterbest/Analysis/varpipe4/configuration/fastq_screen.config",
     "wf_fastq_screen.contaminants": "/home/dieterbest/Analysis/varpipe4/contamination/fastq_screen_contamination.tar.gz",
     "wf_fastq_screen.task_fastq_screen.nohits": true,
     "wf_fastq_screen.task_fastq_screen.docker": "dbest/fastq_screen:v0.15.3",
