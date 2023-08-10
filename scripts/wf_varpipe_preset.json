@@ -1,0 +1,14 @@
+{
+    "wf_varpipe_cdc.read1": ["/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz"],
+    "wf_varpipe_cdc.read2": ["/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz"],
+    "wf_varpipe_cdc.samplename": "ERR552797",
+    "wf_varpipe_cdc.run_variant_interpretation": false,
+    "wf_varpipe_cdc.fastqc_after_cleanup.threads": 12,
+    "wf_varpipe_cdc.task_bbduk.threads": 12,
+    "wf_varpipe_cdc.task_fastqc.threads": 12,
+    "wf_varpipe_cdc.task_fastq_screen.threads": 12,
+    "wf_varpipe_cdc.task_trimmomatic.threads": 12,
+    "wf_varpipe_cdc.task_varpipe.threads": 12,
+    "wf_varpipe_cdc.wf_clockwork_decontamination.threads": 12
+}
+
