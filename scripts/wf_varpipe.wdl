@@ -28,6 +28,7 @@ workflow wf_varpipe {
     Boolean whole_genome = true
     Boolean verbose = false
     # fastq_screen
+    Boolean run_fastq_screen = true
     File fastq_screen_configuration
     File fastq_screen_contaminants
     # trimmomatic
@@ -63,6 +64,7 @@ workflow wf_varpipe {
       outputReverse = outputReverse
   }
 
+  if ( run_fastq_screen ) {
   call fastq_screen.task_fastq_screen {
     input:
     reads = task_concatenate_fastq.concatenatedForwardFastq,
@@ -70,6 +72,7 @@ workflow wf_varpipe {
     contaminants = fastq_screen_contaminants
 
   }
+  } 
 
   call fastqc.task_fastqc {
     input:
@@ -240,10 +243,10 @@ workflow wf_varpipe {
     File? collect_wgs_output_metrics = task_collect_wgs_metrics.collectMetricsOutput
     File? collect_targeted_pcr_metrics = wf_collect_targeted_pcr_metrics.output_metrics
     # output from fastq_screen
-    File fastq_screen_html = task_fastq_screen.html
-    File fastq_screen_txt = task_fastq_screen.txt
-    File fastq_screen_tagged = task_fastq_screen.tagged
-    File fastq_screen_tagged_filter = task_fastq_screen.tagged_filter
+    File? fastq_screen_html = task_fastq_screen.html
+    File? fastq_screen_txt = task_fastq_screen.txt
+    File? fastq_screen_tagged = task_fastq_screen.tagged
+    File? fastq_screen_tagged_filter = task_fastq_screen.tagged_filter
     # output from fastqc
     File forwardHtml = task_fastqc.forwardHtml
     File reverseHtml = task_fastqc.reverseHtml
