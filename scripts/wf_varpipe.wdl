@@ -113,7 +113,7 @@ workflow wf_varpipe {
     }
 
     if ( run_fastqc_after_cleanup ) {
-      call fastqc.task_fastqc as fastqc_after_cleanup {
+      call fastqc.task_fastqc as task_fastqc_after_cleanup {
 	input:
 	forwardReads = select_first([task_bbduk.read1_clean, wf_clockwork_decontamination.clean_reads_1, task_trimmomatic.read1_trimmed]),
 	reverseReads = select_first([task_bbduk.read2_clean, wf_clockwork_decontamination.clean_reads_2, task_trimmomatic.read2_trimmed])
@@ -191,14 +191,20 @@ workflow wf_varpipe {
   task_fastq_screen.txt,
   task_fastqc.forwardData,
   task_fastqc.reverseData,
-  fastqc_after_cleanup.forwardData,
-  fastqc_after_cleanup.reverseData,
+  task_fastqc_after_cleanup.forwardData,
+  task_fastqc_after_cleanup.reverseData,
   task_bbduk.adapter_stats,
   task_bbduk.phiX_stats,
+  task_bbduk.polyA_stats,
+  task_bbduk.Ecoli_stats,
+  task_bbduk.Covid19_stats,
   task_varpipe.snpEff_summary_full,
   task_varpipe.snpEff_summary_targets,
   task_collect_wgs_metrics.collectMetricsOutput,
-  wf_collect_targeted_pcr_metrics.output_metrics ]),
+  wf_collect_targeted_pcr_metrics.output_metrics,
+  wf_collect_targeted_pcr_metrics.sensitivity_metrics,
+  wf_collect_targeted_pcr_metrics.target_coverage
+  ]),
   flatten(select_all([task_collect_multiple_metrics.collectMetricsOutput,[]]))
   ])
   if ( length(allReports) > 0 ) {
@@ -242,6 +248,8 @@ workflow wf_varpipe {
     Array[File]? depth_of_coverage_outputs = task_depth_of_coverage.outputs
     File? collect_wgs_output_metrics = task_collect_wgs_metrics.collectMetricsOutput
     File? collect_targeted_pcr_metrics = wf_collect_targeted_pcr_metrics.output_metrics
+    File? collect_targeted_pcr_sensitivity = wf_collect_targeted_pcr_metrics.sensitivity_metrics
+    File? collect_targeted_pcr_target_coverage = wf_collect_targeted_pcr_metrics.target_coverage
     # output from fastq_screen
     File? fastq_screen_html = task_fastq_screen.html
     File? fastq_screen_txt = task_fastq_screen.txt
@@ -257,17 +265,20 @@ workflow wf_varpipe {
     File forwardData = task_fastqc.forwardData
     File reverseData = task_fastqc.reverseData
     # output from fastqc after cleanup
-    File? forwardHtml_cleaned = fastqc_after_cleanup.forwardHtml
-    File? reverseHtml_cleaned = fastqc_after_cleanup.reverseHtml
-    File? forwardZip_cleaned = fastqc_after_cleanup.forwardZip
-    File? reverseZip_cleaned = fastqc_after_cleanup.reverseZip
-    File? forwardSummary_cleaned = fastqc_after_cleanup.forwardSummary
-    File? reverseSummary_cleaned = fastqc_after_cleanup.reverseSummary
-    File? forwardData_cleaned = fastqc_after_cleanup.forwardData
-    File? reverseData_cleaned = fastqc_after_cleanup.reverseData
+    File? forwardHtml_cleaned = task_fastqc_after_cleanup.forwardHtml
+    File? reverseHtml_cleaned = task_fastqc_after_cleanup.reverseHtml
+    File? forwardZip_cleaned = task_fastqc_after_cleanup.forwardZip
+    File? reverseZip_cleaned = task_fastqc_after_cleanup.reverseZip
+    File? forwardSummary_cleaned = task_fastqc_after_cleanup.forwardSummary
+    File? reverseSummary_cleaned = task_fastqc_after_cleanup.reverseSummary
+    File? forwardData_cleaned = task_fastqc_after_cleanup.forwardData
+    File? reverseData_cleaned = task_fastqc_after_cleanup.reverseData
     # output from bbduk
     File? adapter_stats = task_bbduk.adapter_stats
-    File? phiX_stats = task_bbduk.phiX_stats
+    File? phiX_stats    = task_bbduk.phiX_stats
+    File? polyA_stats   = task_bbduk.polyA_stats
+    File? Ecoli_stats   = task_bbduk.Ecoli_stats
+    File? Covid19_stats = task_bbduk.Covid19_stats
     # output from clockwork decontamination
     File? clockwork_decontamination_stats = wf_clockwork_decontamination.stats
     # output from delly
