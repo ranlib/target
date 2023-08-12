@@ -24,7 +24,7 @@ task map_reads {
     docker: docker
     memory: memory
     maxRetries: 3
-    cpu: "~{threads}"
+    cpu: threads
   }
 }
 
