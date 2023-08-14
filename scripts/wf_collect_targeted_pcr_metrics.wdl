@@ -28,6 +28,8 @@ workflow wf_collect_targeted_pcr_metrics {
   
   output {
     File? output_metrics = task_collect_targeted_pcr_metrics.metrics
+    File? target_coverage = task_collect_targeted_pcr_metrics.target_coverage
+    File? sensitivity_metrics = task_collect_targeted_pcr_metrics.collectMetricsSensitivity
     File output_marked_bam = task_mark_duplicates.output_marked_bam
     File output_marked_metrics_txt = task_mark_duplicates.output_marked_metrics_txt
   }

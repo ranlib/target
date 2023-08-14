@@ -8,6 +8,7 @@ task task_collect_targeted_pcr_metrics {
     File target_bed
     String outputMetrics = "collect_targeted_pcr_metrics.txt"
     String sensitivityFile = "collect_targeted_pcr_sensitivity_metrics.txt"
+    String target_coverage_file = "collect_targeted_pcr_target_coverage.txt"
     String docker = "broadinstitute/gatk:4.4.0.0"
     String memory = "8GB"
     Int minMappingQuality = 20
@@ -17,8 +18,6 @@ task task_collect_targeted_pcr_metrics {
     Boolean clip_overlapping_reads = true
   }
 
-  String amplicon_intervals = if defined(amplicon_bed) then "amplicon.intervals" else ""
-  String target_intervals = if defined(target_bed) then "target.intervals" else ""
   #--ALLELE_FRACTION [0.001, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.3, 0.5]
   
   command {
@@ -30,31 +29,33 @@ task task_collect_targeted_pcr_metrics {
 
     gatk BedToIntervalList \
     --INPUT ~{amplicon_bed} \
-    --OUTPUT ~{amplicon_intervals} \
+    --OUTPUT "amplicon.intervals" \
     --SEQUENCE_DICTIONARY "reference.dict"
 
     gatk BedToIntervalList \
     --INPUT ~{target_bed} \
-    --OUTPUT ~{target_intervals} \
+    --OUTPUT "target.intervals" \
     --SEQUENCE_DICTIONARY "reference.dict"
 
     gatk CollectTargetedPcrMetrics \
     --INPUT ~{bam} \
-    --OUTPUT ~{outputMetrics} \
     --REFERENCE_SEQUENCE ~{reference} \
     --CLIP_OVERLAPPING_READS ~{clip_overlapping_reads} \
     --COVERAGE_CAP ~{coverage_cap} \
     --SAMPLE_SIZE ~{sample_size} \
     --MINIMUM_MAPPING_QUALITY ~{minMappingQuality} \
     --MINIMUM_BASE_QUALITY ~{minBaseQuality} \
+    --AMPLICON_INTERVALS "amplicon.intervals" \
+    --TARGET_INTERVALS "target.intervals" \
+    --OUTPUT ~{outputMetrics} \
     --THEORETICAL_SENSITIVITY_OUTPUT ~{sensitivityFile} \
-    --AMPLICON_INTERVALS ~{amplicon_intervals} \
-    --TARGET_INTERVALS ~{target_intervals}
+    --PER_TARGET_COVERAGE  ~{target_coverage_file}
   }
   
   output {
-    File? metrics = "${outputMetrics}"
-    File? collectMetricsSensitivity = "${sensitivityFile}"
+    File? metrics = outputMetrics
+    File? collectMetricsSensitivity = sensitivityFile
+    File? target_coverage = target_coverage_file
   }
   
   runtime {
