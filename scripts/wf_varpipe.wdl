@@ -65,13 +65,13 @@ workflow wf_varpipe {
   }
 
   if ( run_fastq_screen ) {
-  call fastq_screen.task_fastq_screen {
-    input:
-    reads = task_concatenate_fastq.concatenatedForwardFastq,
-    configuration = fastq_screen_configuration,
-    contaminants = fastq_screen_contaminants
-
-  }
+    call fastq_screen.task_fastq_screen {
+      input:
+      reads = task_concatenate_fastq.concatenatedForwardFastq,
+      configuration = fastq_screen_configuration,
+      contaminants = fastq_screen_contaminants
+      
+    }
   } 
 
   call fastqc.task_fastqc {
