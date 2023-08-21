@@ -7,7 +7,7 @@ NC_000962.3	759607	763525	Rv0667	rpoB	rifampicin
 NC_000962.3	763170	767520	Rv0668	rpoC	rifampicin
 NC_000962.3	775386	778680	Rv0676c	mmpL5	clofazimine,bedaquiline
 NC_000962.3	778277	779105	Rv0677c	mmpS5	clofazimine,bedaquiline
-NC_000962.3	778790	779687	Rv0678	mmpR5	clofazimine,bedaquiline
+NC_000962.3	778790	779687	Rv0678	Rv0678	clofazimine,bedaquiline
 NC_000962.3	781360	782134	Rv0682	rpsL	streptomycin
 NC_000962.3	800609	801662	Rv0701	rplC	linezolid
 NC_000962.3	1302731	1305701	Rv1173	fbiC	delamanid
