@@ -35,7 +35,7 @@ NC_000962.3	3064315	3066391	Rv2752c	Rv2752c	rifampicin,isoniazid
 NC_000962.3	3066993	3068161	Rv2754c	thyX	para-aminosalicylic_acid
 NC_000962.3	3073480	3074671	Rv2764c	thyA	para-aminosalicylic_acid
 NC_000962.3	3086620	3088135	Rv2780	ald	cycloserine
-NC_000962.3	3338918	3339962	Rv2983	fbiD	delamanid
+NC_000962.3	3338918	3339962	Rv2983	Rv2983	delamanid
 NC_000962.3	3448304	3450191	Rv3083	Rv3083	ethionamide
 NC_000962.3	3473807	3475577	Rv3106	fprA	capreomycin,amikacin
 NC_000962.3	3568201	3568879	Rv3197A	whiB7	streptomycin,kanamycin,amikacin
