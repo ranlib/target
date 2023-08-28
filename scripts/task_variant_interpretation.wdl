@@ -11,9 +11,10 @@ task task_variant_interpretation {
     Int minimum_coverage = 10
     Int minimum_total_depth = 0
     Int minimum_variant_depth = 0
-    Boolean all_genes = false
+    Boolean filter_genes = false
+    Boolean verbose = false
     String report
-    String docker = "dbest/variant_interpretation:v1.0.3"
+    String docker = "dbest/variant_interpretation:v1.0.4"
     String memory = "8GB"
   }
   
@@ -28,7 +29,8 @@ task task_variant_interpretation {
     --minimum_total_depth ~{minimum_total_depth} \
     --minimum_variant_depth ~{minimum_variant_depth} \
     --report ~{report} \
-    ${if all_genes then '--all_genes' else ''}
+    ${if filter_genes then '--filter_genes' else ''} \
+    ${if verbose then '--verbose' else ''}
   }
   
   output {
