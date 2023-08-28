@@ -7,9 +7,9 @@ it parses files and creates a final annotation file
 import sys
 import re
 
-input1 = sys.argv[1]
-input2 = sys.argv[2]
-input3 = sys.argv[3]
+input1 = sys.argv[1] # annotation
+input2 = sys.argv[2] # mutation_loci
+input3 = sys.argv[3] # sample name
 
 
 position            = ""
@@ -184,7 +184,7 @@ for lines in fh1:
                 codon_pos	   = 'NA'
        print(input3 + "\t" + fields[0] + "\t" + position + "\t" + reference + "\t" + alternate + "\t" + read_depth + "\t" + perc_alt + "\t" + annotation + "\t" + variant + "\t" + nucleotide_change + "\t" + transcript_pos + "\t" + amino_acid_change + "\t" + orig_aacid + "\t" + new_aacid + "\t" + codon_pos + "\t" + gene_name + "\t" + gene_id + "\r")
     
-    else:
+    else: # if not modifier
         if len(smallannot[10]) < 13:
            if smallannot[10][2:5] == smallannot[10][-3:]:
               annotation = 'Synonymous'
