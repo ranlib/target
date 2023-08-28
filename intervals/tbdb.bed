@@ -3,8 +3,8 @@ NC_000962.3	7102	10018	Rv0006	gyrA	fluoroquinolones,moxifloxacin,levofloxacin,ci
 NC_000962.3	490583	491993	Rv0407	fgd1	delamanid
 NC_000962.3	575148	576990	Rv0486	mshA	ethionamide,isoniazid
 NC_000962.3	619691	621065	Rv0529	ccsA	capreomycin,amikacin
-NC_000962.3	759607	763525	Rv0667	rpoB	rifampicin
-NC_000962.3	763170	767520	Rv0668	rpoC	rifampicin
+NC_000962.3	759607	763525	Rv0667	rpoB	rifampin
+NC_000962.3	763170	767520	Rv0668	rpoC	rifampin
 NC_000962.3	775386	778680	Rv0676c	mmpL5	clofazimine,bedaquiline
 NC_000962.3	778277	779105	Rv0677c	mmpS5	clofazimine,bedaquiline
 NC_000962.3	778790	779687	Rv0678	Rv0678	clofazimine,bedaquiline
@@ -31,7 +31,7 @@ NC_000962.3	2725912	2726980	Rv2428	ahpC	isoniazid
 NC_000962.3	2745935	2747798	Rv2447c	folC	para-aminosalicylic_acid
 NC_000962.3	2859100	2860618	Rv2535c	pepQ	clofazimine,bedaquiline
 NC_000962.3	2986639	2987815	Rv2671	ribD	para-aminosalicylic_acid
-NC_000962.3	3064315	3066391	Rv2752c	Rv2752c	rifampicin,isoniazid
+NC_000962.3	3064315	3066391	Rv2752c	Rv2752c	rifampin,isoniazid
 NC_000962.3	3066993	3068161	Rv2754c	thyX	para-aminosalicylic_acid
 NC_000962.3	3073480	3074671	Rv2764c	thyA	para-aminosalicylic_acid
 NC_000962.3	3086620	3088135	Rv2780	ald	cycloserine
@@ -43,7 +43,7 @@ NC_000962.3	3611759	3613316	Rv3236c	Rv3236c	pyrazinamide
 NC_000962.3	3640343	3641738	Rv3261	fbiA	delamanid
 NC_000962.3	3641335	3643081	Rv3262	fbiB	delamanid
 NC_000962.3	3839994	3841620	Rv3423c	alr	cycloserine
-NC_000962.3	3877264	3878707	Rv3457c	rpoA	rifampicin
+NC_000962.3	3877264	3878707	Rv3457c	rpoA	rifampin
 NC_000962.3	3986644	3987499	Rv3547	ddn	delamanid
 NC_000962.3	4037958	4040904	Rv3596c	clpC1	pyrazinamide
 NC_000962.3	4043662	4044481	Rv3601c	panD	pyrazinamide
