@@ -41,14 +41,19 @@
 ### Other inputs
 <details>
 <summary> Show/Hide </summary>
-<p name="wf_variant_interpretation.task_variant_interpretation.all_genes">
-        <b>wf_variant_interpretation.task_variant_interpretation.all_genes</b><br />
+<p name="wf_variant_interpretation.task_variant_interpretation.docker">
+        <b>wf_variant_interpretation.task_variant_interpretation.docker</b><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.4"</i><br />
+        ???
+</p>
+<p name="wf_variant_interpretation.task_variant_interpretation.filter_genes">
+        <b>wf_variant_interpretation.task_variant_interpretation.filter_genes</b><br />
         <i>Boolean &mdash; Default: false</i><br />
         ???
 </p>
-<p name="wf_variant_interpretation.task_variant_interpretation.docker">
-        <b>wf_variant_interpretation.task_variant_interpretation.docker</b><br />
-        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.1"</i><br />
+<p name="wf_variant_interpretation.task_variant_interpretation.memory">
+        <b>wf_variant_interpretation.task_variant_interpretation.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
 <p name="wf_variant_interpretation.task_variant_interpretation.minimum_coverage">
@@ -64,6 +69,11 @@
 <p name="wf_variant_interpretation.task_variant_interpretation.minimum_variant_depth">
         <b>wf_variant_interpretation.task_variant_interpretation.minimum_variant_depth</b><br />
         <i>Int &mdash; Default: 0</i><br />
+        ???
+</p>
+<p name="wf_variant_interpretation.task_variant_interpretation.verbose">
+        <b>wf_variant_interpretation.task_variant_interpretation.verbose</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
         ???
 </p>
 </details>

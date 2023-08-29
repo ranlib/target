@@ -74,8 +74,8 @@ workflow wf_variant_interpretation {
       description: "minimum number of reads that support a variant requirement.",
       category: "optional"
     }
-    all_genes: {
-      description: "flag, if true all genes, not only genes of interest, are written to the output tsv report.",
+    filter_genes: {
+      description: "if true, only genes interest are written to the output tsv report.",
       category: "optional"
     }
     report: {
