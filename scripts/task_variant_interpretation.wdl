@@ -13,7 +13,7 @@ task task_variant_interpretation {
     Int minimum_variant_depth = 0
     Boolean filter_genes = false
     Boolean verbose = false
-    String report
+    String report = "variant_interpretation.tsv"
     String docker = "dbest/variant_interpretation:v1.0.5"
     String memory = "8GB"
   }
