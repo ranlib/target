@@ -6,7 +6,7 @@ workflow wf_lineage {
   input {
     File input_annotation
     File lineage_markers
-    String lineages_tsv
+    String lineage_report
     String samplename
   }
 
@@ -14,7 +14,7 @@ workflow wf_lineage {
     input:
       input_annotation = input_annotation,
       lineage_markers = lineage_markers,
-      lineages_tsv = lineages_tsv,
+      lineage_report = lineage_report,
       samplename = samplename
   }
 

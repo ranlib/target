@@ -4,7 +4,7 @@ task task_lineage {
   input {
     File input_annotation
     File lineage_markers
-    String lineages_tsv
+    String lineage_report
     String samplename
     String docker = "dbest/lineage:v1.0.0"
   }
@@ -13,12 +13,12 @@ task task_lineage {
     lineage_parser.py \
       ${input_annotation} \
       ${lineage_markers} \
-      ${lineages_tsv} \
+      ${lineage_report} \
       ${samplename}
   }
 
   output {
-    File lineage = lineages_tsv
+    File lineage = lineage_report
   }
 
   runtime {

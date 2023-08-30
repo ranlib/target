@@ -14,8 +14,8 @@
         <i>File &mdash; Default: None</i><br />
         ???
 </p>
-<p name="wf_lineage.lineages_tsv">
-        <b>wf_lineage.lineages_tsv</b><br />
+<p name="wf_lineage.lineage_report">
+        <b>wf_lineage.lineage_report</b><br />
         <i>String &mdash; Default: None</i><br />
         ???
 </p>
