@@ -12,16 +12,22 @@ workflow wf_interpretation {
     File bed
     File json
     String samplename
-    String? report
+    String interpretation_report = "variant_interpretation.tsv"
+    String interpretation_docker = "dbest/variant_interpretation:v1.0.5"
+    String interpretation_memory = "8GB"
+    Boolean filter_genes = false
+    Boolean verbose = false
+    Int minimum_coverage = 10
+    Int minimum_total_depth = 0
+    Int minimum_variant_depth = 0
     File? input_annotation
     File? lineage_markers
-    String lineages_tsv = "lineages.tsv"
-    String lims_tsv = "lims_report.tsv"
-    String operator = "DB"
+    String lineage_report_name = "lineages.tsv"
+    String lineage_docker = "dbest/lineage:v1.0.0"
+    String lims_report_name = "lims_report.tsv"
+    String lims_operator = "DB"
+    String lims_docker = "dbest/lims_report:v1.0.0"
   }
-  
-  # select_first([report]) to coerce String? -> String
-  String the_report = if defined(report) then select_first([report]) else samplename+"_variant_interpretation.tsv"
   
   call vi.task_variant_interpretation {
     input:
@@ -31,7 +37,14 @@ workflow wf_interpretation {
     bed = bed,
     json = json,
     samplename = samplename,
-    report = the_report
+    report = interpretation_report,
+    docker = interpretation_docker,
+    memory = interpretation_memory,
+    filter_genes = filter_genes,
+    verbose = verbose,
+    minimum_coverage = minimum_coverage,
+    minimum_total_depth =  minimum_total_depth,
+    minimum_variant_depth = minimum_variant_depth
   }
 
   if ( defined(lineage_markers) ) {
@@ -39,18 +52,20 @@ workflow wf_interpretation {
       input:
       input_annotation = select_first([input_annotation]),
       lineage_markers = select_first([lineage_markers]),
-      lineages_tsv = lineages_tsv,
-      samplename = samplename
+      lineage_report_name = lineage_report_name,
+      samplename = samplename,
+      docker = lineage_docker
     }
   }
 
   call lims.task_lims_report {
     input:
-    lab_tsv = task_variant_interpretation.interpretation_report,
+    lab_report = task_variant_interpretation.interpretation_report,
     bed_file = bed,
-    operator = operator,
-    lineages_tsv = task_lineage.lineage,
-    lims_tsv = lims_tsv
+    operator = lims_operator,
+    lineage_report = task_lineage.lineage_report,
+    lims_report_name = lims_report_name,
+    docker = lims_docker
   }
 
   output {
@@ -85,7 +100,7 @@ workflow wf_interpretation {
       description: "json file with drug information for variants.",
       category: "required"
     }
-    sample_name: {
+    samplename: {
       description: "sample name.",
       category: "required"
     }

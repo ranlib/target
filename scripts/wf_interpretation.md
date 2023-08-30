@@ -30,7 +30,7 @@
 <p name="wf_interpretation.samplename">
         <b>wf_interpretation.samplename</b><br />
         <i>String &mdash; Default: None</i><br />
-        ???
+        sample name.
 </p>
 <p name="wf_interpretation.vcf">
         <b>wf_interpretation.vcf</b><br />
@@ -46,9 +46,39 @@
         <i>File? &mdash; Default: None</i><br />
         ???
 </p>
-<p name="wf_interpretation.lims_tsv">
-        <b>wf_interpretation.lims_tsv</b><br />
+<p name="wf_interpretation.interpretation_docker">
+        <b>wf_interpretation.interpretation_docker</b><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.5"</i><br />
+        ???
+</p>
+<p name="wf_interpretation.interpretation_memory">
+        <b>wf_interpretation.interpretation_memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
+        ???
+</p>
+<p name="wf_interpretation.interpretation_report">
+        <b>wf_interpretation.interpretation_report</b><br />
+        <i>String &mdash; Default: "variant_interpretation.tsv"</i><br />
+        Output tsv file of variant interpretation.
+</p>
+<p name="wf_interpretation.lims_docker">
+        <b>wf_interpretation.lims_docker</b><br />
+        <i>String &mdash; Default: "dbest/lims_report:v1.0.0"</i><br />
+        ???
+</p>
+<p name="wf_interpretation.lims_operator">
+        <b>wf_interpretation.lims_operator</b><br />
+        <i>String &mdash; Default: "DB"</i><br />
+        ???
+</p>
+<p name="wf_interpretation.lims_report_name">
+        <b>wf_interpretation.lims_report_name</b><br />
         <i>String &mdash; Default: "lims_report.tsv"</i><br />
+        ???
+</p>
+<p name="wf_interpretation.lineage_docker">
+        <b>wf_interpretation.lineage_docker</b><br />
+        <i>String &mdash; Default: "dbest/lineage:v1.0.0"</i><br />
         ???
 </p>
 <p name="wf_interpretation.lineage_markers">
@@ -56,58 +86,13 @@
         <i>File? &mdash; Default: None</i><br />
         ???
 </p>
-<p name="wf_interpretation.lineages_tsv">
-        <b>wf_interpretation.lineages_tsv</b><br />
+<p name="wf_interpretation.lineage_report_name">
+        <b>wf_interpretation.lineage_report_name</b><br />
         <i>String &mdash; Default: "lineages.tsv"</i><br />
         ???
 </p>
-<p name="wf_interpretation.operator">
-        <b>wf_interpretation.operator</b><br />
-        <i>String &mdash; Default: "DB"</i><br />
-        ???
-</p>
-<p name="wf_interpretation.task_lims_report.docker">
-        <b>wf_interpretation.task_lims_report.docker</b><br />
-        <i>String &mdash; Default: "dbest/lims_report:v1.0.0"</i><br />
-        ???
-</p>
-<p name="wf_interpretation.task_lineage.docker">
-        <b>wf_interpretation.task_lineage.docker</b><br />
-        <i>String &mdash; Default: "dbest/lineage:v1.0.0"</i><br />
-        ???
-</p>
-<p name="wf_interpretation.task_variant_interpretation.docker">
-        <b>wf_interpretation.task_variant_interpretation.docker</b><br />
-        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.5"</i><br />
-        ???
-</p>
-<p name="wf_interpretation.task_variant_interpretation.filter_genes">
-        <b>wf_interpretation.task_variant_interpretation.filter_genes</b><br />
-        <i>Boolean &mdash; Default: false</i><br />
-        ???
-</p>
-<p name="wf_interpretation.task_variant_interpretation.memory">
-        <b>wf_interpretation.task_variant_interpretation.memory</b><br />
-        <i>String &mdash; Default: "8GB"</i><br />
-        ???
-</p>
-<p name="wf_interpretation.task_variant_interpretation.minimum_coverage">
-        <b>wf_interpretation.task_variant_interpretation.minimum_coverage</b><br />
-        <i>Int &mdash; Default: 10</i><br />
-        ???
-</p>
-<p name="wf_interpretation.task_variant_interpretation.minimum_total_depth">
-        <b>wf_interpretation.task_variant_interpretation.minimum_total_depth</b><br />
-        <i>Int &mdash; Default: 0</i><br />
-        ???
-</p>
-<p name="wf_interpretation.task_variant_interpretation.minimum_variant_depth">
-        <b>wf_interpretation.task_variant_interpretation.minimum_variant_depth</b><br />
-        <i>Int &mdash; Default: 0</i><br />
-        ???
-</p>
-<p name="wf_interpretation.task_variant_interpretation.verbose">
-        <b>wf_interpretation.task_variant_interpretation.verbose</b><br />
+<p name="wf_interpretation.verbose">
+        <b>wf_interpretation.verbose</b><br />
         <i>Boolean &mdash; Default: false</i><br />
         ???
 </p>
