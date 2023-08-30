@@ -78,16 +78,6 @@
 ### Advanced inputs
 <details>
 <summary> Show/Hide </summary>
-<p name="wf_varpipe.fastqc_after_cleanup.docker">
-        <b>wf_varpipe.fastqc_after_cleanup.docker</b><br />
-        <i>String &mdash; Default: "staphb/fastqc:0.12.1"</i><br />
-        The docker image used for this task.
-</p>
-<p name="wf_varpipe.fastqc_after_cleanup.memory">
-        <b>wf_varpipe.fastqc_after_cleanup.memory</b><br />
-        <i>String &mdash; Default: "8GB"</i><br />
-        The amount of memory this job will use.
-</p>
 <p name="wf_varpipe.task_delly.docker">
         <b>wf_varpipe.task_delly.docker</b><br />
         <i>String &mdash; Default: "dbest/delly:v1.0.0"</i><br />
@@ -108,11 +98,26 @@
         <i>String &mdash; Default: "8GB"</i><br />
         The amount of memory this job will use.
 </p>
+<p name="wf_varpipe.task_fastqc_after_cleanup.docker">
+        <b>wf_varpipe.task_fastqc_after_cleanup.docker</b><br />
+        <i>String &mdash; Default: "staphb/fastqc:0.12.1"</i><br />
+        The docker image used for this task.
+</p>
+<p name="wf_varpipe.task_fastqc_after_cleanup.memory">
+        <b>wf_varpipe.task_fastqc_after_cleanup.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
+        The amount of memory this job will use.
+</p>
 </details>
 
 ### Other inputs
 <details>
 <summary> Show/Hide </summary>
+<p name="wf_varpipe.lineage_markers">
+        <b>wf_varpipe.lineage_markers</b><br />
+        <i>File? &mdash; Default: None</i><br />
+        ???
+</p>
 <p name="wf_varpipe.no_trim">
         <b>wf_varpipe.no_trim</b><br />
         <i>Boolean &mdash; Default: true</i><br />
@@ -123,8 +128,18 @@
         <i>Boolean &mdash; Default: true</i><br />
         ???
 </p>
+<p name="wf_varpipe.run_fastq_screen">
+        <b>wf_varpipe.run_fastq_screen</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
 <p name="wf_varpipe.run_fastqc_after_cleanup">
         <b>wf_varpipe.run_fastqc_after_cleanup</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
+<p name="wf_varpipe.run_variant_interpretation">
+        <b>wf_varpipe.run_variant_interpretation</b><br />
         <i>Boolean &mdash; Default: true</i><br />
         ???
 </p>
@@ -138,9 +153,14 @@
         <i>String &mdash; Default: "staphb/bbtools:39.01"</i><br />
         ???
 </p>
+<p name="wf_varpipe.task_bbduk.keep">
+        <b>wf_varpipe.task_bbduk.keep</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
 <p name="wf_varpipe.task_bbduk.memory">
         <b>wf_varpipe.task_bbduk.memory</b><br />
-        <i>String &mdash; Default: "8GB"</i><br />
+        <i>String &mdash; Default: "32GB"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_bbduk.threads">
@@ -258,11 +278,6 @@
         <i>String &mdash; Default: "10GB"</i><br />
         ???
 </p>
-<p name="wf_varpipe.task_fastq_screen.nohits">
-        <b>wf_varpipe.task_fastq_screen.nohits</b><br />
-        <i>Boolean &mdash; Default: true</i><br />
-        ???
-</p>
 <p name="wf_varpipe.task_fastq_screen.subset">
         <b>wf_varpipe.task_fastq_screen.subset</b><br />
         <i>Int &mdash; Default: 100000</i><br />
@@ -313,39 +328,9 @@
         <i>Int &mdash; Default: 4</i><br />
         ???
 </p>
-<p name="wf_varpipe.task_variant_interpretation.all_genes">
-        <b>wf_varpipe.task_variant_interpretation.all_genes</b><br />
-        <i>Boolean &mdash; Default: false</i><br />
-        ???
-</p>
-<p name="wf_varpipe.task_variant_interpretation.docker">
-        <b>wf_varpipe.task_variant_interpretation.docker</b><br />
-        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.2"</i><br />
-        ???
-</p>
-<p name="wf_varpipe.task_variant_interpretation.memory">
-        <b>wf_varpipe.task_variant_interpretation.memory</b><br />
-        <i>String &mdash; Default: "8GB"</i><br />
-        ???
-</p>
-<p name="wf_varpipe.task_variant_interpretation.minimum_coverage">
-        <b>wf_varpipe.task_variant_interpretation.minimum_coverage</b><br />
-        <i>Int &mdash; Default: 10</i><br />
-        ???
-</p>
-<p name="wf_varpipe.task_variant_interpretation.minimum_total_depth">
-        <b>wf_varpipe.task_variant_interpretation.minimum_total_depth</b><br />
-        <i>Int &mdash; Default: 0</i><br />
-        ???
-</p>
-<p name="wf_varpipe.task_variant_interpretation.minimum_variant_depth">
-        <b>wf_varpipe.task_variant_interpretation.minimum_variant_depth</b><br />
-        <i>Int &mdash; Default: 0</i><br />
-        ???
-</p>
 <p name="wf_varpipe.task_varpipe.docker">
         <b>wf_varpipe.task_varpipe.docker</b><br />
-        <i>String &mdash; Default: "dbest/varpipe4:v1.0.0"</i><br />
+        <i>String &mdash; Default: "dbest/varpipe4:v1.0.1"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_varpipe.memory">
@@ -423,6 +408,11 @@
         <i>String &mdash; Default: "collect_targeted_pcr_sensitivity_metrics.txt"</i><br />
         ???
 </p>
+<p name="wf_varpipe.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.target_coverage_file">
+        <b>wf_varpipe.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.target_coverage_file</b><br />
+        <i>String &mdash; Default: "collect_targeted_pcr_target_coverage.txt"</i><br />
+        ???
+</p>
 <p name="wf_varpipe.wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_add_pg_tag_to_read">
         <b>wf_varpipe.wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_add_pg_tag_to_read</b><br />
         <i>Boolean &mdash; Default: false</i><br />
@@ -458,6 +448,51 @@
         <i>String &mdash; Default: "mark_duplicates_metrics.txt"</i><br />
         ???
 </p>
+<p name="wf_varpipe.wf_interpretation.interpretation_docker">
+        <b>wf_varpipe.wf_interpretation.interpretation_docker</b><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.5"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_interpretation.interpretation_memory">
+        <b>wf_varpipe.wf_interpretation.interpretation_memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_interpretation.interpretation_report">
+        <b>wf_varpipe.wf_interpretation.interpretation_report</b><br />
+        <i>String &mdash; Default: "variant_interpretation.tsv"</i><br />
+        Output tsv file of variant interpretation.
+</p>
+<p name="wf_varpipe.wf_interpretation.lims_docker">
+        <b>wf_varpipe.wf_interpretation.lims_docker</b><br />
+        <i>String &mdash; Default: "dbest/lims_report:v1.0.0"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_interpretation.lims_operator">
+        <b>wf_varpipe.wf_interpretation.lims_operator</b><br />
+        <i>String &mdash; Default: "DB"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_interpretation.lims_report_name">
+        <b>wf_varpipe.wf_interpretation.lims_report_name</b><br />
+        <i>String &mdash; Default: "lims_report.tsv"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_interpretation.lineage_docker">
+        <b>wf_varpipe.wf_interpretation.lineage_docker</b><br />
+        <i>String &mdash; Default: "dbest/lineage:v1.0.0"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_interpretation.lineage_report_name">
+        <b>wf_varpipe.wf_interpretation.lineage_report_name</b><br />
+        <i>String &mdash; Default: "lineages.tsv"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_interpretation.verbose">
+        <b>wf_varpipe.wf_interpretation.verbose</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
 </details>
 
 ## Outputs
@@ -486,8 +521,23 @@
         <i>File?</i><br />
         ???
 </p>
+<p name="wf_varpipe.collect_targeted_pcr_sensitivity">
+        <b>wf_varpipe.collect_targeted_pcr_sensitivity</b><br />
+        <i>File?</i><br />
+        ???
+</p>
+<p name="wf_varpipe.collect_targeted_pcr_target_coverage">
+        <b>wf_varpipe.collect_targeted_pcr_target_coverage</b><br />
+        <i>File?</i><br />
+        ???
+</p>
 <p name="wf_varpipe.collect_wgs_output_metrics">
         <b>wf_varpipe.collect_wgs_output_metrics</b><br />
+        <i>File?</i><br />
+        ???
+</p>
+<p name="wf_varpipe.Covid19_stats">
+        <b>wf_varpipe.Covid19_stats</b><br />
         <i>File?</i><br />
         ???
 </p>
@@ -516,24 +566,29 @@
         <i>File?</i><br />
         Ouput vcf file with annotated variant calls in regions of interest.
 </p>
+<p name="wf_varpipe.Ecoli_stats">
+        <b>wf_varpipe.Ecoli_stats</b><br />
+        <i>File?</i><br />
+        ???
+</p>
 <p name="wf_varpipe.fastq_screen_html">
         <b>wf_varpipe.fastq_screen_html</b><br />
-        <i>File</i><br />
+        <i>File?</i><br />
         ???
 </p>
 <p name="wf_varpipe.fastq_screen_tagged">
         <b>wf_varpipe.fastq_screen_tagged</b><br />
-        <i>File</i><br />
+        <i>File?</i><br />
         ???
 </p>
 <p name="wf_varpipe.fastq_screen_tagged_filter">
         <b>wf_varpipe.fastq_screen_tagged_filter</b><br />
-        <i>File</i><br />
+        <i>File?</i><br />
         ???
 </p>
 <p name="wf_varpipe.fastq_screen_txt">
         <b>wf_varpipe.fastq_screen_txt</b><br />
-        <i>File</i><br />
+        <i>File?</i><br />
         ???
 </p>
 <p name="wf_varpipe.forwardData">
@@ -601,10 +656,15 @@
         <i>File?</i><br />
         Output tsv file from varpipe interpretation.
 </p>
-<p name="wf_varpipe.interpretation_report">
-        <b>wf_varpipe.interpretation_report</b><br />
+<p name="wf_varpipe.lab_report">
+        <b>wf_varpipe.lab_report</b><br />
         <i>File?</i><br />
-        Output tsv file from variant interpretation.
+        ???
+</p>
+<p name="wf_varpipe.lims_report">
+        <b>wf_varpipe.lims_report</b><br />
+        <i>File?</i><br />
+        ???
 </p>
 <p name="wf_varpipe.Lineage">
         <b>wf_varpipe.Lineage</b><br />
@@ -644,6 +704,11 @@
 <p name="wf_varpipe.pipeline_date">
         <b>wf_varpipe.pipeline_date</b><br />
         <i>String?</i><br />
+        ???
+</p>
+<p name="wf_varpipe.polyA_stats">
+        <b>wf_varpipe.polyA_stats</b><br />
+        <i>File?</i><br />
         ???
 </p>
 <p name="wf_varpipe.qc_log">

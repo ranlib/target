@@ -81,9 +81,9 @@
     "wf_varpipe.verbose": false,
     "wf_varpipe.wf_clockwork_decontamination.memory": "8GB",
     "wf_varpipe.wf_clockwork_decontamination.threads": 4,
-    "wf_varpipe.wf_interpretation.lims_tsv": "lims_report.tsv",
-    "wf_varpipe.wf_interpretation.lineages_tsv": "lineages.tsv",
-    "wf_varpipe.wf_interpretation.operator": "DB",
-    "wf_varpipe.wf_interpretation.report": "variant_interpretation.tsv",
+    "wf_varpipe.wf_interpretation.lims_report_name": "lims_report.tsv",
+    "wf_varpipe.wf_interpretation.lims_operator": "DB",
+    "wf_varpipe.wf_interpretation.lineage_report_name": "lineages.tsv",
+    "wf_varpipe.wf_interpretation.interpretation_report": "variant_interpretation.tsv",
     "wf_varpipe.whole_genome": true
 }
