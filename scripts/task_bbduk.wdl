@@ -70,6 +70,10 @@ task task_bbduk {
     ref=contamination/Escherichia_coli_gca_001606525.ASM160652v1.dna.toplevel.fa.gz \
     k=31 hdist=1 \
     stats=~{samplename}_Ecoli.stats.txt
+
+    else
+    cp ~{samplename}_no_polyA_1.fastq.gz ~{samplename}_clean_1.fastq.gz
+    cp ~{samplename}_no_polyA_2.fastq.gz ~{samplename}_clean_2.fastq.gz 
     fi
     
     # cleanup
