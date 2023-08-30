@@ -7,14 +7,14 @@ task task_variant_interpretation {
     File bai
     File bed
     File json
-    String sample_name
+    String samplename
     Int minimum_coverage = 10
     Int minimum_total_depth = 0
     Int minimum_variant_depth = 0
     Boolean filter_genes = false
     Boolean verbose = false
     String report
-    String docker = "dbest/variant_interpretation:v1.0.4"
+    String docker = "dbest/variant_interpretation:v1.0.5"
     String memory = "8GB"
   }
   
@@ -24,7 +24,7 @@ task task_variant_interpretation {
     --bam ~{bam} \
     --bed ~{bed} \
     --json ~{json} \
-    --sample_name ~{sample_name} \
+    --samplename ~{samplename} \
     --minimum_coverage ~{minimum_coverage} \
     --minimum_total_depth ~{minimum_total_depth} \
     --minimum_variant_depth ~{minimum_variant_depth} \
