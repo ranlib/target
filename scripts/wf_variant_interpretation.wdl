@@ -9,12 +9,12 @@ workflow wf_variant_interpretation {
     File bai
     File bed
     File json
-    String sample_name
+    String samplename
     String? report
   }
 
   # select_first([report]) to coerce String? -> String
-  String the_report = if defined(report) then select_first([report]) else sample_name+"_variant_interpretation.tsv"
+  String the_report = if defined(report) then select_first([report]) else samplename+"_variant_interpretation.tsv"
   
   call vi.task_variant_interpretation {
     input:
@@ -23,7 +23,7 @@ workflow wf_variant_interpretation {
     bai = bai,
     bed = bed,
     json = json,
-    sample_name = sample_name,
+    samplename = samplename,
     report = the_report
   }
   
@@ -58,7 +58,7 @@ workflow wf_variant_interpretation {
       description: "json file with drug information for variants.",
       category: "required"
     }
-    sample_name: {
+    samplename: {
       description: "sample name.",
       category: "required"
     }
