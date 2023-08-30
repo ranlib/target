@@ -5,7 +5,7 @@ import "./task_lims_report.wdl" as lr
 workflow wf_lims_report {
   input {
     File lab_tsv
-    File lineages_tsv
+    File? lineages_tsv
     File bed_file
     String lims_tsv
     String operator
