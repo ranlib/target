@@ -9,7 +9,7 @@ import "./wf_clockwork_decontamination.wdl" as cd
 import "./task_varpipe.wdl" as varpipe
 import "./task_delly.wdl" as delly
 import "./task_multiqc.wdl" as multiQC
-import "./task_variant_interpretation.wdl" as vi
+import "./wf_interpretation.wdl" as vi
 import "./task_collect_multiple_metrics.wdl" as bamQC
 import "./task_collect_wgs_metrics.wdl" as wgsQC
 import "./wf_collect_targeted_pcr_metrics.wdl" as tpcrm
@@ -48,9 +48,9 @@ workflow wf_varpipe {
     Boolean run_bamQC = true
     # variant interpretation
     Boolean run_variant_interpretation = true
-    String? report
     File bed
     File json
+    File? lineage_markers
   }
 
   String outputForward = "${samplename}_1.fq.gz"
@@ -105,7 +105,7 @@ workflow wf_varpipe {
       call cd.wf_clockwork_decontamination {
 	input:
 	reference = clockwork_contaminants,
-	sample_name = samplename,
+	samplename = samplename,
         metadata_file = clockwork_decontamination_metadata,
 	input_reads_1 = task_trimmomatic.read1_trimmed,
 	input_reads_2 = task_trimmomatic.read2_trimmed
@@ -171,16 +171,16 @@ workflow wf_varpipe {
     }
 
     if ( run_variant_interpretation ) {
-      String the_report = if defined(report) then select_first([report]) else samplename+"_variant_interpretation.tsv"
-      call vi.task_variant_interpretation {
+      call vi.wf_interpretation {
 	input:
 	vcf = task_varpipe.DR_loci_raw_annotation,
 	bam = task_varpipe.bam,
 	bai = task_varpipe.bai,
 	bed = bed,
 	json = json,
-	sample_name = samplename,
-	report = the_report
+	samplename = samplename,
+	input_annotation = task_varpipe.DR_loci_Final_annotation,
+	lineage_markers = lineage_markers
       }
     }
   }
@@ -284,7 +284,8 @@ workflow wf_varpipe {
     # output from delly
     File? dellyVcf = task_delly.vcfFile
     # variant interpretation
-    File? interpretation_report = task_variant_interpretation.interpretation_report
+    File? lab_report = wf_interpretation.lab_report
+    File? lims_report = wf_interpretation.lims_report
     # multiqc
     File? multiqc_report = task_multiqc.report
   }
