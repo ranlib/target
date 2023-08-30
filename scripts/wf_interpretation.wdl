@@ -1,8 +1,8 @@
 version 1.0
 
 import "./task_variant_interpretation.wdl" as vi
-import "./task_lineage.wdl" as l
-import "./task_lims_report.wdl" as lr
+import "./task_lineage.wdl" as lineage
+import "./task_lims_report.wdl" as lims
 
 workflow wf_interpretation {
   input {
@@ -11,13 +11,13 @@ workflow wf_interpretation {
     File bai
     File bed
     File json
+    String samplename
+    String? report
     File? input_annotation
     File? lineage_markers
     String lineages_tsv = "lineages.tsv"
     String lims_tsv = "lims_report.tsv"
     String operator = "DB"
-    String samplename
-    String? report
   }
   
   # select_first([report]) to coerce String? -> String
@@ -35,7 +35,7 @@ workflow wf_interpretation {
   }
 
   if ( defined(lineage_markers) ) {
-    call l.task_lineage {
+    call lineage.task_lineage {
       input:
       input_annotation = select_first([input_annotation]),
       lineage_markers = select_first([lineage_markers]),
@@ -44,7 +44,7 @@ workflow wf_interpretation {
     }
   }
 
-  call lr.task_lims_report {
+  call lims.task_lims_report {
     input:
     lab_tsv = task_variant_interpretation.interpretation_report,
     bed_file = bed,
