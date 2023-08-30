@@ -11,17 +11,17 @@ workflow wf_interpretation {
     File bai
     File bed
     File json
-    File lineage_markers
-    File input_annotation
+    File? input_annotation
+    File? lineage_markers
     String lineages_tsv = "lineages.tsv"
     String lims_tsv = "lims_report.tsv"
     String operator = "DB"
-    String sample_name
+    String samplename
     String? report
   }
   
   # select_first([report]) to coerce String? -> String
-  String the_report = if defined(report) then select_first([report]) else sample_name+"_variant_interpretation.tsv"
+  String the_report = if defined(report) then select_first([report]) else samplename+"_variant_interpretation.tsv"
   
   call vi.task_variant_interpretation {
     input:
@@ -30,24 +30,26 @@ workflow wf_interpretation {
     bai = bai,
     bed = bed,
     json = json,
-    sample_name = sample_name,
+    samplename = samplename,
     report = the_report
   }
-  
-  call l.task_lineage {
-    input:
-    input_annotation = input_annotation,
-    lineage_markers = lineage_markers,
-    lineages_tsv = lineages_tsv,
-    sample_id = sample_name
+
+  if ( defined(lineage_markers) ) {
+    call l.task_lineage {
+      input:
+      input_annotation = select_first([input_annotation]),
+      lineage_markers = select_first([lineage_markers]),
+      lineages_tsv = lineages_tsv,
+      samplename = samplename
+    }
   }
-  
+
   call lr.task_lims_report {
     input:
     lab_tsv = task_variant_interpretation.interpretation_report,
-    lineages_tsv = task_lineage.lineage,
     bed_file = bed,
     operator = operator,
+    lineages_tsv = task_lineage.lineage,
     lims_tsv = lims_tsv
   }
 

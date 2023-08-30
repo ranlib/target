@@ -1,7 +1,7 @@
 {
     "wf_interpretation.task_variant_interpretation.minimum_total_depth": 0,
     "wf_interpretation.task_variant_interpretation.filter_genes": false,
-    "wf_interpretation.task_variant_interpretation.docker": "dbest/variant_interpretation:v1.0.4",
+    "wf_interpretation.task_variant_interpretation.docker": "dbest/variant_interpretation:v1.0.5",
     "wf_interpretation.task_variant_interpretation.memory": "8GB",
     "wf_interpretation.task_variant_interpretation.minimum_variant_depth": 0,
     "wf_interpretation.task_variant_interpretation.minimum_coverage": 10,
@@ -13,7 +13,7 @@
     "wf_interpretation.report": "variant_interpretation.tsv",
     "wf_interpretation.json": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb.dr.json",
     "wf_interpretation.lineage_markers": "/home/dieterbest/Analysis/varpipe4/intervals/lineage_markers.txt",
-    "wf_interpretation.sample_name": "ERR552797",
+    "wf_interpretation.samplename": "ERR552797",
     "wf_interpretation.input_annotation": "/home/dieterbest/Analysis/varpipe4/tests/ERR552797_conda_before/ERR552797_DR_loci_Final_annotation.txt",
     "wf_interpretation.vcf": "/home/dieterbest/Analysis/varpipe4/tests/ERR552797_conda_before/ERR552797_DR_loci_raw_annotation.vcf",
     "wf_interpretation.bai": "/home/dieterbest/Analysis/varpipe4/tests/ERR552797_conda_before/ERR552797_sdrcsm.bai",

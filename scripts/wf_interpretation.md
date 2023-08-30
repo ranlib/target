@@ -22,25 +22,15 @@
         <i>File &mdash; Default: None</i><br />
         bed file with genomic intervals of interest. Note: reference name in case of London TB profiler is 'Chromosome', make sure to use correct bed file
 </p>
-<p name="wf_interpretation.input_annotation">
-        <b>wf_interpretation.input_annotation</b><br />
-        <i>File &mdash; Default: None</i><br />
-        ???
-</p>
 <p name="wf_interpretation.json">
         <b>wf_interpretation.json</b><br />
         <i>File &mdash; Default: None</i><br />
         json file with drug information for variants.
 </p>
-<p name="wf_interpretation.lineage_markers">
-        <b>wf_interpretation.lineage_markers</b><br />
-        <i>File &mdash; Default: None</i><br />
-        ???
-</p>
-<p name="wf_interpretation.sample_name">
-        <b>wf_interpretation.sample_name</b><br />
+<p name="wf_interpretation.samplename">
+        <b>wf_interpretation.samplename</b><br />
         <i>String &mdash; Default: None</i><br />
-        sample name.
+        ???
 </p>
 <p name="wf_interpretation.vcf">
         <b>wf_interpretation.vcf</b><br />
@@ -51,9 +41,19 @@
 ### Other inputs
 <details>
 <summary> Show/Hide </summary>
+<p name="wf_interpretation.input_annotation">
+        <b>wf_interpretation.input_annotation</b><br />
+        <i>File? &mdash; Default: None</i><br />
+        ???
+</p>
 <p name="wf_interpretation.lims_tsv">
         <b>wf_interpretation.lims_tsv</b><br />
         <i>String &mdash; Default: "lims_report.tsv"</i><br />
+        ???
+</p>
+<p name="wf_interpretation.lineage_markers">
+        <b>wf_interpretation.lineage_markers</b><br />
+        <i>File? &mdash; Default: None</i><br />
         ???
 </p>
 <p name="wf_interpretation.lineages_tsv">
@@ -66,9 +66,19 @@
         <i>String &mdash; Default: "DB"</i><br />
         ???
 </p>
+<p name="wf_interpretation.task_lims_report.docker">
+        <b>wf_interpretation.task_lims_report.docker</b><br />
+        <i>String &mdash; Default: "dbest/lims_report:v1.0.0"</i><br />
+        ???
+</p>
+<p name="wf_interpretation.task_lineage.docker">
+        <b>wf_interpretation.task_lineage.docker</b><br />
+        <i>String &mdash; Default: "dbest/lineage:v1.0.0"</i><br />
+        ???
+</p>
 <p name="wf_interpretation.task_variant_interpretation.docker">
         <b>wf_interpretation.task_variant_interpretation.docker</b><br />
-        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.4"</i><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.5"</i><br />
         ???
 </p>
 <p name="wf_interpretation.task_variant_interpretation.filter_genes">
