@@ -5,7 +5,6 @@ task task_fastq_screen {
     File reads
     File configuration
     File contaminants
-    Boolean nohits = true
     String aligner = "bwa"
     String memory = "10GB"
     String docker = "dbest/fastq_screen:v0.15.3"
