@@ -5,7 +5,8 @@ task task_lineage {
     File input_annotation
     File lineage_markers
     String lineages_tsv
-    String sample_id
+    String samplename
+    String docker = "dbest/lineage:v1.0.0"
   }
 
   command {
@@ -13,7 +14,7 @@ task task_lineage {
       ${input_annotation} \
       ${lineage_markers} \
       ${lineages_tsv} \
-      ${sample_id}
+      ${samplename}
   }
 
   output {
@@ -21,6 +22,6 @@ task task_lineage {
   }
 
   runtime {
-    docker: "dbest/lineage:v1.0.0"
+    docker: docker
   }
 }

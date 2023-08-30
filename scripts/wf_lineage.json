@@ -1,6 +1,6 @@
 {
   "wf_lineage.lineage_markers": "/home/dieterbest/Analysis/varpipe4/intervals/lineage_markers.txt",
-  "wf_lineage.sample_id": "ERR552797",
+  "wf_lineage.samplename": "ERR552797",
   "wf_lineage.lineages_tsv": "ERR552797_lineages.tsv",
   "wf_lineage.input_annotation": "/home/dieterbest/Analysis/varpipe4/tests/ERR552797_conda_before/ERR552797_DR_loci_Final_annotation.txt"
 }

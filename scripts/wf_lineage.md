@@ -19,11 +19,21 @@
         <i>String &mdash; Default: None</i><br />
         ???
 </p>
-<p name="wf_lineage.sample_id">
-        <b>wf_lineage.sample_id</b><br />
+<p name="wf_lineage.samplename">
+        <b>wf_lineage.samplename</b><br />
         <i>String &mdash; Default: None</i><br />
         ???
 </p>
+
+### Other inputs
+<details>
+<summary> Show/Hide </summary>
+<p name="wf_lineage.task_lineage.docker">
+        <b>wf_lineage.task_lineage.docker</b><br />
+        <i>String &mdash; Default: "dbest/lineage:v1.0.0"</i><br />
+        ???
+</p>
+</details>
 
 ## Outputs
 <p name="wf_lineage.lineage">
