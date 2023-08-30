@@ -2,7 +2,7 @@ version 1.0
 
 task map_reads {
   input {
-    String sample_name
+    String samplename
     File reference
     File input_reads_1
     File input_reads_2
@@ -13,7 +13,7 @@ task map_reads {
   }
 
   command {
-    clockwork map_reads --threads ${threads} --unsorted_sam ${sample_name} ${reference} ${output_bam} ${input_reads_1} ${input_reads_2}
+    clockwork map_reads --threads ${threads} --unsorted_sam ${samplename} ${reference} ${output_bam} ${input_reads_1} ${input_reads_2}
   }
   
   output {

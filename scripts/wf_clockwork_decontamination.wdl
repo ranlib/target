@@ -4,22 +4,22 @@ import "./task_clockwork_decontamination.wdl"  as cd
 
 workflow wf_clockwork_decontamination {
   input {
-    String sample_name
+    String samplename
     File metadata_file
     File reference
     File input_reads_1
     File input_reads_2
-    String output_bam = sample_name + "_clockwork_decontamination.bam"
-    String output_file = sample_name + "_clockwork_decontamination_stats.txt"
-    String output_reads_1 = sample_name + "_clockwork_cleaned_1.fq.gz"
-    String output_reads_2 = sample_name + "_clockwork_cleaned_2.fq.gz"
+    String output_bam = samplename + "_clockwork_decontamination.bam"
+    String output_file = samplename + "_clockwork_decontamination_stats.txt"
+    String output_reads_1 = samplename + "_clockwork_cleaned_1.fq.gz"
+    String output_reads_2 = samplename + "_clockwork_cleaned_2.fq.gz"
     String memory = "64GB"
     Int threads = 1
   }
 
   call cd.map_reads {
     input:
-    sample_name = sample_name,
+    samplename = samplename,
     output_bam = output_bam,
     reference = reference,
     input_reads_1 = input_reads_1,
@@ -64,7 +64,7 @@ workflow wf_clockwork_decontamination {
       description: "Multi-fasta file of sequences that could be contaminants.",
       category: "required"
     }
-    sample_name: {
+    samplename: {
       description: "Name of the sample.",
       category: "required"
     }
