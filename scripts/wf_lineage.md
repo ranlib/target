@@ -14,8 +14,8 @@
         <i>File &mdash; Default: None</i><br />
         ???
 </p>
-<p name="wf_lineage.lineage_report">
-        <b>wf_lineage.lineage_report</b><br />
+<p name="wf_lineage.lineage_report_name">
+        <b>wf_lineage.lineage_report_name</b><br />
         <i>String &mdash; Default: None</i><br />
         ???
 </p>
@@ -36,8 +36,8 @@
 </details>
 
 ## Outputs
-<p name="wf_lineage.lineage">
-        <b>wf_lineage.lineage</b><br />
+<p name="wf_lineage.lineage_report">
+        <b>wf_lineage.lineage_report</b><br />
         <i>File</i><br />
         ???
 </p>
