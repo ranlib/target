@@ -1,0 +1,11 @@
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=C.UTF-8
+
+RUN apt-get update -y && \
+    apt-get install -y --no-install-recommends python3 python-is-python3 && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY tools/lineage_parser.py  /opt/lineage/
+ENV PATH=$PATH:/opt/lineage
