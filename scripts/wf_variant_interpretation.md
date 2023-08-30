@@ -27,8 +27,8 @@
         <i>File &mdash; Default: None</i><br />
         json file with drug information for variants.
 </p>
-<p name="wf_variant_interpretation.sample_name">
-        <b>wf_variant_interpretation.sample_name</b><br />
+<p name="wf_variant_interpretation.samplename">
+        <b>wf_variant_interpretation.samplename</b><br />
         <i>String &mdash; Default: None</i><br />
         sample name.
 </p>
@@ -43,7 +43,7 @@
 <summary> Show/Hide </summary>
 <p name="wf_variant_interpretation.task_variant_interpretation.docker">
         <b>wf_variant_interpretation.task_variant_interpretation.docker</b><br />
-        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.4"</i><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.5"</i><br />
         ???
 </p>
 <p name="wf_variant_interpretation.task_variant_interpretation.filter_genes">
