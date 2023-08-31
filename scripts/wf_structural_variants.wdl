@@ -5,14 +5,27 @@ import "./task_snpEff.wdl" as snpEff
 
 workflow wf_structural_variants {
   input {
+    # delly
     File bam
     File bai
     File reference
     String svType = "DEL"
+    String delly_docker = "dbest/delly:v1.0.0"
+    String delly_memory = "32GB"
     # snpEff
     File dataDir
     File config
     String genome
+    Boolean hgvs = true
+    Boolean lof = true
+    Boolean noDownstream = false
+    Boolean noIntergenic = false
+    Boolean noShiftHgvs = false
+    Int upDownStreamLen = 400
+    String snpEff_memory = "9G"
+    String snpEff_javaXmx = "8G"
+    String snpEff_docker = "quay.io/biocontainers/snpeff:5.1d--hdfd78af_0"
+    String output_vcf_name = "structural_variants.vcf"
   }
 
   call delly.task_delly {
@@ -20,7 +33,9 @@ workflow wf_structural_variants {
     bamFile = bam,
     bamIndex = bai,
     reference = reference,
-    svType = svType
+    svType = svType,
+    docker = delly_docker,
+    memory = delly_memory
   }
 
   call snpEff.task_snpEff {
@@ -28,7 +43,17 @@ workflow wf_structural_variants {
     vcf = task_delly.vcfFile,
     genome = genome,
     config = config,
-    dataDir = dataDir
+    dataDir = dataDir,
+    docker = snpEff_docker,
+    memory = snpEff_memory,
+    javaXmx = snpEff_javaXmx,
+    hgvs = hgvs,
+    lof = lof,
+    noDownstream = noDownstream,
+    noIntergenic = noIntergenic,
+    noShiftHgvs = noShiftHgvs,
+    upDownStreamLen = upDownStreamLen,
+    outputPath = output_vcf_name
   }
 
   output {
