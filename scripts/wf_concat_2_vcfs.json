@@ -1,5 +1,7 @@
 {
-  "wf_concat_2_vcfs.vcf1": "/home/dieterbest/Analysis/varpipe4/scripts/test-varpipe_wgs/20230830_172603_wf_varpipe/out/DR_loci_raw_annotation/ERR552797_DR_loci_raw_annotation.vcf",
-  "wf_concat_2_vcfs.vcf2": "/home/dieterbest/Analysis/varpipe4/scripts/test-structural_variants/20230830_220332_wf_structural_variants/out/vcf_annotated/snpeff.vcf"
+    "wf_concat_2_vcfs.vcf1": "/home/dieterbest/Analysis/varpipe4/scripts/test-varpipe_wgs/20230830_172603_wf_varpipe/out/DR_loci_raw_annotation/ERR552797_DR_loci_raw_annotation.vcf",
+    "wf_concat_2_vcfs.vcf2": "/home/dieterbest/Analysis/varpipe4/scripts/test-structural_variants/20230830_220332_wf_structural_variants/out/vcf_annotated/snpeff.vcf",
+    "wf_concat_2_vcfs.output_vcf_name": "combined_variants.vcf",
+    "wf_concat_2_vcfs.task_concat_2_vcfs.docker": "staphb/bcftools:1.17"
 }
 
