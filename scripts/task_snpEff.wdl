@@ -1,6 +1,6 @@
 version 1.0
 
-task SnpEff {
+task task_snpEff {
     input {
       File vcf
       File config
@@ -16,7 +16,7 @@ task SnpEff {
       
       String memory = "9G"
       String javaXmx = "8G"
-      String dockerImage = "quay.io/biocontainers/snpeff:5.1d--hdfd78af_0"
+      String docker = "quay.io/biocontainers/snpeff:5.1d--hdfd78af_0"
     }
     
     command {
@@ -28,7 +28,7 @@ task SnpEff {
       -noDownload \
       -noLog \
       -config ~{config} \
-      -dataDir $PWD/data \
+      -dataDir "$PWD"/data \
       ~{true="-hgvs" false="-noHgvs" hgvs} \
       ~{true="-lof" false="-noLof" lof} \
       ~{true="-no-downstream" false="" noDownstream} \
@@ -38,7 +38,7 @@ task SnpEff {
       ~{genome} \
       ~{vcf} \
       > ~{outputPath}
-      rm -r $PWD/data
+      rm -r "$PWD"/data
     }
     
     output {
@@ -46,7 +46,7 @@ task SnpEff {
     }
 
     runtime {
-      docker: dockerImage
+      docker: docker
       memory: memory
     }
     
