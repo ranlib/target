@@ -7,14 +7,15 @@ import "./task_trimmomatic.wdl" as trimmomatic
 import "./task_bbduk.wdl" as bbduk
 import "./wf_clockwork_decontamination.wdl" as cd
 import "./task_varpipe.wdl" as varpipe
-import "./task_delly.wdl" as delly
+import "./wf_structural_variants.wdl" as sv
 import "./task_multiqc.wdl" as multiQC
 import "./wf_interpretation.wdl" as vi
 import "./task_collect_multiple_metrics.wdl" as bamQC
 import "./task_collect_wgs_metrics.wdl" as wgsQC
 import "./wf_collect_targeted_pcr_metrics.wdl" as tpcrm
 import "./task_depth_of_coverage.wdl" as doc
-
+import "./task_concat_2_vcfs.wdl" as concat
+  
 workflow wf_varpipe {
   input {
     Array[File]+ read1
@@ -42,8 +43,13 @@ workflow wf_varpipe {
     Boolean run_clockwork_decontamination = true
     File clockwork_decontamination_metadata
     File clockwork_contaminants
-    # delly
+    # delly for structural variants
     Boolean run_delly = true
+    # snpEff
+    File snpEff_data_dir
+    File snpEff_config
+    # concat vcfs
+    String output_vcf_name = "all_variants.vcf"
     # bamQC
     Boolean run_bamQC = true
     # variant interpretation
@@ -136,11 +142,21 @@ workflow wf_varpipe {
     }
 
     if ( run_delly ) {
-      call delly.task_delly {
+      call sv.wf_structural_variants {
 	input:
-	bamFile = task_varpipe.bam,
-	bamIndex = task_varpipe.bai,
-	reference = reference
+	bam = task_varpipe.bam,
+	bai = task_varpipe.bai,
+	reference = reference,
+	dataDir = snpEff_data_dir,
+	config = snpEff_config,
+	genome = genome
+      }
+      
+      call concat.task_concat_2_vcfs {
+	input:
+	vcf1 = task_varpipe.DR_loci_raw_annotation,
+	vcf2 = wf_structural_variants.vcf,
+	output_vcf_name = output_vcf_name
       }
     }
     
@@ -281,8 +297,10 @@ workflow wf_varpipe {
     File? Covid19_stats = task_bbduk.Covid19_stats
     # output from clockwork decontamination
     File? clockwork_decontamination_stats = wf_clockwork_decontamination.stats
-    # output from delly
-    File? dellyVcf = task_delly.vcfFile
+    # output from delly + snpEff = annotated structural variants
+    File? vcf_structural_variants = wf_structural_variants.vcf_annotated
+    # all annotated variants = variant valler + SV caller delly
+    File? vcf = task_concat_2_vcfs.concatenated_vcf
     # variant interpretation
     File? lab_report = wf_interpretation.lab_report
     File? lims_report = wf_interpretation.lims_report
@@ -403,7 +421,8 @@ workflow wf_varpipe {
     adapter_stats: {description: "Name file where decontamination procedure writes adapter contamination statistics to."}
     phiX_stats: {description: "phiX contamination report from bbduk decontamination task."}
 
-    dellyVcf: {description: "Ouput vcf file from delly structural variant caller."}
+    vcf_structural_variants: {description: "Output vcf file from delly structural variant caller + annotation from snpEff."}
+    vcf: {description: "Output vcf file, annotated, concatenated from annotated variant valler vcf and annotated strutural variant caller vcf."}
 
     interpretation: {description: "Output tsv file from varpipe interpretation."}
     interpretation_report: {description: "Output tsv file from variant interpretation."}
