@@ -75,7 +75,7 @@ workflow wf_tbprofiler {
       call cd.wf_clockwork_decontamination {
 	input:
 	reference = clockwork_contaminants,
-	sample_name = samplename,
+	samplename = samplename,
         metadata_file = clockwork_decontamination_metadata,
 	input_reads_1 = task_trimmomatic.read1_trimmed,
 	input_reads_2 = task_trimmomatic.read2_trimmed
@@ -129,7 +129,7 @@ workflow wf_tbprofiler {
       bai = task_tbprofiler.bai,
       bed = bed,
       json = json,
-      sample_name = samplename,
+      samplename = samplename,
       report = the_report
     }
     
