@@ -89,7 +89,7 @@ task task_bbduk {
     
     # cleanup
     if ! ~{keep} ; then
-    rm -v *no_adapter*.fastq.gz *no_phix*.fastq.gz *no_covid*.fastq.gz *no_polyA*.fastq.gz
+    rm -v ./*no_adapter*.fastq.gz ./*no_phix*.fastq.gz ./*no_covid*.fastq.gz ./*no_polyA*.fastq.gz
     fi
   >>>
 
