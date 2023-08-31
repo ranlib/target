@@ -8,21 +8,10 @@ workflow wf_snpEff {
     File dataDir
     File config
     String genome
-    String outputPath = "./snpeff.vcf"
-    Boolean hgvs = true
-    Boolean lof = true
-    Boolean noDownstream = false
-    Boolean noIntergenic = false
-    Boolean noShiftHgvs = false
-    Int? upDownStreamLen
-    
-    String memory = "9G"
-    String javaXmx = "8G"
-    String dockerImage = "quay.io/biocontainers/snpeff:5.1d--hdfd78af_0"
   }
 
 
-  call snpEff.SnpEff {
+  call snpEff.task_snpEff {
     input:
     vcf = vcf,
     genome = genome,
@@ -31,6 +20,6 @@ workflow wf_snpEff {
   }
 
   output {
-    File outputVcf = SnpEff.outputVcf
+    File outputVcf = task_snpEff.outputVcf
   }
 }
