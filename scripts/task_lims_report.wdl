@@ -19,7 +19,7 @@ task task_lims_report {
     fi
 
     lims_report.py \
-    --lab ~{lab_report} --operator ~{operator} --bed ~{bed_file} ${LINEAGE} \
+    --lab ~{lab_report} --operator ~{operator} --bed ~{bed_file} "${LINEAGE}" \
     --lims ~{lims_report_name}
   >>>
 
