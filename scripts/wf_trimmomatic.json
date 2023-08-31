@@ -2,7 +2,7 @@
     "wf_trimmomatic.task_trimmomatic.trimmomatic_minlen": 40,
     "wf_trimmomatic.task_trimmomatic.trimmomatic_window_size": 4,
     "wf_trimmomatic.task_trimmomatic.memory": "32 GB",
-    "wf_trimmomatic.task_trimmomatic.cpu": 4,
+    "wf_trimmomatic.task_trimmomatic.threads": 4,
     "wf_trimmomatic.task_trimmomatic.trimmomatic_quality_trim_score": 15,
     "wf_trimmomatic.task_trimmomatic.docker": "staphb/trimmomatic:0.39",
     "wf_trimmomatic.samplenames": ["ERR552797"],
