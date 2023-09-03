@@ -1,39 +1,25 @@
 # wf_lineage
-
+## lineage caller 
+ Determinate TB lineage based on SNPs.
 
 ## Inputs
 
 ### Required inputs
-<p name="wf_lineage.input_annotation">
-        <b>wf_lineage.input_annotation</b><br />
-        <i>File &mdash; Default: None</i><br />
-        ???
-</p>
 <p name="wf_lineage.lineage_markers">
         <b>wf_lineage.lineage_markers</b><br />
         <i>File &mdash; Default: None</i><br />
-        ???
-</p>
-<p name="wf_lineage.lineage_report_name">
-        <b>wf_lineage.lineage_report_name</b><br />
-        <i>String &mdash; Default: None</i><br />
-        ???
+        tsv file with columns Lineage, Position, Ref, Alt
 </p>
 <p name="wf_lineage.samplename">
         <b>wf_lineage.samplename</b><br />
         <i>String &mdash; Default: None</i><br />
-        ???
+        sample name.
 </p>
-
-### Other inputs
-<details>
-<summary> Show/Hide </summary>
-<p name="wf_lineage.task_lineage.docker">
-        <b>wf_lineage.task_lineage.docker</b><br />
-        <i>String &mdash; Default: "dbest/lineage:v1.0.0"</i><br />
-        ???
+<p name="wf_lineage.vcf">
+        <b>wf_lineage.vcf</b><br />
+        <i>File &mdash; Default: None</i><br />
+        vcf file or compressed vcf file (suffix vcf.gz) output from CDC/London TB profiler pipeline.
 </p>
-</details>
 
 ## Outputs
 <p name="wf_lineage.lineage_report">
