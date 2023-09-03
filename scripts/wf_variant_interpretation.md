@@ -41,44 +41,29 @@
 ### Other inputs
 <details>
 <summary> Show/Hide </summary>
-<p name="wf_variant_interpretation.task_variant_interpretation.docker">
-        <b>wf_variant_interpretation.task_variant_interpretation.docker</b><br />
-        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.5"</i><br />
+<p name="wf_variant_interpretation.docker">
+        <b>wf_variant_interpretation.docker</b><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.6"</i><br />
         ???
 </p>
-<p name="wf_variant_interpretation.task_variant_interpretation.filter_genes">
-        <b>wf_variant_interpretation.task_variant_interpretation.filter_genes</b><br />
-        <i>Boolean &mdash; Default: false</i><br />
-        ???
-</p>
-<p name="wf_variant_interpretation.task_variant_interpretation.memory">
-        <b>wf_variant_interpretation.task_variant_interpretation.memory</b><br />
+<p name="wf_variant_interpretation.memory">
+        <b>wf_variant_interpretation.memory</b><br />
         <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
-<p name="wf_variant_interpretation.task_variant_interpretation.minimum_coverage">
-        <b>wf_variant_interpretation.task_variant_interpretation.minimum_coverage</b><br />
-        <i>Int &mdash; Default: 10</i><br />
-        ???
-</p>
-<p name="wf_variant_interpretation.task_variant_interpretation.minimum_total_depth">
-        <b>wf_variant_interpretation.task_variant_interpretation.minimum_total_depth</b><br />
-        <i>Int &mdash; Default: 0</i><br />
-        ???
-</p>
-<p name="wf_variant_interpretation.task_variant_interpretation.minimum_variant_depth">
-        <b>wf_variant_interpretation.task_variant_interpretation.minimum_variant_depth</b><br />
-        <i>Int &mdash; Default: 0</i><br />
-        ???
-</p>
-<p name="wf_variant_interpretation.task_variant_interpretation.verbose">
-        <b>wf_variant_interpretation.task_variant_interpretation.verbose</b><br />
+<p name="wf_variant_interpretation.verbose">
+        <b>wf_variant_interpretation.verbose</b><br />
         <i>Boolean &mdash; Default: false</i><br />
         ???
 </p>
 </details>
 
 ## Outputs
+<p name="wf_variant_interpretation.interpretation_log">
+        <b>wf_variant_interpretation.interpretation_log</b><br />
+        <i>File</i><br />
+        Output tsv file that captures output to stdout of variant interpretation.
+</p>
 <p name="wf_variant_interpretation.interpretation_report">
         <b>wf_variant_interpretation.interpretation_report</b><br />
         <i>File</i><br />

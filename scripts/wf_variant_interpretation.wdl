@@ -10,12 +10,17 @@ workflow wf_variant_interpretation {
     File bed
     File json
     String samplename
-    String? report
+    Int minimum_coverage = 10
+    Int minimum_total_depth = 0
+    Int minimum_variant_depth = 0
+    Boolean filter_genes = false
+    Boolean filter_variants = true
+    Boolean verbose = false
+    String report = "variant_interpretation.tsv"
+    String docker = "dbest/variant_interpretation:v1.0.6"
+    String memory = "8GB"
   }
 
-  # select_first([report]) to coerce String? -> String
-  String the_report = if defined(report) then select_first([report]) else samplename+"_variant_interpretation.tsv"
-  
   call vi.task_variant_interpretation {
     input:
     vcf = vcf,
@@ -24,11 +29,20 @@ workflow wf_variant_interpretation {
     bed = bed,
     json = json,
     samplename = samplename,
-    report = the_report
+    report = report,
+    docker = docker,
+    memory = memory,
+    verbose = verbose,
+    filter_genes = filter_genes,
+    filter_variants = filter_variants,
+    minimum_coverage = minimum_coverage,
+    minimum_total_depth = minimum_total_depth,
+    minimum_variant_depth = minimum_variant_depth
   }
   
   output {
     File interpretation_report = task_variant_interpretation.interpretation_report
+    File interpretation_log = task_variant_interpretation.interpretation_log
   }
 
   meta {
@@ -78,12 +92,17 @@ workflow wf_variant_interpretation {
       description: "if true, only genes interest are written to the output tsv report.",
       category: "optional"
     }
+    filter_variants: {
+      description: "if true, only variants with a PASS in the vcf filter columns are considered.",
+      category: "optional"
+    }
     report: {
       description: "name for output tsv file.",
       category: "optional"
     }
     # output
     interpretation_report: {description: "Output tsv file of variant interpretation."}
+    interpretation_log: {description: "Output tsv file that captures output to stdout of variant interpretation."}
   }
   
 }
