@@ -3,6 +3,7 @@ version 1.0
 task task_bcf2vcf {
   input {
     File bcf_file
+    String docker = "staphb/bcftools:1.17"
   }
 
   String vcf = "${basename(bcf_file)}.vcf.gz"
@@ -16,7 +17,7 @@ task task_bcf2vcf {
   }
 
   runtime {
-    docker: "staphb/bcftools:1.17"
+    docker: docker
   }
 }
 
