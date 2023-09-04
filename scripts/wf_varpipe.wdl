@@ -56,7 +56,7 @@ workflow wf_varpipe {
     Boolean run_variant_interpretation = true
     File bed
     File json
-    File? lineage_markers
+    File lineage_markers
   }
 
   String outputForward = "${samplename}_1.fq.gz"
@@ -155,7 +155,7 @@ workflow wf_varpipe {
       call concat.task_concat_2_vcfs {
 	input:
 	vcf1 = task_varpipe.DR_loci_raw_annotation,
-	vcf2 = wf_structural_variants.vcf,
+	vcf2 = wf_structural_variants.vcf_annotated,
 	output_vcf_name = output_vcf_name
       }
     }
@@ -189,13 +189,12 @@ workflow wf_varpipe {
     if ( run_variant_interpretation ) {
       call vi.wf_interpretation {
 	input:
-	vcf = task_varpipe.DR_loci_raw_annotation,
+	vcf = select_first([task_concat_2_vcfs.concatenated_vcf, task_varpipe.DR_loci_raw_annotation]),
 	bam = task_varpipe.bam,
 	bai = task_varpipe.bai,
 	bed = bed,
 	json = json,
 	samplename = samplename,
-	input_annotation = task_varpipe.DR_loci_Final_annotation,
 	lineage_markers = lineage_markers
       }
     }
@@ -302,6 +301,7 @@ workflow wf_varpipe {
     # all annotated variants = variant valler + SV caller delly
     File? vcf = task_concat_2_vcfs.concatenated_vcf
     # variant interpretation
+    File? lab_log = wf_interpretation.lab_log
     File? lab_report = wf_interpretation.lab_report
     File? lims_report = wf_interpretation.lims_report
     # multiqc
@@ -420,6 +420,9 @@ workflow wf_varpipe {
 
     adapter_stats: {description: "Name file where decontamination procedure writes adapter contamination statistics to."}
     phiX_stats: {description: "phiX contamination report from bbduk decontamination task."}
+    polyA_stats: {description: "polyA contamination report from bbduk decontamination task."}
+    Ecoli_stats: {description: "Ecoli contamination report from bbduk decontamination task."}
+    Covid19_stats: {description: "Covid19 contamination report from bbduk decontamination task."}
 
     vcf_structural_variants: {description: "Output vcf file from delly structural variant caller + annotation from snpEff."}
     vcf: {description: "Output vcf file, annotated, concatenated from annotated variant valler vcf and annotated strutural variant caller vcf."}

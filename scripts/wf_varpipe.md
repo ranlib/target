@@ -42,6 +42,11 @@
         <i>File &mdash; Default: None</i><br />
         json file with drug information for variants.
 </p>
+<p name="wf_varpipe.lineage_markers">
+        <b>wf_varpipe.lineage_markers</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
+</p>
 <p name="wf_varpipe.outdir">
         <b>wf_varpipe.outdir</b><br />
         <i>String &mdash; Default: None</i><br />
@@ -67,27 +72,20 @@
         <i>String &mdash; Default: None</i><br />
         Alphanumeric name of the sample.
 </p>
-
-### Other common inputs
-<p name="wf_varpipe.task_delly.svType">
-        <b>wf_varpipe.task_delly.svType</b><br />
-        <i>String &mdash; Default: "DEL"</i><br />
-        Type of structural variant to look for.
+<p name="wf_varpipe.snpEff_config">
+        <b>wf_varpipe.snpEff_config</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
+</p>
+<p name="wf_varpipe.snpEff_data_dir">
+        <b>wf_varpipe.snpEff_data_dir</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
 </p>
 
 ### Advanced inputs
 <details>
 <summary> Show/Hide </summary>
-<p name="wf_varpipe.task_delly.docker">
-        <b>wf_varpipe.task_delly.docker</b><br />
-        <i>String &mdash; Default: "dbest/delly:v1.0.0"</i><br />
-        The docker image used for this task.
-</p>
-<p name="wf_varpipe.task_delly.memory">
-        <b>wf_varpipe.task_delly.memory</b><br />
-        <i>String &mdash; Default: "32GB"</i><br />
-        The memory required to run the programs.
-</p>
 <p name="wf_varpipe.task_fastqc.docker">
         <b>wf_varpipe.task_fastqc.docker</b><br />
         <i>String &mdash; Default: "staphb/fastqc:0.12.1"</i><br />
@@ -113,14 +111,14 @@
 ### Other inputs
 <details>
 <summary> Show/Hide </summary>
-<p name="wf_varpipe.lineage_markers">
-        <b>wf_varpipe.lineage_markers</b><br />
-        <i>File? &mdash; Default: None</i><br />
-        ???
-</p>
 <p name="wf_varpipe.no_trim">
         <b>wf_varpipe.no_trim</b><br />
         <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
+<p name="wf_varpipe.output_vcf_name">
+        <b>wf_varpipe.output_vcf_name</b><br />
+        <i>String &mdash; Default: "all_variants.vcf"</i><br />
         ???
 </p>
 <p name="wf_varpipe.run_clockwork_decontamination">
@@ -238,6 +236,11 @@
         <i>Boolean &mdash; Default: true</i><br />
         ???
 </p>
+<p name="wf_varpipe.task_concat_2_vcfs.docker">
+        <b>wf_varpipe.task_concat_2_vcfs.docker</b><br />
+        <i>String &mdash; Default: "staphb/bcftools:1.17"</i><br />
+        ???
+</p>
 <p name="wf_varpipe.task_depth_of_coverage.docker">
         <b>wf_varpipe.task_depth_of_coverage.docker</b><br />
         <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
@@ -330,7 +333,7 @@
 </p>
 <p name="wf_varpipe.task_varpipe.docker">
         <b>wf_varpipe.task_varpipe.docker</b><br />
-        <i>String &mdash; Default: "dbest/varpipe4:v1.0.1"</i><br />
+        <i>String &mdash; Default: "dbest/varpipe4:v1.0.2"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_varpipe.memory">
@@ -450,7 +453,7 @@
 </p>
 <p name="wf_varpipe.wf_interpretation.interpretation_docker">
         <b>wf_varpipe.wf_interpretation.interpretation_docker</b><br />
-        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.5"</i><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.6"</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_interpretation.interpretation_memory">
@@ -461,7 +464,7 @@
 <p name="wf_varpipe.wf_interpretation.interpretation_report">
         <b>wf_varpipe.wf_interpretation.interpretation_report</b><br />
         <i>String &mdash; Default: "variant_interpretation.tsv"</i><br />
-        Output tsv file of variant interpretation.
+        ???
 </p>
 <p name="wf_varpipe.wf_interpretation.lims_docker">
         <b>wf_varpipe.wf_interpretation.lims_docker</b><br />
@@ -491,6 +494,71 @@
 <p name="wf_varpipe.wf_interpretation.verbose">
         <b>wf_varpipe.wf_interpretation.verbose</b><br />
         <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_structural_variants.delly_docker">
+        <b>wf_varpipe.wf_structural_variants.delly_docker</b><br />
+        <i>String &mdash; Default: "dbest/delly:v1.0.0"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_structural_variants.delly_memory">
+        <b>wf_varpipe.wf_structural_variants.delly_memory</b><br />
+        <i>String &mdash; Default: "32GB"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_structural_variants.hgvs">
+        <b>wf_varpipe.wf_structural_variants.hgvs</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_structural_variants.lof">
+        <b>wf_varpipe.wf_structural_variants.lof</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_structural_variants.noDownstream">
+        <b>wf_varpipe.wf_structural_variants.noDownstream</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_structural_variants.noIntergenic">
+        <b>wf_varpipe.wf_structural_variants.noIntergenic</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_structural_variants.noShiftHgvs">
+        <b>wf_varpipe.wf_structural_variants.noShiftHgvs</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_structural_variants.output_vcf_name">
+        <b>wf_varpipe.wf_structural_variants.output_vcf_name</b><br />
+        <i>String &mdash; Default: "structural_variants.vcf"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_structural_variants.snpEff_docker">
+        <b>wf_varpipe.wf_structural_variants.snpEff_docker</b><br />
+        <i>String &mdash; Default: "quay.io/biocontainers/snpeff:5.1d--hdfd78af_0"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_structural_variants.snpEff_javaXmx">
+        <b>wf_varpipe.wf_structural_variants.snpEff_javaXmx</b><br />
+        <i>String &mdash; Default: "8G"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_structural_variants.snpEff_memory">
+        <b>wf_varpipe.wf_structural_variants.snpEff_memory</b><br />
+        <i>String &mdash; Default: "9G"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_structural_variants.svType">
+        <b>wf_varpipe.wf_structural_variants.svType</b><br />
+        <i>String &mdash; Default: "DEL"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_structural_variants.upDownStreamLen">
+        <b>wf_varpipe.wf_structural_variants.upDownStreamLen</b><br />
+        <i>Int &mdash; Default: 400</i><br />
         ???
 </p>
 </details>
@@ -540,11 +608,6 @@
         <b>wf_varpipe.Covid19_stats</b><br />
         <i>File?</i><br />
         ???
-</p>
-<p name="wf_varpipe.dellyVcf">
-        <b>wf_varpipe.dellyVcf</b><br />
-        <i>File?</i><br />
-        Ouput vcf file from delly structural variant caller.
 </p>
 <p name="wf_varpipe.depth_of_coverage_outputs">
         <b>wf_varpipe.depth_of_coverage_outputs</b><br />
@@ -655,6 +718,11 @@
         <b>wf_varpipe.interpretation</b><br />
         <i>File?</i><br />
         Output tsv file from varpipe interpretation.
+</p>
+<p name="wf_varpipe.lab_log">
+        <b>wf_varpipe.lab_log</b><br />
+        <i>File?</i><br />
+        ???
 </p>
 <p name="wf_varpipe.lab_report">
         <b>wf_varpipe.lab_report</b><br />
@@ -795,6 +863,16 @@
         <b>wf_varpipe.trim_stats</b><br />
         <i>File?</i><br />
         ???
+</p>
+<p name="wf_varpipe.vcf">
+        <b>wf_varpipe.vcf</b><br />
+        <i>File?</i><br />
+        Output vcf file, annotated, concatenated from annotated variant valler vcf and annotated strutural variant caller vcf.
+</p>
+<p name="wf_varpipe.vcf_structural_variants">
+        <b>wf_varpipe.vcf_structural_variants</b><br />
+        <i>File?</i><br />
+        Output vcf file from delly structural variant caller + annotation from snpEff.
 </p>
 
 <hr />
