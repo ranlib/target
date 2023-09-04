@@ -27,6 +27,11 @@
         <i>File &mdash; Default: None</i><br />
         json file with drug information for variants.
 </p>
+<p name="wf_interpretation.lineage_markers">
+        <b>wf_interpretation.lineage_markers</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
+</p>
 <p name="wf_interpretation.samplename">
         <b>wf_interpretation.samplename</b><br />
         <i>String &mdash; Default: None</i><br />
@@ -41,14 +46,9 @@
 ### Other inputs
 <details>
 <summary> Show/Hide </summary>
-<p name="wf_interpretation.input_annotation">
-        <b>wf_interpretation.input_annotation</b><br />
-        <i>File? &mdash; Default: None</i><br />
-        ???
-</p>
 <p name="wf_interpretation.interpretation_docker">
         <b>wf_interpretation.interpretation_docker</b><br />
-        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.5"</i><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.6"</i><br />
         ???
 </p>
 <p name="wf_interpretation.interpretation_memory">
@@ -59,7 +59,7 @@
 <p name="wf_interpretation.interpretation_report">
         <b>wf_interpretation.interpretation_report</b><br />
         <i>String &mdash; Default: "variant_interpretation.tsv"</i><br />
-        Output tsv file of variant interpretation.
+        ???
 </p>
 <p name="wf_interpretation.lims_docker">
         <b>wf_interpretation.lims_docker</b><br />
@@ -81,11 +81,6 @@
         <i>String &mdash; Default: "dbest/lineage:v1.0.0"</i><br />
         ???
 </p>
-<p name="wf_interpretation.lineage_markers">
-        <b>wf_interpretation.lineage_markers</b><br />
-        <i>File? &mdash; Default: None</i><br />
-        ???
-</p>
 <p name="wf_interpretation.lineage_report_name">
         <b>wf_interpretation.lineage_report_name</b><br />
         <i>String &mdash; Default: "lineages.tsv"</i><br />
@@ -99,15 +94,20 @@
 </details>
 
 ## Outputs
+<p name="wf_interpretation.lab_log">
+        <b>wf_interpretation.lab_log</b><br />
+        <i>File</i><br />
+        Output tsv file that captures output to stdout of variant interpretation.
+</p>
 <p name="wf_interpretation.lab_report">
         <b>wf_interpretation.lab_report</b><br />
         <i>File</i><br />
-        ???
+        Output tsv file of variant interpretation.
 </p>
 <p name="wf_interpretation.lims_report">
         <b>wf_interpretation.lims_report</b><br />
         <i>File</i><br />
-        ???
+        Output tsv file for LIMS.
 </p>
 
 <hr />

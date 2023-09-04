@@ -13,15 +13,15 @@ workflow wf_interpretation {
     File json
     String samplename
     String interpretation_report = "variant_interpretation.tsv"
-    String interpretation_docker = "dbest/variant_interpretation:v1.0.5"
+    String interpretation_docker = "dbest/variant_interpretation:v1.0.6"
     String interpretation_memory = "8GB"
+    Boolean filter_variants = true
     Boolean filter_genes = false
     Boolean verbose = false
     Int minimum_coverage = 10
     Int minimum_total_depth = 0
     Int minimum_variant_depth = 0
-    File? input_annotation
-    File? lineage_markers
+    File lineage_markers
     String lineage_report_name = "lineages.tsv"
     String lineage_docker = "dbest/lineage:v1.0.0"
     String lims_report_name = "lims_report.tsv"
@@ -41,21 +41,20 @@ workflow wf_interpretation {
     docker = interpretation_docker,
     memory = interpretation_memory,
     filter_genes = filter_genes,
+    filter_variants = filter_variants,
     verbose = verbose,
     minimum_coverage = minimum_coverage,
     minimum_total_depth =  minimum_total_depth,
     minimum_variant_depth = minimum_variant_depth
   }
 
-  if ( defined(lineage_markers) ) {
-    call lineage.task_lineage {
-      input:
-      input_annotation = select_first([input_annotation]),
-      lineage_markers = select_first([lineage_markers]),
-      lineage_report_name = lineage_report_name,
-      samplename = samplename,
-      docker = lineage_docker
-    }
+  call lineage.task_lineage {
+    input:
+    vcf = vcf,
+    lineage_markers = lineage_markers,
+    lineage_report_name = lineage_report_name,
+    samplename = samplename,
+    docker = lineage_docker
   }
 
   call lims.task_lims_report {
@@ -70,6 +69,7 @@ workflow wf_interpretation {
 
   output {
     File lab_report = task_variant_interpretation.interpretation_report
+    File lab_log = task_variant_interpretation.interpretation_log
     File lims_report = task_lims_report.lims_report
   }
 
@@ -120,12 +120,18 @@ workflow wf_interpretation {
       description: "if true, only genes interest are written to the output tsv report.",
       category: "optional"
     }
+    filter_variants: {
+      description: "if true, only variants with a PASS in the vcf filter columns are considered.",
+      category: "optional"
+    }
     report: {
       description: "name for output tsv file.",
       category: "optional"
     }
     # output
-    interpretation_report: {description: "Output tsv file of variant interpretation."}
+    lab_report: {description: "Output tsv file of variant interpretation."}
+    lab_log: {description: "Output tsv file that captures output to stdout of variant interpretation."}
+    lims_report: {description: "Output tsv file for LIMS."}
   }
   
 }
