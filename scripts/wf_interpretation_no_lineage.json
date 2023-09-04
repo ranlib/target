@@ -1,7 +1,7 @@
 {
     "wf_interpretation.task_variant_interpretation.minimum_total_depth": 0,
     "wf_interpretation.task_variant_interpretation.filter_genes": false,
-    "wf_interpretation.task_variant_interpretation.docker": "dbest/variant_interpretation:v1.0.5",
+    "wf_interpretation.task_variant_interpretation.docker": "dbest/variant_interpretation:v1.0.6",
     "wf_interpretation.task_variant_interpretation.memory": "8GB",
     "wf_interpretation.task_variant_interpretation.minimum_variant_depth": 0,
     "wf_interpretation.task_variant_interpretation.minimum_coverage": 10,
