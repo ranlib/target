@@ -27,6 +27,11 @@
         <i>File &mdash; Default: None</i><br />
         json file with drug information for variants.
 </p>
+<p name="wf_tbprofiler.lineage_markers">
+        <b>wf_tbprofiler.lineage_markers</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
+</p>
 <p name="wf_tbprofiler.read1">
         <b>wf_tbprofiler.read1</b><br />
         <i>Array[File]+ &mdash; Default: None</i><br />
@@ -47,13 +52,53 @@
         <i>String &mdash; Default: None</i><br />
         Name of the sample.
 </p>
+<p name="wf_tbprofiler.snpEff_config">
+        <b>wf_tbprofiler.snpEff_config</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.snpEff_data_dir">
+        <b>wf_tbprofiler.snpEff_data_dir</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
+</p>
+
+### Advanced inputs
+<details>
+<summary> Show/Hide </summary>
+<p name="wf_tbprofiler.task_fastqc.docker">
+        <b>wf_tbprofiler.task_fastqc.docker</b><br />
+        <i>String &mdash; Default: "staphb/fastqc:0.12.1"</i><br />
+        The docker image used for this task.
+</p>
+<p name="wf_tbprofiler.task_fastqc.memory">
+        <b>wf_tbprofiler.task_fastqc.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
+        The amount of memory this job will use.
+</p>
+</details>
 
 ### Other inputs
 <details>
 <summary> Show/Hide </summary>
+<p name="wf_tbprofiler.annotated_structural_variants_name">
+        <b>wf_tbprofiler.annotated_structural_variants_name</b><br />
+        <i>String &mdash; Default: "annotated_structural_variants.vcf"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.genome">
+        <b>wf_tbprofiler.genome</b><br />
+        <i>String &mdash; Default: "NC_000962.3"</i><br />
+        ???
+</p>
 <p name="wf_tbprofiler.minNumberReads">
         <b>wf_tbprofiler.minNumberReads</b><br />
         <i>Int &mdash; Default: 10000</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.output_vcf_name">
+        <b>wf_tbprofiler.output_vcf_name</b><br />
+        <i>String &mdash; Default: "concatenated.vcf"</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.run_clockwork_decontamination">
@@ -71,14 +116,24 @@
         <i>String &mdash; Default: "staphb/bbtools:39.01"</i><br />
         ???
 </p>
+<p name="wf_tbprofiler.task_bbduk.keep">
+        <b>wf_tbprofiler.task_bbduk.keep</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
 <p name="wf_tbprofiler.task_bbduk.memory">
         <b>wf_tbprofiler.task_bbduk.memory</b><br />
-        <i>String &mdash; Default: "8GB"</i><br />
+        <i>String &mdash; Default: "32GB"</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.task_bbduk.threads">
         <b>wf_tbprofiler.task_bbduk.threads</b><br />
         <i>Int &mdash; Default: 1</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_bcf2vcf.docker">
+        <b>wf_tbprofiler.task_bcf2vcf.docker</b><br />
+        <i>String &mdash; Default: "staphb/bcftools:1.17"</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.task_collect_multiple_metrics.docker">
@@ -151,6 +206,11 @@
         <i>Boolean &mdash; Default: true</i><br />
         ???
 </p>
+<p name="wf_tbprofiler.task_concat_2_vcfs.docker">
+        <b>wf_tbprofiler.task_concat_2_vcfs.docker</b><br />
+        <i>String &mdash; Default: "staphb/bcftools:1.17"</i><br />
+        ???
+</p>
 <p name="wf_tbprofiler.task_depth_of_coverage.docker">
         <b>wf_tbprofiler.task_depth_of_coverage.docker</b><br />
         <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
@@ -176,31 +236,6 @@
         <i>String &mdash; Default: "depth_of_coverage"</i><br />
         ???
 </p>
-<p name="wf_tbprofiler.task_fastqc.adapters">
-        <b>wf_tbprofiler.task_fastqc.adapters</b><br />
-        <i>File? &mdash; Default: None</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.task_fastqc.contaminants">
-        <b>wf_tbprofiler.task_fastqc.contaminants</b><br />
-        <i>File? &mdash; Default: None</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.task_fastqc.docker">
-        <b>wf_tbprofiler.task_fastqc.docker</b><br />
-        <i>String &mdash; Default: "staphb/fastqc:0.12.1"</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.task_fastqc.memory">
-        <b>wf_tbprofiler.task_fastqc.memory</b><br />
-        <i>String &mdash; Default: "8GB"</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.task_fastqc.threads">
-        <b>wf_tbprofiler.task_fastqc.threads</b><br />
-        <i>Int &mdash; Default: 1</i><br />
-        ???
-</p>
 <p name="wf_tbprofiler.task_multiqc.docker">
         <b>wf_tbprofiler.task_multiqc.docker</b><br />
         <i>String &mdash; Default: "ewels/multiqc:v1.14"</i><br />
@@ -209,6 +244,51 @@
 <p name="wf_tbprofiler.task_multiqc.memory">
         <b>wf_tbprofiler.task_multiqc.memory</b><br />
         <i>String &mdash; Default: "8GB"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_snpEff.docker">
+        <b>wf_tbprofiler.task_snpEff.docker</b><br />
+        <i>String &mdash; Default: "quay.io/biocontainers/snpeff:5.1d--hdfd78af_0"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_snpEff.hgvs">
+        <b>wf_tbprofiler.task_snpEff.hgvs</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_snpEff.javaXmx">
+        <b>wf_tbprofiler.task_snpEff.javaXmx</b><br />
+        <i>String &mdash; Default: "8G"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_snpEff.lof">
+        <b>wf_tbprofiler.task_snpEff.lof</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_snpEff.memory">
+        <b>wf_tbprofiler.task_snpEff.memory</b><br />
+        <i>String &mdash; Default: "9G"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_snpEff.noDownstream">
+        <b>wf_tbprofiler.task_snpEff.noDownstream</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_snpEff.noIntergenic">
+        <b>wf_tbprofiler.task_snpEff.noIntergenic</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_snpEff.noShiftHgvs">
+        <b>wf_tbprofiler.task_snpEff.noShiftHgvs</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_snpEff.upDownStreamLen">
+        <b>wf_tbprofiler.task_snpEff.upDownStreamLen</b><br />
+        <i>Int? &mdash; Default: None</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.task_tbprofiler.caller">
@@ -291,36 +371,6 @@
         <i>Int &mdash; Default: 4</i><br />
         ???
 </p>
-<p name="wf_tbprofiler.task_variant_interpretation.all_genes">
-        <b>wf_tbprofiler.task_variant_interpretation.all_genes</b><br />
-        <i>Boolean &mdash; Default: false</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.task_variant_interpretation.docker">
-        <b>wf_tbprofiler.task_variant_interpretation.docker</b><br />
-        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.2"</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.task_variant_interpretation.memory">
-        <b>wf_tbprofiler.task_variant_interpretation.memory</b><br />
-        <i>String &mdash; Default: "8GB"</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.task_variant_interpretation.minimum_coverage">
-        <b>wf_tbprofiler.task_variant_interpretation.minimum_coverage</b><br />
-        <i>Int &mdash; Default: 10</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.task_variant_interpretation.minimum_total_depth">
-        <b>wf_tbprofiler.task_variant_interpretation.minimum_total_depth</b><br />
-        <i>Int &mdash; Default: 0</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.task_variant_interpretation.minimum_variant_depth">
-        <b>wf_tbprofiler.task_variant_interpretation.minimum_variant_depth</b><br />
-        <i>Int &mdash; Default: 0</i><br />
-        ???
-</p>
 <p name="wf_tbprofiler.wf_clockwork_decontamination.map_reads.docker">
         <b>wf_tbprofiler.wf_clockwork_decontamination.map_reads.docker</b><br />
         <i>String &mdash; Default: "dbest/clockwork:v1.0.0"</i><br />
@@ -386,6 +436,11 @@
         <i>String &mdash; Default: "collect_targeted_pcr_sensitivity_metrics.txt"</i><br />
         ???
 </p>
+<p name="wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.target_coverage_file">
+        <b>wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.target_coverage_file</b><br />
+        <i>String &mdash; Default: "collect_targeted_pcr_target_coverage.txt"</i><br />
+        ???
+</p>
 <p name="wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_add_pg_tag_to_read">
         <b>wf_tbprofiler.wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_add_pg_tag_to_read</b><br />
         <i>Boolean &mdash; Default: false</i><br />
@@ -421,6 +476,51 @@
         <i>String &mdash; Default: "mark_duplicates_metrics.txt"</i><br />
         ???
 </p>
+<p name="wf_tbprofiler.wf_interpretation.interpretation_docker">
+        <b>wf_tbprofiler.wf_interpretation.interpretation_docker</b><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.6"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_interpretation.interpretation_memory">
+        <b>wf_tbprofiler.wf_interpretation.interpretation_memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_interpretation.interpretation_report">
+        <b>wf_tbprofiler.wf_interpretation.interpretation_report</b><br />
+        <i>String &mdash; Default: "variant_interpretation.tsv"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_interpretation.lims_docker">
+        <b>wf_tbprofiler.wf_interpretation.lims_docker</b><br />
+        <i>String &mdash; Default: "dbest/lims_report:v1.0.0"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_interpretation.lims_operator">
+        <b>wf_tbprofiler.wf_interpretation.lims_operator</b><br />
+        <i>String &mdash; Default: "DB"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_interpretation.lims_report_name">
+        <b>wf_tbprofiler.wf_interpretation.lims_report_name</b><br />
+        <i>String &mdash; Default: "lims_report.tsv"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_interpretation.lineage_docker">
+        <b>wf_tbprofiler.wf_interpretation.lineage_docker</b><br />
+        <i>String &mdash; Default: "dbest/lineage:v1.0.0"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_interpretation.lineage_report_name">
+        <b>wf_tbprofiler.wf_interpretation.lineage_report_name</b><br />
+        <i>String &mdash; Default: "lineages.tsv"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_interpretation.verbose">
+        <b>wf_tbprofiler.wf_interpretation.verbose</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
 </details>
 
 ## Outputs
@@ -454,6 +554,11 @@
         <i>File?</i><br />
         ???
 </p>
+<p name="wf_tbprofiler.Covid19_stats">
+        <b>wf_tbprofiler.Covid19_stats</b><br />
+        <i>File?</i><br />
+        Covid19 contamination report from bbduk decontamination task.
+</p>
 <p name="wf_tbprofiler.csv">
         <b>wf_tbprofiler.csv</b><br />
         <i>File?</i><br />
@@ -463,6 +568,11 @@
         <b>wf_tbprofiler.depth_of_coverage_outputs</b><br />
         <i>Array[File]?</i><br />
         ???
+</p>
+<p name="wf_tbprofiler.Ecoli_stats">
+        <b>wf_tbprofiler.Ecoli_stats</b><br />
+        <i>File?</i><br />
+        Ecoli contamination report from bbduk decontamination task.
 </p>
 <p name="wf_tbprofiler.forwardData">
         <b>wf_tbprofiler.forwardData</b><br />
@@ -484,10 +594,20 @@
         <i>File</i><br />
         Fastqc output zip file for forward reads.
 </p>
-<p name="wf_tbprofiler.interpretation_report">
-        <b>wf_tbprofiler.interpretation_report</b><br />
+<p name="wf_tbprofiler.lab_log">
+        <b>wf_tbprofiler.lab_log</b><br />
         <i>File?</i><br />
-        Output tsv file from variant interpretation.
+        ???
+</p>
+<p name="wf_tbprofiler.lab_report">
+        <b>wf_tbprofiler.lab_report</b><br />
+        <i>File?</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.lims_report">
+        <b>wf_tbprofiler.lims_report</b><br />
+        <i>File?</i><br />
+        ???
 </p>
 <p name="wf_tbprofiler.multiple_metrics_outputs">
         <b>wf_tbprofiler.multiple_metrics_outputs</b><br />
@@ -503,6 +623,11 @@
         <b>wf_tbprofiler.phiX_stats</b><br />
         <i>File?</i><br />
         phiX contamination report from bbduk decontamination task.
+</p>
+<p name="wf_tbprofiler.polyA_stats">
+        <b>wf_tbprofiler.polyA_stats</b><br />
+        <i>File?</i><br />
+        polyA contamination report from bbduk decontamination task.
 </p>
 <p name="wf_tbprofiler.reverseData">
         <b>wf_tbprofiler.reverseData</b><br />

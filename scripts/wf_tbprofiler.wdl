@@ -2,17 +2,26 @@ version 1.0
 
 import "./task_concatenate_fastq.wdl" as concatenate_fastq
 import "./task_fastqc.wdl" as fastqc
+
 import "./task_trimmomatic.wdl" as trimmomatic
+
 import "./task_bbduk.wdl" as bbduk
 import "./wf_clockwork_decontamination.wdl" as cd
+
 import "./task_tbprofiler.wdl" as tbprofiler
+
 import "./task_bcf2vcf.wdl" as bcf2vcf
-import "./task_multiqc.wdl" as multiQC
-import "./task_variant_interpretation.wdl" as vi
+import "./task_snpEff.wdl" as snpEff
+import "./task_concat_2_vcfs.wdl" as concat
+
 import "./task_collect_multiple_metrics.wdl" as bamQC
 import "./task_collect_wgs_metrics.wdl" as wgsQC
 import "./wf_collect_targeted_pcr_metrics.wdl" as tpcrm
 import "./task_depth_of_coverage.wdl" as doc
+
+import "./wf_interpretation.wdl" as vi
+
+import "./task_multiqc.wdl" as multiQC
 
 workflow wf_tbprofiler {
   input {
@@ -20,17 +29,31 @@ workflow wf_tbprofiler {
     Array[File]+ read2
     File reference
     String samplename
+
     Int minNumberReads = 10000
+
     Boolean run_decontamination = true
+
     # clockwork
     Boolean run_clockwork_decontamination = true
     File clockwork_decontamination_metadata
     File clockwork_contaminants
+    
     Boolean run_bamQC = true
+
+    # snpEff
+    File snpEff_data_dir
+    File snpEff_config
+    String genome = "NC_000962.3"
+    String annotated_structural_variants_name = "annotated_structural_variants.vcf"
+    
+    # concat vcfs
+    String output_vcf_name = "concatenated.vcf"
+
     # variant interpretation
     File bed
     File json
-    String? report
+    File lineage_markers
   }
 
   String outputForward = "${samplename}_1.fq.gz"
@@ -88,12 +111,30 @@ workflow wf_tbprofiler {
       read2 = select_first([task_bbduk.read2_clean, task_trimmomatic.read1_trimmed]),
       samplename = samplename
     }
-    
+
+    # structural variants
     call bcf2vcf.task_bcf2vcf {
       input:
       bcf_file = task_tbprofiler.bcf
     }
+    
+    call snpEff.task_snpEff {
+      input:
+      vcf = task_bcf2vcf.vcf_file,
+      genome = genome,
+      config = snpEff_config,
+      dataDir = snpEff_data_dir,
+      outputPath = annotated_structural_variants_name
+    }
 
+    call concat.task_concat_2_vcfs {
+      input:
+      vcf1 = task_tbprofiler.vcf,
+      vcf2 = task_snpEff.outputVcf,
+      output_vcf_name = output_vcf_name
+    }
+
+    # bam QC
     if ( run_bamQC ) {
       call bamQC.task_collect_multiple_metrics {
 	input:
@@ -120,19 +161,16 @@ workflow wf_tbprofiler {
       }
     }
 
-    String the_report = if defined(report) then select_first([report]) else samplename+"_variant_interpretation.tsv"
-    
-    call vi.task_variant_interpretation {
+    call vi.wf_interpretation {
       input:
-      vcf = task_tbprofiler.vcf,
+      vcf = task_concat_2_vcfs.concatenated_vcf,
       bam = task_tbprofiler.bam,
       bai = task_tbprofiler.bai,
       bed = bed,
       json = json,
       samplename = samplename,
-      report = the_report
+      lineage_markers = lineage_markers
     }
-    
   }
   # end filter
   
@@ -165,6 +203,9 @@ workflow wf_tbprofiler {
     # output from bbduk decontamination
     File? phiX_stats = task_bbduk.phiX_stats
     File? adapter_stats = task_bbduk.adapter_stats
+    File? polyA_stats   = task_bbduk.polyA_stats
+    File? Ecoli_stats   = task_bbduk.Ecoli_stats
+    File? Covid19_stats = task_bbduk.Covid19_stats
     # output from clockwork decontamination
     File? clockwork_decontamination_stats = wf_clockwork_decontamination.stats
     # output from fastqc
@@ -181,8 +222,12 @@ workflow wf_tbprofiler {
     Array[File]? depth_of_coverage_outputs = task_depth_of_coverage.outputs
     File? collect_wgs_output_metrics = task_collect_wgs_metrics.collectMetricsOutput
     File? collect_targeted_pcr_metrics = wf_collect_targeted_pcr_metrics.output_metrics
+    # all annotated variants = variant valler + SV caller delly
+    File? concatenated_vcf = task_concat_2_vcfs.concatenated_vcf
     # variant interpretation
-    File? interpretation_report = task_variant_interpretation.interpretation_report
+    File? lab_log = wf_interpretation.lab_log
+    File? lab_report = wf_interpretation.lab_report
+    File? lims_report = wf_interpretation.lims_report
     # multiqc
     File? multiqc_report = task_multiqc.report
   }
@@ -233,6 +278,9 @@ workflow wf_tbprofiler {
     # output
     adapter_stats: {description: "Name file where decontamination procedure writes adapter contamination statistics to."}
     phiX_stats: {description: "phiX contamination report from bbduk decontamination task."}
+    polyA_stats: {description: "polyA contamination report from bbduk decontamination task."}
+    Ecoli_stats: {description: "Ecoli contamination report from bbduk decontamination task."}
+    Covid19_stats: {description: "Covid19 contamination report from bbduk decontamination task."}
 
     bam: {description: "Output alignement file of alignment procedure, aligner is bwa."}
     bai: {description: "Index file for output alignement file of alignment procedure, aligner is bwa."}

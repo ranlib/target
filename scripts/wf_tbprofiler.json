@@ -2,9 +2,10 @@
     "wf_tbprofiler.reference": "/home/dieterbest/Software/TBProfiler/db/tbdb.fasta",
     "wf_tbprofiler.bed": "/home/dieterbest/Software/TBProfiler/db/tbdb.bed",
     "wf_tbprofiler.json": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb.dr.json",
-    "wf_tbprofiler.clockwork_contaminants": "/home/dieterbest/Analysis/varpipe4/tests/clockwork_contaminants.fa.gz",
-    "wf_tbprofiler.clockwork_decontamination_metadata": "/home/dieterbest/Analysis/varpipe4/tests/clockwork_decontamination_metadata.tsv",
+    "wf_tbprofiler.clockwork_contaminants": "/home/dieterbest/Analysis/varpipe4/contamination/clockwork_contaminants.fa.gz",
+    "wf_tbprofiler.clockwork_decontamination_metadata": "/home/dieterbest/Analysis/varpipe4/contamination/clockwork_contaminants_metadata.tsv",
     "wf_tbprofiler.samplename": "ERR552797",
+    "wf_tbprofiler.genome": "Mycobacterium_tuberculosis_h37rv",
     "wf_tbprofiler.read1": [
         "/home/dieterbest/Analysis/varpipe4/data/1_1.fq.gz",
         "/home/dieterbest/Analysis/varpipe4/data/2_1.fq.gz",
@@ -15,6 +16,11 @@
         "/home/dieterbest/Analysis/varpipe4/data/2_2.fq.gz",
         "/home/dieterbest/Analysis/varpipe4/data/3_2.fq.gz"
     ],
-    "wf_tbprofiler.report": "ERR552797_variant_interpretation.tsv"
+    "wf_tbprofiler.lineage_markers": "/home/dieterbest/Analysis/varpipe4/intervals/lineage_markers.txt",
+    "wf_tbprofiler.task_bbduk.memory": "8GB",
+    "wf_tbprofiler.task_bbduk.threads": 1,
+    "wf_tbprofiler.snpEff_data_dir": "/home/dieterbest/Analysis/varpipe4/snpEff_database_tbprofiler/snpEff_tbprofiler.zip",
+    "wf_tbprofiler.snpEff_config": "/home/dieterbest/Analysis/varpipe4/snpEff_database_tbprofiler/snpEff.config"
+
 }
 
