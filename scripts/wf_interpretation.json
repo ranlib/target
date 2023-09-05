@@ -17,6 +17,7 @@
     "wf_interpretation.minimum_total_depth": 0,
     "wf_interpretation.minimum_variant_depth": 0,
     "wf_interpretation.samplename": "ERR552797",
+    "wf_interpretation.snpit_docker": "valleema/snpit:1.1",
     "wf_interpretation.vcf": "/home/dieterbest/Analysis/varpipe4/tests/ERR552797_conda_before/ERR552797_DR_loci_raw_annotation.vcf",
     "wf_interpretation.verbose": false
 }

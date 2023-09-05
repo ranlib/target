@@ -56,11 +56,6 @@
         <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
-<p name="wf_interpretation.interpretation_report">
-        <b>wf_interpretation.interpretation_report</b><br />
-        <i>String &mdash; Default: "variant_interpretation.tsv"</i><br />
-        ???
-</p>
 <p name="wf_interpretation.lims_docker">
         <b>wf_interpretation.lims_docker</b><br />
         <i>String &mdash; Default: "dbest/lims_report:v1.0.0"</i><br />
@@ -86,6 +81,11 @@
         <i>String &mdash; Default: "lineages.tsv"</i><br />
         ???
 </p>
+<p name="wf_interpretation.snpit_docker">
+        <b>wf_interpretation.snpit_docker</b><br />
+        <i>String &mdash; Default: "valleema/snpit:1.1"</i><br />
+        ???
+</p>
 <p name="wf_interpretation.verbose">
         <b>wf_interpretation.verbose</b><br />
         <i>Boolean &mdash; Default: false</i><br />
@@ -108,6 +108,16 @@
         <b>wf_interpretation.lims_report</b><br />
         <i>File</i><br />
         Output tsv file for LIMS.
+</p>
+<p name="wf_interpretation.lineage_report">
+        <b>wf_interpretation.lineage_report</b><br />
+        <i>File</i><br />
+        Output tsv file from lineage.
+</p>
+<p name="wf_interpretation.snpit_log">
+        <b>wf_interpretation.snpit_log</b><br />
+        <i>File</i><br />
+        Output tsv file that captures output to stdout of snpit.
 </p>
 
 <hr />

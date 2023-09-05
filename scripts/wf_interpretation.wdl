@@ -2,6 +2,7 @@ version 1.0
 
 import "./task_variant_interpretation.wdl" as vi
 import "./task_lineage.wdl" as lineage
+import "./task_snpit.wdl" as snpit
 import "./task_lims_report.wdl" as lims
 
 workflow wf_interpretation {
@@ -24,6 +25,7 @@ workflow wf_interpretation {
     File lineage_markers
     String lineage_report_name = "lineages.tsv"
     String lineage_docker = "dbest/lineage:v1.0.0"
+    String snpit_docker = "valleema/snpit:1.1"
     String lims_report_name = "lims_report.tsv"
     String lims_operator = "DB"
     String lims_docker = "dbest/lims_report:v1.0.0"
@@ -57,6 +59,12 @@ workflow wf_interpretation {
     docker = lineage_docker
   }
 
+  call snpit.task_snpit {
+    input:
+    vcf = vcf,
+    docker = snpit_docker
+  }
+
   call lims.task_lims_report {
     input:
     lab_report = task_variant_interpretation.interpretation_report,
@@ -68,8 +76,10 @@ workflow wf_interpretation {
   }
 
   output {
-    File lab_report = task_variant_interpretation.interpretation_report
     File lab_log = task_variant_interpretation.interpretation_log
+    File lab_report = task_variant_interpretation.interpretation_report
+    File snpit_log = task_snpit.output_log
+    File lineage_report = task_lineage.lineage_report
     File lims_report = task_lims_report.lims_report
   }
 
@@ -124,14 +134,16 @@ workflow wf_interpretation {
       description: "if true, only variants with a PASS in the vcf filter columns are considered.",
       category: "optional"
     }
-    report: {
-      description: "name for output tsv file.",
+    interpretation_report: {
+      description: "name for variant interpretation output tsv file",
       category: "optional"
     }
     # output
     lab_report: {description: "Output tsv file of variant interpretation."}
     lab_log: {description: "Output tsv file that captures output to stdout of variant interpretation."}
+    snpit_log: {description: "Output tsv file that captures output to stdout of snpit."}
     lims_report: {description: "Output tsv file for LIMS."}
+    lineage_report: {description: "Output tsv file from lineage."}
   }
   
 }
