@@ -1,0 +1,7 @@
+{
+    "wf_intersect_vcf_bed.vcf": "/home/dieterbest/Analysis/varpipe4/scripts/test-varpipe_wgs/_LAST/out/vcf_structural_variants/structural_variants.vcf",
+    "wf_intersect_vcf_bed.bed": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb.bed",
+    "wf_intersect_vcf_bed.task_intersect_vcf_bed.intersected_vcf": "intersected.vcf",
+    "wf_intersect_vcf_bed.task_intersect_vcf_bed.docker": "staphb/bedtools:2.31.0"
+}
+
