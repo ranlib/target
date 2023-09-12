@@ -19,6 +19,7 @@ import "./task_collect_wgs_metrics.wdl" as wgsQC
 import "./wf_collect_targeted_pcr_metrics.wdl" as tpcrm
 import "./task_depth_of_coverage.wdl" as doc
 
+import "./wf_lineage.wdl" as lineage
 import "./wf_interpretation.wdl" as vi
 
 import "./task_multiqc.wdl" as multiQC
@@ -100,8 +101,8 @@ workflow wf_tbprofiler {
 	reference = clockwork_contaminants,
 	samplename = samplename,
         metadata_file = clockwork_decontamination_metadata,
-	input_reads_1 = task_trimmomatic.read1_trimmed,
-	input_reads_2 = task_trimmomatic.read2_trimmed
+	input_reads_1 = select_first([task_bbduk.read1_clean, task_trimmomatic.read1_trimmed]),
+	input_reads_2 = select_first([task_bbduk.read1_clean, task_trimmomatic.read2_trimmed])
       }
     }
     
@@ -161,6 +162,13 @@ workflow wf_tbprofiler {
       }
     }
 
+    call lineage.wf_lineage {
+      input:
+      vcf = task_tbprofiler.vcf,
+      lineage_markers = lineage_markers,
+      samplename = samplename
+    }
+
     call vi.wf_interpretation {
       input:
       vcf = task_concat_2_vcfs.concatenated_vcf,
@@ -169,8 +177,9 @@ workflow wf_tbprofiler {
       bed = bed,
       json = json,
       samplename = samplename,
-      lineage_markers = lineage_markers
+      lineage_information = wf_lineage.lineage_report
     }
+
   }
   # end filter
   
