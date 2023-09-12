@@ -1,0 +1,5 @@
+{
+    "wf_concatenate_tsv_files.input_files": ["1.tsv","2.tsv"],
+    "wf_concatenate_tsv_files.task_concatenate_tsv_files.output_file_name": "concatenated.tsv"
+}
+
