@@ -1,8 +1,6 @@
 version 1.0
 
 import "./task_variant_interpretation.wdl" as vi
-import "./task_lineage.wdl" as lineage
-import "./task_snpit.wdl" as snpit
 import "./task_lims_report.wdl" as lims
 
 workflow wf_interpretation {
@@ -14,7 +12,7 @@ workflow wf_interpretation {
     File json
     String samplename
     String interpretation_report = "variant_interpretation.tsv"
-    String interpretation_docker = "dbest/variant_interpretation:v1.0.7"
+    String interpretation_docker = "dbest/variant_interpretation:v1.0.8"
     String interpretation_memory = "8GB"
     Boolean filter_variants = false
     Boolean filter_genes = true
@@ -22,13 +20,10 @@ workflow wf_interpretation {
     Int minimum_coverage = 10
     Int minimum_total_depth = 0
     Int minimum_variant_depth = 0
-    File lineage_markers
-    String lineage_report_name = "lineages.tsv"
-    String lineage_docker = "dbest/lineage:v1.0.0"
-    String snpit_docker = "valleema/snpit:1.1"
+    File lineage_information
     String lims_report_name = "lims_report.tsv"
     String lims_operator = "DB"
-    String lims_docker = "dbest/lims_report:v1.0.0"
+    String lims_docker = "dbest/lims_report:v1.0.1"
   }
   
   call vi.task_variant_interpretation {
@@ -50,27 +45,12 @@ workflow wf_interpretation {
     minimum_variant_depth = minimum_variant_depth
   }
 
-  call lineage.task_lineage {
-    input:
-    vcf = vcf,
-    lineage_markers = lineage_markers,
-    lineage_report_name = lineage_report_name,
-    samplename = samplename,
-    docker = lineage_docker
-  }
-
-  call snpit.task_snpit {
-    input:
-    vcf = vcf,
-    docker = snpit_docker
-  }
-
   call lims.task_lims_report {
     input:
     lab_report = task_variant_interpretation.interpretation_report,
     bed_file = bed,
     operator = lims_operator,
-    lineage_report = task_lineage.lineage_report,
+    lineage_report = lineage_information,
     lims_report_name = lims_report_name,
     docker = lims_docker
   }
@@ -78,8 +58,6 @@ workflow wf_interpretation {
   output {
     File lab_log = task_variant_interpretation.interpretation_log
     File lab_report = task_variant_interpretation.interpretation_report
-    File snpit_log = task_snpit.output_log
-    File lineage_report = task_lineage.lineage_report
     File lims_report = task_lims_report.lims_report
   }
 
