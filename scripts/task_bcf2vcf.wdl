@@ -6,10 +6,10 @@ task task_bcf2vcf {
     String docker = "staphb/bcftools:1.17"
   }
 
-  String vcf = "${basename(bcf_file)}.vcf.gz"
+  String vcf = "${basename(bcf_file)}.vcf"
 
   command {
-    bcftools view ${bcf_file} | gzip > ${vcf}
+    bcftools view ${bcf_file} > ${vcf}
   }
 
   output {

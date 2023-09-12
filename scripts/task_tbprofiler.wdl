@@ -31,15 +31,17 @@ task task_tbprofiler {
     --coverage_fraction_threshold ~{cov_frac_threshold} \
     --csv --txt
 
+    gunzip "./vcf/~{samplename}.targets.csq.vcf.gz"
     #Collate results
     #tb-profiler collate --prefix ~{samplename}
   }
   output {
+    File json = "./results/~{samplename}.results.json"
     File csv = "./results/~{samplename}.results.csv"
     File tsv = "./results/~{samplename}.results.txt"
     File bam = "./bam/~{samplename}.bam"
     File bai = "./bam/~{samplename}.bam.bai"
-    File vcf = "./vcf/~{samplename}.targets.csq.vcf.gz"
+    File vcf = "./vcf/~{samplename}.targets.csq.vcf"
     File bcf = "./vcf/~{samplename}.delly.bcf"
   }
   runtime {
