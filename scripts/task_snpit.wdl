@@ -3,7 +3,7 @@ version 1.0
 task task_snpit {
   input {
     File vcf
-    String docker
+    String docker = "valleema/snpit:1.1"
   }
 
   command <<<
