@@ -18,14 +18,19 @@
 <p name="wf_lineage.vcf">
         <b>wf_lineage.vcf</b><br />
         <i>File &mdash; Default: None</i><br />
-        vcf file or compressed vcf file (suffix vcf.gz) output from CDC/London TB profiler pipeline.
+        vcf file or compressed vcf file (suffix vcf.gz)
 </p>
 
 ## Outputs
 <p name="wf_lineage.lineage_report">
         <b>wf_lineage.lineage_report</b><br />
         <i>File</i><br />
-        ???
+        Output tsv file of CDC lineage caller
+</p>
+<p name="wf_lineage.snpit_log">
+        <b>wf_lineage.snpit_log</b><br />
+        <i>File</i><br />
+        Output tsv file of snpit lineage caller
 </p>
 
 <hr />

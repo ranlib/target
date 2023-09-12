@@ -1,6 +1,7 @@
 version 1.0
 
 import "./task_lineage.wdl" as lineage
+import "./task_snpit.wdl" as snpit
 
 workflow wf_lineage {
   input {
@@ -8,7 +9,8 @@ workflow wf_lineage {
     File lineage_markers
     String samplename
     String lineage_report_name = "lineage_report.tsv"
-    String docker = "dbest/lineage:v1.0.0"
+    String lineage_docker = "dbest/lineage:v1.0.0"
+    String snpit_docker = "valleema/snpit:1.1"
   }
 
   call lineage.task_lineage {
@@ -17,11 +19,18 @@ workflow wf_lineage {
     lineage_markers = lineage_markers,
     samplename = samplename,
     lineage_report_name = lineage_report_name,
-    docker = docker
+    docker = lineage_docker
   }
-  
+
+  call snpit.task_snpit {
+    input:
+      vcf = vcf,
+      docker = snpit_docker
+  }
+
   output {
     File lineage_report = task_lineage.lineage_report
+    File snpit_log = task_snpit.output_log
   }
 
   meta {
@@ -32,7 +41,7 @@ workflow wf_lineage {
   
   parameter_meta {
     vcf: {
-      description: "vcf file or compressed vcf file (suffix vcf.gz) output from CDC/London TB profiler pipeline.",
+      description: "vcf file or compressed vcf file (suffix vcf.gz)",
       category: "required"
     }
     samplename: {
@@ -47,14 +56,18 @@ workflow wf_lineage {
       description: "filename for output lineage report",
       category: "optional"
     }
-    docker: {
-      description: "docker image to be used",
+    lineage_docker: {
+      description: "docker image to be used for CDC lineage caller",
+      category: "optional"
+    }
+    snpit_docker: {
+      description: "docker image to be used for snpit lineage caller",
       category: "optional"
     }
     
     # output
-    interpretation_report: {description: "Output tsv file of variant interpretation."}
-    interpretation_log: {description: "Output tsv file that captures output to stdout of variant interpretation."}
+    lineage_report: {description: "Output tsv file of CDC lineage caller"}
+    snpit_log: {description: "Output tsv file of snpit lineage caller"}
   }
 
 }
