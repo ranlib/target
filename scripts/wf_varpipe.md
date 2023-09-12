@@ -453,7 +453,7 @@
 </p>
 <p name="wf_varpipe.wf_interpretation.interpretation_docker">
         <b>wf_varpipe.wf_interpretation.interpretation_docker</b><br />
-        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.6"</i><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.8"</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_interpretation.interpretation_memory">
@@ -461,14 +461,9 @@
         <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
-<p name="wf_varpipe.wf_interpretation.interpretation_report">
-        <b>wf_varpipe.wf_interpretation.interpretation_report</b><br />
-        <i>String &mdash; Default: "variant_interpretation.tsv"</i><br />
-        ???
-</p>
 <p name="wf_varpipe.wf_interpretation.lims_docker">
         <b>wf_varpipe.wf_interpretation.lims_docker</b><br />
-        <i>String &mdash; Default: "dbest/lims_report:v1.0.0"</i><br />
+        <i>String &mdash; Default: "dbest/lims_report:v1.0.1"</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_interpretation.lims_operator">
@@ -479,16 +474,6 @@
 <p name="wf_varpipe.wf_interpretation.lims_report_name">
         <b>wf_varpipe.wf_interpretation.lims_report_name</b><br />
         <i>String &mdash; Default: "lims_report.tsv"</i><br />
-        ???
-</p>
-<p name="wf_varpipe.wf_interpretation.lineage_docker">
-        <b>wf_varpipe.wf_interpretation.lineage_docker</b><br />
-        <i>String &mdash; Default: "dbest/lineage:v1.0.0"</i><br />
-        ???
-</p>
-<p name="wf_varpipe.wf_interpretation.lineage_report_name">
-        <b>wf_varpipe.wf_interpretation.lineage_report_name</b><br />
-        <i>String &mdash; Default: "lineages.tsv"</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_interpretation.verbose">
@@ -607,7 +592,7 @@
 <p name="wf_varpipe.Covid19_stats">
         <b>wf_varpipe.Covid19_stats</b><br />
         <i>File?</i><br />
-        ???
+        Covid19 contamination report from bbduk decontamination task.
 </p>
 <p name="wf_varpipe.depth_of_coverage_outputs">
         <b>wf_varpipe.depth_of_coverage_outputs</b><br />
@@ -632,7 +617,7 @@
 <p name="wf_varpipe.Ecoli_stats">
         <b>wf_varpipe.Ecoli_stats</b><br />
         <i>File?</i><br />
-        ???
+        Ecoli contamination report from bbduk decontamination task.
 </p>
 <p name="wf_varpipe.fastq_screen_html">
         <b>wf_varpipe.fastq_screen_html</b><br />
@@ -744,6 +729,11 @@
         <i>File?</i><br />
         Varpipe lineage report.
 </p>
+<p name="wf_varpipe.lineage_report_cdc">
+        <b>wf_varpipe.lineage_report_cdc</b><br />
+        <i>File?</i><br />
+        ???
+</p>
 <p name="wf_varpipe.log">
         <b>wf_varpipe.log</b><br />
         <i>File?</i><br />
@@ -777,7 +767,7 @@
 <p name="wf_varpipe.polyA_stats">
         <b>wf_varpipe.polyA_stats</b><br />
         <i>File?</i><br />
-        ???
+        polyA contamination report from bbduk decontamination task.
 </p>
 <p name="wf_varpipe.qc_log">
         <b>wf_varpipe.qc_log</b><br />
@@ -831,6 +821,11 @@
 </p>
 <p name="wf_varpipe.snpEff_summary_targets">
         <b>wf_varpipe.snpEff_summary_targets</b><br />
+        <i>File?</i><br />
+        ???
+</p>
+<p name="wf_varpipe.snpit_log">
+        <b>wf_varpipe.snpit_log</b><br />
         <i>File?</i><br />
         ???
 </p>

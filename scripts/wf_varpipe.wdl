@@ -9,6 +9,7 @@ import "./wf_clockwork_decontamination.wdl" as cd
 import "./task_varpipe.wdl" as varpipe
 import "./wf_structural_variants.wdl" as sv
 import "./task_multiqc.wdl" as multiQC
+import "./wf_lineage.wdl" as lineage
 import "./wf_interpretation.wdl" as vi
 import "./task_collect_multiple_metrics.wdl" as bamQC
 import "./task_collect_wgs_metrics.wdl" as wgsQC
@@ -113,8 +114,8 @@ workflow wf_varpipe {
 	reference = clockwork_contaminants,
 	samplename = samplename,
         metadata_file = clockwork_decontamination_metadata,
-	input_reads_1 = task_trimmomatic.read1_trimmed,
-	input_reads_2 = task_trimmomatic.read2_trimmed
+	input_reads_1 = select_first([task_bbduk.read1_clean, task_trimmomatic.read1_trimmed]),
+	input_reads_2 = select_first([task_bbduk.read1_clean, task_trimmomatic.read2_trimmed])
       }
     }
 
@@ -186,6 +187,13 @@ workflow wf_varpipe {
       }
     }
 
+    call lineage.wf_lineage {
+      input:
+      vcf = task_varpipe.DR_loci_raw_annotation,
+      lineage_markers = lineage_markers,
+      samplename = samplename
+    }
+
     if ( run_variant_interpretation ) {
       call vi.wf_interpretation {
 	input:
@@ -195,7 +203,7 @@ workflow wf_varpipe {
 	bed = bed,
 	json = json,
 	samplename = samplename,
-	lineage_markers = lineage_markers
+	lineage_information = wf_lineage.lineage_report
       }
     }
   }
@@ -300,6 +308,9 @@ workflow wf_varpipe {
     File? vcf_structural_variants = wf_structural_variants.vcf_annotated
     # all annotated variants = variant valler + SV caller delly
     File? vcf = task_concat_2_vcfs.concatenated_vcf
+    # lineage
+    File? snpit_log = wf_lineage.snpit_log
+    File? lineage_report_cdc = wf_lineage.lineage_report
     # variant interpretation
     File? lab_log = wf_interpretation.lab_log
     File? lab_report = wf_interpretation.lab_report
