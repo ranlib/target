@@ -7,7 +7,7 @@ task task_lims_report {
     File bed_file
     String lims_report_name
     String operator
-    String docker = "dbest/lims_report:v1.0.0"
+    String docker = "dbest/lims_report:v1.0.1"
   }
 
   command <<<
