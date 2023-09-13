@@ -4,7 +4,6 @@ task task_lims_report {
   input {
     File lab_report
     File? lineage_report
-    File bed_file
     String lims_report_name
     String operator
     String docker = "dbest/lims_report:v1.0.1"
@@ -19,7 +18,7 @@ task task_lims_report {
     fi
 
     lims_report.py \
-    --lab ~{lab_report} --operator ~{operator} --bed ~{bed_file} ${LINEAGE} \
+    --lab ~{lab_report} --operator ~{operator} ${LINEAGE} \
     --lims ~{lims_report_name}
   >>>
 

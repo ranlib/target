@@ -1,7 +1,6 @@
 {
     "wf_lims_report.lineage_report": "/home/dieterbest/Analysis/varpipe4/scripts/test-lineage/_LAST/out/lineage_report/ERR552797_lineages.tsv",
     "wf_lims_report.lab_report": "/home/dieterbest/Analysis/varpipe4/scripts/test-variant_interpretation/_LAST/out/interpretation_report/ERR552797_variant_interpretation.tsv",
-    "wf_lims_report.bed_file": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb.bed",
     "wf_lims_report.operator": "DB",
     "wf_lims_report.lims_report_name": "lims.tsv"
 }
