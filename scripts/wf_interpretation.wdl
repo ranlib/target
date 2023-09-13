@@ -48,7 +48,6 @@ workflow wf_interpretation {
   call lims.task_lims_report {
     input:
     lab_report = task_variant_interpretation.interpretation_report,
-    bed_file = bed,
     operator = lims_operator,
     lineage_report = lineage_information,
     lims_report_name = lims_report_name,
