@@ -43,7 +43,7 @@
 <summary> Show/Hide </summary>
 <p name="wf_variant_interpretation.docker">
         <b>wf_variant_interpretation.docker</b><br />
-        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.6"</i><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.8"</i><br />
         ???
 </p>
 <p name="wf_variant_interpretation.memory">
