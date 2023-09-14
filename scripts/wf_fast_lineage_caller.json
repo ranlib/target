@@ -1,0 +1,8 @@
+{
+  "wf_fast_lineage_caller.task_fast_lineage_caller.docker": "dbest/fast_lineage_caller:v1.0.0",
+  "wf_fast_lineage_caller.output_directory": ".",
+  "wf_fast_lineage_caller.input_vcfs": [
+    "/home/dieterbest/Analysis/varpipe4/tests/ERR552797_conda_before/ERR552797_DR_loci_raw_annotation.vcf",
+    "/home/dieterbest/Analysis/varpipe4/tests/ERR552797_conda_before/ERR552797_DR_loci_raw_annotation.vcf"
+  ]
+}
