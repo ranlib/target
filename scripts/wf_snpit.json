@@ -1,4 +1,4 @@
 {
-    "wf_snpit.vcf": "/home/dieterbest/Analysis/varpipe4/tests/ERR552797_conda_before/ERR552797_DR_loci_raw_annotation.vcf",
+    "wf_snpit.vcfs": ["/home/dieterbest/Analysis/varpipe4/tests/ERR552797_conda_before/ERR552797_DR_loci_raw_annotation.vcf"],
     "wf_snpit.docker": "valleema/snpit:1.1"
 }
