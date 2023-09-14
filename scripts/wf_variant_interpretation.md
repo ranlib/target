@@ -46,6 +46,11 @@
         <i>String &mdash; Default: "dbest/variant_interpretation:v1.0.8"</i><br />
         ???
 </p>
+<p name="wf_variant_interpretation.filtered_vcf">
+        <b>wf_variant_interpretation.filtered_vcf</b><br />
+        <i>String &mdash; Default: "filtered_vcf.vcf"</i><br />
+        ???
+</p>
 <p name="wf_variant_interpretation.memory">
         <b>wf_variant_interpretation.memory</b><br />
         <i>String &mdash; Default: "8GB"</i><br />
