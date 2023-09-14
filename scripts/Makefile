@@ -55,6 +55,16 @@ snpit:
 	java -jar ~/Software/womtool-85.jar validate --inputs wf_snpit.json wf_snpit.wdl
 	miniwdl check wf_snpit.wdl
 
+run_snpit:
+	miniwdl run --debug --dir test-snpit --cfg ../miniwdl_production.cfg --input wf_snpit.json wf_snpit.wdl
+
+fast_lineage_caller:
+	java -jar ~/Software/womtool-85.jar validate --inputs wf_fast_lineage_caller.json wf_fast_lineage_caller.wdl
+	miniwdl check wf_fast_lineage_caller.wdl
+
+run_fast_lineage_caller:
+	miniwdl run --debug --dir test-fast_lineage_caller --cfg ../miniwdl_production.cfg --input wf_fast_lineage_caller.json wf_fast_lineage_caller.wdl
+
 bcf2vcf:
 	java -jar ~/Software/womtool-85.jar validate --inputs wf_bcf2vcf.json wf_bcf2vcf.wdl
 	miniwdl check wf_bcf2vcf.wdl
