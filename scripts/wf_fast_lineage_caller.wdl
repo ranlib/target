@@ -1,6 +1,7 @@
 version 1.0
 
 import "./task_fast_lineage_caller.wdl" as flc
+import "./task_concatenate_tsv_files.wdl" as concat_tsv
 
 workflow wf_fast_lineage_caller {
   input {
@@ -16,8 +17,14 @@ workflow wf_fast_lineage_caller {
     }
   }
 
+  call concat_tsv.task_concatenate_tsv_files {
+    input: 
+    input_files = task_fast_lineage_caller.results_tsv
+  }
+
   output {
     Array[File] result_files = task_fast_lineage_caller.results_tsv
     Array[String] lineage_types = task_fast_lineage_caller.lineage_type
+    File? tsv = task_concatenate_tsv_files.tsv
   }
 }
