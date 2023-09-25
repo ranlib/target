@@ -7,8 +7,8 @@ task task_bbduk {
     File? contamination
     String samplename
     String docker = "staphb/bbtools:39.01"
-    String memory = "32GB"
-    Boolean keep = false
+    String memory = "8GB"
+    Boolean keep = true
     Int threads = 1
   }
 
