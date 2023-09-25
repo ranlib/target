@@ -12,7 +12,7 @@ workflow wf_interpretation {
     File json
     String samplename
     String interpretation_report = "variant_interpretation.tsv"
-    String interpretation_docker = "dbest/variant_interpretation:v1.0.8"
+    String interpretation_docker = "dbest/variant_interpretation:v1.2.0"
     String interpretation_memory = "8GB"
     Boolean filter_variants = false
     Boolean filter_genes = true
@@ -23,7 +23,7 @@ workflow wf_interpretation {
     File lineage_information
     String lims_report_name = "lims_report.tsv"
     String lims_operator = "DB"
-    String lims_docker = "dbest/lims_report:v1.0.1"
+    String lims_docker = "dbest/lims_report:v1.0.2"
   }
   
   call vi.task_variant_interpretation {
