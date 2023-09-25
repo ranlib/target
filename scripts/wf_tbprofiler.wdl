@@ -2,6 +2,7 @@ version 1.0
 
 import "./task_concatenate_fastq.wdl" as concatenate_fastq
 import "./task_fastqc.wdl" as fastqc
+import "./task_fastq_screen.wdl" as fastq_screen
 
 import "./task_trimmomatic.wdl" as trimmomatic
 
@@ -31,6 +32,11 @@ workflow wf_tbprofiler {
     File reference
     String samplename
 
+    # fastq_screen
+    Boolean run_fastq_screen = true
+    File fastq_screen_configuration
+    File fastq_screen_contaminants
+
     Int minNumberReads = 10000
 
     Boolean run_decontamination = true
@@ -45,7 +51,7 @@ workflow wf_tbprofiler {
     # snpEff
     File snpEff_data_dir
     File snpEff_config
-    String genome = "NC_000962.3"
+    String genome = "Mycobacterium_tuberculosis_h37rv"
     String annotated_structural_variants_name = "annotated_structural_variants.vcf"
     
     # concat vcfs
@@ -67,6 +73,16 @@ workflow wf_tbprofiler {
       outputForward = outputForward,
       outputReverse = outputReverse
   }
+
+  if ( run_fastq_screen ) {
+    call fastq_screen.task_fastq_screen {
+      input:
+      reads = task_concatenate_fastq.concatenatedForwardFastq,
+      configuration = fastq_screen_configuration,
+      contaminants = fastq_screen_contaminants
+      
+    }
+  } 
 
   call fastqc.task_fastqc {
     input:
@@ -171,7 +187,7 @@ workflow wf_tbprofiler {
 
     call vi.wf_interpretation {
       input:
-      vcf = task_concat_2_vcfs.concatenated_vcf,
+      vcf = select_first([task_concat_2_vcfs.concatenated_vcf, task_tbprofiler.vcf]),
       bam = task_tbprofiler.bam,
       bai = task_tbprofiler.bai,
       bed = bed,
@@ -233,6 +249,8 @@ workflow wf_tbprofiler {
     File? collect_targeted_pcr_metrics = wf_collect_targeted_pcr_metrics.output_metrics
     # all annotated variants = variant valler + SV caller delly
     File? concatenated_vcf = task_concat_2_vcfs.concatenated_vcf
+    # lineage
+    File? lineage_report = wf_lineage.lineage_report
     # variant interpretation
     File? lab_log = wf_interpretation.lab_log
     File? lab_report = wf_interpretation.lab_report
