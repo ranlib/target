@@ -3,7 +3,7 @@
     "wf_variant_interpretation.bam": "/home/dieterbest/Analysis/varpipe4/tests/ERR552797_conda_before/ERR552797_sdrcsm.bam",
     "wf_variant_interpretation.bed": "/home/dieterbest/Analysis/varpipe4/intervals/cdc_regions.bed",
     "wf_variant_interpretation.json": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb.dr.json",
-    "wf_variant_interpretation.report": "ERR552797_variant_interpretation.tsv",
+    "wf_variant_interpretation.report": "ERR552797_variant_interpretation.csv",
     "wf_variant_interpretation.samplename": "ERR552797",
     "wf_variant_interpretation.filter_genes": true,
     "wf_variant_interpretation.filter_variants": true,
