@@ -18,7 +18,7 @@ workflow wf_gatk {
     Float min_allele_fraction
     String javaXmx = "8G"
     String memory = "9G"
-    String dockerImage = "broadinstitute/gatk:4.4.0.0"
+    String dockerImage = "broadinstitute/gatk:4.2.6.1"
   }
 
   call gatk.Mutect2 {
