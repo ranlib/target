@@ -4,7 +4,7 @@ task task_concatenate_tsv_files {
   input {
     Array[File] input_files
     String output_file_name = "concatenated.tsv"
-    String docker = "dbest/lims_report:v1.0.2"
+    String docker = "dbest/lims_report:v1.0.3"
   }
 
   command <<<
