@@ -12,7 +12,7 @@ workflow wf_interpretation {
     File json
     String samplename
     String interpretation_report = "variant_interpretation.tsv"
-    String interpretation_docker = "dbest/variant_interpretation:v1.2.0"
+    String interpretation_docker = "dbest/variant_interpretation:v1.2.1"
     String interpretation_memory = "8GB"
     Boolean filter_variants = false
     Boolean filter_genes = true

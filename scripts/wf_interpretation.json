@@ -3,7 +3,7 @@
     "wf_interpretation.bam": "/home/dieterbest/Analysis/varpipe4/tests/ERR552797_conda_before/ERR552797_sdrcsm.bam",
     "wf_interpretation.bed": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb.bed",
     "wf_interpretation.filter_genes": false,
-    "wf_interpretation.interpretation_docker": "dbest/variant_interpretation:v1.2.0",
+    "wf_interpretation.interpretation_docker": "dbest/variant_interpretation:v1.2.1",
     "wf_interpretation.interpretation_memory": "8GB",
     "wf_interpretation.interpretation_report": "variant_interpretation.csv",
     "wf_interpretation.json": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb.dr.json",
