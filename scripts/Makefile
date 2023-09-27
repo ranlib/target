@@ -1,5 +1,18 @@
 all: tbprofiler varpipe fastqc bbduk bbduk_no_contamination clockwork_decontamination trimmomatic multiqc concatenate_fastq collect_multiple_metrics collect_targeted_pcr_metrics collect_hs_metrics depth_of_coverage delly mark_duplicates variant_interpretation
 
+minimap2:
+	java -jar ~/Software/womtool-85.jar validate --inputs wf_minimap2.json wf_minimap2.wdl
+	miniwdl check wf_minimap2.wdl
+
+run_minimap2:
+	miniwdl run --debug --dir test-minimap2 --input wf_minimap2.json wf_minimap2.wdl
+bwa:
+	java -jar ~/Software/womtool-85.jar validate --inputs wf_bwa.json wf_bwa.wdl
+	miniwdl check wf_bwa.wdl
+
+run_bwa:
+	miniwdl run --debug --dir test-bwa --input wf_bwa.json wf_bwa.wdl
+
 ngs_pipeline:
 	java -jar ~/Software/womtool-85.jar validate --inputs wf_ngs_pipeline.json wf_ngs_pipeline.wdl
 	miniwdl check wf_ngs_pipeline.wdl
@@ -200,6 +213,9 @@ run_interpretation_no_lineage:
 run_variant_interpretation:
 	miniwdl run --debug --dir test-variant_interpretation --input wf_variant_interpretation.json wf_variant_interpretation.wdl
 
+run_variant_interpretation_London:
+	miniwdl run --debug --dir test-variant_interpretation_London --input wf_variant_interpretation_London.json wf_variant_interpretation.wdl
+
 gatk:
 	java -jar ~/Software/womtool-85.jar validate --inputs wf_gatk.json wf_gatk.wdl
 	miniwdl check wf_gatk.wdl
@@ -224,6 +240,13 @@ concat_2_vcfs:
 
 run_concat_2_vcfs:
 	miniwdl run --debug --dir test-concat_2_vcfs wf_concat_2_vcfs.wdl -i wf_concat_2_vcfs.json
+
+concatenate_csv:
+	java -jar ~/Software/womtool-85.jar validate --inputs wf_concatenate_csv_files.json wf_concatenate_csv_files.wdl
+	miniwdl check wf_concatenate_csv_files.wdl
+
+run_concatenate_csv:
+	miniwdl run --debug --dir test-concatenate_csv wf_concatenate_csv_files.wdl -i wf_concatenate_csv_files.json
 
 split:
 	fastqsplitter -i ../data/ERR552797_30percent_1.fq.gz -o ../data/1_1.fq.gz -o ../data/2_1.fq.gz -o ../data/3_1.fq.gz
