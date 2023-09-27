@@ -21,7 +21,7 @@
     "wf_varpipe.run_delly": true,
     "wf_varpipe.run_fastqc_after_cleanup": true,
     "wf_varpipe.run_fastq_screen": true,
-    "wf_varpipe.run_variant_interpretation": false,
+    "wf_varpipe.run_variant_interpretation": true,
     "wf_varpipe.samplename": "ERR552797",
     "wf_varpipe.snpEff_data_dir": "/home/dieterbest/Analysis/varpipe4/snpEff_database/snpEff.zip",
     "wf_varpipe.snpEff_config": "/home/dieterbest/Analysis/varpipe4/snpEff_database/snpEff.config",
