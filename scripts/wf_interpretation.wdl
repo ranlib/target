@@ -23,7 +23,7 @@ workflow wf_interpretation {
     File lineage_information
     String lims_report_name = "lims_report.tsv"
     String lims_operator = "DB"
-    String lims_docker = "dbest/lims_report:v1.0.2"
+    String lims_docker = "dbest/lims_report:v1.0.3"
   }
   
   call vi.task_variant_interpretation {

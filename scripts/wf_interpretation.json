@@ -7,7 +7,7 @@
     "wf_interpretation.interpretation_memory": "8GB",
     "wf_interpretation.interpretation_report": "variant_interpretation.csv",
     "wf_interpretation.json": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb.dr.json",
-    "wf_interpretation.lims_docker": "dbest/lims_report:v1.0.2",
+    "wf_interpretation.lims_docker": "dbest/lims_report:v1.0.3",
     "wf_interpretation.lims_report_name": "lims_report.csv",
     "wf_interpretation.lims_operator": "DB",
     "wf_interpretation.lineage_information": "/home/dieterbest/Analysis/varpipe4/scripts/test-lineage/_LAST/out/lineage_report/ERR552797_lineages.tsv",
