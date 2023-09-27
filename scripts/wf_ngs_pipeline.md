@@ -547,7 +547,7 @@
 </p>
 <p name="wf_ngs_pipeline.wf_gatk.dockerImage">
         <b>wf_ngs_pipeline.wf_gatk.dockerImage</b><br />
-        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        <i>String &mdash; Default: "broadinstitute/gatk:4.2.6.1"</i><br />
         ???
 </p>
 <p name="wf_ngs_pipeline.wf_gatk.javaXmx">

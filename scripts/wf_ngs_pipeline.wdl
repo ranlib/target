@@ -160,15 +160,24 @@ workflow wf_ngs_pipeline {
     intervals = intervals
   }
 
+  #task_snpEff.snpEff_summary_full,
+  #task_snpEff.snpEff_summary_targets,
   Array[File] allReports = flatten([
   select_all([
-  task_trimmomatic.trim_err,
   task_fastqc.forwardData,
   task_fastqc.reverseData,
+  task_fastq_screen.txt,
+  task_trimmomatic.trim_err,
   task_bbduk.adapter_stats,
   task_bbduk.phiX_stats,
+  task_bbduk.polyA_stats,
+  task_bbduk.Ecoli_stats,
+  task_bbduk.Covid19_stats,
   task_collect_wgs_metrics.collectMetricsOutput,
-  wf_collect_targeted_pcr_metrics.output_metrics ]),
+  wf_collect_targeted_pcr_metrics.output_metrics,
+  wf_collect_targeted_pcr_metrics.sensitivity_metrics,
+  wf_collect_targeted_pcr_metrics.target_coverage
+  ]),
   flatten(select_all([task_collect_multiple_metrics.collectMetricsOutput,[]]))
   ])
   if ( length(allReports) > 0 ) {
