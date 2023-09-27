@@ -1,6 +1,8 @@
 {
     "wf_ngs_pipeline.read1": ["/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz"],
     "wf_ngs_pipeline.read2": ["/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz"],
+    "wf_ngs_pipeline.fastq_screen_configuration": "/home/dieterbest/Analysis/varpipe4/configuration/fastq_screen.config",
+    "wf_ngs_pipeline.fastq_screen_contaminants": "/home/dieterbest/Analysis/varpipe4/contamination/fastq_screen_contamination.tar.gz",
     "wf_ngs_pipeline.samplename": "ERR552797",
     "wf_ngs_pipeline.genbankFile": "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.gb",
     "wf_ngs_pipeline.intervals": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb_intervals.bed",
@@ -9,7 +11,7 @@
     "wf_ngs_pipeline.min_median_read_position": 1,
     "wf_ngs_pipeline.min_allele_fraction": 0.01,
     "wf_ngs_pipeline.genome": "NC_000962.3",
-    "wf_ngs_pipeline.dataDir": "/home/dieterbest/Analysis/varpipe4/tests/snpEff.zip",
-    "wf_ngs_pipeline.config": "/home/dieterbest/Analysis/varpipe4/tests/snpEff.config"
+    "wf_ngs_pipeline.dataDir": "/home/dieterbest/Analysis/varpipe4/snpEff_database/snpEff.zip",
+    "wf_ngs_pipeline.config": "/home/dieterbest/Analysis/varpipe4/snpEff_database/snpEff.config"
 }
 

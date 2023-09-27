@@ -14,6 +14,16 @@
         <i>File &mdash; Default: None</i><br />
         ???
 </p>
+<p name="wf_ngs_pipeline.fastq_screen_configuration">
+        <b>wf_ngs_pipeline.fastq_screen_configuration</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.fastq_screen_contaminants">
+        <b>wf_ngs_pipeline.fastq_screen_contaminants</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
+</p>
 <p name="wf_ngs_pipeline.genbankFile">
         <b>wf_ngs_pipeline.genbankFile</b><br />
         <i>File &mdash; Default: None</i><br />
@@ -61,110 +71,20 @@
 </p>
 
 ### Other common inputs
-<p name="wf_ngs_pipeline.Mapping.howToFindGTAG">
-        <b>wf_ngs_pipeline.Mapping.howToFindGTAG</b><br />
-        <i>String? &mdash; Default: None</i><br />
-        How to find GT-AG. f:transcript strand, b:both strands, n:don't match GT-AG.
-</p>
 <p name="wf_ngs_pipeline.task_delly.svType">
         <b>wf_ngs_pipeline.task_delly.svType</b><br />
         <i>String &mdash; Default: "DEL"</i><br />
         Type of structural variant to look for.
 </p>
+<p name="wf_ngs_pipeline.wf_minimap2.Mapping.howToFindGTAG">
+        <b>wf_ngs_pipeline.wf_minimap2.Mapping.howToFindGTAG</b><br />
+        <i>String? &mdash; Default: None</i><br />
+        How to find GT-AG. f:transcript strand, b:both strands, n:don't match GT-AG.
+</p>
 
 ### Advanced inputs
 <details>
 <summary> Show/Hide </summary>
-<p name="wf_ngs_pipeline.Indexing.dockerImage">
-        <b>wf_ngs_pipeline.Indexing.dockerImage</b><br />
-        <i>String &mdash; Default: "staphb/minimap2:2.25"</i><br />
-        The docker image used for this task. Changing this may result in errors which the developers may choose not to address.
-</p>
-<p name="wf_ngs_pipeline.Indexing.kmerSize">
-        <b>wf_ngs_pipeline.Indexing.kmerSize</b><br />
-        <i>Int &mdash; Default: 15</i><br />
-        K-mer size (no larger than 28).
-</p>
-<p name="wf_ngs_pipeline.Indexing.memory">
-        <b>wf_ngs_pipeline.Indexing.memory</b><br />
-        <i>String &mdash; Default: "4G"</i><br />
-        The amount of memory available to the job.
-</p>
-<p name="wf_ngs_pipeline.Indexing.minimizerWindowSize">
-        <b>wf_ngs_pipeline.Indexing.minimizerWindowSize</b><br />
-        <i>Int &mdash; Default: 10</i><br />
-        Minimizer window size.
-</p>
-<p name="wf_ngs_pipeline.Indexing.splitIndex">
-        <b>wf_ngs_pipeline.Indexing.splitIndex</b><br />
-        <i>Int? &mdash; Default: None</i><br />
-        Split index for every ~NUM input bases.
-</p>
-<p name="wf_ngs_pipeline.Indexing.timeMinutes">
-        <b>wf_ngs_pipeline.Indexing.timeMinutes</b><br />
-        <i>Int &mdash; Default: 10</i><br />
-        The maximum amount of time the job will run in minutes.
-</p>
-<p name="wf_ngs_pipeline.Indexing.useHomopolymerCompressedKmer">
-        <b>wf_ngs_pipeline.Indexing.useHomopolymerCompressedKmer</b><br />
-        <i>Boolean &mdash; Default: false</i><br />
-        Use homopolymer-compressed k-mer (preferrable for pacbio).
-</p>
-<p name="wf_ngs_pipeline.Mapping.dockerImage">
-        <b>wf_ngs_pipeline.Mapping.dockerImage</b><br />
-        <i>String &mdash; Default: "staphb/minimap2:2.25"</i><br />
-        The docker image used for this task. Changing this may result in errors which the developers may choose not to address.
-</p>
-<p name="wf_ngs_pipeline.Mapping.kmerSize">
-        <b>wf_ngs_pipeline.Mapping.kmerSize</b><br />
-        <i>Int &mdash; Default: 15</i><br />
-        K-mer size (no larger than 28).
-</p>
-<p name="wf_ngs_pipeline.Mapping.matchingScore">
-        <b>wf_ngs_pipeline.Mapping.matchingScore</b><br />
-        <i>Int? &mdash; Default: None</i><br />
-        Matching score.
-</p>
-<p name="wf_ngs_pipeline.Mapping.maxFragmentLength">
-        <b>wf_ngs_pipeline.Mapping.maxFragmentLength</b><br />
-        <i>Int? &mdash; Default: None</i><br />
-        Max fragment length (effective with -xsr or in the fragment mode).
-</p>
-<p name="wf_ngs_pipeline.Mapping.maxIntronLength">
-        <b>wf_ngs_pipeline.Mapping.maxIntronLength</b><br />
-        <i>Int? &mdash; Default: None</i><br />
-        Max intron length (effective with -xsplice; changing -r).
-</p>
-<p name="wf_ngs_pipeline.Mapping.memory">
-        <b>wf_ngs_pipeline.Mapping.memory</b><br />
-        <i>String &mdash; Default: "30G"</i><br />
-        The amount of memory available to the job.
-</p>
-<p name="wf_ngs_pipeline.Mapping.mismatchPenalty">
-        <b>wf_ngs_pipeline.Mapping.mismatchPenalty</b><br />
-        <i>Int? &mdash; Default: None</i><br />
-        Mismatch penalty.
-</p>
-<p name="wf_ngs_pipeline.Mapping.retainMaxSecondaryAlignments">
-        <b>wf_ngs_pipeline.Mapping.retainMaxSecondaryAlignments</b><br />
-        <i>Int? &mdash; Default: None</i><br />
-        Retain at most N secondary alignments.
-</p>
-<p name="wf_ngs_pipeline.Mapping.secondaryAlignment">
-        <b>wf_ngs_pipeline.Mapping.secondaryAlignment</b><br />
-        <i>Boolean &mdash; Default: false</i><br />
-        Whether to output secondary alignments.
-</p>
-<p name="wf_ngs_pipeline.Mapping.skipSelfAndDualMappings">
-        <b>wf_ngs_pipeline.Mapping.skipSelfAndDualMappings</b><br />
-        <i>Boolean &mdash; Default: false</i><br />
-        Skip self and dual mappings (for the all-vs-all mode).
-</p>
-<p name="wf_ngs_pipeline.Mapping.timeMinutes">
-        <b>wf_ngs_pipeline.Mapping.timeMinutes</b><br />
-        <i>Int &mdash; Default: 1 + ceil((size(queryFile1,"G") * 200 / cores))</i><br />
-        The maximum amount of time the job will run in minutes.
-</p>
 <p name="wf_ngs_pipeline.task_delly.docker">
         <b>wf_ngs_pipeline.task_delly.docker</b><br />
         <i>String &mdash; Default: "dbest/delly:v1.0.0"</i><br />
@@ -175,79 +95,114 @@
         <i>String &mdash; Default: "32GB"</i><br />
         The memory required to run the programs.
 </p>
+<p name="wf_ngs_pipeline.task_fastqc.docker">
+        <b>wf_ngs_pipeline.task_fastqc.docker</b><br />
+        <i>String &mdash; Default: "staphb/fastqc:0.12.1"</i><br />
+        The docker image used for this task.
+</p>
+<p name="wf_ngs_pipeline.task_fastqc.memory">
+        <b>wf_ngs_pipeline.task_fastqc.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
+        The amount of memory this job will use.
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Indexing.dockerImage">
+        <b>wf_ngs_pipeline.wf_minimap2.Indexing.dockerImage</b><br />
+        <i>String &mdash; Default: "staphb/minimap2:2.25"</i><br />
+        The docker image used for this task. Changing this may result in errors which the developers may choose not to address.
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Indexing.kmerSize">
+        <b>wf_ngs_pipeline.wf_minimap2.Indexing.kmerSize</b><br />
+        <i>Int &mdash; Default: 15</i><br />
+        K-mer size (no larger than 28).
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Indexing.memory">
+        <b>wf_ngs_pipeline.wf_minimap2.Indexing.memory</b><br />
+        <i>String &mdash; Default: "4G"</i><br />
+        The amount of memory available to the job.
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Indexing.minimizerWindowSize">
+        <b>wf_ngs_pipeline.wf_minimap2.Indexing.minimizerWindowSize</b><br />
+        <i>Int &mdash; Default: 10</i><br />
+        Minimizer window size.
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Indexing.splitIndex">
+        <b>wf_ngs_pipeline.wf_minimap2.Indexing.splitIndex</b><br />
+        <i>Int? &mdash; Default: None</i><br />
+        Split index for every ~NUM input bases.
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Indexing.timeMinutes">
+        <b>wf_ngs_pipeline.wf_minimap2.Indexing.timeMinutes</b><br />
+        <i>Int &mdash; Default: 10</i><br />
+        The maximum amount of time the job will run in minutes.
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Indexing.useHomopolymerCompressedKmer">
+        <b>wf_ngs_pipeline.wf_minimap2.Indexing.useHomopolymerCompressedKmer</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        Use homopolymer-compressed k-mer (preferrable for pacbio).
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Mapping.dockerImage">
+        <b>wf_ngs_pipeline.wf_minimap2.Mapping.dockerImage</b><br />
+        <i>String &mdash; Default: "staphb/minimap2:2.25"</i><br />
+        The docker image used for this task. Changing this may result in errors which the developers may choose not to address.
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Mapping.kmerSize">
+        <b>wf_ngs_pipeline.wf_minimap2.Mapping.kmerSize</b><br />
+        <i>Int &mdash; Default: 15</i><br />
+        K-mer size (no larger than 28).
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Mapping.matchingScore">
+        <b>wf_ngs_pipeline.wf_minimap2.Mapping.matchingScore</b><br />
+        <i>Int? &mdash; Default: None</i><br />
+        Matching score.
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Mapping.maxFragmentLength">
+        <b>wf_ngs_pipeline.wf_minimap2.Mapping.maxFragmentLength</b><br />
+        <i>Int? &mdash; Default: None</i><br />
+        Max fragment length (effective with -xsr or in the fragment mode).
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Mapping.maxIntronLength">
+        <b>wf_ngs_pipeline.wf_minimap2.Mapping.maxIntronLength</b><br />
+        <i>Int? &mdash; Default: None</i><br />
+        Max intron length (effective with -xsplice; changing -r).
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Mapping.memory">
+        <b>wf_ngs_pipeline.wf_minimap2.Mapping.memory</b><br />
+        <i>String &mdash; Default: "30G"</i><br />
+        The amount of memory available to the job.
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Mapping.mismatchPenalty">
+        <b>wf_ngs_pipeline.wf_minimap2.Mapping.mismatchPenalty</b><br />
+        <i>Int? &mdash; Default: None</i><br />
+        Mismatch penalty.
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Mapping.retainMaxSecondaryAlignments">
+        <b>wf_ngs_pipeline.wf_minimap2.Mapping.retainMaxSecondaryAlignments</b><br />
+        <i>Int? &mdash; Default: None</i><br />
+        Retain at most N secondary alignments.
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Mapping.secondaryAlignment">
+        <b>wf_ngs_pipeline.wf_minimap2.Mapping.secondaryAlignment</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        Whether to output secondary alignments.
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Mapping.skipSelfAndDualMappings">
+        <b>wf_ngs_pipeline.wf_minimap2.Mapping.skipSelfAndDualMappings</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        Skip self and dual mappings (for the all-vs-all mode).
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Mapping.timeMinutes">
+        <b>wf_ngs_pipeline.wf_minimap2.Mapping.timeMinutes</b><br />
+        <i>Int &mdash; Default: 1 + ceil((size(queryFile1,"G") * 200 / cores))</i><br />
+        The maximum amount of time the job will run in minutes.
+</p>
 </details>
 
 ### Other inputs
 <details>
 <summary> Show/Hide </summary>
-<p name="wf_ngs_pipeline.Mapping.softClippingForSupplementaryAlignments">
-        <b>wf_ngs_pipeline.Mapping.softClippingForSupplementaryAlignments</b><br />
-        <i>Boolean &mdash; Default: true</i><br />
-        ???
-</p>
-<p name="wf_ngs_pipeline.Mapping.writeLongCigar">
-        <b>wf_ngs_pipeline.Mapping.writeLongCigar</b><br />
-        <i>Boolean &mdash; Default: true</i><br />
-        ???
-</p>
-<p name="wf_ngs_pipeline.run_bamQC">
-        <b>wf_ngs_pipeline.run_bamQC</b><br />
-        <i>Boolean &mdash; Default: true</i><br />
-        ???
-</p>
-<p name="wf_ngs_pipeline.run_delly">
-        <b>wf_ngs_pipeline.run_delly</b><br />
-        <i>Boolean &mdash; Default: true</i><br />
-        ???
-</p>
-<p name="wf_ngs_pipeline.SnpEff.dockerImage">
-        <b>wf_ngs_pipeline.SnpEff.dockerImage</b><br />
-        <i>String &mdash; Default: "quay.io/biocontainers/snpeff:5.1d--hdfd78af_0"</i><br />
-        ???
-</p>
-<p name="wf_ngs_pipeline.SnpEff.hgvs">
-        <b>wf_ngs_pipeline.SnpEff.hgvs</b><br />
-        <i>Boolean &mdash; Default: true</i><br />
-        ???
-</p>
-<p name="wf_ngs_pipeline.SnpEff.javaXmx">
-        <b>wf_ngs_pipeline.SnpEff.javaXmx</b><br />
-        <i>String &mdash; Default: "8G"</i><br />
-        ???
-</p>
-<p name="wf_ngs_pipeline.SnpEff.lof">
-        <b>wf_ngs_pipeline.SnpEff.lof</b><br />
-        <i>Boolean &mdash; Default: true</i><br />
-        ???
-</p>
-<p name="wf_ngs_pipeline.SnpEff.memory">
-        <b>wf_ngs_pipeline.SnpEff.memory</b><br />
-        <i>String &mdash; Default: "9G"</i><br />
-        ???
-</p>
-<p name="wf_ngs_pipeline.SnpEff.noDownstream">
-        <b>wf_ngs_pipeline.SnpEff.noDownstream</b><br />
-        <i>Boolean &mdash; Default: false</i><br />
-        ???
-</p>
-<p name="wf_ngs_pipeline.SnpEff.noIntergenic">
-        <b>wf_ngs_pipeline.SnpEff.noIntergenic</b><br />
-        <i>Boolean &mdash; Default: false</i><br />
-        ???
-</p>
-<p name="wf_ngs_pipeline.SnpEff.noShiftHgvs">
-        <b>wf_ngs_pipeline.SnpEff.noShiftHgvs</b><br />
-        <i>Boolean &mdash; Default: false</i><br />
-        ???
-</p>
-<p name="wf_ngs_pipeline.SnpEff.outputPath">
-        <b>wf_ngs_pipeline.SnpEff.outputPath</b><br />
-        <i>String &mdash; Default: "./snpeff.vcf"</i><br />
-        ???
-</p>
-<p name="wf_ngs_pipeline.SnpEff.upDownStreamLen">
-        <b>wf_ngs_pipeline.SnpEff.upDownStreamLen</b><br />
-        <i>Int? &mdash; Default: None</i><br />
+<p name="wf_ngs_pipeline.output_vcf_name">
+        <b>wf_ngs_pipeline.output_vcf_name</b><br />
+        <i>String &mdash; Default: "all_variants.vcf"</i><br />
         ???
 </p>
 <p name="wf_ngs_pipeline.task_bbduk.contamination">
@@ -258,6 +213,11 @@
 <p name="wf_ngs_pipeline.task_bbduk.docker">
         <b>wf_ngs_pipeline.task_bbduk.docker</b><br />
         <i>String &mdash; Default: "staphb/bbtools:39.01"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_bbduk.keep">
+        <b>wf_ngs_pipeline.task_bbduk.keep</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
         ???
 </p>
 <p name="wf_ngs_pipeline.task_bbduk.memory">
@@ -340,6 +300,11 @@
         <i>Boolean &mdash; Default: true</i><br />
         ???
 </p>
+<p name="wf_ngs_pipeline.task_concat_2_vcfs.docker">
+        <b>wf_ngs_pipeline.task_concat_2_vcfs.docker</b><br />
+        <i>String &mdash; Default: "staphb/bcftools:1.17"</i><br />
+        ???
+</p>
 <p name="wf_ngs_pipeline.task_create_sequence_dictionary.docker">
         <b>wf_ngs_pipeline.task_create_sequence_dictionary.docker</b><br />
         <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
@@ -375,28 +340,28 @@
         <i>String &mdash; Default: "depth_of_coverage"</i><br />
         ???
 </p>
-<p name="wf_ngs_pipeline.task_fastqc.adapters">
-        <b>wf_ngs_pipeline.task_fastqc.adapters</b><br />
-        <i>File? &mdash; Default: None</i><br />
+<p name="wf_ngs_pipeline.task_fastq_screen.aligner">
+        <b>wf_ngs_pipeline.task_fastq_screen.aligner</b><br />
+        <i>String &mdash; Default: "bwa"</i><br />
         ???
 </p>
-<p name="wf_ngs_pipeline.task_fastqc.contaminants">
-        <b>wf_ngs_pipeline.task_fastqc.contaminants</b><br />
-        <i>File? &mdash; Default: None</i><br />
+<p name="wf_ngs_pipeline.task_fastq_screen.docker">
+        <b>wf_ngs_pipeline.task_fastq_screen.docker</b><br />
+        <i>String &mdash; Default: "dbest/fastq_screen:v0.15.3"</i><br />
         ???
 </p>
-<p name="wf_ngs_pipeline.task_fastqc.docker">
-        <b>wf_ngs_pipeline.task_fastqc.docker</b><br />
-        <i>String &mdash; Default: "staphb/fastqc:0.12.1"</i><br />
+<p name="wf_ngs_pipeline.task_fastq_screen.memory">
+        <b>wf_ngs_pipeline.task_fastq_screen.memory</b><br />
+        <i>String &mdash; Default: "10GB"</i><br />
         ???
 </p>
-<p name="wf_ngs_pipeline.task_fastqc.memory">
-        <b>wf_ngs_pipeline.task_fastqc.memory</b><br />
-        <i>String &mdash; Default: "8GB"</i><br />
+<p name="wf_ngs_pipeline.task_fastq_screen.subset">
+        <b>wf_ngs_pipeline.task_fastq_screen.subset</b><br />
+        <i>Int &mdash; Default: 100000</i><br />
         ???
 </p>
-<p name="wf_ngs_pipeline.task_fastqc.threads">
-        <b>wf_ngs_pipeline.task_fastqc.threads</b><br />
+<p name="wf_ngs_pipeline.task_fastq_screen.threads">
+        <b>wf_ngs_pipeline.task_fastq_screen.threads</b><br />
         <i>Int &mdash; Default: 1</i><br />
         ???
 </p>
@@ -408,6 +373,56 @@
 <p name="wf_ngs_pipeline.task_multiqc.memory">
         <b>wf_ngs_pipeline.task_multiqc.memory</b><br />
         <i>String &mdash; Default: "8GB"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_snpEff.docker">
+        <b>wf_ngs_pipeline.task_snpEff.docker</b><br />
+        <i>String &mdash; Default: "quay.io/biocontainers/snpeff:5.1d--hdfd78af_0"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_snpEff.hgvs">
+        <b>wf_ngs_pipeline.task_snpEff.hgvs</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_snpEff.javaXmx">
+        <b>wf_ngs_pipeline.task_snpEff.javaXmx</b><br />
+        <i>String &mdash; Default: "8G"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_snpEff.lof">
+        <b>wf_ngs_pipeline.task_snpEff.lof</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_snpEff.memory">
+        <b>wf_ngs_pipeline.task_snpEff.memory</b><br />
+        <i>String &mdash; Default: "9G"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_snpEff.noDownstream">
+        <b>wf_ngs_pipeline.task_snpEff.noDownstream</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_snpEff.noIntergenic">
+        <b>wf_ngs_pipeline.task_snpEff.noIntergenic</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_snpEff.noShiftHgvs">
+        <b>wf_ngs_pipeline.task_snpEff.noShiftHgvs</b><br />
+        <i>Boolean &mdash; Default: false</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_snpEff.outputPath">
+        <b>wf_ngs_pipeline.task_snpEff.outputPath</b><br />
+        <i>String &mdash; Default: "./snpeff.vcf"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_snpEff.upDownStreamLen">
+        <b>wf_ngs_pipeline.task_snpEff.upDownStreamLen</b><br />
+        <i>Int? &mdash; Default: None</i><br />
         ???
 </p>
 <p name="wf_ngs_pipeline.task_trimmomatic.docker">
@@ -490,6 +505,11 @@
         <i>String &mdash; Default: "collect_targeted_pcr_sensitivity_metrics.txt"</i><br />
         ???
 </p>
+<p name="wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.target_coverage_file">
+        <b>wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.target_coverage_file</b><br />
+        <i>String &mdash; Default: "collect_targeted_pcr_target_coverage.txt"</i><br />
+        ???
+</p>
 <p name="wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_add_pg_tag_to_read">
         <b>wf_ngs_pipeline.wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_add_pg_tag_to_read</b><br />
         <i>Boolean &mdash; Default: false</i><br />
@@ -540,6 +560,16 @@
         <i>String &mdash; Default: "9G"</i><br />
         ???
 </p>
+<p name="wf_ngs_pipeline.wf_minimap2.Mapping.softClippingForSupplementaryAlignments">
+        <b>wf_ngs_pipeline.wf_minimap2.Mapping.softClippingForSupplementaryAlignments</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.wf_minimap2.Mapping.writeLongCigar">
+        <b>wf_ngs_pipeline.wf_minimap2.Mapping.writeLongCigar</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
 </details>
 
 ## Outputs
@@ -576,6 +606,26 @@
 <p name="wf_ngs_pipeline.depth_of_coverage_outputs">
         <b>wf_ngs_pipeline.depth_of_coverage_outputs</b><br />
         <i>Array[File]?</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.fastq_screen_html">
+        <b>wf_ngs_pipeline.fastq_screen_html</b><br />
+        <i>File?</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.fastq_screen_tagged">
+        <b>wf_ngs_pipeline.fastq_screen_tagged</b><br />
+        <i>File?</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.fastq_screen_tagged_filter">
+        <b>wf_ngs_pipeline.fastq_screen_tagged_filter</b><br />
+        <i>File?</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.fastq_screen_txt">
+        <b>wf_ngs_pipeline.fastq_screen_txt</b><br />
+        <i>File?</i><br />
         ???
 </p>
 <p name="wf_ngs_pipeline.forwardData">
@@ -648,6 +698,11 @@
         <i>File?</i><br />
         ???
 </p>
+<p name="wf_ngs_pipeline.vcf_concatenated">
+        <b>wf_ngs_pipeline.vcf_concatenated</b><br />
+        <i>File?</i><br />
+        ???
+</p>
 <p name="wf_ngs_pipeline.vcfAligned">
         <b>wf_ngs_pipeline.vcfAligned</b><br />
         <i>File?</i><br />
@@ -660,7 +715,7 @@
 </p>
 <p name="wf_ngs_pipeline.vcfAnnotated">
         <b>wf_ngs_pipeline.vcfAnnotated</b><br />
-        <i>File</i><br />
+        <i>File?</i><br />
         ???
 </p>
 <p name="wf_ngs_pipeline.vcfFiltered">

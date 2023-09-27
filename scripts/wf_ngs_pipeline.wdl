@@ -2,13 +2,13 @@ version 1.0
 
 import "./task_concatenate_fastq.wdl" as concatenate_fastq
 import "./task_fastqc.wdl" as fastqc
+import "./task_fastq_screen.wdl" as fastq_screen
 import "./task_trimmomatic.wdl" as trimmomatic
 import "./task_bbduk.wdl" as bbduk
 import "./task_create_sequence_dictionary.wdl" as csd
 import "./task_genbank_to_fasta.wdl" as genbank2fasta
-import "./wf_bwa.wdl" as bwa
 import "./wf_gatk.wdl" as gatk
-import "./task_minimap2.wdl" as minimap2
+import "./wf_minimap2.wdl" as minimap2
 import "./task_snpEff.wdl" as snpEff
 import "./task_delly.wdl" as delly
 import "./task_collect_multiple_metrics.wdl" as bamQC
@@ -16,6 +16,7 @@ import "./task_collect_wgs_metrics.wdl" as wgsQC
 import "./wf_collect_targeted_pcr_metrics.wdl" as tpcrm
 import "./task_depth_of_coverage.wdl" as doc
 import "./task_multiqc.wdl" as multiQC
+import "./task_concat_2_vcfs.wdl" as concat
 
 workflow wf_ngs_pipeline {
   input {
@@ -28,13 +29,15 @@ workflow wf_ngs_pipeline {
     Int min_reads_per_strand
     Int min_median_read_position
     Float min_allele_fraction
+    # fastq_screen
+    File fastq_screen_configuration
+    File fastq_screen_contaminants
     # snpEff
     String genome
     File dataDir
     File config
-
-    Boolean run_delly = true
-    Boolean run_bamQC = true
+    # concat vcfs
+    String output_vcf_name = "all_variants.vcf"
   }
 
   String outputForward = "${samplename}_1.fq.gz"
@@ -46,6 +49,13 @@ workflow wf_ngs_pipeline {
     reverseFastqFiles = read2,
     outputForward = outputForward,
     outputReverse = outputReverse
+  }
+
+  call fastq_screen.task_fastq_screen {
+    input:
+    reads = task_concatenate_fastq.concatenatedForwardFastq,
+    configuration = fastq_screen_configuration,
+    contaminants = fastq_screen_contaminants
   }
   
   call fastqc.task_fastqc {
@@ -73,32 +83,13 @@ workflow wf_ngs_pipeline {
     genbankFile = genbankFile
   }
 
-  String outputPrefix = sub(sub(basename(task_genbank_to_fasta.fastaFile), ".fasta", ""), ".fa", "")
-  call minimap2.Indexing {
+  call minimap2.wf_minimap2 {
     input:
-    referenceFile = task_genbank_to_fasta.fastaFile,
-    outputPrefix = outputPrefix,
-    cores = threads
-  }
-  
-  call minimap2.Mapping {
-    input:
-    referenceFile = task_genbank_to_fasta.fastaFile,
-    queryFile1 = task_trimmomatic.read1_trimmed,
-    queryFile2 = task_trimmomatic.read2_trimmed,
-    outputPrefix = samplename,
-    presetOption = "sr",
-    addMDTagToSam = true,
-    outputSam = true,
-    cores = threads
-  }
-
-  call bwa.wf_bwa {
-    input:
-    samplename = samplename,
     reference = task_genbank_to_fasta.fastaFile,
-    r1fastq = task_trimmomatic.read1_trimmed,
-    r2fastq = task_trimmomatic.read2_trimmed,
+    read1 = select_first([task_bbduk.read1_clean, task_trimmomatic.read1_trimmed]),
+    read2 = select_first([task_bbduk.read2_clean, task_trimmomatic.read2_trimmed]),
+    outputPrefix = samplename,
+    samplename = samplename,
     threads = threads
   }
 
@@ -109,8 +100,8 @@ workflow wf_ngs_pipeline {
   
   call gatk.wf_gatk {
     input:
-    inputBams = [wf_bwa.outbam],
-    inputBamsIndex = [wf_bwa.outbamidx],
+    inputBams = [wf_minimap2.bam],
+    inputBamsIndex = [wf_minimap2.bai],
     intervals = [intervals],
     referenceFasta = task_genbank_to_fasta.fastaFile,
     referenceFastaDict = task_create_sequence_dictionary.dict, 
@@ -118,52 +109,55 @@ workflow wf_ngs_pipeline {
     min_reads_per_strand =  min_reads_per_strand,
     min_median_read_position = min_median_read_position,
     min_allele_fraction =  min_allele_fraction,
-    outputVcf = sub(basename(wf_bwa.outbam),".bam",".vcf"),
-    outputAlignedVcf = sub(basename(wf_bwa.outbam),".bam","_aligned.vcf"),
-    outputFilteredVcf = sub(basename(wf_bwa.outbam),".bam","_filtered.vcf")
+    outputVcf = sub(basename(wf_minimap2.bam),".bam",".vcf"),
+    outputAlignedVcf = sub(basename(wf_minimap2.bam),".bam","_aligned.vcf"),
+    outputFilteredVcf = sub(basename(wf_minimap2.bam),".bam","_filtered.vcf")
   }
 
-  call snpEff.SnpEff {
+  call delly.task_delly {
     input:
-    vcf = wf_gatk.vcfFilteredFile,
+    bamFile = wf_minimap2.bam,
+    bamIndex = wf_minimap2.bai,
+    reference = task_genbank_to_fasta.fastaFile
+  }
+
+  call concat.task_concat_2_vcfs {
+    input:
+    vcf1 = wf_gatk.vcfFilteredFile,
+    vcf2 = task_delly.vcfFile,
+    output_vcf_name = output_vcf_name
+  }
+
+  call snpEff.task_snpEff {
+    input:
+    vcf = task_concat_2_vcfs.concatenated_vcf,
     genome = genome,
     config = config,
     dataDir = dataDir
   }
 
-  if ( run_delly ) {
-    call delly.task_delly {
-      input:
-      bamFile = wf_bwa.outbam,
-      bamIndex = wf_bwa.outbamidx,
-      reference = task_genbank_to_fasta.fastaFile
-    }
+  call bamQC.task_collect_multiple_metrics {
+    input:
+    bam = wf_minimap2.bam,
+    reference = task_genbank_to_fasta.fastaFile
   }
-  
-  if ( run_bamQC ) {
-    call bamQC.task_collect_multiple_metrics {
-      input:
-      bam = wf_bwa.outbam,
-      reference = task_genbank_to_fasta.fastaFile
-    }
-    call wgsQC.task_collect_wgs_metrics {
-      input:
-      bam = wf_bwa.outbam,
-      reference = task_genbank_to_fasta.fastaFile
-    }
-    call tpcrm.wf_collect_targeted_pcr_metrics {
-      input:
-      bam = wf_bwa.outbam,
-      reference = task_genbank_to_fasta.fastaFile,
-      amplicon_bed = intervals,
-      target_bed = intervals
-    }
-    call doc.task_depth_of_coverage {
-      input:
-      bam = wf_bwa.outbam,
-      reference = task_genbank_to_fasta.fastaFile,
-      intervals = intervals
-    }
+  call wgsQC.task_collect_wgs_metrics {
+    input:
+    bam = wf_minimap2.bam,
+    reference = task_genbank_to_fasta.fastaFile
+  }
+  call tpcrm.wf_collect_targeted_pcr_metrics {
+    input:
+    bam = wf_minimap2.bam,
+    reference = task_genbank_to_fasta.fastaFile,
+    amplicon_bed = intervals,
+    target_bed = intervals
+  }
+  call doc.task_depth_of_coverage {
+    input:
+    bam = wf_minimap2.bam,
+    reference = task_genbank_to_fasta.fastaFile,
+    intervals = intervals
   }
 
   Array[File] allReports = flatten([
@@ -186,6 +180,11 @@ workflow wf_ngs_pipeline {
   }
   
   output {
+    # output from fastq_screen
+    File? fastq_screen_html = task_fastq_screen.html
+    File? fastq_screen_txt = task_fastq_screen.txt
+    File? fastq_screen_tagged = task_fastq_screen.tagged
+    File? fastq_screen_tagged_filter = task_fastq_screen.tagged_filter
     # output from fastqc
     File forwardHtml = task_fastqc.forwardHtml
     File reverseHtml = task_fastqc.reverseHtml
@@ -203,8 +202,8 @@ workflow wf_ngs_pipeline {
     File? adapter_stats = task_bbduk.adapter_stats
     File? phiX_stats = task_bbduk.phiX_stats
     # output from variant calling
-    File? bam = wf_bwa.outbam
-    File? bai = wf_bwa.outbamidx
+    File? bam = wf_minimap2.bam
+    File? bai = wf_minimap2.bai
     File? vcf = wf_gatk.vcfFile
     File? vcfIndex = wf_gatk.vcfFileIndex
     File? vcfStats = wf_gatk.vcfFileStats
@@ -213,10 +212,12 @@ workflow wf_ngs_pipeline {
     File? vcfFiltered = wf_gatk.vcfFilteredFile
     File? vcfFilteredIndex = wf_gatk.vcfFilteredFileIndex
     File? vcfFilteredStats = wf_gatk.vcfFilteredFileStats
-    # snpEff
-    File vcfAnnotated = SnpEff.outputVcf
     # output from delly
     File? dellyVcf = task_delly.vcfFile
+    # all variants = variant valler + SV caller delly
+    File? vcf_concatenated = task_concat_2_vcfs.concatenated_vcf
+    # snpEff
+    File? vcfAnnotated = task_snpEff.outputVcf
     # output from bam QC
     Array[File]? multiple_metrics_outputs = task_collect_multiple_metrics.collectMetricsOutput
     Array[File]? depth_of_coverage_outputs = task_depth_of_coverage.outputs
