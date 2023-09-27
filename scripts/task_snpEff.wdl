@@ -13,7 +13,8 @@ task task_snpEff {
       Boolean noIntergenic = false
       Boolean noShiftHgvs = false
       Int? upDownStreamLen
-      
+      String stats = "snpEff_summary.html"
+      String csvStats = "snpEff_summary.csv"
       String memory = "9G"
       String javaXmx = "8G"
       String docker = "quay.io/biocontainers/snpeff:5.1d--hdfd78af_0"
@@ -27,6 +28,8 @@ task task_snpEff {
       -verbose \
       -noDownload \
       -noLog \
+      -stats ~{stats} \
+      -csvStats ~{csvStats} \
       -config ~{config} \
       -dataDir "$PWD"/data \
       ~{true="-hgvs" false="-noHgvs" hgvs} \
@@ -43,11 +46,12 @@ task task_snpEff {
     
     output {
       File outputVcf = outputPath
+      File snpEff_summary_csv = csvStats
+      File snpEff_summary_html = stats
     }
 
     runtime {
       docker: docker
       memory: memory
     }
-    
 }

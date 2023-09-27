@@ -21,5 +21,7 @@ workflow wf_snpEff {
 
   output {
     File outputVcf = task_snpEff.outputVcf
+    File snpEff_summary_csv = task_snpEff.snpEff_summary_csv 
+    File snpEff_summary_html = task_snpEff.snpEff_summary_html
   }
 }
