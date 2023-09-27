@@ -1,5 +1,7 @@
 {
-    "wf_concatenate_csv_files.input_files": ["1.csv","2.csv"],
-    "wf_concatenate_csv_files.task_concatenate_csv_files.output_file_name": "concatenated.csv"
+  "wf_concatenate_csv_files.input_files": [
+    "/home/dieterbest/Analysis/varpipe4/scripts/test-varpipe_wgs/20230927_144454_wf_varpipe/out/lims_report/lims_report.csv",
+    "/home/dieterbest/Analysis/varpipe4/scripts/test-varpipe_wgs/20230927_144454_wf_varpipe/out/lims_report/lims_report.csv"
+  ],
+  "wf_concatenate_csv_files.task_concatenate_csv_files.output_file_name": "concatenated.csv"
 }
-
