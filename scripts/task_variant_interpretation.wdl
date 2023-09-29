@@ -9,10 +9,11 @@ task task_variant_interpretation {
     File json
     String samplename
     Int minimum_coverage = 10
-    Int minimum_total_depth = 0
-    Int minimum_variant_depth = 0
-    Boolean filter_genes = false
-    Boolean filter_variants = true
+    Int minimum_total_depth = 10
+    Int minimum_variant_depth = 10
+    Float minimum_allele_percentage = 10
+    Boolean filter_genes = true
+    Boolean filter_variants = false
     Boolean verbose = false
     String report = "variant_interpretation.tsv"
     String docker = "dbest/variant_interpretation:v1.2.1"
@@ -30,6 +31,7 @@ task task_variant_interpretation {
     --minimum_coverage ~{minimum_coverage} \
     --minimum_total_depth ~{minimum_total_depth} \
     --minimum_variant_depth ~{minimum_variant_depth} \
+    --minimum_allele_percentage ~{minimum_allele_percentage} \
     --report ~{report} \
     ${if filter_variants then '--filter_variants' else ''} \
     ${if filter_genes then '--filter_genes' else ''} \
