@@ -48,7 +48,7 @@
 <summary> Show/Hide </summary>
 <p name="wf_interpretation.interpretation_docker">
         <b>wf_interpretation.interpretation_docker</b><br />
-        <i>String &mdash; Default: "dbest/variant_interpretation:v1.2.0"</i><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.2.1"</i><br />
         ???
 </p>
 <p name="wf_interpretation.interpretation_memory">
@@ -58,7 +58,7 @@
 </p>
 <p name="wf_interpretation.lims_docker">
         <b>wf_interpretation.lims_docker</b><br />
-        <i>String &mdash; Default: "dbest/lims_report:v1.0.2"</i><br />
+        <i>String &mdash; Default: "dbest/lims_report:v1.0.3"</i><br />
         ???
 </p>
 <p name="wf_interpretation.lims_operator">
@@ -69,6 +69,16 @@
 <p name="wf_interpretation.lims_report_name">
         <b>wf_interpretation.lims_report_name</b><br />
         <i>String &mdash; Default: "lims_report.tsv"</i><br />
+        ???
+</p>
+<p name="wf_interpretation.minimum_allele_percentage">
+        <b>wf_interpretation.minimum_allele_percentage</b><br />
+        <i>Float &mdash; Default: 10.0</i><br />
+        ???
+</p>
+<p name="wf_interpretation.task_variant_interpretation.minimum_allele_percentage">
+        <b>wf_interpretation.task_variant_interpretation.minimum_allele_percentage</b><br />
+        <i>Float &mdash; Default: 10</i><br />
         ???
 </p>
 <p name="wf_interpretation.verbose">

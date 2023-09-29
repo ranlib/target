@@ -18,8 +18,9 @@ workflow wf_interpretation {
     Boolean filter_genes = true
     Boolean verbose = false
     Int minimum_coverage = 10
-    Int minimum_total_depth = 0
-    Int minimum_variant_depth = 0
+    Int minimum_total_depth = 10
+    Int minimum_variant_depth = 10
+    Float minimum_allele_percentage = 10.0
     File lineage_information
     String lims_report_name = "lims_report.tsv"
     String lims_operator = "DB"
@@ -90,6 +91,10 @@ workflow wf_interpretation {
     samplename: {
       description: "sample name.",
       category: "required"
+    }
+    minimum_allele_precentage: {
+      description: "minimum variant allele percentage",
+      category: "optional"
     }
     minimum_coverage: {
       description: "minimum coverage requirement.",
