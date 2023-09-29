@@ -153,12 +153,12 @@
 </p>
 <p name="wf_varpipe.task_bbduk.keep">
         <b>wf_varpipe.task_bbduk.keep</b><br />
-        <i>Boolean &mdash; Default: false</i><br />
+        <i>Boolean &mdash; Default: true</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_bbduk.memory">
         <b>wf_varpipe.task_bbduk.memory</b><br />
-        <i>String &mdash; Default: "32GB"</i><br />
+        <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_bbduk.threads">
@@ -453,7 +453,7 @@
 </p>
 <p name="wf_varpipe.wf_interpretation.interpretation_docker">
         <b>wf_varpipe.wf_interpretation.interpretation_docker</b><br />
-        <i>String &mdash; Default: "dbest/variant_interpretation:v1.2.0"</i><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.2.1"</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_interpretation.interpretation_memory">
@@ -463,7 +463,7 @@
 </p>
 <p name="wf_varpipe.wf_interpretation.lims_docker">
         <b>wf_varpipe.wf_interpretation.lims_docker</b><br />
-        <i>String &mdash; Default: "dbest/lims_report:v1.0.2"</i><br />
+        <i>String &mdash; Default: "dbest/lims_report:v1.0.3"</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_interpretation.lims_operator">
@@ -474,6 +474,16 @@
 <p name="wf_varpipe.wf_interpretation.lims_report_name">
         <b>wf_varpipe.wf_interpretation.lims_report_name</b><br />
         <i>String &mdash; Default: "lims_report.tsv"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_interpretation.minimum_allele_percentage">
+        <b>wf_varpipe.wf_interpretation.minimum_allele_percentage</b><br />
+        <i>Float &mdash; Default: 10.0</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_interpretation.task_variant_interpretation.minimum_allele_percentage">
+        <b>wf_varpipe.wf_interpretation.task_variant_interpretation.minimum_allele_percentage</b><br />
+        <i>Float &mdash; Default: 10</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_interpretation.verbose">
@@ -539,6 +549,16 @@
 <p name="wf_varpipe.wf_structural_variants.svType">
         <b>wf_varpipe.wf_structural_variants.svType</b><br />
         <i>String &mdash; Default: "DEL"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_structural_variants.task_snpEff.csvStats">
+        <b>wf_varpipe.wf_structural_variants.task_snpEff.csvStats</b><br />
+        <i>String &mdash; Default: "snpEff_summary.csv"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_structural_variants.task_snpEff.stats">
+        <b>wf_varpipe.wf_structural_variants.task_snpEff.stats</b><br />
+        <i>String &mdash; Default: "snpEff_summary.html"</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_structural_variants.upDownStreamLen">
