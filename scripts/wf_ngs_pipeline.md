@@ -375,6 +375,11 @@
         <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
+<p name="wf_ngs_pipeline.task_snpEff.csvStats">
+        <b>wf_ngs_pipeline.task_snpEff.csvStats</b><br />
+        <i>String &mdash; Default: "snpEff_summary.csv"</i><br />
+        ???
+</p>
 <p name="wf_ngs_pipeline.task_snpEff.docker">
         <b>wf_ngs_pipeline.task_snpEff.docker</b><br />
         <i>String &mdash; Default: "quay.io/biocontainers/snpeff:5.1d--hdfd78af_0"</i><br />
@@ -418,6 +423,11 @@
 <p name="wf_ngs_pipeline.task_snpEff.outputPath">
         <b>wf_ngs_pipeline.task_snpEff.outputPath</b><br />
         <i>String &mdash; Default: "./snpeff.vcf"</i><br />
+        ???
+</p>
+<p name="wf_ngs_pipeline.task_snpEff.stats">
+        <b>wf_ngs_pipeline.task_snpEff.stats</b><br />
+        <i>String &mdash; Default: "snpEff_summary.html"</i><br />
         ???
 </p>
 <p name="wf_ngs_pipeline.task_snpEff.upDownStreamLen">
