@@ -71,7 +71,7 @@
   "wf_ngs_pipeline.task_snpEff.noShiftHgvs": false,
   "wf_ngs_pipeline.task_snpEff.outputPath": "./snpeff.vcf",
   "wf_ngs_pipeline.task_snpEff.stats": "snpEff_summary.html",
-  "wf_ngs_pipeline.task_snpEff.upDownStreamLen": 400,
+  "wf_ngs_pipeline.task_snpEff.upDownStreamLen": 5000,
   "wf_ngs_pipeline.task_trimmomatic.docker": "staphb/trimmomatic:0.39",
   "wf_ngs_pipeline.task_trimmomatic.memory": "8GB",
   "wf_ngs_pipeline.task_trimmomatic.threads": 4,

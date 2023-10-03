@@ -11,7 +11,7 @@
     "wf_snpEff.task_snpEff.noIntergenic": false,
     "wf_snpEff.task_snpEff.noShiftHgvs": false,
     "wf_snpEff.task_snpEff.outputPath": "./snpeff.vcf",
-    "wf_snpEff.task_snpEff.upDownStreamLen": 400,
+    "wf_snpEff.task_snpEff.upDownStreamLen": 5000,
     "wf_snpEff.vcf": "/home/dieterbest/Analysis/varpipe4/tests/ERR552797_conda_before/ERR552797_full_raw_annotation.vcf"
 }
 
