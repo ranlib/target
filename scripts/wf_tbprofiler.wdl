@@ -161,7 +161,8 @@ workflow wf_tbprofiler {
       call wgsQC.task_collect_wgs_metrics {
 	input:
 	bam = task_tbprofiler.bam,
-	reference = reference
+	reference = reference,
+	bed = bed
       }
       call tpcrm.wf_collect_targeted_pcr_metrics {
 	input:

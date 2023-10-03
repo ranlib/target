@@ -22,6 +22,16 @@
         <i>File &mdash; Default: None</i><br />
         ???
 </p>
+<p name="wf_tbprofiler.fastq_screen_configuration">
+        <b>wf_tbprofiler.fastq_screen_configuration</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.fastq_screen_contaminants">
+        <b>wf_tbprofiler.fastq_screen_contaminants</b><br />
+        <i>File &mdash; Default: None</i><br />
+        ???
+</p>
 <p name="wf_tbprofiler.json">
         <b>wf_tbprofiler.json</b><br />
         <i>File &mdash; Default: None</i><br />
@@ -88,7 +98,7 @@
 </p>
 <p name="wf_tbprofiler.genome">
         <b>wf_tbprofiler.genome</b><br />
-        <i>String &mdash; Default: "NC_000962.3"</i><br />
+        <i>String &mdash; Default: "Mycobacterium_tuberculosis_h37rv"</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.minNumberReads">
@@ -106,6 +116,11 @@
         <i>Boolean &mdash; Default: true</i><br />
         ???
 </p>
+<p name="wf_tbprofiler.run_fastq_screen">
+        <b>wf_tbprofiler.run_fastq_screen</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
 <p name="wf_tbprofiler.task_bbduk.contamination">
         <b>wf_tbprofiler.task_bbduk.contamination</b><br />
         <i>File? &mdash; Default: None</i><br />
@@ -118,12 +133,12 @@
 </p>
 <p name="wf_tbprofiler.task_bbduk.keep">
         <b>wf_tbprofiler.task_bbduk.keep</b><br />
-        <i>Boolean &mdash; Default: false</i><br />
+        <i>Boolean &mdash; Default: true</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.task_bbduk.memory">
         <b>wf_tbprofiler.task_bbduk.memory</b><br />
-        <i>String &mdash; Default: "32GB"</i><br />
+        <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.task_bbduk.threads">
@@ -149,11 +164,6 @@
 <p name="wf_tbprofiler.task_collect_multiple_metrics.outputBasename">
         <b>wf_tbprofiler.task_collect_multiple_metrics.outputBasename</b><br />
         <i>String &mdash; Default: "multiple_metrics"</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.task_collect_wgs_metrics.bed">
-        <b>wf_tbprofiler.task_collect_wgs_metrics.bed</b><br />
-        <i>File? &mdash; Default: None</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.task_collect_wgs_metrics.coverage_cap">
@@ -236,6 +246,31 @@
         <i>String &mdash; Default: "depth_of_coverage"</i><br />
         ???
 </p>
+<p name="wf_tbprofiler.task_fastq_screen.aligner">
+        <b>wf_tbprofiler.task_fastq_screen.aligner</b><br />
+        <i>String &mdash; Default: "bwa"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_fastq_screen.docker">
+        <b>wf_tbprofiler.task_fastq_screen.docker</b><br />
+        <i>String &mdash; Default: "dbest/fastq_screen:v0.15.3"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_fastq_screen.memory">
+        <b>wf_tbprofiler.task_fastq_screen.memory</b><br />
+        <i>String &mdash; Default: "10GB"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_fastq_screen.subset">
+        <b>wf_tbprofiler.task_fastq_screen.subset</b><br />
+        <i>Int &mdash; Default: 100000</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_fastq_screen.threads">
+        <b>wf_tbprofiler.task_fastq_screen.threads</b><br />
+        <i>Int &mdash; Default: 1</i><br />
+        ???
+</p>
 <p name="wf_tbprofiler.task_multiqc.docker">
         <b>wf_tbprofiler.task_multiqc.docker</b><br />
         <i>String &mdash; Default: "ewels/multiqc:v1.14"</i><br />
@@ -244,6 +279,11 @@
 <p name="wf_tbprofiler.task_multiqc.memory">
         <b>wf_tbprofiler.task_multiqc.memory</b><br />
         <i>String &mdash; Default: "8GB"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.task_snpEff.csvStats">
+        <b>wf_tbprofiler.task_snpEff.csvStats</b><br />
+        <i>String &mdash; Default: "snpEff_summary.csv"</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.task_snpEff.docker">
@@ -286,6 +326,11 @@
         <i>Boolean &mdash; Default: false</i><br />
         ???
 </p>
+<p name="wf_tbprofiler.task_snpEff.stats">
+        <b>wf_tbprofiler.task_snpEff.stats</b><br />
+        <i>String &mdash; Default: "snpEff_summary.html"</i><br />
+        ???
+</p>
 <p name="wf_tbprofiler.task_snpEff.upDownStreamLen">
         <b>wf_tbprofiler.task_snpEff.upDownStreamLen</b><br />
         <i>Int? &mdash; Default: None</i><br />
@@ -293,7 +338,7 @@
 </p>
 <p name="wf_tbprofiler.task_tbprofiler.caller">
         <b>wf_tbprofiler.task_tbprofiler.caller</b><br />
-        <i>String &mdash; Default: "bcftools"</i><br />
+        <i>String &mdash; Default: "freebayes"</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.task_tbprofiler.cov_frac_threshold">
@@ -478,7 +523,7 @@
 </p>
 <p name="wf_tbprofiler.wf_interpretation.interpretation_docker">
         <b>wf_tbprofiler.wf_interpretation.interpretation_docker</b><br />
-        <i>String &mdash; Default: "dbest/variant_interpretation:v1.2.0"</i><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.2.1"</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.wf_interpretation.interpretation_memory">
@@ -488,7 +533,7 @@
 </p>
 <p name="wf_tbprofiler.wf_interpretation.lims_docker">
         <b>wf_tbprofiler.wf_interpretation.lims_docker</b><br />
-        <i>String &mdash; Default: "dbest/lims_report:v1.0.2"</i><br />
+        <i>String &mdash; Default: "dbest/lims_report:v1.0.3"</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.wf_interpretation.lims_operator">
@@ -499,6 +544,16 @@
 <p name="wf_tbprofiler.wf_interpretation.lims_report_name">
         <b>wf_tbprofiler.wf_interpretation.lims_report_name</b><br />
         <i>String &mdash; Default: "lims_report.tsv"</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_interpretation.minimum_allele_percentage">
+        <b>wf_tbprofiler.wf_interpretation.minimum_allele_percentage</b><br />
+        <i>Float &mdash; Default: 10.0</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.wf_interpretation.task_variant_interpretation.minimum_allele_percentage">
+        <b>wf_tbprofiler.wf_interpretation.task_variant_interpretation.minimum_allele_percentage</b><br />
+        <i>Float &mdash; Default: 10</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.wf_interpretation.verbose">
@@ -596,6 +651,11 @@
 </p>
 <p name="wf_tbprofiler.lims_report">
         <b>wf_tbprofiler.lims_report</b><br />
+        <i>File?</i><br />
+        ???
+</p>
+<p name="wf_tbprofiler.lineage_report">
+        <b>wf_tbprofiler.lineage_report</b><br />
         <i>File?</i><br />
         ???
 </p>
