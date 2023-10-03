@@ -14,7 +14,7 @@
     "wf_structural_variants.noIntergenic": false,
     "wf_structural_variants.noShiftHgvs": false,
     "wf_structural_variants.output_vcf_name": "structural_variants_annotated.vcf",
-    "wf_structural_variants.upDownStreamLen": 400,
+    "wf_structural_variants.upDownStreamLen": 5000,
     "wf_structural_variants.svType": "DEL",
     "wf_structural_variants.delly_docker": "dbest/delly:v1.0.0",
     "wf_structural_variants.delly_memory": "32GB"

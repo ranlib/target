@@ -21,7 +21,7 @@ workflow wf_structural_variants {
     Boolean noDownstream = false
     Boolean noIntergenic = false
     Boolean noShiftHgvs = false
-    Int upDownStreamLen = 400
+    Int upDownStreamLen = 5000
     String snpEff_memory = "9G"
     String snpEff_javaXmx = "8G"
     String snpEff_docker = "quay.io/biocontainers/snpeff:5.1d--hdfd78af_0"
