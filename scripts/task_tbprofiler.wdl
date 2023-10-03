@@ -8,7 +8,7 @@ task task_tbprofiler {
     String docker = "staphb/tbprofiler:4.4.2"
     String memory = "16GB"
     String mapper = "bwa"
-    String caller = "bcftools"
+    String caller = "freebayes"
     Int min_depth = 10
     Float min_af = 0.1
     Float min_af_pred = 0.1
