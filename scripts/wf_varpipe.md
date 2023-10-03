@@ -181,11 +181,6 @@
         <i>String &mdash; Default: "multiple_metrics"</i><br />
         ???
 </p>
-<p name="wf_varpipe.task_collect_wgs_metrics.bed">
-        <b>wf_varpipe.task_collect_wgs_metrics.bed</b><br />
-        <i>File? &mdash; Default: None</i><br />
-        ???
-</p>
 <p name="wf_varpipe.task_collect_wgs_metrics.coverage_cap">
         <b>wf_varpipe.task_collect_wgs_metrics.coverage_cap</b><br />
         <i>Int &mdash; Default: 250</i><br />
@@ -563,7 +558,7 @@
 </p>
 <p name="wf_varpipe.wf_structural_variants.upDownStreamLen">
         <b>wf_varpipe.wf_structural_variants.upDownStreamLen</b><br />
-        <i>Int &mdash; Default: 400</i><br />
+        <i>Int &mdash; Default: 5000</i><br />
         ???
 </p>
 </details>

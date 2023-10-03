@@ -38,7 +38,6 @@
   "wf_varpipe.task_collect_multiple_metrics.docker": "broadinstitute/gatk:4.4.0.0",
   "wf_varpipe.task_collect_multiple_metrics.memory": "8GB",
   "wf_varpipe.task_collect_multiple_metrics.outputBasename": "multiple_metrics",
-  "wf_varpipe.task_collect_wgs_metrics.bed": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb.bed",
   "wf_varpipe.task_collect_wgs_metrics.coverage_cap": 250,
   "wf_varpipe.task_collect_wgs_metrics.docker": "broadinstitute/gatk:4.4.0.0",
   "wf_varpipe.task_collect_wgs_metrics.memory": "8GB",
@@ -114,6 +113,6 @@
   "wf_varpipe.wf_structural_variants.snpEff_javaXmx": "8G",
   "wf_varpipe.wf_structural_variants.snpEff_memory": "9G",
   "wf_varpipe.wf_structural_variants.svType": "ALL",
-  "wf_varpipe.wf_structural_variants.upDownStreamLen": 400,
+  "wf_varpipe.wf_structural_variants.upDownStreamLen": 5000,
   "wf_varpipe.whole_genome": true
 }
