@@ -114,6 +114,6 @@
   "wf_varpipe.wf_structural_variants.snpEff_javaXmx": "8G",
   "wf_varpipe.wf_structural_variants.snpEff_memory": "9G",
   "wf_varpipe.wf_structural_variants.svType": "ALL",
-  "wf_varpipe.wf_structural_variants.upDownStreamLen": 400,
+  "wf_varpipe.wf_structural_variants.upDownStreamLen": 5000,
   "wf_varpipe.whole_genome": true
 }
