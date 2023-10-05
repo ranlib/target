@@ -1,3 +1,7 @@
+#
+# varpipe_cdc.json <- varpipe.json + change config + change bed file
+# varpipe_tNGS.json <- varpipe.json + change config + use tNGS dataset
+#
 all: tbprofiler varpipe fastqc bbduk bbduk_no_contamination clockwork_decontamination trimmomatic multiqc concatenate_fastq collect_multiple_metrics collect_targeted_pcr_metrics collect_hs_metrics depth_of_coverage delly mark_duplicates variant_interpretation
 
 minimap2:
@@ -61,6 +65,12 @@ run_varpipe_cromwell:
 run_varpipe_tNGS:
 	miniwdl run --debug --dir test-varpipe_tNGS --cfg ../miniwdl_production.cfg --input wf_varpipe_tNGS.json wf_varpipe.wdl 
 
+#
+# only difference between wf_varpipe_cdc.json and wf_varpipe.json
+# wf_varpipe_cdc.json:
+# a) different config file: snp_cdc_docker.config
+# b) different bed file: cdc_regions.bed
+#
 run_varpipe_cdc:
 	miniwdl run --debug --dir test-varpipe_cdc --cfg ../miniwdl_production.cfg --input wf_varpipe_cdc.json wf_varpipe.wdl
 
