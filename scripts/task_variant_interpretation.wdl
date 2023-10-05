@@ -15,8 +15,9 @@ task task_variant_interpretation {
     Boolean filter_genes = true
     Boolean filter_variants = false
     Boolean verbose = false
+    Boolean debug = true
     String report = "variant_interpretation.tsv"
-    String docker = "dbest/variant_interpretation:v1.2.1"
+    String docker = "dbest/variant_interpretation:v1.3.0"
     String memory = "8GB"
   }
   
@@ -35,7 +36,8 @@ task task_variant_interpretation {
     --report ~{report} \
     ${if filter_variants then '--filter_variants' else ''} \
     ${if filter_genes then '--filter_genes' else ''} \
-    ${if verbose then '--verbose' else ''}
+    ${if verbose then '--verbose' else ''} \
+    ${if debug then '--debug' else ''}
   }
   
   output {
