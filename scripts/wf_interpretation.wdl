@@ -12,11 +12,12 @@ workflow wf_interpretation {
     File json
     String samplename
     String interpretation_report = "variant_interpretation.tsv"
-    String interpretation_docker = "dbest/variant_interpretation:v1.2.1"
+    String interpretation_docker = "dbest/variant_interpretation:v1.3.0"
     String interpretation_memory = "8GB"
-    Boolean filter_variants = false
+    Boolean filter_variants = true
     Boolean filter_genes = true
     Boolean verbose = false
+    Boolean debug = true
     Int minimum_coverage = 10
     Int minimum_total_depth = 10
     Int minimum_variant_depth = 10
@@ -35,17 +36,19 @@ workflow wf_interpretation {
     bed = bed,
     json = json,
     samplename = samplename,
+    minimum_coverage = minimum_coverage,
+    minimum_total_depth =  minimum_total_depth,
+    minimum_variant_depth = minimum_variant_depth,
+    minimum_allele_percentage = minimum_allele_percentage,
     report = interpretation_report,
-    docker = interpretation_docker,
-    memory = interpretation_memory,
     filter_genes = filter_genes,
     filter_variants = filter_variants,
     verbose = verbose,
-    minimum_coverage = minimum_coverage,
-    minimum_total_depth =  minimum_total_depth,
-    minimum_variant_depth = minimum_variant_depth
+    debug = debug,
+    docker = interpretation_docker,
+    memory = interpretation_memory
   }
-
+  
   call lims.task_lims_report {
     input:
     lab_report = task_variant_interpretation.interpretation_report,
