@@ -1,7 +1,7 @@
 {
   "wf_varpipe.bed": "gs://fc-19cf0d01-e892-4d9b-bb3a-f3906e846785/intervals/tbdb.bed",
-  "wf_varpipe.clockwork_contaminants": "gs://fc-19cf0d01-e892-4d9b-bb3a-f3906e846785/contamination/clockwork_contaminants.fa.gz",
-  "wf_varpipe.clockwork_decontamination_metadata": "gs://fc-19cf0d01-e892-4d9b-bb3a-f3906e846785/contamination/clockwork_contaminants_metadata.tsv",
+  "wf_varpipe.clockwork_contaminants": "gs://fc-19cf0d01-e892-4d9b-bb3a-f3906e846785/contamination/clockwork_contaminants_cdc.fa.gz",
+  "wf_varpipe.clockwork_decontamination_metadata": "gs://fc-19cf0d01-e892-4d9b-bb3a-f3906e846785/contamination/clockwork_contaminants_metadata_cdc.tsv",
   "wf_varpipe.config": "gs://fc-19cf0d01-e892-4d9b-bb3a-f3906e846785/configuration/snp_docker.config",
   "wf_varpipe.fastq_screen_configuration": "gs://fc-19cf0d01-e892-4d9b-bb3a-f3906e846785/configuration/fastq_screen.config",
   "wf_varpipe.fastq_screen_contaminants": "gs://fc-19cf0d01-e892-4d9b-bb3a-f3906e846785/contamination/fastq_screen_contamination.tar.gz",
