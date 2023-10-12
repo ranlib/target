@@ -1,0 +1,6 @@
+{
+    "wf_varpipe_cdc.read1": ["/home/dbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz"],
+    "wf_varpipe_cdc.read2": ["/home/dbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz"],
+    "wf_varpipe_cdc.samplename": "ERR552797"
+}
+

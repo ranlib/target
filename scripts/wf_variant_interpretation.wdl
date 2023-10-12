@@ -18,7 +18,7 @@ workflow wf_variant_interpretation {
     Boolean verbose = false
     String filtered_vcf = "filtered_vcf.vcf"
     String report = "variant_interpretation.tsv"
-    String docker = "dbest/variant_interpretation:v1.3.0"
+    String docker = "dbest/variant_interpretation:v1.4.0"
     String memory = "8GB"
   }
 

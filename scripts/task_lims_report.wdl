@@ -6,7 +6,7 @@ task task_lims_report {
     File? lineage_report
     String lims_report_name
     String operator
-    String docker = "dbest/lims_report:v1.0.3"
+    String docker = "dbest/lims_report:v1.0.4"
   }
 
   command <<<

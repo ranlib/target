@@ -1,0 +1,8 @@
+{
+    "VariantCallingWorkflow.read1": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
+    "VariantCallingWorkflow.read2": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz",
+    "VariantCallingWorkflow.reference": "/home/dieterbest/Analysis/varpipe4/references/NC_000962.3/NC_000962.3.fasta",
+    "VariantCallingWorkflow.sampleName": "ERR552797",
+    "VariantCallingWorkflow.outputPrefix": "ERR552797"
+}
+

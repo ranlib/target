@@ -8,7 +8,7 @@
     "wf_variant_interpretation.filter_genes": true,
     "wf_variant_interpretation.filter_variants": true,
     "wf_variant_interpretation.verbose": true,
-    "wf_variant_interpretation.docker": "dbest/variant_interpretation:v1.3.0",
+    "wf_variant_interpretation.docker": "dbest/variant_interpretation:v1.4.0",
     "wf_variant_interpretation.memory": "8GB",
     "wf_variant_interpretation.minimum_coverage": 10,
     "wf_variant_interpretation.minimum_total_depth": 0,

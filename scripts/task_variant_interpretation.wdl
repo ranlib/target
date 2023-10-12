@@ -17,7 +17,7 @@ task task_variant_interpretation {
     Boolean verbose = false
     Boolean debug = true
     String report = "variant_interpretation.tsv"
-    String docker = "dbest/variant_interpretation:v1.3.0"
+    String docker = "dbest/variant_interpretation:v1.4.0"
     String memory = "8GB"
   }
   

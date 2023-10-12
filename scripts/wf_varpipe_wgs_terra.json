@@ -1,0 +1,6 @@
+{
+    "wf_varpipe_cdc.read1": ["gs://fc-718290db-e82f-4e78-9e82-d05f81c8f329/uploads/ERR552797_split_fastq/ERR552797_30percent_1.fq.gz"],
+    "wf_varpipe_cdc.read2": ["gs://fc-718290db-e82f-4e78-9e82-d05f81c8f329/uploads/ERR552797_split_fastq/ERR552797_30percent_2.fq.gz"],
+    "wf_varpipe_cdc.samplename": "ERR552797"
+}
+
