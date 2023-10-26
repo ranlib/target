@@ -6,6 +6,8 @@ task task_varpipe {
     File read2
     File reference
     File config
+    File snpEff_config
+    File snpEff_database
     String samplename
     String outdir
     String genome
@@ -15,18 +17,23 @@ task task_varpipe {
     Boolean verbose = true
     Int threads = 1
     String memory = "32GB"
-    String docker = "dbest/varpipe4:v1.0.2"
+    String docker = "dbest/varpipe4:v2.0.0"
   }
   
   command {
+    set -x
     date | tee DATE
-    Varpipeline.py --fastq ~{read1} --fastq2 ~{read2} \
+    Varpipeline.py \
+    --fastq ~{read1} \
+    --fastq2 ~{read2} \
     --reference ~{reference} \
     --genome ~{genome} \
     --name ~{samplename} \
     --threads ~{threads} \
     --outdir ~{outdir} \
     --configuration ~{config} \
+    --snpEff_config ~{snpEff_config} \
+    --database ~{snpEff_database} \
     --annotation \
     ~{true="--verbose" false="" verbose} \
     ~{true="--keepfiles" false="" keep} \
