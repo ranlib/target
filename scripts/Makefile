@@ -20,6 +20,8 @@ run_bwa:
 ngs_pipeline:
 	java -jar ~/Software/womtool-85.jar validate --inputs wf_ngs_pipeline.json wf_ngs_pipeline.wdl
 	miniwdl check wf_ngs_pipeline.wdl
+
+nds_pipeline_docu:
 	wdl-aid wf_ngs_pipeline.wdl -o wf_ngs_pipeline.md
 	java -jar ~/Software/womtool-85.jar graph wf_ngs_pipeline.wdl > wf_ngs_pipeline.dot
 	dot -Tpdf -o wf_ngs_pipeline.pdf wf_ngs_pipeline.dot
@@ -35,6 +37,8 @@ run_ngs_pipeline_tNGS:
 tbprofiler: 
 	java -jar ~/Software/womtool-85.jar validate --inputs wf_tbprofiler.json wf_tbprofiler.wdl
 	miniwdl check wf_tbprofiler.wdl
+
+tbprofiler_docu:
 	wdl-aid wf_tbprofiler.wdl -o wf_tbprofiler.md
 	java -jar ~/Software/womtool-85.jar graph wf_tbprofiler.wdl > wf_tbprofiler.dot
 	dot -Tpdf -o wf_tbprofiler.pdf wf_tbprofiler.dot
@@ -53,6 +57,8 @@ run_tbprofiler_tNGS:
 varpipe:
 	java -jar ~/Software/womtool-85.jar validate --inputs wf_varpipe.json wf_varpipe.wdl
 	miniwdl check wf_varpipe.wdl
+
+varpipe_docu:
 	wdl-aid wf_varpipe.wdl -o wf_varpipe.md
 	java -jar ~/Software/womtool-85.jar graph wf_varpipe.wdl > wf_varpipe.dot
 	dot -Tpdf -o wf_varpipe.pdf wf_varpipe.dot
