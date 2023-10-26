@@ -23,6 +23,7 @@ ngs_pipeline:
 	wdl-aid wf_ngs_pipeline.wdl -o wf_ngs_pipeline.md
 	java -jar ~/Software/womtool-85.jar graph wf_ngs_pipeline.wdl > wf_ngs_pipeline.dot
 	dot -Tpdf -o wf_ngs_pipeline.pdf wf_ngs_pipeline.dot
+	dot -Tjpeg -o wf_ngs_pipeline.jpeg wf_ngs_pipeline.dot
 	rm wf_ngs_pipeline.dot
 
 run_ngs_pipeline:
@@ -37,6 +38,7 @@ tbprofiler:
 	wdl-aid wf_tbprofiler.wdl -o wf_tbprofiler.md
 	java -jar ~/Software/womtool-85.jar graph wf_tbprofiler.wdl > wf_tbprofiler.dot
 	dot -Tpdf -o wf_tbprofiler.pdf wf_tbprofiler.dot
+	dot -Tjpeg -o wf_tbprofiler.jpeg wf_tbprofiler.dot
 	rm wf_tbprofiler.dot
 
 run_tbprofiler:
@@ -54,6 +56,7 @@ varpipe:
 	wdl-aid wf_varpipe.wdl -o wf_varpipe.md
 	java -jar ~/Software/womtool-85.jar graph wf_varpipe.wdl > wf_varpipe.dot
 	dot -Tpdf -o wf_varpipe.pdf wf_varpipe.dot
+	dot -Tjpeg -o wf_varpipe.jpeg wf_varpipe.dot
 	rm wf_varpipe.dot
 
 run_varpipe:
