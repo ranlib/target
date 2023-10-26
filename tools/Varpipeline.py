@@ -26,7 +26,9 @@ if __name__ == "__main__":
 
     group5 = parser.add_argument_group("Annotation", "Use snpEff to annotate VCF file")
     group5.add_argument("-a", "--annotation", action="store_true", help="Run snpEff functional annotation")
-
+    group5.add_argument("-d", "--database", required=True, type=str, help="snpEff database, zip file")
+    group5.add_argument("-s", "--snpEff_config", required=True, type=str, help="snpEff config file")
+    
     group6 = parser.add_argument_group("Optional", "")
     group6.add_argument("-v", "--verbose", action="store_true", help="Produce status updates of the run")
     group6.add_argument("-h", "--help", action="help", help="Show this help message and exit")
@@ -84,8 +86,8 @@ if __name__ == "__main__":
         print(" ".join(sys.argv))
         print("")
 
-    # all is well let's get started!
-    s = snp.Snp(args.fastq, args.outdir, args.reference, args.genome, args.name, paired, args.fastq2, args.verbose, args.threads, args.whole_genome, config, " ".join(sys.argv))
+    # instantiate variant caller
+    s = snp.Snp(args, paired, config, sys.argv)
 
     # run Trimmomatic timmer
     if not args.no_trim:
