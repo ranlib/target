@@ -328,7 +328,7 @@
 </p>
 <p name="wf_varpipe.task_varpipe.docker">
         <b>wf_varpipe.task_varpipe.docker</b><br />
-        <i>String &mdash; Default: "dbest/varpipe4:v1.0.2"</i><br />
+        <i>String &mdash; Default: "dbest/varpipe4:v2.0.0"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_varpipe.memory">
@@ -453,7 +453,7 @@
 </p>
 <p name="wf_varpipe.wf_interpretation.interpretation_docker">
         <b>wf_varpipe.wf_interpretation.interpretation_docker</b><br />
-        <i>String &mdash; Default: "dbest/variant_interpretation:v1.3.0"</i><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.4.0"</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_interpretation.interpretation_memory">
@@ -463,7 +463,7 @@
 </p>
 <p name="wf_varpipe.wf_interpretation.lims_docker">
         <b>wf_varpipe.wf_interpretation.lims_docker</b><br />
-        <i>String &mdash; Default: "dbest/lims_report:v1.0.3"</i><br />
+        <i>String &mdash; Default: "dbest/lims_report:v1.0.4"</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_interpretation.lims_operator">

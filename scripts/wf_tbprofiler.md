@@ -521,9 +521,14 @@
         <i>String &mdash; Default: "mark_duplicates_metrics.txt"</i><br />
         ???
 </p>
+<p name="wf_tbprofiler.wf_interpretation.debug">
+        <b>wf_tbprofiler.wf_interpretation.debug</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
 <p name="wf_tbprofiler.wf_interpretation.interpretation_docker">
         <b>wf_tbprofiler.wf_interpretation.interpretation_docker</b><br />
-        <i>String &mdash; Default: "dbest/variant_interpretation:v1.2.1"</i><br />
+        <i>String &mdash; Default: "dbest/variant_interpretation:v1.4.0"</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.wf_interpretation.interpretation_memory">
@@ -533,7 +538,7 @@
 </p>
 <p name="wf_tbprofiler.wf_interpretation.lims_docker">
         <b>wf_tbprofiler.wf_interpretation.lims_docker</b><br />
-        <i>String &mdash; Default: "dbest/lims_report:v1.0.3"</i><br />
+        <i>String &mdash; Default: "dbest/lims_report:v1.0.4"</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.wf_interpretation.lims_operator">
@@ -549,11 +554,6 @@
 <p name="wf_tbprofiler.wf_interpretation.minimum_allele_percentage">
         <b>wf_tbprofiler.wf_interpretation.minimum_allele_percentage</b><br />
         <i>Float &mdash; Default: 10.0</i><br />
-        ???
-</p>
-<p name="wf_tbprofiler.wf_interpretation.task_variant_interpretation.minimum_allele_percentage">
-        <b>wf_tbprofiler.wf_interpretation.task_variant_interpretation.minimum_allele_percentage</b><br />
-        <i>Float &mdash; Default: 10</i><br />
         ???
 </p>
 <p name="wf_tbprofiler.wf_interpretation.verbose">
