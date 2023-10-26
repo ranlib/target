@@ -6,22 +6,23 @@ import os
 import subprocess
 import csv
 from datetime import datetime
+import zipfile
 
 class Snp:
     """get variants"""
 
-    def __init__(self, read1, outdir, reference, reference_name, name, paired, read2, verbose, threads, whole_genome, cfg, argString):
-        self.name = name  # sample name
+    def __init__(self, args, paired, cfg, argv):
+        self.name = args.name  # sample name
 
-        self.fOut = outdir
-        self.read1 = read1
-        self.read2 = read2
+        self.fOut = args.outdir
+        self.read1 = args.fastq
+        self.read2 = args.fastq2
         self.paired = paired
 
-        self.whole_genome = whole_genome
-        self.verbose = verbose
-        self.reference = reference
-        self.reference_name = reference_name
+        self.whole_genome = args.whole_genome
+        self.verbose = args.verbose
+        self.reference = args.reference
+        self.reference_name = args.genome
         self.reference_dict = ""
         
         # Create the output directory, and start the log file.
@@ -61,11 +62,11 @@ class Snp:
         self.__qlog = os.path.join(self.qlog, "QC.log")
         self.__log = os.path.join(self.fOut, self.name + ".log")
         self.__logFH = open(self.__log, "w")
-        self.__logFH.write(argString + "\n\n")
+        self.__logFH.write(" ".join(argv) + "\n\n")
         self.__logged = True
 
         self.__exception = ""
-        self.__threads = threads
+        self.__threads = args.threads
         self.__ranBWA = False
 
         # Configuration
@@ -81,8 +82,13 @@ class Snp:
         self.__structparser = cfg["scripts"]["struct_parser"]
         self.__create_report = cfg["scripts"]["create_report"]
         self.__print_report = cfg["scripts"]["print_report"]
-
-        self.__snpeff_database = cfg["scripts"]["snpeff_database"]
+        
+        # snpEff config file
+        self.__CallCommand("cp snpEff config", ["cp", args.snpEff_config, self.fOut])
+        self.__snpeff_config = os.path.join(self.fOut, os.path.basename(args.snpEff_config))
+        # get snpEff database
+        with zipfile.ZipFile(args.database, 'r') as zip_ref:
+            zip_ref.extractall(self.fOut)
 
         self.mutationloci = cfg["scripts"]["mutationloci"]
         self.__included = cfg["scripts"]["included"]
@@ -103,7 +109,8 @@ class Snp:
         for key in ['min-reads-per-strand', 'min-median-read-position' ]:
             self.gatk[key] = int(self.gatk[key])
 
-            
+  
+
     def __CallCommand(self, program, command):
         """Allows execution of a simple command."""
         out = ""
@@ -349,7 +356,7 @@ class Snp:
         """
         #if self.__finalVCF:
         self.__ifVerbose("Annotating final VCF.")
-        command = f"snpEff -nodownload -noLog -csvStats {self.__snpeff_stats_targets} -stats {self.__snpeff_html_targets} -config {self.__snpeff_database} {self.reference_name} {self.__finalVCF}"
+        command = f"snpEff -nodownload -noLog -csvStats {self.__snpeff_stats_targets} -stats {self.__snpeff_html_targets} -config {self.__snpeff_config} {self.reference_name} {self.__finalVCF}"
         self.__CallCommand(["SnpEff", self.__annotation], command.split())
     
         self.__ifVerbose("Parsing final Annotation.")
@@ -361,7 +368,7 @@ class Snp:
         #if self.__fullVCF:
         if self.whole_genome:
             self.__ifVerbose("Annotating full VCF.")
-            command = f"snpEff -nodownload -noLog -csvStats {self.__snpeff_stats_full} -stats {self.__snpeff_html_full} -config {self.__snpeff_database} {self.reference_name} {self.__fullVCF}"
+            command = f"snpEff -nodownload -noLog -csvStats {self.__snpeff_stats_full} -stats {self.__snpeff_html_full} -config {self.__snpeff_config} {self.reference_name} {self.__fullVCF}"
             self.__CallCommand(["SnpEff", self.__full_annotation], command.split())
 
             self.__ifVerbose("Parsing full Annotation.")
