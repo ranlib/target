@@ -134,6 +134,8 @@ workflow wf_varpipe {
       reference = reference,
       samplename = samplename,
       config = config,
+      snpEff_config = snpEff_config,
+      snpEff_database = snpEff_data_dir,
       outdir = outdir,
       genome = genome,
       keep = keep,
