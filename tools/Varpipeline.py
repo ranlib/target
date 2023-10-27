@@ -9,7 +9,7 @@ import configparser
 import snp
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(prog="Varpipeline", conflict_handler="resolve", description="Varpipeline - Call SNPs and InDels")
+    parser = argparse.ArgumentParser(prog="Varpipeline", conflict_handler="resolve", description="Varpipeline - Call SNPs and InDels", formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=80))
     group1 = parser.add_argument_group("Input", "")
     group1.add_argument("-q", "--fastq", required=True, type=str, help="Input FASTQ file")
     group1.add_argument("-q2", "--fastq2", type=str, default="", help="Second paired-end FASTQ file")
@@ -28,7 +28,7 @@ if __name__ == "__main__":
     group5.add_argument("-a", "--annotation", action="store_true", help="Run snpEff functional annotation")
     group5.add_argument("-d", "--database", required=True, type=str, help="snpEff database, zip file")
     group5.add_argument("-s", "--snpEff_config", required=True, type=str, help="snpEff config file")
-    
+
     group6 = parser.add_argument_group("Optional", "")
     group6.add_argument("-v", "--verbose", action="store_true", help="Produce status updates of the run")
     group6.add_argument("-h", "--help", action="help", help="Show this help message and exit")
@@ -52,9 +52,9 @@ if __name__ == "__main__":
             print(f"Please check that {args.fastq2} exists, then try again.")
             sys.exit(2)
         else:
-            paired = True
+            PAIRED = True
     else:
-        paired = False
+        PAIRED = False
 
     # Verify reference file exists
     if not os.path.isfile(args.reference):
@@ -87,7 +87,7 @@ if __name__ == "__main__":
         print("")
 
     # instantiate variant caller
-    s = snp.Snp(args, paired, config, sys.argv)
+    s = snp.Snp(args, PAIRED, config, sys.argv)
 
     # run Trimmomatic timmer
     if not args.no_trim:
