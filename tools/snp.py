@@ -283,14 +283,14 @@ class Snp:
                 self.__ifVerbose("QC log")
                 for row in reader:
                     for item in self.cuts.keys():
-                        self.__ifVerbose(f"{row[item]} > {self.cuts[item]}")
                         failure_reason[item] = float(row[item]) > self.cuts[item]
+                        self.__ifVerbose(f"{row[item]} > {self.cuts[item]}: {failure_reason[item]}")
 
                     message = []
                     message.append(row["sample_name"])
                     message.append(datetime.now().strftime("%Y/%m/%d"))
                     message.append(datetime.now().strftime("%H:%M:%S"))
-                    if all(list(failure_reason.keys())):
+                    if all(list(failure_reason.values())):
                         message.append("passed")
                     else:
                         message.append("failed")
