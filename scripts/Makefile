@@ -10,6 +10,7 @@ minimap2:
 
 run_minimap2:
 	miniwdl run --debug --dir test-minimap2 --cfg ../miniwdl_production.cfg --input wf_minimap2.json wf_minimap2.wdl
+
 bwa:
 	java -jar ~/Software/womtool-85.jar validate --inputs wf_bwa.json wf_bwa.wdl
 	miniwdl check wf_bwa.wdl
@@ -81,7 +82,9 @@ run_varpipe_tNGS:
 # b) different bed file: cdc_regions.bed
 #
 run_varpipe_cdc:
-	miniwdl run --debug --dir test-varpipe_cdc --cfg ../miniwdl_production.cfg --input wf_varpipe_cdc.json wf_varpipe.wdl
+	miniwdl run --debug --dir test-varpipe_cdc --cfg ../miniwdl_production.cfg --input wf_varpipe_cdc.json \
+	wf_varpipe.wdl \
+	task_bbduk.threads=1
 
 snpit:
 	java -jar ~/Software/womtool-85.jar validate --inputs wf_snpit.json wf_snpit.wdl
