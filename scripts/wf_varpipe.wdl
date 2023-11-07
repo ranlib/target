@@ -129,8 +129,8 @@ workflow wf_varpipe {
     
     call varpipe.task_varpipe {
       input:
-      read1 = select_first([task_bbduk.read1_clean, wf_clockwork_decontamination.clean_reads_1, task_trimmomatic.read1_trimmed]),
-      read2 = select_first([task_bbduk.read2_clean, wf_clockwork_decontamination.clean_reads_2, task_trimmomatic.read2_trimmed]),
+      read1 = select_first([wf_clockwork_decontamination.clean_reads_1, task_bbduk.read1_clean, task_trimmomatic.read1_trimmed]),
+      read2 = select_first([wf_clockwork_decontamination.clean_reads_2, task_bbduk.read2_clean, task_trimmomatic.read2_trimmed]),
       reference = reference,
       samplename = samplename,
       config = config,
