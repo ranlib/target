@@ -102,7 +102,7 @@ class Snp:
         # Note: keys have to be in header of stats.txt file!
         # need to tie together in the future
         self.cuts = { k:float(v) for k, v in cfg.items("cuts") }
-
+        
         # parameters for GATK
         #--min-reads-per-strand 1 --min-median-read-position 10 --min-allele-fraction 0.01
         self.gatk = { k:float(v) for k, v in cfg.items("gatk") }
@@ -280,21 +280,24 @@ class Snp:
             writer.writeheader()
             with open(statsOut, "r") as stats_file:
                 reader = csv.DictReader(stats_file, delimiter="\t")
+                self.__ifVerbose("QC log")
                 for row in reader:
                     for item in self.cuts.keys():
-                        failure_reason[item] = float(row[item]) < self.cuts[item]
+                        self.__ifVerbose(f"{row[item]} > {self.cuts[item]}")
+                        failure_reason[item] = float(row[item]) > self.cuts[item]
 
                     message = []
                     message.append(row["sample_name"])
                     message.append(datetime.now().strftime("%Y/%m/%d"))
                     message.append(datetime.now().strftime("%H:%M:%S"))
-                    if any(list(failure_reason.keys())):
-                        message.append("failed")
-                    else:
+                    if all(list(failure_reason.keys())):
                         message.append("passed")
+                    else:
+                        message.append("failed")
 
                     message.extend([ str(x) for x in failure_reason.values() ] )
                     writer.writerow(dict(zip(header, message)))
+                    self.__ifVerbose(dict(zip(header, message)))
                 
 
     def runGATK(self):
