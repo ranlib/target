@@ -17,14 +17,14 @@ task task_snpEff {
       String csvStats = "snpEff_summary.csv"
       String memory = "9G"
       String javaXmx = "8G"
-      String docker = "quay.io/biocontainers/snpeff:5.1d--hdfd78af_0"
+      String docker = "dbest/snpeff:v5.2a"
     }
     
     command {
       set -ex
       mkdir -p "$(dirname ~{outputPath})"
       unzip ~{dataDir}
-      snpEff ann -Xmx~{javaXmx} -XX:ParallelGCThreads=1 \
+      snpEff ann \
       -verbose \
       -noDownload \
       -noLog \
