@@ -61,7 +61,7 @@
   "wf_ngs_pipeline.task_multiqc.docker": "ewels/multiqc:v1.14",
   "wf_ngs_pipeline.task_multiqc.memory": "8GB",
   "wf_ngs_pipeline.task_snpEff.csvStats": "snpEff_summary.csv",
-  "wf_ngs_pipeline.task_snpEff.docker": "quay.io/biocontainers/snpeff:5.1d--hdfd78af_0",
+  "wf_ngs_pipeline.task_snpEff.docker": "dbest/snpeff:v5.2a",
   "wf_ngs_pipeline.task_snpEff.hgvs": true,
   "wf_ngs_pipeline.task_snpEff.javaXmx": "8G",
   "wf_ngs_pipeline.task_snpEff.lof": true,
