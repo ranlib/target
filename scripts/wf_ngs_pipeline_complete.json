@@ -58,7 +58,7 @@
   "wf_ngs_pipeline.task_fastq_screen.threads": "Int (optional, default = 1)",
   "wf_ngs_pipeline.task_multiqc.docker": "String (optional, default = \"ewels/multiqc:v1.14\")",
   "wf_ngs_pipeline.task_multiqc.memory": "String (optional, default = \"8GB\")",
-  "wf_ngs_pipeline.task_snpEff.docker": "String (optional, default = \"quay.io/biocontainers/snpeff:5.1d--hdfd78af_0\")",
+  "wf_ngs_pipeline.task_snpEff.docker": "String (optional, default = \"dbest/snpeff:v5.2a\")",
   "wf_ngs_pipeline.task_snpEff.hgvs": "Boolean (optional, default = true)",
   "wf_ngs_pipeline.task_snpEff.javaXmx": "String (optional, default = \"8G\")",
   "wf_ngs_pipeline.task_snpEff.lof": "Boolean (optional, default = true)",
