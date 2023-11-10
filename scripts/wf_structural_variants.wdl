@@ -24,7 +24,7 @@ workflow wf_structural_variants {
     Int upDownStreamLen = 5000
     String snpEff_memory = "9G"
     String snpEff_javaXmx = "8G"
-    String snpEff_docker = "quay.io/biocontainers/snpeff:5.1d--hdfd78af_0"
+    String snpEff_docker = "dbest/snpeff:v5.2a"
     String output_vcf_name = "structural_variants.vcf"
   }
 
