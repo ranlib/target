@@ -59,7 +59,7 @@ workflow wf_varpipe {
     File json
     File lineage_markers
     # run time parameters
-    Int disk_size = 100
+    Int? disk_size
     Int disk_multiplier = 20
   }
 
@@ -75,7 +75,8 @@ workflow wf_varpipe {
   }
 
   Int dynamic_disk_size = disk_multiplier*ceil(size(task_concatenate_fastq.concatenatedForwardFastq, "GiB"))
-
+  Int disk_size_gb = select_first([disk_size, dynamic_disk_size])
+  
   if ( run_fastq_screen ) {
     call fastq_screen.task_fastq_screen {
       input:
@@ -110,7 +111,7 @@ workflow wf_varpipe {
 	read1_trimmed = task_trimmomatic.read1_trimmed,
 	read2_trimmed = task_trimmomatic.read2_trimmed,
 	samplename = samplename,
-	disk_size = disk_size
+	disk_size = disk_size_gb
       }
     }
 
@@ -122,7 +123,7 @@ workflow wf_varpipe {
         metadata_file = clockwork_decontamination_metadata,
 	input_reads_1 = select_first([task_bbduk.read1_clean, task_trimmomatic.read1_trimmed]),
 	input_reads_2 = select_first([task_bbduk.read1_clean, task_trimmomatic.read2_trimmed]),
-	disk_size = disk_size
+	disk_size = disk_size_gb
       }
     }
 
