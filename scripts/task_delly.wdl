@@ -14,6 +14,7 @@ task task_delly {
   String outVCF = sub(basename(bamFile),".bam",".delly.vcf.gz")
 
   command {
+    set -ex
     delly call -t ~{svType} -o ~{outFile} -g ~{reference} ~{bamFile}
     bcftools view ~{outFile} | gzip > ~{outVCF}
   }
