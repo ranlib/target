@@ -23,7 +23,6 @@ workflow wf_structural_variants {
     Boolean noShiftHgvs = false
     Int upDownStreamLen = 5000
     String snpEff_memory = "9G"
-    String snpEff_javaXmx = "8G"
     String snpEff_docker = "dbest/snpeff:v5.2a"
     String output_vcf_name = "structural_variants.vcf"
   }
@@ -46,7 +45,6 @@ workflow wf_structural_variants {
     dataDir = dataDir,
     docker = snpEff_docker,
     memory = snpEff_memory,
-    javaXmx = snpEff_javaXmx,
     hgvs = hgvs,
     lof = lof,
     noDownstream = noDownstream,
