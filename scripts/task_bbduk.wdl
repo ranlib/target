@@ -10,6 +10,7 @@ task task_bbduk {
     String memory = "8GB"
     Boolean keep = true
     Int threads = 1
+    Int disk_size = 100
   }
 
   String java_mem = "-Xmx" + sub(memory,"GB","g")
@@ -105,9 +106,11 @@ task task_bbduk {
   }
 
   runtime {
-      docker: docker
-      memory: memory
-      cpu: threads
-      maxRetries: 3
+    docker: docker
+    memory: memory
+    cpu: threads
+    disks: "local-disk " + disk_size + " SSD"
+    maxRetries: 3
+    preemptible: 0
   }
 }

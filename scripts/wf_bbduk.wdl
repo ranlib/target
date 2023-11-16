@@ -8,6 +8,9 @@ workflow wf_bbduk {
     File reverseReads
     File? contamination
     String samplename
+    String memory = "6GB"
+    Int disk_size = 100
+    Int threads = 1
   }
 
   call bbduk.task_bbduk {
@@ -15,7 +18,9 @@ workflow wf_bbduk {
     read1_trimmed = forwardReads,
     read2_trimmed = reverseReads,
     contamination = contamination,
-    samplename = samplename
+    samplename = samplename,
+    disk_size = disk_size,
+    threads = threads
   }
 
   output {
