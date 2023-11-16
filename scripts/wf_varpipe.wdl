@@ -58,6 +58,9 @@ workflow wf_varpipe {
     File bed
     File json
     File lineage_markers
+    # run time parameters
+    Int disk_size = 100
+    Int disk_multiplier = 20
   }
 
   String outputForward = "${samplename}_1.fq.gz"
@@ -70,6 +73,8 @@ workflow wf_varpipe {
       outputForward = outputForward,
       outputReverse = outputReverse
   }
+
+  Int dynamic_disk_size = disk_multiplier*ceil(size(task_concatenate_fastq.concatenatedForwardFastq, "GiB"))
 
   if ( run_fastq_screen ) {
     call fastq_screen.task_fastq_screen {
@@ -104,7 +109,8 @@ workflow wf_varpipe {
 	input:
 	read1_trimmed = task_trimmomatic.read1_trimmed,
 	read2_trimmed = task_trimmomatic.read2_trimmed,
-	samplename = samplename
+	samplename = samplename,
+	disk_size = disk_size
       }
     }
 
@@ -115,7 +121,8 @@ workflow wf_varpipe {
 	samplename = samplename,
         metadata_file = clockwork_decontamination_metadata,
 	input_reads_1 = select_first([task_bbduk.read1_clean, task_trimmomatic.read1_trimmed]),
-	input_reads_2 = select_first([task_bbduk.read1_clean, task_trimmomatic.read2_trimmed])
+	input_reads_2 = select_first([task_bbduk.read1_clean, task_trimmomatic.read2_trimmed]),
+	disk_size = disk_size
       }
     }
 
