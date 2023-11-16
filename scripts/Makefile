@@ -249,6 +249,13 @@ snpEff:
 run_snpEff:
 	miniwdl run --debug --dir test-snpEff --cfg ../miniwdl_production.cfg --input wf_snpEff.json wf_snpEff.wdl
 
+repair:
+	java -jar ~/Software/womtool-85.jar validate --inputs wf_repair.json wf_repair.wdl
+	miniwdl check wf_repair.wdl	
+
+run_repair:
+	miniwdl run --debug --dir test-repair --cfg ../miniwdl_production.cfg --input wf_repair.json wf_repair.wdl
+
 structural_variants:
 	java -jar ~/Software/womtool-85.jar validate --inputs wf_structural_variants.json wf_structural_variants.wdl
 	miniwdl check wf_structural_variants.wdl	
