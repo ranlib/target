@@ -16,7 +16,8 @@ import "./task_collect_wgs_metrics.wdl" as wgsQC
 import "./wf_collect_targeted_pcr_metrics.wdl" as tpcrm
 import "./task_depth_of_coverage.wdl" as doc
 import "./task_concat_2_vcfs.wdl" as concat
-  
+import "./task_repair.wdl" as repair
+
 workflow wf_varpipe {
   input {
     Array[File]+ read1
@@ -63,9 +64,11 @@ workflow wf_varpipe {
     Int disk_multiplier = 20
   }
 
+  Int dynamic_disk_size = disk_multiplier*ceil(size(task_concatenate_fastq.concatenatedForwardFastq, "GiB"))
+  Int disk_size_gb = select_first([disk_size, dynamic_disk_size])
+  
   String outputForward = "${samplename}_1.fq.gz"
   String outputReverse = "${samplename}_2.fq.gz"
-
   call concatenate_fastq.task_concatenate_fastq {
     input:
       forwardFastqFiles = read1,
@@ -74,13 +77,17 @@ workflow wf_varpipe {
       outputReverse = outputReverse
   }
 
-  Int dynamic_disk_size = disk_multiplier*ceil(size(task_concatenate_fastq.concatenatedForwardFastq, "GiB"))
-  Int disk_size_gb = select_first([disk_size, dynamic_disk_size])
-  
+  call repair.task_repair {
+    input:
+      read1 = task_concatenate_fastq.concatenatedForwardFastq,
+      read2 = task_concatenate_fastq.concatenatedReverseFastq,
+      samplename = samplename
+  }
+
   if ( run_fastq_screen ) {
     call fastq_screen.task_fastq_screen {
       input:
-      reads = task_concatenate_fastq.concatenatedForwardFastq,
+      reads = task_repair.repaired_out1,
       configuration = fastq_screen_configuration,
       contaminants = fastq_screen_contaminants
       
@@ -89,19 +96,17 @@ workflow wf_varpipe {
 
   call fastqc.task_fastqc {
     input:
-    forwardReads = task_concatenate_fastq.concatenatedForwardFastq,
-    reverseReads = task_concatenate_fastq.concatenatedReverseFastq
+    forwardReads = task_repair.repaired_out1,
+    reverseReads = task_repair.repaired_out2
   }
 
-  Boolean filter1 = task_fastqc.numberForwardReads == task_fastqc.numberReverseReads
-  Boolean filter2 = task_fastqc.numberForwardReads > minNumberReads
-  Boolean filter = filter1 && filter2
+  Boolean filter = task_fastqc.numberForwardReads > minNumberReads
   if ( filter ) {
     
     call trimmomatic.task_trimmomatic {
       input:
-      read1 = task_concatenate_fastq.concatenatedForwardFastq,
-      read2 = task_concatenate_fastq.concatenatedReverseFastq,
+      read1 = task_repair.repaired_out1,
+      read2 = task_repair.repaired_out2,
       samplename = samplename
     }
 
