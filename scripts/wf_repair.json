@@ -1,0 +1,8 @@
+{
+    "wf_repair.read1": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
+    "wf_repair.read2": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz",
+    "wf_repair.samplename": "ERR552797",
+    "wf_repair.task_repair.docker": "staphb/bbtools:39.01",
+    "wf_repair.task_repair.memory": "8GB"
+}
+
