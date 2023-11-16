@@ -1,8 +1,9 @@
 {
     "wf_clockwork_decontamination.reference": "/home/dieterbest/Analysis/varpipe4/contamination/clockwork_contaminants.fa.gz",
     "wf_clockwork_decontamination.metadata_file": "/home/dieterbest/Analysis/varpipe4/contamination/clockwork_contaminants_metadata.tsv",
-    "wf_clockwork_decontamination.input_reads_1": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_1.fastq.gz",
-    "wf_clockwork_decontamination.input_reads_2": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_2.fastq.gz",
+    "wf_clockwork_decontamination.input_reads_1": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
+    "wf_clockwork_decontamination.input_reads_2": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz",
     "wf_clockwork_decontamination.samplename": "ERR552797",
-    "wf_clockwork_decontamination.threads": 1
+    "wf_clockwork_decontamination.threads": 1,
+    "wf_clockwork_decontamination.disk_size": 100
 }

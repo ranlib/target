@@ -10,6 +10,7 @@ task map_reads {
     String memory = "32GB"			
     String docker = "dbest/clockwork:v1.0.0"
     Int threads = 1
+    Int disk_size = 100
   }
 
   command {
@@ -23,8 +24,10 @@ task map_reads {
   runtime {
     docker: docker
     memory: memory
-    maxRetries: 3
     cpu: threads
+    disks: "local-disk " + disk_size + " SSD"
+    maxRetries: 3
+    preemptible: 0
   }
 }
 
@@ -37,6 +40,7 @@ task remove_contam {
     String output_reads_2
     String memory = "32GB"
     String docker = "dbest/clockwork:v1.0.0"
+    Int disk_size = 100
   }
 
   command {
@@ -52,7 +56,9 @@ task remove_contam {
   runtime {
     docker: docker
     memory: memory
+    disks: "local-disk " + disk_size + " SSD"
     maxRetries: 3
+    preemptible: 0
   }
 }
 

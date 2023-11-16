@@ -15,6 +15,7 @@ workflow wf_clockwork_decontamination {
     String output_reads_2 = samplename + "_clockwork_cleaned_2.fq.gz"
     String memory = "64GB"
     Int threads = 1
+    Int disk_size = 100
   }
 
   call cd.map_reads {
