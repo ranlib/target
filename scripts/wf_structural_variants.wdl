@@ -37,26 +37,28 @@ workflow wf_structural_variants {
     memory = delly_memory
   }
 
-  call snpEff.task_snpEff {
-    input:
-    vcf = task_delly.vcfFile,
-    genome = genome,
-    config = config,
-    dataDir = dataDir,
-    docker = snpEff_docker,
-    memory = snpEff_memory,
-    hgvs = hgvs,
-    lof = lof,
-    noDownstream = noDownstream,
-    noIntergenic = noIntergenic,
-    noShiftHgvs = noShiftHgvs,
-    upDownStreamLen = upDownStreamLen,
-    outputPath = output_vcf_name
+  if (defined(task_delly.vcfFile)) {
+    call snpEff.task_snpEff {
+      input:
+      vcf = select_first([task_delly.vcfFile]),
+      genome = genome,
+      config = config,
+      dataDir = dataDir,
+      docker = snpEff_docker,
+      memory = snpEff_memory,
+      hgvs = hgvs,
+      lof = lof,
+      noDownstream = noDownstream,
+      noIntergenic = noIntergenic,
+      noShiftHgvs = noShiftHgvs,
+      upDownStreamLen = upDownStreamLen,
+      outputPath = output_vcf_name
+    }
   }
 
   output {
-    File vcf = task_delly.vcfFile
-    File vcf_annotated = task_snpEff.outputVcf
+    File? vcf = task_delly.vcfFile
+    File? vcf_annotated = task_snpEff.outputVcf
   }
   
   meta {
