@@ -64,8 +64,6 @@ workflow wf_varpipe {
     Int disk_multiplier = 20
   }
 
-  Int dynamic_disk_size = disk_multiplier*ceil(size(task_concatenate_fastq.concatenatedForwardFastq, "GiB"))
-  Int disk_size_gb = select_first([disk_size, dynamic_disk_size])
   
   String outputForward = "${samplename}_1.fq.gz"
   String outputReverse = "${samplename}_2.fq.gz"
@@ -76,6 +74,9 @@ workflow wf_varpipe {
       outputForward = outputForward,
       outputReverse = outputReverse
   }
+
+  Int dynamic_disk_size = disk_multiplier*ceil(size(task_concatenate_fastq.concatenatedForwardFastq, "GiB"))
+  Int disk_size_gb = select_first([disk_size, dynamic_disk_size])
 
   call repair.task_repair {
     input:
