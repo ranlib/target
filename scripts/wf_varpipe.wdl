@@ -167,12 +167,14 @@ workflow wf_varpipe {
 	config = snpEff_config,
 	genome = genome
       }
-      
-      call concat.task_concat_2_vcfs {
-	input:
-	vcf1 = task_varpipe.DR_loci_raw_annotation,
-	vcf2 = wf_structural_variants.vcf_annotated,
-	output_vcf_name = output_vcf_name
+
+      if (defined(wf_structural_variants.vcf_annotated)) {
+	call concat.task_concat_2_vcfs {
+	  input:
+	  vcf1 = task_varpipe.DR_loci_raw_annotation,
+	  vcf2 = select_first([wf_structural_variants.vcf_annotated]),
+	  output_vcf_name = output_vcf_name
+	}
       }
     }
     
