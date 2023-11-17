@@ -14,13 +14,15 @@ task task_delly {
   String outVCF = sub(basename(bamFile),".bam",".delly.vcf.gz")
 
   command {
-    set -ex
+    set -x
     delly call -t ~{svType} -o ~{outFile} -g ~{reference} ~{bamFile}
+    if [ $? -eq 0 ] ; then
     bcftools view ~{outFile} | gzip > ~{outVCF}
+    fi
   }
 
   output {
-    File vcfFile = outVCF
+    File? vcfFile = outVCF
   }
 
   runtime {
