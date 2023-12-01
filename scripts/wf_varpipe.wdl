@@ -155,7 +155,8 @@ workflow wf_varpipe {
       keep = keep,
       no_trim = no_trim,
       whole_genome = whole_genome,
-      verbose = verbose
+      verbose = verbose,
+      disk_size = disk_size_gb
     }
 
     if ( run_delly ) {

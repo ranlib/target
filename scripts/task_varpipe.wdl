@@ -18,6 +18,7 @@ task task_varpipe {
     Int threads = 1
     String memory = "32GB"
     String docker = "dbest/varpipe4:v2.0.1"
+    Int disk_size = 100
   }
   
   command {
@@ -73,6 +74,9 @@ task task_varpipe {
     docker: docker
     memory: memory
     cpu: threads
+    disks: "local-disk " + disk_size + " SSD"
+    maxRetries: 3
+    preemptible: 0
   }
 }
 
