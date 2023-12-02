@@ -11,6 +11,7 @@ task task_trimmomatic {
     Int trimmomatic_quality_trim_score = 15
     Int threads = 4
     String memory = "8GB"
+    Int disk_size = 100
   }
 
   command <<<
@@ -47,7 +48,8 @@ task task_trimmomatic {
     docker: docker
     memory: memory
     cpu: threads
-    disks: "local-disk 100 SSD"
+    disks: "local-disk " + disk_size + " SSD"
+    maxRetries: 3
     preemptible: 0
   }
 }
