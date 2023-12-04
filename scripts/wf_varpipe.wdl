@@ -128,7 +128,7 @@ workflow wf_varpipe {
 	samplename = samplename,
         metadata_file = clockwork_decontamination_metadata,
 	input_reads_1 = select_first([task_bbduk.read1_clean, task_trimmomatic.read1_trimmed]),
-	input_reads_2 = select_first([task_bbduk.read1_clean, task_trimmomatic.read2_trimmed]),
+	input_reads_2 = select_first([task_bbduk.read2_clean, task_trimmomatic.read2_trimmed]),
 	disk_size = disk_size_gb
       }
     }
