@@ -237,7 +237,7 @@ elif "FQ" in list(dictargets.values()):
     print(input6 + "\t" + "FQ" + "\t" + "No reportable variant detected" + "\t" + "Review coverage")
     print("FQ" + "\t" + "No reportable variant detected" + "\t" + "Review coverage", file=fh6)
 else:
-    print(input6 + "FQ" + "\t" + "No reportable variant detected" + "\t" + "FQ-S")
+    print(input6 + "\t" + "FQ" + "\t" + "No reportable variant detected" + "\t" + "FQ-S")
     print("FQ" + "\t" + "No reportable variant detected" + "\t" + "FQ-S", file=fh6)
 if any("EMB" in string for string in arraylist):
     print(input6 + "\t" + "EMB" + "\t" + emb_varstring + "\t" + emb_interpstring)
