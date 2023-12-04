@@ -108,7 +108,8 @@ workflow wf_varpipe {
       input:
       read1 = task_repair.repaired_out1,
       read2 = task_repair.repaired_out2,
-      samplename = samplename
+      samplename = samplename,
+      disk_size = disk_size_gb
     }
 
     if ( run_decontamination ) {
