@@ -17,8 +17,10 @@ R1=$FASTQ/ERR552797_30percent_1.fq.gz
 R2=$FASTQ/ERR552797_30percent_2.fq.gz
 NAME="NC_000962.3"
 REF="../references/NC_000962.3/NC_000962.3.fasta"
-CONFIG=snp.config
+#CONFIG=snp.config
 CONFIG=snp_home.config
+SNPEFF_DB=$HOME/Analysis/varpipe4/snpEff_database/snpEff.zip
+SNPEFF_CONFIG=$HOME/Analysis/varpipe4/snpEff_database/snpEff.config
 
 if [ "$MODE" = "conda" ] ; then
     time ../tools/Varpipeline.py \
@@ -29,6 +31,8 @@ if [ "$MODE" = "conda" ] ; then
 	 --outdir $SAMPL \
 	 --config $CONFIG \
 	 --annotation \
+	 --database $SNPEFF_DB \
+	 --snpEff_config $SNPEFF_CONFIG \
 	 --verbose \
 	 --threads 4 \
 	 --whole_genome
@@ -50,17 +54,24 @@ CONFIG=$HOME/Analysis/varpipe4/configuration
 CFG=/mnt/config
 CONF=$CFG/snp_docker.config
 
+SNPEFF=$HOME/Analysis/varpipe4/snpEff_database
+SNPEFF_C=/mnt/snpEff_database
+SNPEFF_CONFIG_C=$SNPEFF_C/snpEff.config
+SNPEFF_ZIP_C=$SNPEFF_C/snpEff.zip
+
 DATA=$HOME/Analysis/varpipe4/tests
 WRK=/mnt/data
 
 if [ "$MODE" = "docker" ] ; then
-    time docker run --rm -u $(id -u):$(id -u) -v $FASTQ:$FSQ -v $REFERENCE:$REF -v $CONFIG:$CFG -v $DATA:$WRK -w $WRK dbest/varpipe4:latest Varpipeline.py \
+    time docker run --rm -u $(id -u):$(id -u) -v $FASTQ:$FSQ -v $REFERENCE:$REF -v $CONFIG:$CFG -v $SNPEFF:$SNPEFF_C -v $DATA:$WRK -w $WRK dbest/varpipe4:v2.0.0 Varpipeline.py \
 	   --fastq $R1 --fastq2 $R2 \
 	   --reference $FASTA \
 	   --genome $NAME \
 	   --name $SAMPL \
 	   --outdir $SAMPL \
 	   --config $CONF \
+	   --database $SNPEFF_ZIP_C \
+	   --snpEff_config $SNPEFF_CONFIG_C \
 	   --verbose --annotation --threads 4 \
 	   --keepfiles --no_trim --whole_genome
     
@@ -78,7 +89,8 @@ fi
 # run WDL script via cromwell
 #
 if [ "$MODE" = "cromwell" ] ; then
-    time java -jar $HOME/Software/cromwell-85.jar run ../scripts/wf_varpipe.wdl -i ../scripts/wf_varpipe.json
+    #time java -jar $HOME/Software/cromwell-85.jar run ../scripts/wf_varpipe.wdl -i ../scripts/wf_varpipe.json
+    time java -Dconfig.file=cromwell.config -jar $HOME/Software/cromwell-85.jar run ../scripts/wf_varpipe.wdl -i ../scripts/wf_varpipe.json
 fi
 
 #
