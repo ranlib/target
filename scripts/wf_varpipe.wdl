@@ -137,8 +137,8 @@ workflow wf_varpipe {
     if ( run_fastqc_after_cleanup ) {
       call fastqc.task_fastqc as task_fastqc_after_cleanup {
 	input:
-	forwardReads = select_first([task_bbduk.read1_clean, wf_clockwork_decontamination.clean_reads_1, task_trimmomatic.read1_trimmed]),
-	reverseReads = select_first([task_bbduk.read2_clean, wf_clockwork_decontamination.clean_reads_2, task_trimmomatic.read2_trimmed])
+	forwardReads = select_first([wf_clockwork_decontamination.clean_reads_1, task_bbduk.read1_clean, task_trimmomatic.read1_trimmed]),
+	reverseReads = select_first([wf_clockwork_decontamination.clean_reads_2, task_bbduk.read2_clean, task_trimmomatic.read2_trimmed]),
       }
     }
     
