@@ -163,8 +163,8 @@ workflow wf_varpipe {
     if ( run_fastqc_after_cleanup ) {
       call fastqc.task_fastqc as task_fastqc_after_cleanup {
 	input:
-	forwardReads = select_first([wf_clockwork_decontamination.clean_reads_1, task_bbduk.read1_clean, task_trimmomatic.read1_trimmed]),
-	reverseReads = select_first([wf_clockwork_decontamination.clean_reads_2, task_bbduk.read2_clean, task_trimmomatic.read2_trimmed]),
+	forwardReads = select_first([task_ptrimmer.trimmedRead1, wf_clockwork_decontamination.clean_reads_1, task_bbduk.read1_clean, task_trimmomatic.read1_trimmed]),
+	reverseReads = select_first([task_ptrimmer.trimmedRead2, wf_clockwork_decontamination.clean_reads_2, task_bbduk.read2_clean, task_trimmomatic.read2_trimmed]),
       }
     }
     
@@ -351,6 +351,8 @@ workflow wf_varpipe {
     File? Covid19_stats = task_bbduk.Covid19_stats
     # output from clockwork decontamination
     File? clockwork_decontamination_stats = wf_clockwork_decontamination.stats
+    # output from ptrimmer
+    File? ptrimmer_stats = task_ptrimmer.trimmingSummary
     # output from delly + snpEff = annotated structural variants
     File? vcf_structural_variants = wf_structural_variants.vcf_annotated
     # all annotated variants = variant valler + SV caller delly
