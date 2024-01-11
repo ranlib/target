@@ -1,4 +1,5 @@
 {
+  "wf_varpipe.ampfile": "/home/dieterbest/Analysis/varpipe4/configuration/primers.tsv",
   "wf_varpipe.bed": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb.bed",
   "wf_varpipe.clockwork_contaminants": "/home/dieterbest/Analysis/varpipe4/contamination/clockwork_contaminants.fa.gz",
   "wf_varpipe.clockwork_decontamination_metadata": "/home/dieterbest/Analysis/varpipe4/contamination/clockwork_contaminants_metadata.tsv",
@@ -10,11 +11,16 @@
   "wf_varpipe.genome": "NC_000962.3",
   "wf_varpipe.json": "/home/dieterbest/Analysis/varpipe4/intervals/tbdb_CDPH.json",
   "wf_varpipe.keep": false,
+  "wf_varpipe.kmer": 8,
   "wf_varpipe.lineage_markers": "/home/dieterbest/Analysis/varpipe4/intervals/lineage_markers.txt",
   "wf_varpipe.minNumberReads": 10000,
+  "wf_varpipe.minqual": 20,
+  "wf_varpipe.mismatch": 4,
   "wf_varpipe.no_trim": true,
   "wf_varpipe.outdir": "ERR552797",
   "wf_varpipe.output_vcf_name": "all_variants.vcf",
+  "wf_varpipe.ptrimmer_keep": true,
+  "wf_varpipe.ptrimmer_summary": "ERR552797_summary.tsv",
   "wf_varpipe.read1": [
     "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz"
   ],
@@ -30,6 +36,7 @@
   "wf_varpipe.run_fastqc_after_cleanup": true,
   "wf_varpipe.run_variant_interpretation": true,
   "wf_varpipe.samplename": "ERR552797",
+  "wf_varpipe.seqtype": "pair",
   "wf_varpipe.snpEff_config": "/home/dieterbest/Analysis/varpipe4/snpEff_database/snpEff.config",
   "wf_varpipe.snpEff_data_dir": "/home/dieterbest/Analysis/varpipe4/snpEff_database/snpEff.zip",
   "wf_varpipe.task_bbduk.contamination": "/home/dieterbest/Analysis/varpipe4/contamination/bbduk_contamination_polyA.tar.gz",
@@ -75,6 +82,7 @@
   "wf_varpipe.task_fastqc_after_cleanup.threads": 4,
   "wf_varpipe.task_multiqc.docker": "ewels/multiqc:v1.19",
   "wf_varpipe.task_multiqc.memory": "8GB",
+  "wf_varpipe.task_ptrimmer.docker": "dbest/ptrimmer:v1.3.4",
   "wf_varpipe.task_repair.docker": "staphb/bbtools:39.01",
   "wf_varpipe.task_repair.memory": "8GB",
   "wf_varpipe.task_trimmomatic.docker": "staphb/trimmomatic:0.39",

@@ -17,6 +17,7 @@ import "./wf_collect_targeted_pcr_metrics.wdl" as tpcrm
 import "./task_depth_of_coverage.wdl" as doc
 import "./task_concat_2_vcfs.wdl" as concat
 import "./task_repair.wdl" as repair
+import "./task_ptrimmer.wdl" as ptrimmer
 
 workflow wf_varpipe {
   input {
@@ -30,12 +31,11 @@ workflow wf_varpipe {
     Boolean keep = false
     Boolean whole_genome = true
     Boolean verbose = false
+    Boolean no_trim = true
     # fastq_screen
     Boolean run_fastq_screen = true
     File fastq_screen_configuration
     File fastq_screen_contaminants
-    # trimmomatic
-    Boolean no_trim = true
     # fastqc
     Boolean run_fastqc_after_cleanup = true
     Int minNumberReads = 10000
@@ -45,6 +45,15 @@ workflow wf_varpipe {
     Boolean run_clockwork_decontamination = true
     File clockwork_decontamination_metadata
     File clockwork_contaminants
+    # ptrimmer
+    File ampfile = "primers.tsv"
+    String seqtype = "pair"
+    String ptrimmer_summary = "Summary.ampcount"
+    Int minqual = 20
+    Int kmer = 10
+    Int mismatch = 3
+    Boolean ptrimmer_keep = true
+    Boolean run_ptrimmer = true
     # delly for structural variants
     Boolean run_delly = true
     # snpEff
@@ -134,6 +143,23 @@ workflow wf_varpipe {
       }
     }
 
+    if ( run_ptrimmer ) {
+      call ptrimmer.task_ptrimmer {
+	input:
+	read1 = select_first([wf_clockwork_decontamination.clean_reads_1, task_bbduk.read1_clean, task_trimmomatic.read1_trimmed]),
+	read2 = select_first([wf_clockwork_decontamination.clean_reads_2, task_bbduk.read2_clean, task_trimmomatic.read2_trimmed]),
+	trim1 = "${samplename}_ptrimmer_1.fq.gz",
+	trim2 = "${samplename}_ptrimmer_2.fq.gz",
+	keep = ptrimmer_keep,
+	seqtype = seqtype,
+	ampfile = ampfile,
+	summary = ptrimmer_summary,
+	minqual = minqual,
+	kmer = kmer,
+	mismatch = mismatch
+      }
+    }
+    
     if ( run_fastqc_after_cleanup ) {
       call fastqc.task_fastqc as task_fastqc_after_cleanup {
 	input:
