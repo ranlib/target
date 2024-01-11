@@ -121,16 +121,18 @@ workflow wf_ngs_pipeline {
     reference = task_genbank_to_fasta.fastaFile
   }
 
-  call concat.task_concat_2_vcfs {
-    input:
-    vcf1 = wf_gatk.vcfFilteredFile,
-    vcf2 = task_delly.vcfFile,
-    output_vcf_name = output_vcf_name
+  if (defined(task_delly.vcfFile)) {
+    call concat.task_concat_2_vcfs {
+      input:
+      vcf1 = wf_gatk.vcfFilteredFile,
+      vcf2 = select_first([task_delly.vcfFile]),
+      output_vcf_name = output_vcf_name
+    }
   }
-
+  
   call snpEff.task_snpEff {
     input:
-    vcf = task_concat_2_vcfs.concatenated_vcf,
+    vcf = select_first([task_concat_2_vcfs.concatenated_vcf,wf_gatk.vcfFilteredFile]),
     genome = genome,
     config = config,
     dataDir = dataDir

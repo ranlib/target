@@ -1,0 +1,15 @@
+{
+  "wf_ptrimmer.mismatch": 4,
+  "wf_ptrimmer.summary": "ERR552797_summary.tsv",
+  "wf_ptrimmer.trim1": "ERR552797_30percent_noprimer_1.fq.gz",
+  "wf_ptrimmer.trim2": "ERR552797_30percent_noprimer_2.fq.gz",
+  "wf_ptrimmer.kmer": 8,
+  "wf_ptrimmer.ampfile": "/home/dieterbest/Analysis/varpipe4/configuration/primers.tsv",
+  "wf_ptrimmer.keep": true,
+  "wf_ptrimmer.minqual": 20,
+  "wf_ptrimmer.seqtype": "pair",
+  "wf_ptrimmer.read1": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
+  "wf_ptrimmer.read2": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz",
+  "wf_ptrimmer.task_ptrimmer.docker":    "dbest/ptrimmer:v1.3.4"
+}
+

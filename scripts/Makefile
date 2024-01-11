@@ -4,6 +4,17 @@
 #
 all: tbprofiler varpipe fastqc bbduk bbduk_no_contamination clockwork_decontamination trimmomatic multiqc concatenate_fastq collect_multiple_metrics collect_targeted_pcr_metrics collect_hs_metrics depth_of_coverage delly mark_duplicates variant_interpretation
 
+ptrimmer:
+	java -jar ~/Software/womtool-85.jar validate --inputs wf_ptrimmer.json wf_ptrimmer.wdl
+	miniwdl check wf_ptrimmer.wdl
+
+run_ptrimmer:
+	miniwdl run --debug --dir test-ptrimmer --cfg ../miniwdl_production.cfg wf_ptrimmer.wdl -i wf_ptrimmer.json
+
+ptrimmer_docu:
+	wdl-aid wf_ptrimmer.wdl -o wf_ptrimmer.md
+	#grip -b wf_ptrimmer.md
+
 minimap2:
 	java -jar ~/Software/womtool-85.jar validate --inputs wf_minimap2.json wf_minimap2.wdl
 	miniwdl check wf_minimap2.wdl

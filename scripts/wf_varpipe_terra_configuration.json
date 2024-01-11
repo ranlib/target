@@ -72,7 +72,7 @@
   "wf_varpipe.task_fastqc_after_cleanup.limits": "gs://fc-19cf0d01-e892-4d9b-bb3a-f3906e846785/configuration/fastqc_limits.txt",
   "wf_varpipe.task_fastqc_after_cleanup.memory": "8GB",
   "wf_varpipe.task_fastqc_after_cleanup.threads": 16,
-  "wf_varpipe.task_multiqc.docker": "ewels/multiqc:v1.14",
+  "wf_varpipe.task_multiqc.docker": "ewels/multiqc:v1.19",
   "wf_varpipe.task_multiqc.memory": "8GB",
   "wf_varpipe.task_trimmomatic.docker": "staphb/trimmomatic:0.39",
   "wf_varpipe.task_trimmomatic.memory": "8GB",
