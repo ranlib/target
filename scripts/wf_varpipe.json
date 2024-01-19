@@ -20,7 +20,7 @@
   "wf_varpipe.outdir": "ERR552797",
   "wf_varpipe.output_vcf_name": "all_variants.vcf",
   "wf_varpipe.ptrimmer_keep": true,
-  "wf_varpipe.ptrimmer_summary": "ERR552797_summary.tsv",
+  "wf_varpipe.ptrimmer_summary": "ptrimmer_summary.tsv",
   "wf_varpipe.read1": [
     "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz"
   ],

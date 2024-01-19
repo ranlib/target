@@ -20,7 +20,7 @@
     "wf_varpipe.outdir": "5-16-22A-15-1plus",
     "wf_varpipe.output_vcf_name": "all_variants.vcf",
     "wf_varpipe.ptrimmer_keep": true,
-    "wf_varpipe.ptrimmer_summary": "ERR552797_summary.tsv",
+    "wf_varpipe.ptrimmer_summary": "ptrimmer_summary.tsv",
     "wf_varpipe.read1": [
         "/home/dieterbest/Analysis/varpipe4/data/5-16-22A-15-1plus_S2_L001_R1_001.fastq.gz",
     ],

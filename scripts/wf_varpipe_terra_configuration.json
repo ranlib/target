@@ -20,7 +20,7 @@
   "wf_varpipe.outdir": "ERR552797",
   "wf_varpipe.output_vcf_name": "all_variants.vcf",
   "wf_varpipe.ptrimmer_keep": true,
-  "wf_varpipe.ptrimmer_summary": "ERR552797_summary.tsv",
+  "wf_varpipe.ptrimmer_summary": "ptrimmer_summary.tsv",
   "wf_varpipe.read1": [
     "gs://fc-19cf0d01-e892-4d9b-bb3a-f3906e846785/data/ERR552797_30percent_1.fq.gz"
   ],
