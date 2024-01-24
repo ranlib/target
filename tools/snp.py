@@ -244,7 +244,7 @@ class Snp:
         #samDir = self.outdir + "/SamTools"
         #samDir = os.path.join(self.fOut, "SamTools")
 
-        self.__CallCommand("samtools depth", ["samtools", "depth", "-o", self.samDir + "/coverage.txt", "-a", self.__finalBam])
+        self.__CallCommand("samtools depth", ["samtools", "depth", "-o", self.samDir + "/coverage.txt", "-a", "-s", self.__finalBam])
         self.__CallCommand(["bedtools coverage", self.samDir + "/bed_amp_coverage.txt"], ["bedtools", "coverage", "-b", self.__finalBam, "-a", self.__bedlist_amp])
         self.__CallCommand(["sort", self.samDir + "/bed_amp_sorted_coverage.txt"], ["sort", "-nk", "6", self.samDir + "/bed_amp_coverage.txt"])
         self.__CallCommand(["bedtools coverage", self.samDir + "/bed_1_coverage.txt"], ["bedtools", "coverage", "-b", self.__finalBam, "-a", self.__bedlist_one])
