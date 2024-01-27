@@ -3,9 +3,9 @@
     "wf_bbduk.forwardReads": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
     "wf_bbduk.reverseReads": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz",
     "wf_bbduk.samplename": "ERR552797",
-    "wf_bbduk.threads": 1,
+    "wf_bbduk.threads": 16,
     "wf_bbduk.task_bbduk.keep": true,
     "wf_bbduk.task_bbduk.docker": "staphb/bbtools:39.01",
-    "wf_bbduk.memory": "6GB",
+    "wf_bbduk.memory": "64GB",
     "wf_bbduk.disk_size": 100
 }
