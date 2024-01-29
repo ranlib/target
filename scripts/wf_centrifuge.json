@@ -1,8 +1,9 @@
 {
-  "CentrifugeWorkflow.RunCentrifuge.docker": "String (optional, default = \"dbest/centrifuge:v1.0.4\")",
-  "CentrifugeWorkflow.R1": "File",
-  "CentrifugeWorkflow.threads": "Int",
-  "CentrifugeWorkflow.R2": "File",
-  "CentrifugeWorkflow.samplename": "String"
+    "CentrifugeWorkflow.RunCentrifuge.docker": "dbest/centrifuge:v1.0.4",
+    "CentrifugeWorkflow.R1": "/home/dbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
+    "CentrifugeWorkflow.R2": "/home/dbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
+    "CentrifugeWorkflow.threads": 24,
+    "CentrifugeWorkflow.samplename": "ERR552797",
+    "CentrifugeWorkflow.indexFiles": ["/data/centrifuge/hpvc.1.cf",  "/data/centrifuge/hpvc.2.cf",  "/data/centrifuge/hpvc.3.cf",  "/data/centrifuge/hpvc.4.cf"]
 }
 
