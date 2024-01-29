@@ -1,0 +1,8 @@
+{
+  "CentrifugeWorkflow.RunCentrifuge.docker": "String (optional, default = \"dbest/centrifuge:v1.0.4\")",
+  "CentrifugeWorkflow.R1": "File",
+  "CentrifugeWorkflow.threads": "Int",
+  "CentrifugeWorkflow.R2": "File",
+  "CentrifugeWorkflow.samplename": "String"
+}
+
