@@ -8,6 +8,7 @@ task RunCentrifuge {
     String samplename
     Int threads
     String docker = "dbest/centrifuge:v1.0.4"
+    String memory = "20GB"
   }
   command <<<
     set -x
@@ -25,6 +26,7 @@ task RunCentrifuge {
   runtime {
     docker: docker
     cpu: threads
+    memory: memory
   }
 }
 
