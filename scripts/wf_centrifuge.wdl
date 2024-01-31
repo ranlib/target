@@ -18,10 +18,11 @@ task task_centrifuge {
        ln -s ${file} $PWD/"$(basename ${file})"
     done
     centrifuge -x $PWD/${indexBasename} --threads ~{threads} -1 ~{R1} -2 ~{R2} --report-file ~{samplename}.centrifuge.summary.report.tsv -S ~{samplename}.centrifuge.classification.tsv
+    (head -n1 ~{samplename}.centrifuge.summary.report.tsv ; tail -n+2 ~{samplename}.centrifuge.summary.report.tsv | sort -t $'\t' -r -g -k7 ) > ~{samplename}.centrifuge.summary.report.sorted.tsv
   >>>
   output {
     File classificationTSV = "${samplename}.centrifuge.classification.tsv"
-    File summaryReportTSV = "${samplename}.centrifuge.summary.report.tsv"
+    File summaryReportTSV = "${samplename}.centrifuge.summary.report.sorted.tsv"
   }
   runtime {
     docker: docker
@@ -45,7 +46,7 @@ task task_kreport {
     do
        ln -s ${file} $PWD/"$(basename ${file})"
     done
-    centrifuge-kreport -x $PWD/${indexBasename} ~{classificationTSV} > ~{samplename}.centrifuge.classification.kraken_style.tsv
+    centrifuge-kreport -x $PWD/${indexBasename} ~{classificationTSV} 2> ~{samplename}.centrifuge.classification.kraken_style.err 1> ~{samplename}.centrifuge.classification.kraken_style.tsv
   >>>
   output {
     File krakenStyleTSV = "${samplename}.centrifuge.classification.kraken_style.tsv"
@@ -87,5 +88,6 @@ workflow wf_centrifuge {
   output {
     File classificationTSV = task_centrifuge.classificationTSV
     File summaryReportTSV = task_centrifuge.summaryReportTSV
+    File krakenStyleTSV = task_kreport.krakenStyleTSV
   }
 }
