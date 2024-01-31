@@ -1,14 +1,14 @@
 {
-  "CentrifugeWorkflow.R1": "/home/dbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
-  "CentrifugeWorkflow.R2": "/home/dbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
-  "CentrifugeWorkflow.RunCentrifuge.docker": "dbest/centrifuge:v1.0.4",
-  "CentrifugeWorkflow.indexFiles": [
+  "wf_centrifuge.R1": "/home/dbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
+  "wf_centrifuge.R2": "/home/dbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
+  "wf_centrifuge.task_centrifuge.docker": "dbest/centrifuge:v1.0.4",
+  "wf_centrifuge.indexFiles": [
     "/data/centrifuge/hpvc.1.cf",
     "/data/centrifuge/hpvc.2.cf",
     "/data/centrifuge/hpvc.3.cf",
     "/data/centrifuge/hpvc.4.cf"
   ],
-  "CentrifugeWorkflow.memory": "64GB",
-  "CentrifugeWorkflow.samplename": "ERR552797",
-  "CentrifugeWorkflow.threads": 24
+  "wf_centrifuge.memory": "64GB",
+  "wf_centrifuge.samplename": "ERR552797",
+  "wf_centrifuge.threads": 24
 }

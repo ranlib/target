@@ -1,6 +1,6 @@
 version 1.0
 
-task RunCentrifuge {
+task task_centrifuge {
   input {
     File R1
     File R2
@@ -30,24 +30,26 @@ task RunCentrifuge {
   }
 }
 
-workflow CentrifugeWorkflow {
+workflow wf_centrifuge {
   input {
     File R1
     File R2
     String samplename
     Int threads
     Array[File]+ indexFiles
+    String memory = "20GB"
   }
-  call RunCentrifuge {
+  call task_centrifuge {
     input:
       R1 = R1,
       R2 = R2,
       samplename = samplename,
       threads = threads,
+      memory = memory,
       indexFiles = indexFiles
   }
   output {
-    File classificationTSV = RunCentrifuge.classificationTSV
-    File summaryReportTSV = RunCentrifuge.summaryReportTSV
+    File classificationTSV = task_centrifuge.classificationTSV
+    File summaryReportTSV = task_centrifuge.summaryReportTSV
   }
 }
