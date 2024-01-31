@@ -4,6 +4,13 @@
 #
 all: tbprofiler varpipe fastqc bbduk bbduk_no_contamination clockwork_decontamination trimmomatic multiqc concatenate_fastq collect_multiple_metrics collect_targeted_pcr_metrics collect_hs_metrics depth_of_coverage delly mark_duplicates variant_interpretation
 
+centrifuge:
+	java -jar ~/Software/womtool-86.jar validate --inputs wf_centrifuge.json wf_centrifuge.wdl
+	miniwdl check wf_centrifuge.wdl
+
+run_centrifuge:
+	miniwdl run --dir test-centrifuge --debug --cfg ../miniwdl_production.cfg -i wf_centrifuge.json wf_centrifuge.wdl
+
 ptrimmer:
 	java -jar ~/Software/womtool-86.jar validate --inputs wf_ptrimmer.json wf_ptrimmer.wdl
 	miniwdl check wf_ptrimmer.wdl
