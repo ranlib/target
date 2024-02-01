@@ -1,0 +1,8 @@
+{
+  "wf_kraken2.R1": "/home/dbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
+  "wf_kraken2.R2": "/home/dbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
+  "wf_kraken2.samplename": "ERR552797",
+  "wf_kraken2.task_kraken2.docker": "staphb/kraken2:latest",
+  "wf_kraken2.task_kraken2.memory": "64GB",
+  "wf_kraken2.task_kraken2.threads": 24
+}
