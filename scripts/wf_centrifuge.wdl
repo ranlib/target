@@ -9,6 +9,7 @@ task task_centrifuge {
     Int threads
     String docker = "dbest/centrifuge:v1.0.4"
     String memory = "20GB"
+    Int disk_size = 100
   }
   command <<<
     set -x
@@ -28,6 +29,7 @@ task task_centrifuge {
     docker: docker
     cpu: threads
     memory: memory
+    disks: "local-disk " + disk_size + " SSD"
   }
 }
 
@@ -38,6 +40,7 @@ task task_kreport {
     String samplename
     String docker = "dbest/centrifuge:v1.0.4"
     String memory = "20GB"
+    Int disk_size = 100
   }
   command <<<
     set -x
@@ -54,6 +57,7 @@ task task_kreport {
   runtime {
     docker: docker
     memory: memory
+    disks: "local-disk " + disk_size + " SSD"
   }
 }
 
@@ -65,8 +69,13 @@ workflow wf_centrifuge {
     Int threads
     Array[File]+ indexFiles
     String memory = "20GB"
+    Int disk_size= 100
+    Int disk_multiplier = 20
   }
   
+  Int dynamic_disk_size = disk_multiplier*ceil(size(R1, "GiB"))
+  Int disk_size_gb = select_first([disk_size, dynamic_disk_size])
+
   call task_centrifuge {
     input:
     R1 = R1,
@@ -74,6 +83,7 @@ workflow wf_centrifuge {
     samplename = samplename,
     threads = threads,
     memory = memory,
+    disk_size = disk_size_gb,
     indexFiles = indexFiles
   }
   
@@ -82,6 +92,7 @@ workflow wf_centrifuge {
     classificationTSV = task_centrifuge.classificationTSV,
     samplename = samplename,
     memory = memory,
+    disk_size = disk_size_gb,
     indexFiles = indexFiles
   }
   
