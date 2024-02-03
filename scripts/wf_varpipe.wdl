@@ -347,8 +347,11 @@ workflow wf_varpipe {
     File? adapter_stats = task_bbduk.adapter_stats
     File? phiX_stats    = task_bbduk.phiX_stats
     File? polyA_stats   = task_bbduk.polyA_stats
-    File? Ecoli_stats   = task_bbduk.Ecoli_stats
     File? Covid19_stats = task_bbduk.Covid19_stats
+    File? Ecoli_stats   = task_bbduk.Ecoli_stats
+    File? dermacoccus_stats = task_bbduk.NZ_CP008889_stats
+    File? dermacoccus_plasmid_stats = task_bbduk.NZ_CP008889_plasmid_stats
+
     # output from clockwork decontamination
     File? clockwork_decontamination_stats = wf_clockwork_decontamination.stats
     # output from ptrimmer
