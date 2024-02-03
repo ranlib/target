@@ -93,6 +93,14 @@ run_varpipe_cromwell:
 run_varpipe_tNGS:
 	miniwdl run --debug --dir test-varpipe_tNGS --cfg ../miniwdl_production.cfg --input wf_varpipe_tNGS.json wf_varpipe.wdl 
 
+run_varpipe_dbest:
+	cp wf_varpipe.json wf_varpipe_dbest.json
+	sed -i 's|dieterbest|dbest|' wf_varpipe_dbest.json
+	sed -i 's|bbduk_contamination_polyA.tar.gz|bbduk_contamination.tar.gz|' wf_varpipe_dbest.json
+	sed -i 's|8GB|250GB|' wf_varpipe_dbest.json
+	miniwdl run --debug --dir test-varpipe_wgs --cfg ../miniwdl_production.cfg --input wf_varpipe_dbest.json wf_varpipe.wdl task_bbduk.threads=16 task_fastq_screen.threads=16 task_fastqc.threads=16 task_fastqc_after_cleanup.threads=16 task_trimmomatic.threads=16 task_varpipe.threads=16
+
+
 #
 # only difference between wf_varpipe_cdc.json and wf_varpipe.json
 # wf_varpipe_cdc.json:
