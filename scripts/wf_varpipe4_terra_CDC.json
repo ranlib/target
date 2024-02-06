@@ -75,7 +75,7 @@ _varpipe.bed": "gs://fc-a76bb9bb-7ee3-432d-b74a-2e144e67979e/CDC_Varpipe_inputs_
   "wf_varpipe.task_trimmomatic.trimmomatic_minlen": 40,
   "wf_varpipe.task_trimmomatic.trimmomatic_quality_trim_score": 15,
   "wf_varpipe.task_trimmomatic.trimmomatic_window_size": 4,
-  "wf_varpipe.task_varpipe.docker": "dbest/varpipe4:v2.0.2",
+  "wf_varpipe.task_varpipe.docker": "dbest/varpipe4:v2.0.3",
   "wf_varpipe.task_varpipe.memory": "8GB",
   "wf_varpipe.task_varpipe.threads": 16,
   "wf_varpipe.verbose": false,
