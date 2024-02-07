@@ -6,7 +6,7 @@ task task_centrifuge {
     File R2
     Array[File]+ indexFiles
     String samplename
-    Int threads
+    Int threads = 1
     String docker = "dbest/centrifuge:v1.0.4"
     String memory = "20GB"
     Int disk_size = 100

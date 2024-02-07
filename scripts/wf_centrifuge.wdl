@@ -8,7 +8,7 @@ workflow wf_centrifuge {
     File R1
     File R2
     String samplename
-    Int threads
+    Int threads = 1
     Array[File]+ indexFiles
     String memory = "20GB"
     Int disk_size= 100
