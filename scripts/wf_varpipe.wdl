@@ -18,6 +18,7 @@ import "./task_depth_of_coverage.wdl" as doc
 import "./task_concat_2_vcfs.wdl" as concat
 import "./task_repair.wdl" as repair
 import "./task_ptrimmer.wdl" as ptrimmer
+import "./wf_centrifuge.wdl" as centrifuge
 
 workflow wf_varpipe {
   input {
@@ -32,6 +33,9 @@ workflow wf_varpipe {
     Boolean whole_genome = true
     Boolean verbose = false
     Boolean no_trim = true
+    # centrifuge
+    Boolean run_centrifuge = true
+    Array[File]+ indexFiles
     # fastq_screen
     Boolean run_fastq_screen = true
     File fastq_screen_configuration
@@ -101,6 +105,16 @@ workflow wf_varpipe {
       configuration = fastq_screen_configuration,
       contaminants = fastq_screen_contaminants
       
+    }
+  } 
+
+  if ( run_centrifuge ) {
+    call centrifuge.wf_centrifuge {
+      input:
+      R1 = task_repair.repaired_out1,
+      R2 = task_repair.repaired_out2,
+      samplename = samplename,
+      indexFiles = indexFiles
     }
   } 
 
@@ -286,6 +300,10 @@ workflow wf_varpipe {
   }
     
   output {
+    # centrifuge
+    File? centrifuge_classification = wf_centrifuge.classificationTSV
+    File? centrifuge_kraken_style = wf_centrifuge.krakenStyleTSV
+    File? centrifuge_summary = wf_centrifuge.summaryReportTSV
     # trimmomatic
     #File? trim_log = task_trimmomatic.trim_log
     File? trim_err = task_trimmomatic.trim_err
