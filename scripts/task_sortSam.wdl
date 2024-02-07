@@ -20,7 +20,7 @@ task task_sortSam {
   }
 
   runtime {
-    docker: "broadinstitute/gatk:4.4.0.0"
+    docker: "broadinstitute/gatk:4.5.0.0"
     memory: "16GB"
   }
 }

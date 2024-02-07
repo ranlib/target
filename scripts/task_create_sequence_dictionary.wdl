@@ -3,7 +3,7 @@ version 1.0
 task task_create_sequence_dictionary {
   input {
     File reference
-    String docker = "broadinstitute/gatk:4.4.0.0"
+    String docker = "broadinstitute/gatk:4.5.0.0"
     String memory = "8GB"
   }
 

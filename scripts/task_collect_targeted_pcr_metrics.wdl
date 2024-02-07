@@ -9,7 +9,7 @@ task task_collect_targeted_pcr_metrics {
     String outputMetrics = "collect_targeted_pcr_metrics.txt"
     String sensitivityFile = "collect_targeted_pcr_sensitivity_metrics.txt"
     String target_coverage_file = "collect_targeted_pcr_target_coverage.txt"
-    String docker = "broadinstitute/gatk:4.4.0.0"
+    String docker = "broadinstitute/gatk:4.5.0.0"
     String memory = "8GB"
     Int minMappingQuality = 20
     Int minBaseQuality = 20

@@ -13,7 +13,7 @@ task task_collect_wgs_metrics {
     Int coverage_cap = 250
     Int sample_size = 10000
     Boolean use_fast_algorithm = true
-    String docker = "broadinstitute/gatk:4.4.0.0"
+    String docker = "broadinstitute/gatk:4.5.0.0"
     String memory = "8GB"
   }
 
