@@ -1,12 +1,12 @@
 version 1.0
 
-import "./task_centrifuge.wdl" as task_centrifuge
-import "./task_kreport.wdl" as task_kreport
+import "./task_centrifuge.wdl" as centrifuge
+import "./task_kreport.wdl" as kreport
 
 workflow wf_centrifuge {
   input {
-    File R1
-    File R2
+    File read1
+    File read2
     String samplename
     Int threads = 1
     Array[File]+ indexFiles
@@ -15,13 +15,13 @@ workflow wf_centrifuge {
     Int disk_multiplier = 20
   }
   
-  Int dynamic_disk_size = disk_multiplier*ceil(size(R1, "GiB"))
+  Int dynamic_disk_size = disk_multiplier*ceil(size(read1, "GiB"))
   Int disk_size_gb = select_first([disk_size, dynamic_disk_size])
 
-  call task_centrifuge.task_centrifuge {
+  call centrifuge.task_centrifuge {
     input:
-    R1 = R1,
-    R2 = R2,
+    read1 = read1,
+    read2 = read2,
     samplename = samplename,
     threads = threads,
     memory = memory,
@@ -29,7 +29,7 @@ workflow wf_centrifuge {
     indexFiles = indexFiles
   }
   
-  call task_kreport.task_kreport {
+  call kreport.task_kreport {
     input:
     classificationTSV = task_centrifuge.classificationTSV,
     samplename = samplename,
