@@ -111,8 +111,8 @@ workflow wf_varpipe {
   if ( run_centrifuge ) {
     call centrifuge.wf_centrifuge {
       input:
-      R1 = task_repair.repaired_out1,
-      R2 = task_repair.repaired_out2,
+      read1 = task_repair.repaired_out1,
+      read2 = task_repair.repaired_out2,
       samplename = samplename,
       indexFiles = indexFiles
     }
