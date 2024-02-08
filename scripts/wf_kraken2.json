@@ -1,8 +1,15 @@
 {
-  "wf_kraken2.R1": "/home/dbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
-  "wf_kraken2.R2": "/home/dbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
+  "wf_kraken2.read1": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_1.fq.gz",
+  "wf_kraken2.read2": "/home/dieterbest/Analysis/varpipe4/data/ERR552797_30percent_2.fq.gz",
+  "wf_kraken2.disk_multiplier": 20,
+  "wf_kraken2.disk_size": 100,
+  "wf_kraken2.indexFiles": [
+    "/home/dieterbest/Analysis/k2_viral_20231009/hash.k2d",
+    "/home/dieterbest/Analysis/k2_viral_20231009/opts.k2d",
+    "/home/dieterbest/Analysis/k2_viral_20231009/taxo.k2d"
+  ],
+  "wf_kraken2.memory": "250GB",
   "wf_kraken2.samplename": "ERR552797",
   "wf_kraken2.task_kraken2.docker": "staphb/kraken2:latest",
-  "wf_kraken2.task_kraken2.memory": "64GB",
-  "wf_kraken2.task_kraken2.threads": 24
+  "wf_kraken2.threads": 10
 }

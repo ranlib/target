@@ -4,6 +4,13 @@
 #
 all: tbprofiler varpipe fastqc bbduk bbduk_no_contamination clockwork_decontamination trimmomatic multiqc concatenate_fastq collect_multiple_metrics collect_targeted_pcr_metrics collect_hs_metrics depth_of_coverage delly mark_duplicates variant_interpretation
 
+kraken2:
+	java -jar ~/Software/womtool-86.jar validate --inputs wf_kraken2.json wf_kraken2.wdl
+	miniwdl check wf_kraken2.wdl
+
+run_kraken2:
+	miniwdl run --dir test-kraken2 --debug --cfg ../miniwdl_production.cfg -i wf_kraken2.json wf_kraken2.wdl
+
 centrifuge:
 	java -jar ~/Software/womtool-86.jar validate --inputs wf_centrifuge.json wf_centrifuge.wdl
 	miniwdl check wf_centrifuge.wdl
