@@ -1,6 +1,7 @@
 version 1.0
 
 import "./task_kraken2.wdl" as kraken
+import "./task_bracken.wdl" as bracken
 
 workflow wf_kraken2 {
   input {
@@ -12,6 +13,10 @@ workflow wf_kraken2 {
     Int disk_multiplier = 20
     Int threads = 1
     String memory = "250GB"
+    # bracken
+    String level = "S"
+    Int read_length = 150
+    Int threshold = 10
   }
 
   Int dynamic_disk_size = disk_multiplier*ceil(size(read1, "GiB"))
@@ -28,9 +33,24 @@ workflow wf_kraken2 {
     disk_size = disk_size_gb
   }
 
+  if ( defined(task_kraken2.krakenReport) ) {
+    call bracken.task_bracken {
+      input:
+      kraken_report = select_first([task_kraken2.krakenReport]),
+      indexFiles = indexFiles,
+      samplename = samplename,
+      memory = memory,
+      level = level,
+      read_length = read_length,
+      threshold = threshold,
+      disk_size = disk_size_gb
+    }
+  }
+
   output {
     File? krakenReport = task_kraken2.krakenReport
     File? krakenOutput = task_kraken2.krakenOutput
+    File? brackenReport = task_bracken.bracken_report
     Array[File] unclassified = task_kraken2.unclassified
     Array[File] classified = task_kraken2.classified
   }
