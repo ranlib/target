@@ -13,12 +13,11 @@ task task_kraken2 {
   }
 
   command <<<
-    set -u
     set -x
     mkdir -p ${PWD}/kraken
     for file in ~{sep=" " indexFiles}
     do
-       cp ${file} ${PWD}/kraken/"$(basename ${file})"
+       ln -s ${file} ${PWD}/kraken/"$(basename ${file})"
     done
     kraken2 \
     --db ${PWD}/kraken \
@@ -27,7 +26,8 @@ task task_kraken2 {
     --report ~{samplename}.kraken.report \
     --unclassified-out ~{samplename}.unclassified#.fq \
     --classified-out ~{samplename}.classified#.fq \
-    --paired ~{basename(read1)} ~{basename(read2)} 
+    --paired ~{basename(read1)} ~{basename(read2)}
+    #gzip *.fq
   >>>
 
   output {
