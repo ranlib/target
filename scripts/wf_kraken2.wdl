@@ -7,8 +7,8 @@ workflow wf_kraken2 {
   input {
     File read1
     File read2
+    File database
     String samplename
-    Array[File]+ indexFiles
     Int disk_size= 100
     Int disk_multiplier = 20
     Int threads = 1
@@ -29,7 +29,7 @@ workflow wf_kraken2 {
     samplename = samplename,
     threads = threads,
     memory = memory,
-    indexFiles = indexFiles,
+    database = database,
     disk_size = disk_size_gb
   }
 
@@ -37,8 +37,8 @@ workflow wf_kraken2 {
     call bracken.task_bracken {
       input:
       kraken_report = select_first([task_kraken2.krakenReport]),
-      indexFiles = indexFiles,
       samplename = samplename,
+      database = database,
       memory = memory,
       level = level,
       read_length = read_length,
@@ -50,7 +50,7 @@ workflow wf_kraken2 {
   output {
     File? krakenReport = task_kraken2.krakenReport
     File? krakenOutput = task_kraken2.krakenOutput
-    File? brackenReport = task_bracken.bracken_report
+    Array[File]? brackenReport = task_bracken.bracken_report
     Array[File] unclassified = task_kraken2.unclassified
     Array[File] classified = task_kraken2.classified
   }

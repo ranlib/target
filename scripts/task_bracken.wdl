@@ -3,7 +3,7 @@ version 1.0
 task task_bracken {
     input {
       File kraken_report
-      Array[File]+ indexFiles
+      File database
       String docker = "staphb/bracken"
       String memory = "250GB"
       String samplename
@@ -16,20 +16,20 @@ task task_bracken {
     command <<<
       set -x
       mkdir -p ${PWD}/kraken
-      for file in ~{sep=" " indexFiles}
-      do
-      ln -s ${file} ${PWD}/kraken/"$(basename ${file})"
-      done
+      tar -C ${PWD}/kraken -xvf ~{database}
       if [ -s ~{kraken_report} ]
       then
-      bracken -d ${PWD}/kraken -i ~{kraken_report} -o ~{samplename}.bracken.report -r ~{read_length} -l ~{level} -t ~{threshold} &>2
+          for alevel in P C O F G S S1
+          do
+              bracken -d ${PWD}/kraken -i ~{kraken_report} -o ~{samplename}.${alevel}.bracken.report -r ~{read_length} -l ${alevel} -t ~{threshold} &>2
+          done
       else
-      touch ~{samplename}.bracken.report
+          touch ~{samplename}.bracken.report
       fi
     >>>
 
     output {
-      File bracken_report = "${samplename}.bracken.report"
+      Array[File] bracken_report = glob("${samplename}.*.bracken.report")
     }
     
     runtime {
