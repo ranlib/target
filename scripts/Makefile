@@ -11,12 +11,18 @@ kraken2:
 run_kraken2:
 	miniwdl run --dir test-kraken2 --debug --cfg ../miniwdl_production.cfg -i wf_kraken2.json wf_kraken2.wdl
 
+run_kraken2_large:
+	miniwdl run --dir test-kraken2_large --debug --cfg ../miniwdl_production.cfg -i wf_kraken2_large_WA_tar.json wf_kraken2.wdl
+
 centrifuge:
 	java -jar ~/Software/womtool-86.jar validate --inputs wf_centrifuge.json wf_centrifuge.wdl
 	miniwdl check wf_centrifuge.wdl
 
 run_centrifuge:
 	miniwdl run --dir test-centrifuge --debug --cfg ../miniwdl_production.cfg -i wf_centrifuge.json wf_centrifuge.wdl
+
+run_centrifuge_dbest:
+	miniwdl run --dir test-centrifuge --debug --cfg ../miniwdl_production.cfg -i wf_centrifuge_dbest.json wf_centrifuge.wdl
 
 ptrimmer:
 	java -jar ~/Software/womtool-86.jar validate --inputs wf_ptrimmer.json wf_ptrimmer.wdl
@@ -104,6 +110,8 @@ run_varpipe_dbest:
 	cp wf_varpipe.json wf_varpipe_dbest.json
 	sed -i 's|dieterbest|dbest|' wf_varpipe_dbest.json
 	sed -i 's|bbduk_contamination_polyA.tar.gz|bbduk_contamination.tar.gz|' wf_varpipe_dbest.json
+	sed -i 's|clockwork_contaminants.fa.gz|clockwork_contaminants_cdc_v2.fa.gz|' wf_varpipe_dbest.json
+	sed -i 's|clockwork_contaminants_metadata.tsv|clockwork_contaminants_metadata_cdc_v2.tsv|' wf_varpipe_dbest.json	
 	sed -i 's|8GB|250GB|' wf_varpipe_dbest.json
 	miniwdl run --debug --dir test-varpipe_wgs --cfg ../miniwdl_production.cfg --input wf_varpipe_dbest.json wf_varpipe.wdl task_bbduk.threads=16 task_fastq_screen.threads=16 task_fastqc.threads=16 task_fastqc_after_cleanup.threads=16 task_trimmomatic.threads=16 task_varpipe.threads=16
 
