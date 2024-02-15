@@ -271,7 +271,8 @@ workflow wf_varpipe {
   # end filter
   
   Array[File] allReports = flatten([
-  select_all([task_trimmomatic.trim_err,
+  select_all([wf_centrifuge.krakenStyleTSV,
+  task_trimmomatic.trim_err,
   task_fastq_screen.txt,
   task_fastqc.forwardData,
   task_fastqc.reverseData,
