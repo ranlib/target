@@ -458,7 +458,7 @@ workflow wf_varpipe {
       category: "optional"
     }
     bed: {
-      description: "bed file with genomic intervals of interest. Note: reference name in case of London TB profiler is 'Chromosome', make sure to use correct bed file",
+      description: "bed file with genomic intervals of interest. Note: reference name in case of London TB profiler is 'Chromosome', make sure to use correct bed file.",
       category: "required"
     }
     json: {
@@ -469,7 +469,39 @@ workflow wf_varpipe {
       description: "Name for output tsv file.",
       category: "optional"
     }
-
+    clockwork_contaminants: {
+      description: "Multifasta file with reference genomes of sources of contamination.",
+      category: "required"
+    }
+    clockwork_decontamination_metadata: {
+      description: "tsv file, 1st column = name of contamination group; 2nd column = 1 or 0, 1 for contamination, 0 for reference; 3rd column = name of genome.",
+      category: "required"
+    }
+    fastq_screen_configuration: {
+      description: "fastq_screen configuration file.",
+      category: "required"
+    }
+    fastq_screen_contaminants: {
+      description: "gzipped tar file of gzipped fasta genome files.",
+      category: "required"
+    }
+    lineage_markers: {
+      description: "Input tsv file for SNP-based lineage determination.",
+      category: "required"
+    }
+    snpEff_config: {
+      description: "Configuration file for snpEff.",
+      category: "required"
+    }
+    snpEff_data_dir: {
+      description: "Directory with snpEff data.",
+      category: "required"
+    }
+    indexFiles: {
+      description: "Array of index files for centrifuge.",
+      category: "required"
+    }
+    
     # output
     bam: {description: "Output alignement file of alignment procedure, aligner is bwa."}
     bai: {description: "Index file for output alignement file of alignment procedure, aligner is bwa."}
@@ -514,5 +546,14 @@ workflow wf_varpipe {
 
     multiqc_report: {description: "Output html file with QC summary report."}
 
+    centrifuge_classification: {description: "Classification output file from centrifuge."}
+    centrifuge_kraken_style: {description: "Classification output file from centrifuge in kraken2 style output format."}
+    centrifuge_summary: {description: "Summary output file from centrifuge."}
+
+    clockwork_decontamination_stats: {description: "Summary output from clockwork decontamination procedure."}
+
+    collect_wgs_output_metrics: {description: "Whole genome sequence metrics."}
+    depth_of_coverage_outputs: {description: "Depth of coverage report."}
+    
   }
 }

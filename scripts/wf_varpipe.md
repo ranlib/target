@@ -10,17 +10,17 @@
 <p name="wf_varpipe.bed">
         <b>wf_varpipe.bed</b><br />
         <i>File &mdash; Default: None</i><br />
-        bed file with genomic intervals of interest. Note: reference name in case of London TB profiler is 'Chromosome', make sure to use correct bed file
+        bed file with genomic intervals of interest. Note: reference name in case of London TB profiler is 'Chromosome', make sure to use correct bed file.
 </p>
 <p name="wf_varpipe.clockwork_contaminants">
         <b>wf_varpipe.clockwork_contaminants</b><br />
         <i>File &mdash; Default: None</i><br />
-        ???
+        Multifasta file with reference genomes of sources of contamination.
 </p>
 <p name="wf_varpipe.clockwork_decontamination_metadata">
         <b>wf_varpipe.clockwork_decontamination_metadata</b><br />
         <i>File &mdash; Default: None</i><br />
-        ???
+        tsv file, 1st column = name of contamination group; 2nd column = 1 or 0, 1 for contamination, 0 for reference; 3rd column = name of genome.
 </p>
 <p name="wf_varpipe.config">
         <b>wf_varpipe.config</b><br />
@@ -30,12 +30,17 @@
 <p name="wf_varpipe.fastq_screen_configuration">
         <b>wf_varpipe.fastq_screen_configuration</b><br />
         <i>File &mdash; Default: None</i><br />
-        ???
+        fastq_screen configuration file.
 </p>
 <p name="wf_varpipe.fastq_screen_contaminants">
         <b>wf_varpipe.fastq_screen_contaminants</b><br />
         <i>File &mdash; Default: None</i><br />
-        ???
+        gzipped tar file of gzipped fasta genome files.
+</p>
+<p name="wf_varpipe.indexFiles">
+        <b>wf_varpipe.indexFiles</b><br />
+        <i>Array[File]+ &mdash; Default: None</i><br />
+        Array of index files for centrifuge.
 </p>
 <p name="wf_varpipe.json">
         <b>wf_varpipe.json</b><br />
@@ -45,7 +50,7 @@
 <p name="wf_varpipe.lineage_markers">
         <b>wf_varpipe.lineage_markers</b><br />
         <i>File &mdash; Default: None</i><br />
-        ???
+        Input tsv file for SNP-based lineage determination.
 </p>
 <p name="wf_varpipe.outdir">
         <b>wf_varpipe.outdir</b><br />
@@ -75,12 +80,12 @@
 <p name="wf_varpipe.snpEff_config">
         <b>wf_varpipe.snpEff_config</b><br />
         <i>File &mdash; Default: None</i><br />
-        ???
+        Configuration file for snpEff.
 </p>
 <p name="wf_varpipe.snpEff_data_dir">
         <b>wf_varpipe.snpEff_data_dir</b><br />
         <i>File &mdash; Default: None</i><br />
-        ???
+        Directory with snpEff data.
 </p>
 
 ### Advanced inputs
@@ -106,11 +111,46 @@
         <i>String &mdash; Default: "8GB"</i><br />
         The amount of memory this job will use.
 </p>
+<p name="wf_varpipe.wf_centrifuge.task_centrifuge.docker">
+        <b>wf_varpipe.wf_centrifuge.task_centrifuge.docker</b><br />
+        <i>String &mdash; Default: "dbest/centrifuge:v1.0.4"</i><br />
+        The docker image used for this task. Changing this may result in errors which the developers may choose not to address.
+</p>
 </details>
 
 ### Other inputs
 <details>
 <summary> Show/Hide </summary>
+<p name="wf_varpipe.ampfile">
+        <b>wf_varpipe.ampfile</b><br />
+        <i>File &mdash; Default: "primers.tsv"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.disk_multiplier">
+        <b>wf_varpipe.disk_multiplier</b><br />
+        <i>Int &mdash; Default: 20</i><br />
+        ???
+</p>
+<p name="wf_varpipe.disk_size">
+        <b>wf_varpipe.disk_size</b><br />
+        <i>Int? &mdash; Default: None</i><br />
+        ???
+</p>
+<p name="wf_varpipe.kmer">
+        <b>wf_varpipe.kmer</b><br />
+        <i>Int &mdash; Default: 10</i><br />
+        ???
+</p>
+<p name="wf_varpipe.minqual">
+        <b>wf_varpipe.minqual</b><br />
+        <i>Int &mdash; Default: 20</i><br />
+        ???
+</p>
+<p name="wf_varpipe.mismatch">
+        <b>wf_varpipe.mismatch</b><br />
+        <i>Int &mdash; Default: 3</i><br />
+        ???
+</p>
 <p name="wf_varpipe.no_trim">
         <b>wf_varpipe.no_trim</b><br />
         <i>Boolean &mdash; Default: true</i><br />
@@ -119,6 +159,21 @@
 <p name="wf_varpipe.output_vcf_name">
         <b>wf_varpipe.output_vcf_name</b><br />
         <i>String &mdash; Default: "all_variants.vcf"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.ptrimmer_keep">
+        <b>wf_varpipe.ptrimmer_keep</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
+<p name="wf_varpipe.ptrimmer_summary">
+        <b>wf_varpipe.ptrimmer_summary</b><br />
+        <i>String &mdash; Default: "Summary.ampcount"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.run_centrifuge">
+        <b>wf_varpipe.run_centrifuge</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
         ???
 </p>
 <p name="wf_varpipe.run_clockwork_decontamination">
@@ -136,9 +191,19 @@
         <i>Boolean &mdash; Default: true</i><br />
         ???
 </p>
+<p name="wf_varpipe.run_ptrimmer">
+        <b>wf_varpipe.run_ptrimmer</b><br />
+        <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
 <p name="wf_varpipe.run_variant_interpretation">
         <b>wf_varpipe.run_variant_interpretation</b><br />
         <i>Boolean &mdash; Default: true</i><br />
+        ???
+</p>
+<p name="wf_varpipe.seqtype">
+        <b>wf_varpipe.seqtype</b><br />
+        <i>String &mdash; Default: "pair"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_bbduk.contamination">
@@ -161,6 +226,11 @@
         <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
+<p name="wf_varpipe.task_bbduk.number_of_retries">
+        <b>wf_varpipe.task_bbduk.number_of_retries</b><br />
+        <i>Int &mdash; Default: 1</i><br />
+        ???
+</p>
 <p name="wf_varpipe.task_bbduk.threads">
         <b>wf_varpipe.task_bbduk.threads</b><br />
         <i>Int &mdash; Default: 1</i><br />
@@ -168,7 +238,7 @@
 </p>
 <p name="wf_varpipe.task_collect_multiple_metrics.docker">
         <b>wf_varpipe.task_collect_multiple_metrics.docker</b><br />
-        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        <i>String &mdash; Default: "broadinstitute/gatk:4.5.0.0"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_collect_multiple_metrics.memory">
@@ -188,7 +258,7 @@
 </p>
 <p name="wf_varpipe.task_collect_wgs_metrics.docker">
         <b>wf_varpipe.task_collect_wgs_metrics.docker</b><br />
-        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        <i>String &mdash; Default: "broadinstitute/gatk:4.5.0.0"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_collect_wgs_metrics.memory">
@@ -238,7 +308,7 @@
 </p>
 <p name="wf_varpipe.task_depth_of_coverage.docker">
         <b>wf_varpipe.task_depth_of_coverage.docker</b><br />
-        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        <i>String &mdash; Default: "broadinstitute/gatk:4.5.0.0"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_depth_of_coverage.lower_coverage">
@@ -288,11 +358,26 @@
 </p>
 <p name="wf_varpipe.task_multiqc.docker">
         <b>wf_varpipe.task_multiqc.docker</b><br />
-        <i>String &mdash; Default: "ewels/multiqc:v1.14"</i><br />
+        <i>String &mdash; Default: "ewels/multiqc:v1.19"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_multiqc.memory">
         <b>wf_varpipe.task_multiqc.memory</b><br />
+        <i>String &mdash; Default: "8GB"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_ptrimmer.docker">
+        <b>wf_varpipe.task_ptrimmer.docker</b><br />
+        <i>String &mdash; Default: "dbest/ptrimmer:v1.3.4"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_repair.docker">
+        <b>wf_varpipe.task_repair.docker</b><br />
+        <i>String &mdash; Default: "staphb/bbtools:39.01"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.task_repair.memory">
+        <b>wf_varpipe.task_repair.memory</b><br />
         <i>String &mdash; Default: "8GB"</i><br />
         ???
 </p>
@@ -328,7 +413,7 @@
 </p>
 <p name="wf_varpipe.task_varpipe.docker">
         <b>wf_varpipe.task_varpipe.docker</b><br />
-        <i>String &mdash; Default: "dbest/varpipe4:v2.0.0"</i><br />
+        <i>String &mdash; Default: "dbest/varpipe4:v2.0.3"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_varpipe.memory">
@@ -341,6 +426,36 @@
         <i>Int &mdash; Default: 1</i><br />
         ???
 </p>
+<p name="wf_varpipe.wf_centrifuge.disk_multiplier">
+        <b>wf_varpipe.wf_centrifuge.disk_multiplier</b><br />
+        <i>Int &mdash; Default: 20</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_centrifuge.disk_size">
+        <b>wf_varpipe.wf_centrifuge.disk_size</b><br />
+        <i>Int &mdash; Default: 100</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_centrifuge.memory">
+        <b>wf_varpipe.wf_centrifuge.memory</b><br />
+        <i>String &mdash; Default: "20GB"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_centrifuge.task_kreport.docker">
+        <b>wf_varpipe.wf_centrifuge.task_kreport.docker</b><br />
+        <i>String &mdash; Default: "dbest/centrifuge:v1.0.4"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_centrifuge.threads">
+        <b>wf_varpipe.wf_centrifuge.threads</b><br />
+        <i>Int &mdash; Default: 1</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_clockwork_decontamination.map_reads.disk_size">
+        <b>wf_varpipe.wf_clockwork_decontamination.map_reads.disk_size</b><br />
+        <i>Int &mdash; Default: 100</i><br />
+        ???
+</p>
 <p name="wf_varpipe.wf_clockwork_decontamination.map_reads.docker">
         <b>wf_varpipe.wf_clockwork_decontamination.map_reads.docker</b><br />
         <i>String &mdash; Default: "dbest/clockwork:v1.0.0"</i><br />
@@ -349,6 +464,11 @@
 <p name="wf_varpipe.wf_clockwork_decontamination.memory">
         <b>wf_varpipe.wf_clockwork_decontamination.memory</b><br />
         <i>String &mdash; Default: "64GB"</i><br />
+        ???
+</p>
+<p name="wf_varpipe.wf_clockwork_decontamination.remove_contam.disk_size">
+        <b>wf_varpipe.wf_clockwork_decontamination.remove_contam.disk_size</b><br />
+        <i>Int &mdash; Default: 100</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_clockwork_decontamination.remove_contam.docker">
@@ -373,7 +493,7 @@
 </p>
 <p name="wf_varpipe.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.docker">
         <b>wf_varpipe.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.docker</b><br />
-        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        <i>String &mdash; Default: "broadinstitute/gatk:4.5.0.0"</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.memory">
@@ -428,7 +548,7 @@
 </p>
 <p name="wf_varpipe.wf_collect_targeted_pcr_metrics.task_mark_duplicates.docker">
         <b>wf_varpipe.wf_collect_targeted_pcr_metrics.task_mark_duplicates.docker</b><br />
-        <i>String &mdash; Default: "broadinstitute/gatk:4.4.0.0"</i><br />
+        <i>String &mdash; Default: "broadinstitute/gatk:4.5.0.0"</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_collect_targeted_pcr_metrics.task_mark_duplicates.marked_bam">
@@ -528,12 +648,7 @@
 </p>
 <p name="wf_varpipe.wf_structural_variants.snpEff_docker">
         <b>wf_varpipe.wf_structural_variants.snpEff_docker</b><br />
-        <i>String &mdash; Default: "quay.io/biocontainers/snpeff:5.1d--hdfd78af_0"</i><br />
-        ???
-</p>
-<p name="wf_varpipe.wf_structural_variants.snpEff_javaXmx">
-        <b>wf_varpipe.wf_structural_variants.snpEff_javaXmx</b><br />
-        <i>String &mdash; Default: "8G"</i><br />
+        <i>String &mdash; Default: "dbest/snpeff:v5.2a"</i><br />
         ???
 </p>
 <p name="wf_varpipe.wf_structural_variants.snpEff_memory">
@@ -579,10 +694,25 @@
         <i>File?</i><br />
         Output alignement file of alignment procedure, aligner is bwa.
 </p>
+<p name="wf_varpipe.centrifuge_classification">
+        <b>wf_varpipe.centrifuge_classification</b><br />
+        <i>File?</i><br />
+        Classification output file from centrifuge.
+</p>
+<p name="wf_varpipe.centrifuge_kraken_style">
+        <b>wf_varpipe.centrifuge_kraken_style</b><br />
+        <i>File?</i><br />
+        Classification output file from centrifuge in kraken2 style output format.
+</p>
+<p name="wf_varpipe.centrifuge_summary">
+        <b>wf_varpipe.centrifuge_summary</b><br />
+        <i>File?</i><br />
+        Summary output file from centrifuge.
+</p>
 <p name="wf_varpipe.clockwork_decontamination_stats">
         <b>wf_varpipe.clockwork_decontamination_stats</b><br />
         <i>File?</i><br />
-        ???
+        Summary output from clockwork decontamination procedure.
 </p>
 <p name="wf_varpipe.collect_targeted_pcr_metrics">
         <b>wf_varpipe.collect_targeted_pcr_metrics</b><br />
@@ -602,7 +732,7 @@
 <p name="wf_varpipe.collect_wgs_output_metrics">
         <b>wf_varpipe.collect_wgs_output_metrics</b><br />
         <i>File?</i><br />
-        ???
+        Whole genome sequence metrics.
 </p>
 <p name="wf_varpipe.Covid19_stats">
         <b>wf_varpipe.Covid19_stats</b><br />
@@ -612,6 +742,16 @@
 <p name="wf_varpipe.depth_of_coverage_outputs">
         <b>wf_varpipe.depth_of_coverage_outputs</b><br />
         <i>Array[File]?</i><br />
+        Depth of coverage report.
+</p>
+<p name="wf_varpipe.dermacoccus_plasmid_stats">
+        <b>wf_varpipe.dermacoccus_plasmid_stats</b><br />
+        <i>File?</i><br />
+        ???
+</p>
+<p name="wf_varpipe.dermacoccus_stats">
+        <b>wf_varpipe.dermacoccus_stats</b><br />
+        <i>File?</i><br />
         ???
 </p>
 <p name="wf_varpipe.DR_loci_annotation">
@@ -783,6 +923,11 @@
         <b>wf_varpipe.polyA_stats</b><br />
         <i>File?</i><br />
         polyA contamination report from bbduk decontamination task.
+</p>
+<p name="wf_varpipe.ptrimmer_stats">
+        <b>wf_varpipe.ptrimmer_stats</b><br />
+        <i>File?</i><br />
+        ???
 </p>
 <p name="wf_varpipe.qc_log">
         <b>wf_varpipe.qc_log</b><br />
