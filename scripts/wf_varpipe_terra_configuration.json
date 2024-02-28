@@ -81,7 +81,7 @@
   "wf_varpipe.task_fastqc_after_cleanup.limits": "gs://fc-19cf0d01-e892-4d9b-bb3a-f3906e846785/configuration/fastqc_limits.txt",
   "wf_varpipe.task_fastqc_after_cleanup.memory": "8GB",
   "wf_varpipe.task_fastqc_after_cleanup.threads": 16,
-  "wf_varpipe.task_multiqc.docker": "ewels/multiqc:v1.19",
+  "wf_varpipe.task_multiqc.docker": "multiqc/multiqc:v1.21",
   "wf_varpipe.task_multiqc.memory": "8GB",
   "wf_varpipe.task_ptrimmer.docker": "dbest/ptrimmer:v1.3.4",
   "wf_varpipe.task_repair.docker": "staphb/bbtools:39.01",
