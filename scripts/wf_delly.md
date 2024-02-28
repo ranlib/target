@@ -7,22 +7,22 @@ Workflow to run Delly structural variant caller on multiple BAM files
 <p name="wf_delly.bamFiles">
         <b>wf_delly.bamFiles</b><br />
         <i>Array[File]+ &mdash; Default: None</i><br />
-        ???
+        List of bam files to process.
 </p>
 <p name="wf_delly.bamIndices">
         <b>wf_delly.bamIndices</b><br />
         <i>Array[File]+ &mdash; Default: None</i><br />
-        ???
+        List of index bam files, one index per bam file.
 </p>
 <p name="wf_delly.reference">
         <b>wf_delly.reference</b><br />
         <i>File &mdash; Default: None</i><br />
-        ???
+        The reference fasta file also used for mapping.
 </p>
 <p name="wf_delly.svType">
         <b>wf_delly.svType</b><br />
         <i>String &mdash; Default: None</i><br />
-        ???
+        Type of structural variant to look for.
 </p>
 
 ### Advanced inputs
@@ -43,8 +43,8 @@ Workflow to run Delly structural variant caller on multiple BAM files
 ## Outputs
 <p name="wf_delly.vcfFiles">
         <b>wf_delly.vcfFiles</b><br />
-        <i>Array[File]</i><br />
-        ???
+        <i>Array[File?]</i><br />
+        List of files containing structural variants.
 </p>
 
 <hr />
