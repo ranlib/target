@@ -1,0 +1,191 @@
+
+## wf_tbprofiler
+
+author
+: Dieter Best
+
+email
+: Dieter.Best@cdph.ca.gov
+
+description
+: ## variant pipeline 
+ This is the London TB profiler: https://github.com/jodyphelan/TBProfiler.
+
+ This also runs fastq QC, decontamination, and alignment QC.
+
+### Inputs
+
+#### Required
+
+  * `bed` (File, **required**); **description**: bed file with genomic intervals of interest. Note: reference name in case of London TB profiler is 'Chromosome', make sure to use correct bed file; **category**: required
+  * `clockwork_contaminants` (File, **required**)
+  * `clockwork_decontamination_metadata` (File, **required**)
+  * `fastq_screen_configuration` (File, **required**)
+  * `fastq_screen_contaminants` (File, **required**)
+  * `json` (File, **required**); **description**: json file with drug information for variants.; **category**: required
+  * `lineage_markers` (File, **required**)
+  * `read1` (Array[File]+, **required**); **description**: List of fastq files with forward reads.; **category**: required
+  * `read2` (Array[File]+, **required**); **description**: List of fastq files with reverse reads.; **category**: required
+  * `reference` (File, **required**); **description**: Reference sequence to align to.; **category**: required
+  * `samplename` (String, **required**); **description**: Name of the sample.; **category**: required
+  * `snpEff_config` (File, **required**)
+  * `snpEff_data_dir` (File, **required**)
+
+#### Optional
+
+  * `task_bbduk.contamination` (File?)
+  * `task_fastqc.adapters` (File?)
+  * `task_fastqc.contaminants` (File?)
+  * `task_fastqc.limits` (File?)
+  * `task_snpEff.upDownStreamLen` (Int?)
+  * `wf_collect_targeted_pcr_metrics.task_mark_duplicates.marked_bam` (String?)
+
+#### Defaults
+
+  * `annotated_structural_variants_name` (String, default="annotated_structural_variants.vcf")
+  * `genome` (String, default="Mycobacterium_tuberculosis_h37rv")
+  * `minNumberReads` (Int, default=10000)
+  * `output_vcf_name` (String, default="concatenated.vcf")
+  * `run_bamQC` (Boolean, default=true); **description**: Flag for performing alignment bam QC.; **category**: optional
+  * `run_clockwork_decontamination` (Boolean, default=true)
+  * `run_decontamination` (Boolean, default=true); **description**: Flag, turn on if decontamination of fastq files should be run.; **category**: optional
+  * `run_fastq_screen` (Boolean, default=true)
+  * `task_bbduk.disk_size` (Int, default=100)
+  * `task_bbduk.docker` (String, default="staphb/bbtools:39.01")
+  * `task_bbduk.keep` (Boolean, default=true)
+  * `task_bbduk.memory` (String, default="8GB")
+  * `task_bbduk.number_of_retries` (Int, default=1)
+  * `task_bbduk.threads` (Int, default=1)
+  * `task_bcf2vcf.docker` (String, default="staphb/bcftools:1.17")
+  * `task_collect_multiple_metrics.docker` (String, default="broadinstitute/gatk:4.5.0.0")
+  * `task_collect_multiple_metrics.memory` (String, default="8GB")
+  * `task_collect_multiple_metrics.outputBasename` (String, default="multiple_metrics")
+  * `task_collect_wgs_metrics.coverage_cap` (Int, default=250)
+  * `task_collect_wgs_metrics.docker` (String, default="broadinstitute/gatk:4.5.0.0")
+  * `task_collect_wgs_metrics.memory` (String, default="8GB")
+  * `task_collect_wgs_metrics.minBaseQuality` (Int, default=20)
+  * `task_collect_wgs_metrics.minMappingQuality` (Int, default=20)
+  * `task_collect_wgs_metrics.outputFile` (String, default="collect_wgs_metrics.txt")
+  * `task_collect_wgs_metrics.read_length` (Int, default=150)
+  * `task_collect_wgs_metrics.sample_size` (Int, default=10000)
+  * `task_collect_wgs_metrics.sensitivityFile` (String, default="collect_wgs_sensitivity_metrics.txt")
+  * `task_collect_wgs_metrics.use_fast_algorithm` (Boolean, default=true)
+  * `task_concat_2_vcfs.docker` (String, default="staphb/bcftools:1.17")
+  * `task_depth_of_coverage.docker` (String, default="broadinstitute/gatk:4.5.0.0")
+  * `task_depth_of_coverage.lower_coverage` (Int, default=10)
+  * `task_depth_of_coverage.memory` (String, default="8GB")
+  * `task_depth_of_coverage.min_base_quality` (Int, default=20)
+  * `task_depth_of_coverage.outputPrefix` (String, default="depth_of_coverage")
+  * `task_fastq_screen.aligner` (String, default="bwa")
+  * `task_fastq_screen.docker` (String, default="dbest/fastq_screen:v0.15.3")
+  * `task_fastq_screen.memory` (String, default="10GB")
+  * `task_fastq_screen.subset` (Int, default=100000)
+  * `task_fastq_screen.threads` (Int, default=1)
+  * `task_fastqc.docker` (String, default="staphb/fastqc:0.12.1")
+  * `task_fastqc.memory` (String, default="8GB")
+  * `task_fastqc.threads` (Int, default=1)
+  * `task_multiqc.docker` (String, default="multiqc/multiqc:v1.21")
+  * `task_multiqc.memory` (String, default="8GB")
+  * `task_snpEff.csvStats` (String, default="snpEff_summary.csv")
+  * `task_snpEff.docker` (String, default="dbest/snpeff:v5.2a")
+  * `task_snpEff.hgvs` (Boolean, default=true)
+  * `task_snpEff.lof` (Boolean, default=true)
+  * `task_snpEff.memory` (String, default="9G")
+  * `task_snpEff.noDownstream` (Boolean, default=false)
+  * `task_snpEff.noIntergenic` (Boolean, default=false)
+  * `task_snpEff.noShiftHgvs` (Boolean, default=false)
+  * `task_snpEff.stats` (String, default="snpEff_summary.html")
+  * `task_tbprofiler.caller` (String, default="freebayes")
+  * `task_tbprofiler.cov_frac_threshold` (Int, default=1)
+  * `task_tbprofiler.docker` (String, default="staphb/tbprofiler:4.4.2")
+  * `task_tbprofiler.mapper` (String, default="bwa")
+  * `task_tbprofiler.memory` (String, default="16GB")
+  * `task_tbprofiler.min_af` (Float, default=0.1)
+  * `task_tbprofiler.min_af_pred` (Float, default=0.1)
+  * `task_tbprofiler.min_depth` (Int, default=10)
+  * `task_tbprofiler.no_trim` (Boolean, default=false)
+  * `task_tbprofiler.threads` (Int, default=1)
+  * `task_trimmomatic.disk_size` (Int, default=100)
+  * `task_trimmomatic.docker` (String, default="staphb/trimmomatic:0.39")
+  * `task_trimmomatic.memory` (String, default="8GB")
+  * `task_trimmomatic.threads` (Int, default=4)
+  * `task_trimmomatic.trimmomatic_minlen` (Int, default=40)
+  * `task_trimmomatic.trimmomatic_quality_trim_score` (Int, default=15)
+  * `task_trimmomatic.trimmomatic_window_size` (Int, default=4)
+  * `wf_clockwork_decontamination.disk_size` (Int, default=100)
+  * `wf_clockwork_decontamination.memory` (String, default="64GB")
+  * `wf_clockwork_decontamination.output_bam` (String, default=samplename + "_clockwork_decontamination.bam")
+  * `wf_clockwork_decontamination.output_file` (String, default=samplename + "_clockwork_decontamination_stats.txt")
+  * `wf_clockwork_decontamination.output_reads_1` (String, default=samplename + "_clockwork_cleaned_1.fq.gz")
+  * `wf_clockwork_decontamination.output_reads_2` (String, default=samplename + "_clockwork_cleaned_2.fq.gz")
+  * `wf_clockwork_decontamination.threads` (Int, default=1)
+  * `wf_interpretation.debug` (Boolean, default=true)
+  * `wf_interpretation.filter_genes` (Boolean, default=true)
+  * `wf_interpretation.filter_variants` (Boolean, default=true)
+  * `wf_interpretation.interpretation_docker` (String, default="dbest/variant_interpretation:v1.4.0")
+  * `wf_interpretation.interpretation_memory` (String, default="8GB")
+  * `wf_interpretation.interpretation_report` (String, default="variant_interpretation.tsv"); **description**: Output tsv file from variant interpretation.
+  * `wf_interpretation.lims_docker` (String, default="dbest/lims_report:v1.0.4")
+  * `wf_interpretation.lims_operator` (String, default="DB")
+  * `wf_interpretation.lims_report_name` (String, default="lims_report.tsv")
+  * `wf_interpretation.minimum_allele_percentage` (Float, default=10.0)
+  * `wf_interpretation.minimum_coverage` (Int, default=10)
+  * `wf_interpretation.minimum_total_depth` (Int, default=10)
+  * `wf_interpretation.minimum_variant_depth` (Int, default=10)
+  * `wf_interpretation.verbose` (Boolean, default=false)
+  * `wf_lineage.lineage_docker` (String, default="dbest/lineage:v1.0.0")
+  * `wf_lineage.lineage_report_name` (String, default="lineage_report.tsv")
+  * `wf_lineage.snpit_docker` (String, default="valleema/snpit:1.1")
+  * `wf_clockwork_decontamination.map_reads.disk_size` (Int, default=100)
+  * `wf_clockwork_decontamination.map_reads.docker` (String, default="dbest/clockwork:v1.0.0")
+  * `wf_clockwork_decontamination.remove_contam.disk_size` (Int, default=100)
+  * `wf_clockwork_decontamination.remove_contam.docker` (String, default="dbest/clockwork:v1.0.0")
+  * `wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.clip_overlapping_reads` (Boolean, default=true)
+  * `wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.coverage_cap` (Int, default=250)
+  * `wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.docker` (String, default="broadinstitute/gatk:4.5.0.0")
+  * `wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.memory` (String, default="8GB")
+  * `wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.minBaseQuality` (Int, default=20)
+  * `wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.minMappingQuality` (Int, default=20)
+  * `wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.outputMetrics` (String, default="collect_targeted_pcr_metrics.txt")
+  * `wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.sample_size` (Int, default=10000)
+  * `wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.sensitivityFile` (String, default="collect_targeted_pcr_sensitivity_metrics.txt")
+  * `wf_collect_targeted_pcr_metrics.task_collect_targeted_pcr_metrics.target_coverage_file` (String, default="collect_targeted_pcr_target_coverage.txt")
+  * `wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_add_pg_tag_to_read` (Boolean, default=false)
+  * `wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_remove_duplicates` (Boolean, default=false)
+  * `wf_collect_targeted_pcr_metrics.task_mark_duplicates.do_remove_sequencing_duplicates` (Boolean, default=false)
+  * `wf_collect_targeted_pcr_metrics.task_mark_duplicates.docker` (String, default="broadinstitute/gatk:4.5.0.0")
+  * `wf_collect_targeted_pcr_metrics.task_mark_duplicates.memory` (String, default="8GB")
+  * `wf_collect_targeted_pcr_metrics.task_mark_duplicates.metrics_txt` (String, default="mark_duplicates_metrics.txt")
+
+### Outputs
+
+  * `csv` (File?)
+  * `bam` (File?)
+  * `bai` (File?)
+  * `vcf` (File?)
+  * `svs` (File?)
+  * `trim_stats` (File?)
+  * `phiX_stats` (File?)
+  * `adapter_stats` (File?)
+  * `polyA_stats` (File?)
+  * `Ecoli_stats` (File?)
+  * `Covid19_stats` (File?)
+  * `clockwork_decontamination_stats` (File?)
+  * `forwardHtml` (File)
+  * `reverseHtml` (File)
+  * `forwardZip` (File)
+  * `reverseZip` (File)
+  * `forwardSummary` (File)
+  * `reverseSummary` (File)
+  * `forwardData` (File)
+  * `reverseData` (File)
+  * `multiple_metrics_outputs` (Array[File]?)
+  * `depth_of_coverage_outputs` (Array[File]?)
+  * `collect_wgs_output_metrics` (File?)
+  * `collect_targeted_pcr_metrics` (File?)
+  * `concatenated_vcf` (File?)
+  * `lineage_report` (File?)
+  * `lab_log` (File?)
+  * `lab_report` (File?)
+  * `lims_report` (File?)
+  * `multiqc_report` (File?)
