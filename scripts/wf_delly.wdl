@@ -21,7 +21,7 @@ workflow wf_delly {
   }
 
   output {
-    Array[File] vcfFiles = task_delly.vcfFile
+    Array[File?] vcfFiles = task_delly.vcfFile
   }
   
   meta {
