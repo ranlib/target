@@ -36,7 +36,7 @@ workflow wf_lineage {
   meta {
     author: "Dieter Best"
     email: "Dieter.Best@cdph.ca.gov"
-    description: "## lineage caller \n Determinate TB lineage based on SNPs."
+    description: "## Lineage caller \n Determinate tuberculosis lineage based on SNPs."
   }
   
   parameter_meta {

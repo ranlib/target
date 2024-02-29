@@ -1,13 +1,22 @@
 
 ## wf_trimmomatic
 
+author
+: Dieter Best
+
+email
+: Dieter.Best@cdph.ca.gov
+
+description
+: ## Read base quality trimming
+
 ### Inputs
 
 #### Required
 
-  * `read1_files` (Array[File]+, **required**)
-  * `read2_files` (Array[File]+, **required**)
-  * `samplenames` (Array[String]+, **required**)
+  * `read1_files` (Array[File]+, **required**); **description**: List of fastq files with forward reads.; **category**: required
+  * `read2_files` (Array[File]+, **required**); **description**: List of fastq files with reverse reads.; **category**: required
+  * `samplenames` (Array[String]+, **required**); **description**: List of sample names.; **category**: required
 
 #### Defaults
 

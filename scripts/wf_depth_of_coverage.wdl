@@ -25,9 +25,9 @@ workflow wf_depth_of_coverage {
   }
 
   meta {
-    description: "A workflow to calculate Depth of Coverage using GATK's DepthOfCoverage tool."
     author: "Dieter Best"
     email: "Dieter.Best@cdph.ca.gov"
+    description: "## Calculate Depth of Coverage using GATK's DepthOfCoverage tool."
   }
   parameter_meta {
     bam: {

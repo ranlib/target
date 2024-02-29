@@ -1,13 +1,22 @@
 
 ## wf_repair
 
+author
+: Dieter Best
+
+email
+: Dieter.Best@cdph.ca.gov
+
+description
+: ## Repair reads in paired end fastq files
+
 ### Inputs
 
 #### Required
 
-  * `read1` (File, **required**)
-  * `read2` (File, **required**)
-  * `samplename` (String, **required**)
+  * `read1` (File, **required**); **description**: Input fastq file with forward reads; **category**: required
+  * `read2` (File, **required**); **description**: Input fastq file with reverse reads; **category**: required
+  * `samplename` (String, **required**); **description**: Sample name; **category**: required
 
 #### Defaults
 

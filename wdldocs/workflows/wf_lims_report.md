@@ -1,17 +1,26 @@
 
 ## wf_lims_report
 
+author
+: Dieter Best
+
+email
+: Dieter.Best@cdph.ca.gov
+
+description
+: ## LIMS report
+
 ### Inputs
 
 #### Required
 
-  * `lab_report` (File, **required**)
-  * `lims_report_name` (String, **required**)
+  * `lab_report` (File, **required**); **description**: Input laboratorian csv report; **category**: required
+  * `lims_report_name` (String, **required**); **description**: Name for output LIMS report csv file; **category**: required
   * `operator` (String, **required**)
 
 #### Optional
 
-  * `lineage_report` (File?)
+  * `lineage_report` (File?); **description**: Input lineage report; **category**: optional
 
 #### Defaults
 

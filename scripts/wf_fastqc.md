@@ -1,5 +1,5 @@
 # wf_fastqc
-
+## QC for fastq files
 
 ## Inputs
 

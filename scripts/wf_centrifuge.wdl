@@ -43,4 +43,22 @@ workflow wf_centrifuge {
     File summaryReportTSV = task_centrifuge.summaryReportTSV
     File krakenStyleTSV = task_kreport.krakenStyleTSV
   }
+
+  meta {
+    author: "Dieter Best"
+    email: "Dieter.Best@cdph.ca.gov"
+    description: "## Taxonomic classification of reads using centrifuge"
+  }
+
+  parameter_meta {
+    ## inputs
+    read1: {description: "Input fastq file with forward reads", category: "required"}
+    read2: {description: "Input fastq file with reverse reads", category: "required"}
+    samplename: {description: "Sample name", category: "required"}
+    ## output
+    classificationTSV: {description: "Output tsv file with read classification"}
+    summaryReportTSV: {description: "Output tsv file with summary of classification"}
+    krakenStyleTSV: {description: "Output tsv file with read classification kraken style"}
+  }
+
 }

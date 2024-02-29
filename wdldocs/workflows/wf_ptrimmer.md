@@ -8,7 +8,8 @@ email
 : Dieter.Best@cdph.ca.gov
 
 description
-: ## primer trimming workflow.
+: ## Primer trimming 
+ Detect and trim known primer sequences from sequencing reads.
 
 ### Inputs
 

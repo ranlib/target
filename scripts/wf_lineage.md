@@ -1,6 +1,6 @@
 # wf_lineage
-## lineage caller 
- Determinate TB lineage based on SNPs.
+## Lineage caller 
+ Determinate tuberculosis lineage based on SNPs.
 
 ## Inputs
 

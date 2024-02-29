@@ -23,7 +23,7 @@ workflow wf_concat_2_vcfs {
   meta {
     author: "Dieter Best"
     email: "Dieter.Best@cdph.ca.gov"
-    description: "Concatentate 2 vcf files"
+    description: "## Concatentate 2 vcf files"
   }
 
 }

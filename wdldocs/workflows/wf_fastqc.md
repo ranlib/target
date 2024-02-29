@@ -1,6 +1,15 @@
 
 ## wf_fastqc
 
+author
+: Dieter Best
+
+email
+: Dieter.Best@cdph.ca.gov
+
+description
+: ## QC for fastq files
+
 ### Inputs
 
 #### Required

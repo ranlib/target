@@ -36,4 +36,21 @@ workflow wf_bbduk {
     File? NZ_CP008889_plasmid_stats = task_bbduk.NZ_CP008889_plasmid_stats
     String pipeline_date = task_bbduk.pipeline_date
   }
+
+  meta {
+    author: "Dieter Best"
+    email: "Dieter.Best@cdph.ca.gov"
+    description: "## Decontamination with bbduk"
+  }
+
+  parameter_meta {
+    ## inputs
+    forwardReads: {description: "fastq file with forward reads.", category: "required"}
+    reverseReads: {description: "fastq file with reverse reads.", category: "required"}
+    contamination: {description: "Input gzipped tar file with fasta files of reference genomes for species considered contaminants.", category: "optional"}
+
+    ## outputs
+    read1_clean: {description: "Cleaned output fastq file for forward reads."}
+    read2_clean: {description: "Cleaned output fastq file for reverse reads."}
+  }
 }

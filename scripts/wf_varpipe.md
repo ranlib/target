@@ -1,8 +1,5 @@
 # wf_varpipe
-## variant pipeline 
- This is the CDC TB profiler: https://github.com/CDCgov/NCHHSTP-DTBE-Varpipe-WGS.
-
- This also runs fastq QC, decontamination, and alignment QC.
+## Variant detection pipeline. Based on CDC TB profiler: https://github.com/CDCgov/NCHHSTP-DTBE-Varpipe-WGS. Also runs fastq QC, decontamination, and alignment QC.
 
 ## Inputs
 
@@ -358,7 +355,7 @@
 </p>
 <p name="wf_varpipe.task_multiqc.docker">
         <b>wf_varpipe.task_multiqc.docker</b><br />
-        <i>String &mdash; Default: "ewels/multiqc:v1.19"</i><br />
+        <i>String &mdash; Default: "multiqc/multiqc:v1.21"</i><br />
         ???
 </p>
 <p name="wf_varpipe.task_multiqc.memory">

@@ -138,6 +138,7 @@ fast_lineage_caller:
 	java -jar ~/Software/womtool-86.jar validate --inputs wf_fast_lineage_caller.json wf_fast_lineage_caller.wdl
 	miniwdl check wf_fast_lineage_caller.wdl
 
+
 run_fast_lineage_caller:
 	miniwdl run --debug --dir test-fast_lineage_caller --cfg ../miniwdl_production.cfg --input wf_fast_lineage_caller.json wf_fast_lineage_caller.wdl
 
@@ -147,7 +148,8 @@ bcf2vcf:
 
 fastq_screen:
 	java -jar ~/Software/womtool-86.jar validate --inputs wf_fastq_screen.json wf_fastq_screen.wdl
-	miniwdl check wf_fastq_screen.wdl 
+	miniwdl check wf_fastq_screen.wdl
+	wdl-aid wf_fastq_screen.wdl -o wf_fastq_screen.md
 
 run_fastq_screen:
 	miniwdl run --debug --dir test-fastq_screen --cfg ../miniwdl_production.cfg --input wf_fastq_screen.json wf_fastq_screen.wdl
@@ -166,6 +168,7 @@ run_fastqc_adapters:
 clockwork_decontamination:
 	java -jar ~/Software/womtool-86.jar validate wf_clockwork_decontamination.wdl
 	miniwdl check wf_clockwork_decontamination.wdl 
+	wdl-aid wf_clockwork_decontamination.wdl -o wf_clockwork_decontamination.md
 
 run_clockwork_decontamination:
 	miniwdl run --debug --dir test-clockwork --cfg ../miniwdl_production.cfg --input wf_clockwork_decontamination.json wf_clockwork_decontamination.wdl 
@@ -173,6 +176,7 @@ run_clockwork_decontamination:
 bbduk:
 	java -jar ~/Software/womtool-86.jar validate --inputs wf_bbduk.json wf_bbduk.wdl
 	miniwdl check wf_bbduk.wdl
+	wdl-aid wf_bbduk.wdl -o wf_bbduk.md
 
 run_bbduk:
 	miniwdl run --debug --dir test-bbduk --input wf_bbduk.json wf_bbduk.wdl 
@@ -183,10 +187,12 @@ run_bbduk_no_contamination:
 concatenate_fastq:
 	java -jar ~/Software/womtool-86.jar validate wf_concatenate_fastq.wdl
 	miniwdl check wf_concatenate_fastq.wdl 
+	wdl-aid wf_concatenate_fastq.wdl -o wf_concatenate_fastq.md
 
 collect_multiple_metrics:
 	java -jar ~/Software/womtool-86.jar validate --inputs wf_collect_multiple_metrics.json wf_collect_multiple_metrics.wdl
 	miniwdl check wf_collect_multiple_metrics.wdl
+	wdl-aid wf_collect_multiple_metrics.wdl -o wf_collect_multiple_metrics.md
 
 run_collect_multiple_metrics:
 	miniwdl run --debug --dir multiple_metrics --input wf_collect_multiple_metrics.json wf_collect_multiple_metrics.wdl 
@@ -198,6 +204,7 @@ collect_hs_metrics:
 collect_targeted_pcr_metrics:
 	java -jar ~/Software/womtool-86.jar validate --inputs wf_collect_targeted_pcr_metrics.json wf_collect_targeted_pcr_metrics.wdl
 	miniwdl check wf_collect_targeted_pcr_metrics.wdl
+	wdl-aid wf_collect_targeted_pcr_metrics.wdl -o wf_collect_targeted_pcr_metrics.md
 
 run_collect_targeted_pcr_metrics:
 	miniwdl run --debug --dir targeted_pcr --cfg ../miniwdl_production.cfg --input wf_collect_targeted_pcr_metrics.json wf_collect_targeted_pcr_metrics.wdl 
@@ -205,6 +212,7 @@ run_collect_targeted_pcr_metrics:
 collect_wgs_metrics:
 	java -jar ~/Software/womtool-86.jar validate --inputs wf_collect_wgs_metrics.json wf_collect_wgs_metrics.wdl
 	miniwdl check wf_collect_wgs_metrics.wdl
+	wdl-aid wf_collect_wgs_metrics.wdl -o wf_collect_wgs_metrics.md
 
 run_collect_wgs_metrics:
 	miniwdl run --debug --dir wgs_metrics_no_bed --cfg ../miniwdl_production.cfg --input wf_collect_wgs_metrics_no_bed.json wf_collect_wgs_metrics.wdl 
@@ -221,6 +229,7 @@ run_depth_of_coverage:
 multiqc:
 	java -jar ~/Software/womtool-86.jar validate --inputs wf_multiqc.json wf_multiqc.wdl
 	miniwdl check wf_multiqc.wdl
+	wdl-aid wf_multiqc.wdl -o wf_multiqc.md
 
 delly:
 	java -jar ~/Software/womtool-86.jar validate --inputs wf_delly.json wf_delly.wdl
@@ -234,6 +243,7 @@ mark_duplicates:
 trimmomatic:
 	java -jar ~/Software/womtool-86.jar validate --inputs wf_trimmomatic.json wf_trimmomatic.wdl
 	miniwdl check wf_trimmomatic.wdl
+	wdl-aid wf_trimmomatic.wdl -o wf_trimmomatic.md
 
 run_trimmomatic:
 	miniwdl run --debug --dir test-trimmomatic --cfg ../miniwdl_production.cfg --input wf_trimmomatic.json wf_trimmomatic.wdl
@@ -247,6 +257,7 @@ variant_interpretation:
 lims_report:
 	java -jar ~/Software/womtool-86.jar validate -i wf_lims_report.json wf_lims_report.wdl
 	miniwdl check wf_lims_report.wdl
+	wdl-aid wf_lims_report.wdl -o wf_lims_report.md
 
 run_lims_report:
 	miniwdl run --debug --dir test-lims_report --input wf_lims_report.json wf_lims_report.wdl
@@ -293,6 +304,7 @@ run_snpEff:
 repair:
 	java -jar ~/Software/womtool-86.jar validate --inputs wf_repair.json wf_repair.wdl
 	miniwdl check wf_repair.wdl	
+	wdl-aid wf_repair.wdl -o wf_repair.md
 
 run_repair:
 	miniwdl run --debug --dir test-repair --cfg ../miniwdl_production.cfg --input wf_repair.json wf_repair.wdl

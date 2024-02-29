@@ -1,14 +1,14 @@
 
 ## wf_depth_of_coverage
 
-description
-: A workflow to calculate Depth of Coverage using GATK's DepthOfCoverage tool.
-
 author
 : Dieter Best
 
 email
 : Dieter.Best@cdph.ca.gov
+
+description
+: ## Calculate Depth of Coverage using GATK's DepthOfCoverage tool.
 
 ### Inputs
 

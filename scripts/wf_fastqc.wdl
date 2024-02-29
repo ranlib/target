@@ -35,6 +35,12 @@ workflow wf_fastqc {
     Int numberReverseReads = task_fastqc.numberForwardReads
   }
 
+  meta {
+    author: "Dieter Best"
+    email: "Dieter.Best@cdph.ca.gov"
+    description: "## QC for fastq files"
+  }
+
   parameter_meta {
     forwardReads: {description: "fastq file with forward reads.", category: "required"}
     reverseReads: {description: "fastq file with reverse reads.", category: "required"}

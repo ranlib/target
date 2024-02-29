@@ -48,7 +48,7 @@ workflow wf_clockwork_decontamination {
   meta {
     author: "Dieter Best"
     email: "Dieter.Best@cdph.ca.gov"
-    description: "## clockwork decontamination workflow \n This is from the clockwork TB profiler: https://github.com/iqbal-lab-org/clockwork."
+    description: "## Clockwork decontamination workflow \n Routine from the clockwork TB profiler: https://github.com/iqbal-lab-org/clockwork."
   }
   
   parameter_meta {

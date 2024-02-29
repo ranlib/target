@@ -33,4 +33,25 @@ workflow wf_collect_targeted_pcr_metrics {
     File output_marked_bam = task_mark_duplicates.output_marked_bam
     File output_marked_metrics_txt = task_mark_duplicates.output_marked_metrics_txt
   }
+
+  meta {
+    author: "Dieter Best"
+    email: "Dieter.Best@cdph.ca.gov"
+    description: "## Collect targeted PCR QC metrics"
+  }
+
+  parameter_meta {
+    ## inputs
+    bam: {description: "Input bam alignemnt file.", category: "required"}
+    reference: {description: "Reference genome", category: "required"}
+    amplicon_bed: {description: "Input bed file with amplicon regions", category: "required"}
+    target_bed: {description: "Input bed file with regions to check", category: "required"}
+    ## output
+    output_metrics: {description: "Output text file with QC metrics."}
+    target_coverage: {description: "Output text file target coverage."}
+    sensitivity_metrics: {description: "Output text file with sensitivity metrics."}
+    output_marked_bam: {description: "Output bam file with duplicate reads marked."}
+    output_marked_metrics_txt: {description: "Output text file with metrics from bam file with duplicates marked."}
+  }
+
 }

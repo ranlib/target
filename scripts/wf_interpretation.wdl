@@ -67,7 +67,7 @@ workflow wf_interpretation {
   meta {
     author: "Dieter Best"
     email: "Dieter.Best@cdph.ca.gov"
-    description: "## interpretation \n This is the interpretation workflow.\n\n"
+    description: "## Variant interpretation \n Assign severities to mutations relevant for tuberculosis."
   }
   
   parameter_meta {

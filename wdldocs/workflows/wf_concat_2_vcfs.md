@@ -8,7 +8,7 @@ email
 : Dieter.Best@cdph.ca.gov
 
 description
-: Concatentate 2 vcf files
+: ## Concatentate 2 vcf files
 
 ### Inputs
 

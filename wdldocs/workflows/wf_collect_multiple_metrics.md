@@ -1,12 +1,21 @@
 
 ## wf_collect_multiple_metrics
 
+author
+: Dieter Best
+
+email
+: Dieter.Best@cdph.ca.gov
+
+description
+: ## Collect multiple QC metrics from bam alignment file
+
 ### Inputs
 
 #### Required
 
-  * `bam` (File, **required**)
-  * `reference` (File, **required**)
+  * `bam` (File, **required**); **description**: Input bam alignemnt file.; **category**: required
+  * `reference` (File, **required**); **description**: Reference genome; **category**: required
 
 #### Defaults
 

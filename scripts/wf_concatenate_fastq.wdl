@@ -22,4 +22,19 @@ workflow wf_concatenate_fastq {
     File concatenatedForwardFastq = task_concatenate_fastq.concatenatedForwardFastq
     File concatenatedReverseFastq = task_concatenate_fastq.concatenatedReverseFastq
   }
+
+  meta {
+    author: "Dieter Best"
+    email: "Dieter.Best@cdph.ca.gov"
+    description: "## Concatenate fastq files"
+  }
+
+  parameter_meta {
+    # inputs
+    forwardFastqFiles: {description: "List of fastq files with forward reads.", category: "required"}
+    reverseFastqFiles: {description: "List of fastq files with reverse reads.", category: "required"}
+    # outputs
+    outputForward: {description: "Output fastq file with forward reads."}
+    outputReverse: {description: "Output fastq file with reverse reads."}
+  }
 }

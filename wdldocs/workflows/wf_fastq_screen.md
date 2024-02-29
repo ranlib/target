@@ -1,13 +1,22 @@
 
 ## wf_fastq_screen
 
+author
+: Dieter Best
+
+email
+: Dieter.Best@cdph.ca.gov
+
+description
+: ## QC screen for fastq files
+
 ### Inputs
 
 #### Required
 
-  * `configuration` (File, **required**)
-  * `contaminants` (File, **required**)
-  * `reads` (File, **required**)
+  * `configuration` (File, **required**); **description**: configuration file.; **category**: optional
+  * `contaminants` (File, **required**); **description**: tsv file with adapter names in column 1 and sequences in column 2.; **category**: optional
+  * `reads` (File, **required**); **description**: fastq file; **category**: required
 
 #### Defaults
 

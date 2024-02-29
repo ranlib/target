@@ -64,6 +64,6 @@ workflow wf_structural_variants {
   meta {
     author: "Dieter Best"
     email: "Dieter.Best@cdph.ca.gov"
-    description: "Structural variants workflow"
+    description: "## Structural variants caller workflow"
   }
 }

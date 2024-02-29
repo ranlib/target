@@ -1,17 +1,26 @@
 
 ## wf_bbduk
 
+author
+: Dieter Best
+
+email
+: Dieter.Best@cdph.ca.gov
+
+description
+: ## Decontamination with bbduk
+
 ### Inputs
 
 #### Required
 
-  * `forwardReads` (File, **required**)
-  * `reverseReads` (File, **required**)
+  * `forwardReads` (File, **required**); **description**: fastq file with forward reads.; **category**: required
+  * `reverseReads` (File, **required**); **description**: fastq file with reverse reads.; **category**: required
   * `samplename` (String, **required**)
 
 #### Optional
 
-  * `contamination` (File?)
+  * `contamination` (File?); **description**: Input gzipped tar file with fasta files of reference genomes for species considered contaminants.; **category**: optional
 
 #### Defaults
 

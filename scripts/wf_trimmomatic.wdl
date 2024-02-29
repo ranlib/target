@@ -27,4 +27,25 @@ workflow wf_trimmomatic {
     Array[String] versions = task_trimmomatic.version
     Array[String] pipeline_dates = task_trimmomatic.pipeline_date
   }
+
+  meta {
+    author: "Dieter Best"
+    email: "Dieter.Best@cdph.ca.gov"
+    description: "## Read base quality trimming"
+  }
+
+  parameter_meta {
+    ## inputs
+    read1_files: {description: "List of fastq files with forward reads.", category: "required"}
+    read2_files: {description: "List of fastq files with reverse reads.", category: "required"}
+    samplenames: {description: "List of sample names.", category: "required"}
+
+    ## outputs
+    read1_trimmed_files: {description: "List of trimmed output fastq file for forward reads."}
+    read2_trimmed_files: {description: "List of trimmed output fastq file for reverse reads."}
+    stats_files: {description: "List of text files with trimming statistics."}
+    log_files: {description: "List of text files with trimming log."}
+    err_files: {description: "List of text files with trimming error log."}
+  }
+
 }

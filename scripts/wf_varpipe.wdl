@@ -393,7 +393,7 @@ workflow wf_varpipe {
   meta {
     author: "Dieter Best"
     email: "Dieter.Best@cdph.ca.gov"
-    description: "## variant pipeline \n This is the CDC TB profiler: https://github.com/CDCgov/NCHHSTP-DTBE-Varpipe-WGS.\n\n This also runs fastq QC, decontamination, and alignment QC."
+    description: "## Variant detection pipeline. Based on CDC TB profiler: https://github.com/CDCgov/NCHHSTP-DTBE-Varpipe-WGS. Also runs fastq QC, decontamination, and alignment QC."
   }
   
   parameter_meta {

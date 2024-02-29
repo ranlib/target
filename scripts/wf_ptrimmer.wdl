@@ -41,7 +41,7 @@ workflow wf_ptrimmer {
   meta {
     author: "Dieter Best"
     email: "Dieter.Best@cdph.ca.gov"
-    description: "## primer trimming workflow."
+    description: "## Primer trimming \n Detect and trim known primer sequences from sequencing reads."
   }
   
   parameter_meta {

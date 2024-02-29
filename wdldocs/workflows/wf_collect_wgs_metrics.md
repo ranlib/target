@@ -1,16 +1,25 @@
 
 ## wf_collect_wgs_metrics
 
+author
+: Dieter Best
+
+email
+: Dieter.Best@cdph.ca.gov
+
+description
+: ## Collect whole genome sequencing QC metrics
+
 ### Inputs
 
 #### Required
 
-  * `bam` (File, **required**)
-  * `reference` (File, **required**)
+  * `bam` (File, **required**); **description**: Input bam alignemnt file.; **category**: required
+  * `reference` (File, **required**); **description**: Reference genome; **category**: required
 
 #### Optional
 
-  * `bed` (File?)
+  * `bed` (File?); **description**: Input bed file with regions to check; **category**: optional
 
 #### Defaults
 
