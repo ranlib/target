@@ -42,6 +42,12 @@ task task_freebayes {
     cpu: cpu
   }
 
+  meta {
+    author: "Dieter Best"
+    email: "Dieter.Best@cdph.ca.gov"
+    description: "## Variant calling with freebayes"
+  }
+
   parameter_meta {
     reference: "Reference sequence file."
     reference_idx: "Reference sequence index (.fai)."
@@ -53,8 +59,4 @@ task task_freebayes {
     cpu: "Number of CPUs to use at runtime."
   }
 
-  meta {
-    author: "Dieter Best"
-    email: "Dieter.Best@cdph.ca.gov"
-  }
 }

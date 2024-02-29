@@ -7,6 +7,9 @@ author
 email
 : Dieter.Best@cdph.ca.gov
 
+description
+: ## Variant calling with freebayes
+
 ### Inputs
 
 #### Required
