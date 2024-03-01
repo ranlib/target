@@ -202,6 +202,7 @@ workflow wf_tbprofiler {
   
   Array[File] allReports = flatten([
   select_all([task_trimmomatic.trim_err,
+  task_fastq_screen.txt,
   task_fastqc.forwardData,
   task_fastqc.reverseData,
   task_bbduk.adapter_stats,
@@ -243,6 +244,11 @@ workflow wf_tbprofiler {
     File reverseSummary = task_fastqc.reverseSummary
     File forwardData = task_fastqc.forwardData
     File reverseData = task_fastqc.reverseData
+    # output from fastq_screen
+    File? fastq_screen_html = task_fastq_screen.html
+    File? fastq_screen_txt = task_fastq_screen.txt
+    File? fastq_screen_tagged = task_fastq_screen.tagged
+    File? fastq_screen_tagged_filter = task_fastq_screen.tagged_filter
     # output from bam QC
     Array[File]? multiple_metrics_outputs = task_collect_multiple_metrics.collectMetricsOutput
     Array[File]? depth_of_coverage_outputs = task_depth_of_coverage.outputs
