@@ -81,7 +81,7 @@ run_tbprofiler:
 	miniwdl run --debug --dir test-tbprofiler_wgs --cfg ../miniwdl_production.cfg --input wf_tbprofiler.json wf_tbprofiler.wdl
 
 run_tbprofiler_cromwell:
-	java -jar ~/Software/cromwell-86.jar run wf_tbprofiler.wdl -i wf_tbprofiler.json
+	cromwell run wf_tbprofiler.wdl -i wf_tbprofiler.json
 
 run_tbprofiler_tNGS:
 	miniwdl run --debug --dir tbprofiler_tNGS --input wf_tbprofiler_tNGS.json wf_tbprofiler.wdl 
@@ -101,7 +101,7 @@ run_varpipe:
 	miniwdl run --debug --dir test-varpipe_wgs --cfg ../miniwdl_production.cfg --input wf_varpipe.json wf_varpipe.wdl 
 
 run_varpipe_cromwell:
-	java -jar ~/Software/cromwell-86.jar run wf_varpipe.wdl -i wf_varpipe.json
+	cromwell run wf_varpipe.wdl -i wf_varpipe.json
 
 run_varpipe_tNGS:
 	miniwdl run --debug --dir test-varpipe_tNGS --cfg ../miniwdl_production.cfg --input wf_varpipe_tNGS.json wf_varpipe.wdl 
