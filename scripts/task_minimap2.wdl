@@ -13,7 +13,7 @@ task Indexing {
     Int cores = 1
     String memory = "4G"
     Int timeMinutes = 10
-    String dockerImage = "staphb/minimap2:2.25"
+    String dockerImage = "staphb/minimap2:2.28"
   }
   
   command {
@@ -83,7 +83,7 @@ task Mapping {
     Int cores = 4
     String memory = "30G"
     Int timeMinutes = 1 + ceil(size(queryFile1, "G") * 200 / cores)
-    String dockerImage = "staphb/minimap2:2.25"
+    String dockerImage = "staphb/minimap2:2.28"
   }
 
   String output_file = outputPrefix + ".sam"
