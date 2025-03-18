@@ -2,7 +2,7 @@
     "wf_snpEff.config": "/home/dieterbest/Analysis/varpipe4/snpEff_database/snpEff.config",
     "wf_snpEff.dataDir": "/home/dieterbest/Analysis/varpipe4/snpEff_database/snpEff.zip",
     "wf_snpEff.genome": "NC_000962.3",
-    "wf_snpEff.task_snpEff.docker": "dbest/snpeff:v5.2a",
+    "wf_snpEff.task_snpEff.docker": "dbest/snpeff:v5.2f",
     "wf_snpEff.task_snpEff.hgvs": true,
     "wf_snpEff.task_snpEff.lof": true,
     "wf_snpEff.task_snpEff.memory": "9G",
