@@ -19,6 +19,6 @@ task task_concatenate_fastq {
   }
 
   runtime {
-    docker: "ubuntu:22.04"
+    docker: "ubuntu:24.04"
   }
 }

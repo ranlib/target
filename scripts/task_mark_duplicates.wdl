@@ -6,7 +6,7 @@ task task_mark_duplicates {
     File? reference
     String? marked_bam
     String metrics_txt = "mark_duplicates_metrics.txt"
-    String docker = "broadinstitute/gatk:4.5.0.0"
+    String docker = "broadinstitute/gatk:4.6.1.0"
     String memory = "8GB"
     Boolean do_remove_duplicates = false # default
     Boolean do_remove_sequencing_duplicates = false # default

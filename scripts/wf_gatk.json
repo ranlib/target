@@ -11,7 +11,7 @@
     "wf_gatk.min_reads_per_strand": 1,
     "wf_gatk.min_median_read_position": 1,
     "wf_gatk.min_allele_fraction": 0.01,
-    "wf_gatk.dockerImage": "broadinstitute/gatk:4.5.0.0",
+    "wf_gatk.dockerImage": "broadinstitute/gatk:4.6.1.0",
     "wf_gatk.javaXmx": "4G",
     "wf_gatk.memory": "5G"
 }

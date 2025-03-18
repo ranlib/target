@@ -7,7 +7,7 @@ task task_collect_hs_metrics {
     File bait_bed
     File target_bed
     String hs_metrics = "collect_hs_metrics.txt"
-    String docker = "broadinstitute/gatk:4.5.0.0"
+    String docker = "broadinstitute/gatk:4.6.1.0"
     String memory = "8GB"
   }
 

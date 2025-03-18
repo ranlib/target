@@ -8,7 +8,7 @@ task task_depth_of_coverage {
     Int lower_coverage = 10
     Int min_base_quality = 20
     String outputPrefix = "depth_of_coverage"
-    String docker = "broadinstitute/gatk:4.5.0.0"
+    String docker = "broadinstitute/gatk:4.6.1.0"
     String memory = "8GB"
   }
   

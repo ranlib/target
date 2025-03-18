@@ -5,7 +5,7 @@ task task_collect_multiple_metrics {
     File bam
     File reference
     String outputBasename = "multiple_metrics"
-    String docker = "broadinstitute/gatk:4.5.0.0"
+    String docker = "broadinstitute/gatk:4.6.1.0"
     String memory = "8GB"
   }
 
