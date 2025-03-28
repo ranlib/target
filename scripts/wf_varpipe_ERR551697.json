@@ -65,7 +65,7 @@
     "wf_varpipe.task_fastq_screen.nohits": true,
     "wf_varpipe.task_fastq_screen.subset": 100000,
     "wf_varpipe.task_fastq_screen.threads": 4,
-    "wf_varpipe.task_multiqc.docker": "multiqc/multiqc:v1.27.1",
+    "wf_varpipe.task_multiqc.docker": "multiqc/multiqc:v1.28",
     "wf_varpipe.task_multiqc.memory": "8GB",
     "wf_varpipe.task_trimmomatic.docker": "staphb/trimmomatic:0.39",
     "wf_varpipe.task_trimmomatic.memory": "8GB",
