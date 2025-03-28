@@ -86,12 +86,16 @@ run_tbprofiler_cromwell:
 run_tbprofiler_tNGS:
 	miniwdl run --debug --dir tbprofiler_tNGS --input wf_tbprofiler_tNGS.json wf_tbprofiler.wdl 
 
+CONTAMINATION="/home/dbest/Analysis/contamination/clockwork_contaminants_cdc_v2.fa.gz"
+CONTAMINATION_META="/home/dbest/Analysis/contamination/clockwork_contaminants_metadata_cdc_v2.tsv"
 run_tbprofiler_dbest:
 	cp wf_tbprofiler.json wf_tbprofiler_dbest.json
 	sed -i 's|dieterbest|dbest|' wf_tbprofiler_dbest.json
 	sed -i 's|bbduk_contamination_polyA.tar.gz|bbduk_contamination.tar.gz|' wf_tbprofiler_dbest.json
 	#sed -i 's|clockwork_contaminants.fa.gz|clockwork_contaminants_cdc_v2.fa.gz|' wf_tbprofiler_dbest.json
 	#sed -i 's|clockwork_contaminants_metadata.tsv|clockwork_contaminants_metadata_cdc_v2.tsv|' wf_tbprofiler_dbest.json	
+	cat wf_tbprofiler_dbest.json | jq --arg c $(CONTAMINATION) --arg m $(CONTAMINATION_META) '."wf_tbprofiler.clockwork_contaminants"=$$c | ."wf_tbprofiler.clockwork_decontamination_metadata"=$$m ' > temp
+	mv temp wf_tbprofiler_dbest.json
 	sed -i 's|8GB|250GB|' wf_tbprofiler_dbest.json
 	miniwdl run --debug --dir test-tbprofiler_wgs --cfg ../miniwdl_production.cfg --input wf_tbprofiler_dbest.json wf_tbprofiler.wdl task_bbduk.threads=16 task_fastq_screen.threads=16 task_fastqc.threads=16 task_trimmomatic.threads=16 task_tbprofiler.threads=16
 
@@ -116,6 +120,8 @@ run_varpipe_cromwell:
 run_varpipe_tNGS:
 	miniwdl run --debug --dir test-varpipe_tNGS --cfg ../miniwdl_production.cfg --input wf_varpipe_tNGS.json wf_varpipe.wdl 
 
+CONTAMINATION="/home/dbest/Analysis/contamination/clockwork_contaminants_cdc_v2.fa.gz"
+CONTAMINATION_META="/home/dbest/Analysis/contamination/clockwork_contaminants_metadata_cdc_v2.tsv"
 run_varpipe_dbest:
 	cp wf_varpipe.json wf_varpipe_dbest.json
 	sed -i 's|dieterbest|dbest|' wf_varpipe_dbest.json
@@ -123,6 +129,8 @@ run_varpipe_dbest:
 	#sed -i 's|clockwork_contaminants.fa.gz|clockwork_contaminants_cdc_v2.fa.gz|' wf_varpipe_dbest.json
 	#sed -i 's|clockwork_contaminants_metadata.tsv|clockwork_contaminants_metadata_cdc_v2.tsv|' wf_varpipe_dbest.json	
 	sed -i 's|8GB|250GB|' wf_varpipe_dbest.json
+	cat wf_varpipe_dbest.json | jq --arg c $(CONTAMINATION) --arg m $(CONTAMINATION_META) '."wf_varpipe.clockwork_contaminants"=$$c | ."wf_varpipe.clockwork_decontamination_metadata"=$$m ' > temp
+	mv temp wf_varpipe_dbest.json
 	miniwdl run --debug --dir test-varpipe_wgs --cfg ../miniwdl_production.cfg --input wf_varpipe_dbest.json wf_varpipe.wdl task_bbduk.threads=16 task_fastq_screen.threads=16 task_fastqc.threads=16 task_fastqc_after_cleanup.threads=16 task_trimmomatic.threads=16 task_varpipe.threads=16
 
 
