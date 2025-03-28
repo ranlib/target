@@ -10,7 +10,7 @@ task LeftAlignAndTrimVariants {
       
       String javaXmx = "12G"
       String memory = "13G"
-      String dockerImage = "broadinstitute/gatk:4.2.6.1"
+      String dockerImage = "broadinstitute/gatk:4.6.1.0"
     }
     
     command {
@@ -48,7 +48,7 @@ task FilterMutectCalls {
       Float min_allele_fraction
       String javaXmx = "12G"
       String memory = "13G"
-      String dockerImage = "broadinstitute/gatk:4.2.6.1"
+      String dockerImage = "broadinstitute/gatk:4.6.1.0"
     }
 
     command {
@@ -89,7 +89,7 @@ task Mutect2 {
         Array[File]+ intervals
         String javaXmx = "4G"
         String memory = "5G"
-        String dockerImage =  "broadinstitute/gatk:4.2.6.1"
+        String dockerImage =  "broadinstitute/gatk:4.6.1.0"
     }
 
     command {

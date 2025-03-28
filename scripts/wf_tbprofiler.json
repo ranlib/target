@@ -60,7 +60,7 @@
   "wf_tbprofiler.task_fastqc.limits": "/home/dieterbest/Analysis/varpipe4/configuration/fastqc_limits.txt",
   "wf_tbprofiler.task_fastqc.memory": "8GB",
   "wf_tbprofiler.task_fastqc.threads": 1,
-  "wf_tbprofiler.task_multiqc.docker": "multiqc/multiqc:v1.27.1",
+  "wf_tbprofiler.task_multiqc.docker": "multiqc/multiqc:v1.28",
   "wf_tbprofiler.task_multiqc.memory": "8GB",
   "wf_tbprofiler.task_snpEff.csvStats": "snpEff_summary.csv",
   "wf_tbprofiler.task_snpEff.docker": "dbest/snpeff:v5.2f",

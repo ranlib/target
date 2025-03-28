@@ -67,7 +67,7 @@ _varpipe.bed": "gs://fc-a76bb9bb-7ee3-432d-b74a-2e144e67979e/CDC_Varpipe_inputs_
   "wf_varpipe.task_fastqc_after_cleanup.limits": "gs://fc-a76bb9bb-7ee3-432d-b74a-2e144e67979e/CDC_Varpipe_inputs_v091323/configuration/fastqc_limits.txt",
   "wf_varpipe.task_fastqc_after_cleanup.memory": "8GB",
   "wf_varpipe.task_fastqc_after_cleanup.threads": 16,
-  "wf_varpipe.task_multiqc.docker": "multiqc/multiqc:v1.27.1",
+  "wf_varpipe.task_multiqc.docker": "multiqc/multiqc:v1.28",
   "wf_varpipe.task_multiqc.memory": "8GB",
   "wf_varpipe.task_trimmomatic.docker": "staphb/trimmomatic:0.39",
   "wf_varpipe.task_trimmomatic.memory": "8GB",

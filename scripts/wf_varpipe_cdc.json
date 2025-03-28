@@ -73,7 +73,7 @@
   "wf_varpipe.task_fastqc_after_cleanup.limits": "/home/dieterbest/Analysis/varpipe4/configuration/fastqc_limits.txt",
   "wf_varpipe.task_fastqc_after_cleanup.memory": "8GB",
   "wf_varpipe.task_fastqc_after_cleanup.threads": 4,
-  "wf_varpipe.task_multiqc.docker": "multiqc/multiqc:v1.27.1",
+  "wf_varpipe.task_multiqc.docker": "multiqc/multiqc:v1.28",
   "wf_varpipe.task_multiqc.memory": "8GB",
   "wf_varpipe.task_repair.docker": "staphb/bbtools:39.01",
   "wf_varpipe.task_repair.memory": "8GB",
