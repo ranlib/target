@@ -1,8 +1,8 @@
 {
     "wf_centrifuge.read1": "gs://fc-19cf0d01-e892-4d9b-bb3a-f3906e846785/data/ERR552797_30percent_1.fq.gz",
     "wf_centrifuge.read2": "gs://fc-19cf0d01-e892-4d9b-bb3a-f3906e846785/data/ERR552797_30percent_2.fq.gz",
-    "wf_centrifuge.task_centrifuge.docker": "dbest/centrifuge:v1.0.4",
-    "wf_centrifuge.task_kreport.docker": "dbest/centrifuge:v1.0.4",
+    "wf_centrifuge.task_centrifuge.docker": "dbest/centrifuge:v1.0.4.2",
+    "wf_centrifuge.task_kreport.docker": "dbest/centrifuge:v1.0.4.2",
     "wf_centrifuge.indexFiles": [
 	"gs://fc-19cf0d01-e892-4d9b-bb3a-f3906e846785/centrifuge/hpvc.1.cf",
 	"gs://fc-19cf0d01-e892-4d9b-bb3a-f3906e846785/centrifuge/hpvc.2.cf",

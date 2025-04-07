@@ -5,7 +5,7 @@ task task_kreport {
     File classificationTSV
     Array[File]+ indexFiles
     String samplename
-    String docker = "dbest/centrifuge:v1.0.4"
+    String docker = "dbest/centrifuge:v1.0.4.2"
     String memory = "20GB"
     Int disk_size = 100
   }
